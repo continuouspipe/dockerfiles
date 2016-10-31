@@ -36,4 +36,11 @@ RUN echo 'deb http://s3-eu-west-1.amazonaws.com/qafoo-profiler/packages debian m
     then \
       php /tmp/composer-setup.php --install-dir='/usr/local/bin/' --filename='composer' --quiet; \
       rm /tmp/composer-setup.php; \
-    fi
+    fi \
+ && useradd --create-home --system build
+
+USER build
+
+RUN composer global require "hirak/prestissimo" --no-interaction --no-ansi --quiet --no-progress --prefer-dist && \
+    composer clear-cache --no-ansi --quiet && \
+    chmod -R go-w ~/.composer/vendor
