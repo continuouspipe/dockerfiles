@@ -1,0 +1,94 @@
+<VirtualHost *:80>
+    DocumentRoot /app/web
+    DirectoryIndex app.php index.html
+
+    <Directory /app/web>
+        Options FollowSymLinks
+        AllowOverride None
+        Require all granted
+    </Directory>
+
+    <IfModule mod_rewrite.c>
+        RewriteEngine On
+
+        # For FastCGI mode or when using PHP-FPM, to get basic auth working.
+        RewriteRule .* - [E=HTTP_AUTHORIZATION:%{HTTP:Authorization}]
+
+        # Cluster/streamed files rewrite rules. Enable on cluster with DFS as a binary data handler
+        #RewriteRule ^/var/([^/]+/)?storage/images(-versioned)?/.* /app.php [L]
+        RewriteRule ^/var/([^/]+/)?storage/images(-versioned)?/.* - [L]
+
+        # Makes it possible to place your favicon at the root of your eZ Platform instance.
+        # It will then be served directly.
+        RewriteRule ^/favicon\.ico - [L]
+
+        # Give direct access to robots.txt for use by crawlers (Google, Bing, Spammers...)
+        RewriteRule ^/robots\.txt - [L]
+
+        # Platform for Privacy Preferences Project ( P3P ) related files for Internet Explorer
+        # More info here : http://en.wikipedia.org/wiki/P3p
+        RewriteRule ^/w3c/p3p\.xml - [L]
+
+        # The following rule is needed to correctly display assets from eZ Platform / Symfony bundles
+        RewriteRule ^/bundles/ - [L]
+
+        # Additional assets rules
+        RewriteRule ^/style-guide/ - [L]
+        RewriteRule ^/images/ - [L]
+        RewriteRule ^/(css|js|font)/.*\.(css|js|otf|eot|ttf|svg|woff) - [L]
+
+        # Allow access to the loader.io verification file
+        RewriteRule ^/loaderio-fca5b22595a19e66541c78f3c7d32fc1.txt$ - [L]
+
+        # Rewrite everything else to the front controller
+        RewriteRule .* /app.php
+
+        # Block crawlers
+        RewriteEngine On
+        RewriteCond %{HTTP_USER_AGENT} ^.*(bot|crawl|spider).*$ [NC]
+        RewriteCond %{REQUEST_URI} !^/robots\.txt$
+        RewriteRule .* - [R=503,L]
+    </IfModule>
+
+    # Everything below is optional to improve performance by forcing
+    # clients to cache image and design files, change the expires time
+    # to suite project needs.
+    <IfModule mod_expires.c>
+        <LocationMatch "^/var/[^/]+/storage/images/.*">
+            # eZ Platform appends the version number to image URL (ezimage
+            # datatype) so when an image is updated, its URL changes too
+            ExpiresActive on
+            ExpiresDefault "now plus 10 years"
+        </LocationMatch>
+    </IfModule>
+
+    <Location ^/server-status$>
+        SetHandler server-status
+        Order deny,allow
+        Deny from all
+        Allow from 127.0.0.1 ::1 192.168.0.0/16
+    </Location>
+
+    SetEnv TIDEWAYS_FRAMEWORK symfony2
+
+    # TODO: Move as an environment variable? Or... conditional file?
+    #PROD: php_flag opcache.validate_timestamps off
+
+    # TODO: Uses a `if` here, at least
+    # Authentication, if enabled
+    #AUTH: SetEnvIfNoCase User-Agent "FT Labs HTTPRequest V1" no_auth
+    #AUTH: SetEnvIf Request_URI ^/loaderio-fca5b22595a19e66541c78f3c7d32fc1.txt$ no_auth=1
+    #AUTH: SetEnvIf Request_URI ^/healthz$ no_auth=1
+    #AUTH: <Location />
+    #AUTH:     Deny from all
+    #AUTH:     Allow from env=no_auth
+    #AUTH:
+    #AUTH:     AuthUserFile /etc/apache2/users
+    #AUTH:     AuthName authorization
+    #AUTH:     AuthType Basic
+    #AUTH:
+    #AUTH:     Satisfy Any
+    #AUTH:     require valid-user
+    #AUTH: </Location>
+
+</VirtualHost>
