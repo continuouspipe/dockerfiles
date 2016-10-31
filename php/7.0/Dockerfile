@@ -3,8 +3,10 @@ FROM inviqa/ubuntu:16.04
 
 MAINTAINER Kieren Evans <kieren.evans@inviqa.com>
 
-# Install PHP packages
-RUN apt-get update -qq \
+# Install PHP packages, including the Tideways extension
+RUN echo 'deb http://s3-eu-west-1.amazonaws.com/qafoo-profiler/packages debian main' > /etc/apt/sources.list.d/tideways.list \
+ && curl -sS https://s3-eu-west-1.amazonaws.com/qafoo-profiler/packages/EEB5E8F4.gpg | apt-key add - \
+ && apt-get update -qq \
  && DEBIAN_FRONTEND=noninteractive apt-get -qqy install \
     mysql-client \
     php-apcu \
@@ -21,6 +23,7 @@ RUN apt-get update -qq \
     php7.0-soap \
     php7.0-xsl \
     php7.0-zip \
+    tideways-php \
 
  # Clean the image
  && apt-get auto-remove -y \
