@@ -1,0 +1,36 @@
+FROM inviqa/ubuntu:16.04
+# FROM quay.io/inviqa_images/ubuntu:16.04
+
+MAINTAINER Kieren Evans <kieren.evans@inviqa.com>
+
+# Install PHP packages
+RUN apt-get update -qq \
+ && DEBIAN_FRONTEND=noninteractive apt-get -qqy install \
+    mysql-client \
+    php-apcu \
+    php-redis \
+    php7.0-bcmath \
+    php7.0-bz2 \
+    php7.0-curl \
+    php7.0-fpm \
+    php7.0-gd \
+    php7.0-intl \
+    php7.0-mbstring \
+    php7.0-mcrypt \
+    php7.0-mysql \
+    php7.0-soap \
+    php7.0-xsl \
+    php7.0-zip \
+
+ # Clean the image
+ && apt-get auto-remove -y \
+ && apt-get clean \
+ && rm -rf /var/lib/apt/lists/* \
+
+ # Install composer for PHP dependencies - Syntax looks wrong but it works!
+ && php -r "copy('https://getcomposer.org/installer', '/tmp/composer-setup.php');" \
+ && if [ "$(wget https://composer.github.io/installer.sig -O - -q)" = "$(php -r 'echo hash_file("SHA384", "/tmp/composer-setup.php");')" ]; \
+    then \
+      php /tmp/composer-setup.php --install-dir='/usr/local/bin/' --filename='composer' --quiet; \
+      rm /tmp/composer-setup.php; \
+    fi
