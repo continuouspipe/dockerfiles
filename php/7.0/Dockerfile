@@ -39,6 +39,8 @@ RUN echo 'deb http://s3-eu-west-1.amazonaws.com/qafoo-profiler/packages debian m
     fi \
  && useradd --create-home --system build
 
+COPY ./etc/ /etc/
+
 USER build
 
 RUN composer global require "hirak/prestissimo" --no-interaction --no-ansi --quiet --no-progress --prefer-dist && \
