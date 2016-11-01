@@ -1,5 +1,4 @@
-FROM inviqa/ubuntu:16.04
-# FROM quay.io/inviqa_images/ubuntu:16.04
+FROM quay.io/inviqa_images/ubuntu:16.04
 
 MAINTAINER Kieren Evans <kieren.evans@inviqa.com>
 
