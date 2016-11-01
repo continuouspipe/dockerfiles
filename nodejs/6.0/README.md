@@ -1,4 +1,4 @@
-# Ubuntu Base
+# NodeJS, for SASS and Grunt
 
 ```Dockerfile
 FROM quay.io/inviqa_images/nodejs:6.0

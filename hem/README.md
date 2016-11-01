@@ -1,4 +1,4 @@
-# Ubuntu Base
+# Hem, for Ruby and Existing Helper Tasks
 
 ```Dockerfile
 FROM quay.io/inviqa_images/hem:latest
