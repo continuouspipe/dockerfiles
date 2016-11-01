@@ -1,0 +1,6 @@
+[template]
+src   = "supervisord/nginx.conf.tmpl"
+dest  = "/etc/supervisord/conf.d/nginx.conf"
+mode  = "0644"
+keys = [
+]

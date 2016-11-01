@@ -7,6 +7,7 @@ RUN echo 'deb http://s3-eu-west-1.amazonaws.com/qafoo-profiler/packages debian m
  && curl -sS https://s3-eu-west-1.amazonaws.com/qafoo-profiler/packages/EEB5E8F4.gpg | apt-key add - \
  && apt-get update -qq \
  && DEBIAN_FRONTEND=noninteractive apt-get -qqy install \
+    nginx \
     mysql-client \
     php-apcu \
     php-redis \
@@ -47,3 +48,4 @@ RUN composer global require "hirak/prestissimo" --no-interaction --no-ansi --qui
     chmod -R go-w ~/.composer/vendor
 
 ARG START_PHP_FPM=
+ARG START_NGINX=
