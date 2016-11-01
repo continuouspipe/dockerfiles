@@ -1,0 +1,8 @@
+[template]
+src   = "nginx/php_upstream.conf.tmpl"
+dest  = "/etc/nginx/conf-available/php_upstream.conf"
+mode  = "0644"
+keys = [ 
+]
+check_cmd = "/usr/sbin/nginx -t -c {{.src}}"
+reload_cmd = "/usr/sbin/service nginx reload"
