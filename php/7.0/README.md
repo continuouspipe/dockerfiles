@@ -16,7 +16,3 @@ Add the supervisor configuration of the service(s) you want to use in the `/etc/
 
 And the [confd](https://github.com/kelseyhightower/confd) configuration in `/etc/confd/conf.d` folder and the according
 template in the `/etc/confd/templates` folder.
-
-## Known child images
-
-- [php-fpm:7.0](../../php-fpm/7.0)
