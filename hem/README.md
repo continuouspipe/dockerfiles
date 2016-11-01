@@ -12,7 +12,5 @@ docker push
 
 ## How to use
 
-Add the supervisor configuration of the service(s) you want to use in the `/etc/supervisor/conf.d` folder.
-
-And the [confd](https://github.com/kelseyhightower/confd) configuration in `/etc/confd/conf.d` folder and the according
-template in the `/etc/confd/templates` folder.
+As for all images based on the ubuntu base image, see
+[the base image README](../../ubuntu/16.04/README.md)
