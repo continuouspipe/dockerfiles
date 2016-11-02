@@ -1,0 +1,5 @@
+#!/bin/bash
+
+
+source /usr/local/share/magento2/install_magento.sh
+source /usr/local/share/magento2/install_magento_finalise.sh

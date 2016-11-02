@@ -9,9 +9,10 @@ RUN curl -q https://dx6pc3giz7k1r.cloudfront.net/GPG-KEY-inviqa-tools | apt-key 
  && bash /tmp/install-node.sh \
  && apt-get update -qqy \
  && DEBIAN_FRONTEND=noninteractive apt-get -qqy install \
-    rsyslog \
     hem \
     nodejs \
+    rsyslog \
+    sudo \
 
  # Configure Node dependencies
  && npm config set --global loglevel warn \
@@ -25,6 +26,8 @@ RUN curl -q https://dx6pc3giz7k1r.cloudfront.net/GPG-KEY-inviqa-tools | apt-key 
  && apt-get auto-remove -qqy \
  && apt-get clean \
  && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+
+WORKDIR /app
 
 COPY ./etc/ /etc/
 COPY ./usr/ /usr/
