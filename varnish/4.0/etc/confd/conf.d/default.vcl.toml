@@ -1,0 +1,6 @@
+[template]
+src   = "varnish/default.vcl.tmpl"
+dest  = "/etc/varnish/default.vcl"
+mode  = "0644"
+keys = [ 
+]
