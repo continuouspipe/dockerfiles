@@ -1,6 +1,6 @@
 #!/bin/sh
 
-cd /app;
+cd /app || exit 1;
 
 if [ ! -f "/app/app/etc/env.php" ]; then
   cp /app/tools/docker/magento/env.php /app/app/etc/env.php
@@ -9,9 +9,9 @@ fi
 
 if [ ! -d "/app/vendor" ]; then
   sudo -u build composer config repositories.magento composer https://repo.magento.com/
-  sudo -u build composer config http-basic.repo.magento.com $MAGENTO_USERNAME $MAGENTO_PASSWORD
-  sudo -u build composer config http-basic.toran.inviqa.com $TORAN_USERNAME $TORAN_PASSWORD
-  sudo -u build composer config github-oauth.github.com $GITHUB_TOKEN
+  sudo -u build composer config http-basic.repo.magento.com "$MAGENTO_USERNAME" "$MAGENTO_PASSWORD"
+  sudo -u build composer config http-basic.toran.inviqa.com "$TORAN_USERNAME" "$TORAN_PASSWORD"
+  sudo -u build composer config github-oauth.github.com "$GITHUB_TOKEN"
 
   # do not use optimize-autoloader parameter yet, according to github, Mage2 has issues with it
   sudo -u build composer install --no-interaction
@@ -23,7 +23,7 @@ if [ ! -d "/app/vendor" ]; then
 fi
 
 if [ -d "/app/tools/inviqa" ]; then
-  cd /app/tools/inviqa
+  cd /app/tools/inviqa || exit 1;
   if [ ! -d "node_modules" ]; then
     sudo -u build npm install
   fi

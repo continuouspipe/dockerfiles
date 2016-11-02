@@ -2,10 +2,10 @@
 set -xe
 
 # install DB and assets
-if [ -L $0 ] ; then
-    DIR=$(dirname $(readlink -f $0)) ;
+if [ -L "$0" ] ; then
+    DIR="$(dirname "$(readlink -f "$0")")" ;
 else
-    DIR=$(dirname $0) ;
+    DIR="$(dirname "$0")" ;
 fi ;
 
 # Install composer and npm dependencies
