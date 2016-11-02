@@ -27,3 +27,4 @@ RUN curl -q https://dx6pc3giz7k1r.cloudfront.net/GPG-KEY-inviqa-tools | apt-key 
  && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
 COPY ./etc/ /etc/
+COPY ./usr/ /usr/

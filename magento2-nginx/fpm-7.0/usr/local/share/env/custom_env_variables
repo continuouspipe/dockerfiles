@@ -1,0 +1,5 @@
+#!/bin/bash
+
+export PHP_MEMORY_LIMIT=${PHP_MEMORY_LIMIT:-768M}
+export START_NGINX=${START_NGINX:-true}
+export START_PHP_FPM=${START_PHP_FPM:-true}
