@@ -9,7 +9,7 @@ else
 fi ;
 
 # Install composer and npm dependencies
-sh "$DIR/../install.sh";
+sh "$DIR/../install_magento.sh";
 
 # Default Docker public address
 if [ -z "$PUBLIC_ADDRESS" ]; then
