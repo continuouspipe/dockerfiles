@@ -33,7 +33,7 @@ if [ ! -d "/app/vendor" ] || [ ! -f "/app/vendor/autoload.php" ]; then
   as_build "composer install --no-interaction"
   as_build "composer clear-cache"
 
-  chown -R go-w vendor
+  chmod -R go-w vendor
   chown -R www-data:www-data app pub var auth.json
   chmod +x bin/magento
 fi
