@@ -23,7 +23,7 @@ if [ ! -f "/app/app/etc/env.php" ]; then
 fi
 
 
-if [ ! -d "/app/vendor" ]; then
+if [ ! -d "/app/vendor" ] || [ ! -f "/app/vendor/autoload.php" ]; then
   as_build "composer config repositories.magento composer https://repo.magento.com/"
   as_build "composer config http-basic.repo.magento.com '$MAGENTO_USERNAME' '$MAGENTO_PASSWORD'"
   as_build "composer config http-basic.toran.inviqa.com '$TORAN_USERNAME' '$TORAN_PASSWORD'"
