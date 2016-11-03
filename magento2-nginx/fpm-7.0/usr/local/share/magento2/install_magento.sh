@@ -1,10 +1,12 @@
 #!/bin/bash
 
+set -xe
+
 cd /app || exit 1;
 
-function as_build {
-  local COMMAND=$1
-  local WORKING_DIR=$2
+as_build() {
+  local COMMAND="$1"
+  local WORKING_DIR="$2"
   if [ -z "$COMMAND" ]; then
     return 1;
   fi
@@ -19,6 +21,7 @@ if [ ! -f "/app/app/etc/env.php" ]; then
   cp /app/tools/docker/magento/env.php /app/app/etc/env.php
   cp /app/tools/docker/magento/config.php /app/app/etc/config.php
 fi
+
 
 if [ ! -d "/app/vendor" ]; then
   as_build "composer config repositories.magento composer https://repo.magento.com/"
@@ -37,7 +40,7 @@ fi
 
 if [ -d "/app/tools/inviqa" ]; then
   if [ ! -d "/app/tools/inviqa/node_modules" ]; then
-   as_build "npm install", "/app/tools/inviqa"
+   as_build "npm install" "/app/tools/inviqa"
   fi
-  as_build "gulp build", "/app/tools/inviqa"
+  as_build "gulp build" "/app/tools/inviqa"
 fi
