@@ -20,7 +20,7 @@ set -ex
 
 # Run HEM
 export HEM_RUN_ENV="${HEM_RUN_ENV:-local}"
-hem --non-interactive --skip-host-checks assets download
+as_build "hem --non-interactive --skip-host-checks assets download"
 
 # Install assets
 export DATABASE_NAME=magentodb

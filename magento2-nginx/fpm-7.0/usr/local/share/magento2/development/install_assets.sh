@@ -1,4 +1,6 @@
-#!/bin/sh
+#!/bin/bash
+
+set -xe
 
 echo 'extracting media files'
-tar --no-same-owner --extract --gzip --file=tools/assets/development/media.files.tgz || exit 1
+as_build "tar --no-same-owner --extract --gzip --file=tools/assets/development/media.files.tgz || exit 1"

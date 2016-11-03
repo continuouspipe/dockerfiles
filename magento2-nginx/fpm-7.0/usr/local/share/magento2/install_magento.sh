@@ -2,20 +2,9 @@
 
 set -xe
 
+source common_functions.sh
+
 cd /app || exit 1;
-
-as_build() {
-  local COMMAND="$1"
-  local WORKING_DIR="$2"
-  if [ -z "$COMMAND" ]; then
-    return 1;
-  fi
-  if [ -z "$WORKING_DIR" ]; then
-    WORKING_DIR='/app';
-  fi
-
-  su -l build -c "cd '$WORKING_DIR'; $COMMAND"
-}
 
 if [ ! -f "/app/app/etc/env.php" ]; then
   cp /app/tools/docker/magento/env.php /app/app/etc/env.php
