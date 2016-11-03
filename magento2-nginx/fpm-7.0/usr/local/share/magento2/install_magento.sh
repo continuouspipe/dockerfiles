@@ -1,6 +1,19 @@
-#!/bin/sh
+#!/bin/bash
 
 cd /app || exit 1;
+
+function as_build {
+  local COMMAND=$1
+  local WORKING_DIR=$2
+  if [ -z "$COMMAND" ]; then
+    return 1;
+  fi
+  if [ -z "$WORKING_DIR" ]; then
+    WORKING_DIR='/app';
+  fi
+
+  su -l build -c "cd '$WORKING_DIR'; $COMMAND"
+}
 
 if [ ! -f "/app/app/etc/env.php" ]; then
   cp /app/tools/docker/magento/env.php /app/app/etc/env.php
@@ -8,14 +21,14 @@ if [ ! -f "/app/app/etc/env.php" ]; then
 fi
 
 if [ ! -d "/app/vendor" ]; then
-  sudo -u build composer config repositories.magento composer https://repo.magento.com/
-  sudo -u build composer config http-basic.repo.magento.com "$MAGENTO_USERNAME" "$MAGENTO_PASSWORD"
-  sudo -u build composer config http-basic.toran.inviqa.com "$TORAN_USERNAME" "$TORAN_PASSWORD"
-  sudo -u build composer config github-oauth.github.com "$GITHUB_TOKEN"
+  as_build "composer config repositories.magento composer https://repo.magento.com/"
+  as_build "composer config http-basic.repo.magento.com '$MAGENTO_USERNAME' '$MAGENTO_PASSWORD'"
+  as_build "composer config http-basic.toran.inviqa.com '$TORAN_USERNAME' '$TORAN_PASSWORD'"
+  as_build "composer config github-oauth.github.com '$GITHUB_TOKEN'"
 
   # do not use optimize-autoloader parameter yet, according to github, Mage2 has issues with it
-  sudo -u build composer install --no-interaction
-  sudo -u build composer clear-cache
+  as_build "composer install --no-interaction"
+  as_build "composer clear-cache"
 
   chown -R go-w vendor
   chown -R www-data:www-data app pub var auth.json
@@ -23,9 +36,8 @@ if [ ! -d "/app/vendor" ]; then
 fi
 
 if [ -d "/app/tools/inviqa" ]; then
-  cd /app/tools/inviqa || exit 1;
-  if [ ! -d "node_modules" ]; then
-    sudo -u build npm install
+  if [ ! -d "/app/tools/inviqa/node_modules" ]; then
+   as_build "npm install", "/app/tools/inviqa"
   fi
-  sudo -u build gulp build
+  as_build "gulp build", "/app/tools/inviqa"
 fi
