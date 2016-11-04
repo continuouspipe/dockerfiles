@@ -1,6 +1,6 @@
 #!/bin/bash
 
-source ./common_functions.sh
+source common_functions.sh
 
 cd /app || exit 1;
 
