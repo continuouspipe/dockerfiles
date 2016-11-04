@@ -12,7 +12,7 @@ RUN apt-get update -qq \
  && rm -rf /var/lib/apt/lists/* \
 
  && composer global require drush/drush \
- && ln -s ~/.compose/vendor/bin/drush ~/bin/
+ && ln -s ~/.composer/vendor/bin/drush /usr/local/bin/
 
 COPY ./etc/ /etc
 COPY ./usr/ /usr
