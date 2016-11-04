@@ -26,25 +26,25 @@ if [ ! -d /app/docroot/sites/default ]; then
   as_build "drush site-install lightning -vvv"
 fi
 
-if [ ! -f /app/docroot/sites/default/settings.php ]; then
-  mkdir -p /app/docroot/sites/default/
-  chmod u+w /app/docroot/sites/default/
-  cp /app/tools/docker/config/settings.php /app/docroot/sites/default/settings.php
-  chmod go-w /app/docroot/sites/default/settings.php
-  chmod a-w /app/docroot/sites/default/
+SETTINGS_DIR="/app/docroot/sites/default/"
+if [ ! -f "$SETTINGS_DIR/settings.php" ]; then
+  chmod u+w "$SETTINGS_DIR"
+  cp /app/tools/docker/config/settings.php "$SETTINGS_DIR/settings.php"
+  chmod go-w "$SETTINGS_DIR/settings.php"
+  chmod a-w "$SETTINGS_DIR"
 fi
 
-if [ ! -f /app/docroot/sites/default/services.yml ]; then
-  mkdir -p /app/docroot/sites/default/
-  chmod u+w /app/docroot/sites/default/
+if [ ! -f "$SETTINGS_DIR/services.yml" ]; then
+  mkdir -p "$SETTINGS_DIR"
+  chmod u+w "$SETTINGS_DIR"
 
-  SOURCE_FILE="/app/docroot/sites/default/default.services.yml"
+  SOURCE_FILE="$SETTINGS_DIR/default.services.yml"
   if [ -f /app/tools/docker/config/services.yml ]; then
     SOURCE_FILE="/app/tools/docker/config/services.yml"
   fi
 
-  cp "$SOURCE_FILE"  /app/docroot/sites/default/services.yml
-  chmod go-w /app/docroot/sites/default/services.yml
+  cp "$SOURCE_FILE" "$SETTINGS_DIR/services.yml"
+  chmod go-w "$SETTINGS_DIR/services.yml"
 
-  chmod a-w /app/docroot/sites/default/
+  chmod a-w "$SETTINGS_DIR"
 fi

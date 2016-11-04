@@ -20,9 +20,13 @@ fi
 
 set -ex
 
-# Run HEM
-export HEM_RUN_ENV="${HEM_RUN_ENV:-local}"
-as_build "hem --non-interactive --skip-host-checks assets download"
+$(is_hem_project)
+IS_HEM=$?
+if [ "$IS_HEM" -eq 0 ]; then
+  # Run HEM
+  export HEM_RUN_ENV="${HEM_RUN_ENV:-local}"
+  as_build "hem --non-interactive --skip-host-checks assets download"
+fi
 
 # Install assets
 export DATABASE_NAME=drupaldb

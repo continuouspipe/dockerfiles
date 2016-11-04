@@ -2,10 +2,6 @@
 
 set -xe
 
-cd /app || exit 1;
-
-source ./common_functions.sh
-
 # Download and install the assets when running the image
 # (sad that we have to do that tho...)
 if [ -L "$0" ] ; then
@@ -14,7 +10,15 @@ else
     DIR="$(dirname "$0")" ;
 fi ;
 
+source "$DIR/common_functions.sh";
+
+cd /app || exit 1;
+
 # Download the static assets
-export HEM_RUN_ENV="${HEM_RUN_ENV:-local}"
-as_build "hem --non-interactive --skip-host-checks assets download"
-sh "$DIR/development/install_assets.sh"
+$(is_hem_project)
+IS_HEM=$?
+if [ "$IS_HEM" -eq 0 ]; then
+  export HEM_RUN_ENV="${HEM_RUN_ENV:-local}"
+  as_build "hem --non-interactive --skip-host-checks assets download"
+  sh "$DIR/development/install_assets.sh"
+fi

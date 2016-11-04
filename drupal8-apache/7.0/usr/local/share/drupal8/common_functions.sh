@@ -13,3 +13,11 @@ as_build() {
   # TODO: Update to build user when build user is in the php-apache image.
   su -l root -c "cd '$WORKING_DIR'; $COMMAND"
 }
+
+is_hem_project() {
+  if [ -f /app/tools/hem/config.yaml ] || [ -f /app/tools/hobo/config.yaml ]; then
+    return 0
+  fi
+
+  return 1
+}
