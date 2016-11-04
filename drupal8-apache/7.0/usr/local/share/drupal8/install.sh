@@ -28,6 +28,7 @@ fi
 
 SETTINGS_DIR="/app/docroot/sites/default/"
 if [ ! -f "$SETTINGS_DIR/settings.php" ]; then
+  mkdir -p "$SETTINGS_DIR"
   chmod u+w "$SETTINGS_DIR"
   cp /app/tools/docker/config/settings.php "$SETTINGS_DIR/settings.php"
   chmod go-w "$SETTINGS_DIR/settings.php"
