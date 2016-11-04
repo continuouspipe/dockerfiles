@@ -12,7 +12,9 @@ source "$DIR/common_functions.sh";
 cd /app || exit 1;
 
 if [ ! -d "/app/vendor" ] || [ ! -f "/app/vendor/autoload.php" ]; then
-  as_build "composer config github-oauth.github.com '$GITHUB_TOKEN'"
+  if [ -n "$GITHUB_TOKEN" ]; then
+    as_build "composer config github-oauth.github.com '$GITHUB_TOKEN'"
+  fi
 
   as_build "composer install --optimize-autoloader --no-interaction"
   as_build "composer clear-cache"
