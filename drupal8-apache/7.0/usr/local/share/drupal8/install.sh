@@ -28,11 +28,16 @@ fi
 
 if [ ! -f /app/docroot/sites/default/settings.php ]; then
   mkdir -p /app/docroot/sites/default/
+  chmod u+w /app/docroot/sites/default/
   cp /app/tools/docker/config/settings.php /app/docroot/sites/default/settings.php
   chmod go-w /app/docroot/sites/default/settings.php
+  chmod a-w /app/docroot/sites/default/
 fi
 
 if [ ! -f /app/docroot/sites/default/services.yml ]; then
+  mkdir -p /app/docroot/sites/default/
+  chmod u+w /app/docroot/sites/default/
+
   SOURCE_FILE="/app/docroot/sites/default/default.services.yml"
   if [ -f /app/tools/docker/config/services.yml ]; then
     SOURCE_FILE="/app/tools/docker/config/services.yml"
@@ -40,4 +45,6 @@ if [ ! -f /app/docroot/sites/default/services.yml ]; then
 
   cp "$SOURCE_FILE"  /app/docroot/sites/default/services.yml
   chmod go-w /app/docroot/sites/default/services.yml
+
+  chmod a-w /app/docroot/sites/default/
 fi

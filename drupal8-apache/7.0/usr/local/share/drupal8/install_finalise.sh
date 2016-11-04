@@ -6,19 +6,6 @@ cd /app || exit 1;
 
 source ./common_functions.sh
 
-if [ ! -f /app/docroot/sites/default/settings.php ]; then
-  cp /app/tools/docker/config/settings.php /app/docroot/sites/default/
-fi
-
-if [ ! -f /app/docroot/sites/default/services.yml ]; then
-  SOURCE_FILE="/app/docroot/sites/default/default.services.yml"
-  if [ -f /app/tools/docker/config/services.yml ]; then
-    SOURCE_FILE="/app/tools/docker/config/services.yml"
-  fi
-
-  cp "$SOURCE_FILE"  /app/docroot/sites/default/services.yml
-fi
-
 # Download and install the assets when running the image
 # (sad that we have to do that tho...)
 if [ -L "$0" ] ; then

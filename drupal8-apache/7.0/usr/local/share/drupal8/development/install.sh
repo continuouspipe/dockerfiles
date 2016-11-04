@@ -8,8 +8,10 @@ else
     DIR="$(dirname "$0")" ;
 fi ;
 
+source "$DIR/../common_functions.sh";
+
 # Install composer and npm dependencies
-sh "$DIR/../install.sh";
+bash "$DIR/../install.sh";
 
 # Default Docker public address
 if [ -z "$PUBLIC_ADDRESS" ]; then
