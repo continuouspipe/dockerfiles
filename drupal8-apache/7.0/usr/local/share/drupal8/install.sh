@@ -24,11 +24,14 @@ fi
 
 cd /app/docroot || exit 1;
 
-if [ ! -d /app/docroot/sites/default ]; then
-  as_build "drush site-install lightning -vvv"
+SETTINGS_DIR="/app/docroot/sites/default"
+
+if [ ! -d "$SETTINGS_DIR/files/" ]; then
+  chmod u+w "$SETTINGS_DIR" || true
+  mkdir -p "$SETTINGS_DIR/files/"
+  as_build "drush site-install lightning -vvv", "/app/docroot"
 fi
 
-SETTINGS_DIR="/app/docroot/sites/default/"
 if [ ! -f "$SETTINGS_DIR/settings.php" ]; then
   mkdir -p "$SETTINGS_DIR"
   chmod u+w "$SETTINGS_DIR"
