@@ -26,12 +26,6 @@ cd /app/docroot || exit 1;
 
 SETTINGS_DIR="/app/docroot/sites/default"
 
-if [ ! -d "$SETTINGS_DIR/files/" ]; then
-  chmod u+w "$SETTINGS_DIR" || true
-  mkdir -p "$SETTINGS_DIR/files/"
-  as_build "drush site-install lightning -vvv", "/app/docroot"
-fi
-
 if [ ! -f "$SETTINGS_DIR/settings.php" ]; then
   mkdir -p "$SETTINGS_DIR"
   chmod u+w "$SETTINGS_DIR"
@@ -52,5 +46,13 @@ if [ ! -f "$SETTINGS_DIR/services.yml" ]; then
   cp "$SOURCE_FILE" "$SETTINGS_DIR/services.yml"
   chmod go-w "$SETTINGS_DIR/services.yml"
 
+  chmod a-w "$SETTINGS_DIR"
+fi
+
+CURRENT_TABLES="$(as_build "drush sql-query 'SHOW TABLES;'" /app/docroot)"
+if [ "$CURRENT_TABLES" == '' ]; then
+  chmod u+w "$SETTINGS_DIR" || true
+  mkdir -p "$SETTINGS_DIR/files/"
+  as_build "echo 'y' | drush site-install lightning" "/app/docroot"
   chmod a-w "$SETTINGS_DIR"
 fi
