@@ -11,3 +11,8 @@ popd
 pushd ez/6.x
 docker build -t quay.io/inviqa_images/ez:6.x .
 popd
+
+pushd drupal8-apache/7.0
+docker build -t quay.io/inviqa_images/drupal8-apache:7.0 .
+popd
+
