@@ -2,7 +2,13 @@
 
 set -xe
 
-source common_functions.sh
+if [ -L "$0" ] ; then
+    DIR="$(dirname "$(readlink -f "$0")")" ;
+else
+    DIR="$(dirname "$0")" ;
+fi ;
+
+source "$DIR/common_functions.sh"
 
 cd /app || exit 1;
 
@@ -10,7 +16,6 @@ if [ ! -f "/app/app/etc/env.php" ]; then
   cp /app/tools/docker/magento/env.php /app/app/etc/env.php
   cp /app/tools/docker/magento/config.php /app/app/etc/config.php
 fi
-
 
 if [ ! -d "/app/vendor" ] || [ ! -f "/app/vendor/autoload.php" ]; then
   as_build "composer config repositories.magento composer https://repo.magento.com/"
