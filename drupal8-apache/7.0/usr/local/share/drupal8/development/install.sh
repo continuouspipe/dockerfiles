@@ -10,6 +10,15 @@ fi ;
 
 source "$DIR/../common_functions.sh";
 
+# Install database
+export DATABASE_NAME=drupaldb
+export DATABASE_USER=drupal
+export DATABASE_PASSWORD=drupal
+export DATABASE_ROOT_PASSWORD=drupal
+export DATABASE_HOST=database
+
+sh "$DIR/install_database.sh"
+
 # Install composer and npm dependencies
 bash "$DIR/../install.sh";
 
@@ -29,11 +38,4 @@ if [ "$IS_HEM" -eq 0 ]; then
 fi
 
 # Install assets
-export DATABASE_NAME=drupaldb
-export DATABASE_USER=drupal
-export DATABASE_PASSWORD=drupal
-export DATABASE_ROOT_PASSWORD=drupal
-export DATABASE_HOST=database
-
-sh "$DIR/install_database.sh"
 sh "$DIR/install_assets.sh"
