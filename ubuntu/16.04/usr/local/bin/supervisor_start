@@ -1,0 +1,17 @@
+#!/bin/bash
+set -xe
+
+# Initialisation - Declare custom environment variables
+source /usr/local/share/env/custom_env_variables
+
+# Initialisation - Declare default environment variables
+source /usr/local/share/env/default_env_variables
+
+# Initialisation - Templating
+confd -onetime -backend env
+
+# Initialisation - Runtime installation tasks
+source /usr/local/bin/supervisor_custom_start
+
+# Start services
+exec /usr/bin/supervisord -c /etc/supervisor/supervisord.conf
