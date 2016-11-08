@@ -22,3 +22,7 @@ if [ "$IS_HEM" -eq 0 ]; then
   as_build "hem --non-interactive --skip-host-checks assets download"
   sh "$DIR/development/install_assets.sh"
 fi
+
+if [ -f "$DIR/install_custom.sh" ]; then
+  bash "$DIR/install_custom.sh"
+fi
