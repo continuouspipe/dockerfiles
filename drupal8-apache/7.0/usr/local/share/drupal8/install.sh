@@ -7,6 +7,7 @@ else
     DIR="$(dirname "$0")" ;
 fi ;
 
+# shellcheck source=./common_functions.sh
 source "$DIR/common_functions.sh";
 
 cd /app || exit 1;
@@ -55,4 +56,8 @@ if [ "$CURRENT_TABLES" == '' ]; then
   mkdir -p "$SETTINGS_DIR/files/"
   as_build "echo 'y' | drush site-install lightning" "/app/docroot"
   chmod a-w "$SETTINGS_DIR"
+fi
+
+if [ -f "$DIR/install_custom.sh" ]; then
+  bash "$DIR/install_custom.sh"
 fi
