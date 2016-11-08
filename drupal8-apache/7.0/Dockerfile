@@ -14,11 +14,9 @@ RUN curl -q https://dx6pc3giz7k1r.cloudfront.net/GPG-KEY-inviqa-tools | apt-key 
  && apt-get clean \
  && rm -rf /var/lib/apt/lists/* \
 
- && composer global require drush/drush \
- && ln -s ~/.composer/vendor/bin/drush /usr/local/bin/ \
-
  && composer global config minimum-stability RC \
- && composer global require drupal/console:~1.0 \
+ && composer global require drush/drush drupal/console:~1.0 \
+ && ln -s ~/.composer/vendor/bin/drush /usr/local/bin/ \
  && ln -s ~/.composer/vendor/bin/drupal /usr/local/bin/ \
 
  && composer global clear-cache
