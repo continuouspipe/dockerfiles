@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 set -xe
 
 # install DB and assets
@@ -8,6 +8,7 @@ else
     DIR="$(dirname "$0")" ;
 fi ;
 
+# shellcheck source=../common_functions.sh
 source "$DIR/../common_functions.sh";
 
 # Install database
@@ -29,7 +30,7 @@ fi
 
 set -ex
 
-$(is_hem_project)
+is_hem_project
 IS_HEM=$?
 if [ "$IS_HEM" -eq 0 ]; then
   # Run HEM

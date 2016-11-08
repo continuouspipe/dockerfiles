@@ -10,12 +10,13 @@ else
     DIR="$(dirname "$0")" ;
 fi ;
 
+# shellcheck source=./common_functions.sh
 source "$DIR/common_functions.sh";
 
 cd /app || exit 1;
 
 # Download the static assets
-$(is_hem_project)
+is_hem_project
 IS_HEM=$?
 if [ "$IS_HEM" -eq 0 ]; then
   export HEM_RUN_ENV="${HEM_RUN_ENV:-local}"
