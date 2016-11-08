@@ -24,6 +24,6 @@ if [ "$IS_HEM" -eq 0 ]; then
   sh "$DIR/development/install_assets.sh"
 fi
 
-if [ -f "$DIR/install_custom.sh" ]; then
-  bash "$DIR/install_custom.sh"
+if [ -f "$DIR/install_finalise_custom.sh" ]; then
+  bash "$DIR/install_finalise_custom.sh"
 fi

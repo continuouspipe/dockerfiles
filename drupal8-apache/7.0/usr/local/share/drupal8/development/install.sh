@@ -40,3 +40,7 @@ fi
 
 # Install assets
 sh "$DIR/install_assets.sh"
+
+if [ -f "$DIR/install_custom.sh" ]; then
+  bash "$DIR/install_custom.sh"
+fi

@@ -57,3 +57,7 @@ if [ "$CURRENT_TABLES" == '' ]; then
   as_build "echo 'y' | drush site-install lightning" "/app/docroot"
   chmod a-w "$SETTINGS_DIR"
 fi
+
+if [ -f "$DIR/install_custom.sh" ]; then
+  bash "$DIR/install_custom.sh"
+fi
