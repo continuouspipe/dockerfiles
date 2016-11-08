@@ -17,7 +17,7 @@ RUN curl -q https://dx6pc3giz7k1r.cloudfront.net/GPG-KEY-inviqa-tools | apt-key 
  && composer global require drush/drush \
  && ln -s ~/.composer/vendor/bin/drush /usr/local/bin/ \
 
- && composer global require drupal/console:~1.0 \
+ && composer global require drupal/console:@stable \
  && ln -s ~/.composer/vendor/bin/drupal /usr/local/bin/
 
 COPY ./etc/ /etc
