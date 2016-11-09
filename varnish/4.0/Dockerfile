@@ -13,3 +13,4 @@ RUN apt-get update -qq \
  && rm -rf /var/lib/apt/lists/*
 
 COPY ./etc/ /etc/
+COPY ./usr/ /usr/
