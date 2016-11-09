@@ -14,8 +14,15 @@ RUN curl -q https://dx6pc3giz7k1r.cloudfront.net/GPG-KEY-inviqa-tools | apt-key 
  && apt-get clean \
  && rm -rf /var/lib/apt/lists/* \
 
+ # Install Drupal's Drush tool
  && composer global require drush/drush \
- && ln -s ~/.composer/vendor/bin/drush /usr/local/bin/
+ && ln -s ~/.composer/vendor/bin/drush /usr/local/bin/ \
+ && composer global clear-cache \
+
+ # Install Drupal's CLI tool
+ && curl https://drupalconsole.com/installer -L -o /usr/local/bin/drupal \
+ && chmod a+x /usr/local/bin/drupal \
+ && /usr/local/bin/drupal init --no-interaction
 
 COPY ./etc/ /etc
 COPY ./usr/ /usr
