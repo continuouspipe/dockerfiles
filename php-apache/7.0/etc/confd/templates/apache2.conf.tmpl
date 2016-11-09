@@ -60,4 +60,8 @@ CustomLog /proc/self/fd/1 combined
 DirectoryIndex disabled
 DirectoryIndex index.php index.html
 
+# Include generic snippets of statements
+IncludeOptional conf-enabled/*.conf
+
+# Include the virtual host configurations:
 IncludeOptional sites-enabled/*.conf

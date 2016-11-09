@@ -21,7 +21,7 @@ RUN apt-get update && \
     && curl -sS https://getcomposer.org/installer | php \
     && mv composer.phar /usr/bin/composer \
     && composer global require hirak/prestissimo \
-    && echo "ServerName localhost" >> /etc/apache2/apache2.conf \
+    && a2disconf other-vhosts-access-log \
     && a2enmod rewrite \
 
     && \
