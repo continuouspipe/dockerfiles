@@ -1,7 +1,7 @@
-FROM solr:6.2
+FROM quay.io/inviqa_images/solr:6.2
 
 MAINTAINER Kieren Evans <kieren.evans@inviqa.com>
 
-ADD ./docker-entrypoint-initdb.d/ /docker-entrypoint-initdb.d
+COPY ./docker-entrypoint-initdb.d/ /docker-entrypoint-initdb.d
 
-ADD ./usr/ /usr
+COPY ./usr/ /usr
