@@ -16,8 +16,10 @@ source "$DIR/common_functions.sh";
 cd /app || exit 1;
 
 # Download the static assets
+set +e
 is_hem_project
 IS_HEM=$?
+set -e
 if [ "$IS_HEM" -eq 0 ]; then
   export HEM_RUN_ENV="${HEM_RUN_ENV:-local}"
   as_build "hem --non-interactive --skip-host-checks assets download"

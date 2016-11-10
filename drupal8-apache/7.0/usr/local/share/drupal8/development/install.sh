@@ -28,10 +28,10 @@ if [ -z "$PUBLIC_ADDRESS" ]; then
     export PUBLIC_ADDRESS=http://drupal_docker.docker/
 fi
 
-set -ex
-
+set +e
 is_hem_project
 IS_HEM=$?
+set -e
 if [ "$IS_HEM" -eq 0 ]; then
   # Run HEM
   export HEM_RUN_ENV="${HEM_RUN_ENV:-local}"
