@@ -16,3 +16,6 @@ pushd drupal8-apache/7.0
 docker build -t quay.io/inviqa_images/drupal8-apache:7.0 .
 popd
 
+pushd mysql/5.6
+docker build -t quay.io/inviqa_images/mysql:5.6 .
+popd
