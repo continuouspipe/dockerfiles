@@ -24,8 +24,9 @@ if [ "$IS_HEM" -eq 0 ]; then
   sh "$DIR/development/install_assets.sh"
 fi
 
+# Fix permissions for compiled CSS files, etc.
+chown -R www-data:www-data "/app/docroot/sites/default/files/"
+
 if [ -f "$DIR/install_finalise_custom.sh" ]; then
   bash "$DIR/install_finalise_custom.sh"
 fi
-
-chown -R www-data:www-data "$SETTINGS_DIR/files/"
