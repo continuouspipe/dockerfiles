@@ -27,3 +27,5 @@ fi
 if [ -f "$DIR/install_finalise_custom.sh" ]; then
   bash "$DIR/install_finalise_custom.sh"
 fi
+
+chown -R www-data:www-data "$SETTINGS_DIR/files/"
