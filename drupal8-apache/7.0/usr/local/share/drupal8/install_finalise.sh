@@ -27,7 +27,13 @@ if [ "$IS_HEM" -eq 0 ]; then
 fi
 
 # Fix permissions for compiled CSS files, etc.
-chown -R www-data:www-data "/app/docroot/sites/default/files/"
+# But, only if the app directory is not via an NFS mountpoint, which doesn't
+# allow chowning.
+grep -q "/app nfs " /proc/mounts
+IS_NFS=$?
+if [ "$IS_NFS" -ne 0 ]; then
+  chown -R www-data:www-data "/app/docroot/sites/default/files/"
+fi
 
 if [ -f "$DIR/install_finalise_custom.sh" ]; then
   bash "$DIR/install_finalise_custom.sh"
