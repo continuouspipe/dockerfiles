@@ -20,6 +20,10 @@ pushd mysql/5.6
 docker build -t quay.io/inviqa_images/mysql:5.6 .
 popd
 
+pushd redis/3.2
+docker build -t quay.io/inviqa_images/redis:3.2 .
+popd
+
 pushd solr/6.2
 docker build -t quay.io/inviqa_images/solr:6.2 .
 popd
