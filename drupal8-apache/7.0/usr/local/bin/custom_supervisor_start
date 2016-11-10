@@ -1,4 +1,0 @@
-#!/bin/bash
-
-source /usr/local/share/drupal8/install.sh
-source /usr/local/share/drupal8/install_finalise.sh
