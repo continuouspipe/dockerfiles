@@ -1,5 +1,5 @@
 [template]
-src   = "apache2-security.conf.tmpl"
+src   = "apache/apache2-security.conf.tmpl"
 dest  = "/etc/apache2/conf-available/security.conf"
 mode  = "0644"
 keys = [
