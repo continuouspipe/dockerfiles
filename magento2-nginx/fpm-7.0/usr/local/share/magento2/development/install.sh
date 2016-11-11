@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 set -xe
 
 # install DB and assets
@@ -11,7 +11,7 @@ fi ;
 source "$DIR/../common_functions.sh";
 
 # Install composer and npm dependencies
-sh "$DIR/../install_magento.sh";
+bash "$DIR/../install_magento.sh";
 
 # Default Docker public address
 if [ -z "$PUBLIC_ADDRESS" ]; then
