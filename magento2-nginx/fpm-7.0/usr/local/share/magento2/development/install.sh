@@ -18,9 +18,9 @@ if [ -z "$PUBLIC_ADDRESS" ]; then
     export PUBLIC_ADDRESS=http://magento_web.docker/
 fi
 
-set -ex
-
-$(is_hem_project)
+set +e
+is_hem_project
+set -e
 IS_HEM=$?
 if [ "$IS_HEM" -eq 0 ]; then
   # Run HEM

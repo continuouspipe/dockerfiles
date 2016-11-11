@@ -22,7 +22,9 @@ fi
 # (sad that we have to do that tho...)
 
 # Download the static assets
-$(is_hem_project)
+set +e
+is_hem_project
+set -e
 IS_HEM=$?
 if [ "$IS_HEM" -eq 0 ]; then
   export HEM_RUN_ENV="${HEM_RUN_ENV:-local}"
