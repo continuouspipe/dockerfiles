@@ -25,7 +25,11 @@ RUN curl -q https://dx6pc3giz7k1r.cloudfront.net/GPG-KEY-inviqa-tools | apt-key 
  && apt-get remove -qqy php7.0-dev pkg-config libmagickwand-dev build-essential \
  && apt-get auto-remove -qqy \
  && apt-get clean \
- && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+ && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* \
+
+ # Set up hem directories
+ && mkdir -p /home/build/.hem/gems/ \
+ && chown -R build:build /home/build/.hem/
 
 WORKDIR /app
 
