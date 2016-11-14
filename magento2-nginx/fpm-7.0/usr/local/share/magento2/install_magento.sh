@@ -12,6 +12,11 @@ source "$DIR/common_functions.sh"
 
 cd /app || exit 1;
 
+set +e
+is_nfs
+IS_NFS=$?
+set -e
+
 if [ ! -f "/app/app/etc/env.php" ]; then
   cp /app/tools/docker/magento/env.php /app/app/etc/env.php
   cp /app/tools/docker/magento/config.php /app/app/etc/config.php
@@ -30,11 +35,14 @@ if [ ! -d "/app/vendor" ] || [ ! -f "/app/vendor/autoload.php" ]; then
   chmod 600 auth.json
   chmod -R go-w vendor
   chmod +x bin/magento
-  chown -R www-data:www-data pub/media pub/static var
+
+  if [ "$IS_NFS" -ne 0 ]; then
+    chown -R www-data:www-data pub/media pub/static var
+  fi
 fi
 
 if [ -d "/app/tools/inviqa" ]; then
-  if [ -d "/app/pub/static/frontend/" ]; then
+  if [ -d "/app/pub/static/frontend/" ] && [ "$IS_NFS" -ne 0 ]; then
     chown -R build:build /app/pub/static/frontend/
   fi
 
@@ -43,7 +51,7 @@ if [ -d "/app/tools/inviqa" ]; then
   fi
   as_build "gulp build" "/app/tools/inviqa"
 
-  if [ -d "/app/pub/static/frontend/" ]; then
+  if [ -d "/app/pub/static/frontend/" ] && [ "$IS_NFS" -ne 0 ]; then
     chown -R www-data:www-data /app/pub/static/frontend/
   fi
 fi

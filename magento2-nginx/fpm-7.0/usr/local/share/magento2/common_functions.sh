@@ -20,3 +20,9 @@ is_hem_project() {
 
   return 1
 }
+
+is_nfs() {
+  # Determine if the app directory is an NFS mountpoint, which doesn't allow chowning.
+  grep -q "/app nfs " /proc/mounts
+  return $?
+}
