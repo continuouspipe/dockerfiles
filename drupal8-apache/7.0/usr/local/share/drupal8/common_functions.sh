@@ -10,8 +10,7 @@ as_build() {
     WORKING_DIR='/app';
   fi
 
-  # TODO: Update to build user when build user is in the php-apache image.
-  su -l root -c "cd '$WORKING_DIR'; $COMMAND"
+  su -l build -c "cd '$WORKING_DIR'; $COMMAND"
 }
 
 is_hem_project() {

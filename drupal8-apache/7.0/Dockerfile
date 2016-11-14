@@ -22,13 +22,14 @@ USER build
 
  # Install Drupal's Drush tool
 RUN composer global require drush/drush \
- && ln -s ~/.composer/vendor/bin/drush /usr/local/bin/ \
  && composer global clear-cache \
 
  # Initialise Drupal's CLI tool
  && /usr/local/bin/drupal init --no-interaction
 
 USER root
+
+RUN ln -s ~/.composer/vendor/bin/drush /usr/local/bin/
 
 COPY ./etc/ /etc
 COPY ./usr/ /usr
