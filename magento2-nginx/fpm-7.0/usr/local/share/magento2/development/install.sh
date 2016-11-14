@@ -7,7 +7,7 @@ source /usr/local/share/env/custom_env_variables
 # Initialisation - Declare default environment variables
 source /usr/local/share/env/default_env_variables
 
-mkdir -p /home/build/.hem/ && chown -R build:build /home/build/.hem/
+mkdir -p /home/build/.hem/gems/ && chown -R build:build /home/build/.hem/
 
 set +e
 # Initialisation - Templating
@@ -48,7 +48,7 @@ export DATABASE_PASSWORD=magento
 export DATABASE_ROOT_PASSWORD=magento
 export DATABASE_HOST=database
 
-sh "$DIR/install_database.sh"
+bash "$DIR/install_database.sh"
 
 echo "DELETE from core_config_data WHERE path LIKE 'web/%base_url';
 DELETE from core_config_data WHERE path LIKE 'system/full_page_cache/varnish%';
@@ -58,5 +58,5 @@ INSERT INTO core_config_data VALUES (NULL, 'default', '0', 'system/full_page_cac
 INSERT INTO core_config_data VALUES (NULL, 'default', '0', 'system/full_page_cache/varnish/backend_host', 'varnish');
 INSERT INTO core_config_data VALUES (NULL, 'default', '0', 'system/full_page_cache/varnish/backend_port', '80');" |  mysql -h$DATABASE_HOST -u$DATABASE_USER -p$DATABASE_PASSWORD $DATABASE_NAME || exit 1
 
-sh "$DIR/install_assets.sh"
+bash "$DIR/install_assets.sh"
 

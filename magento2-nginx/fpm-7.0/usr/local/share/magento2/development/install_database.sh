@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 if [ -f tools/assets/development/magentodb.sql.gz ]; then
   echo 'Dropping the Magento DB if exists'
