@@ -1,6 +1,19 @@
 #!/bin/bash
 set -xe
 
+# Initialisation - Declare custom environment variables
+source /usr/local/share/env/custom_env_variables
+
+# Initialisation - Declare default environment variables
+source /usr/local/share/env/default_env_variables
+
+mkdir -p /home/build/.hem/ && chown -R build:build /home/build/.hem/
+
+set +e
+# Initialisation - Templating
+confd -onetime -backend env
+set -e
+
 # install DB and assets
 if [ -L "$0" ] ; then
     DIR="$(dirname "$(readlink -f "$0")")" ;
