@@ -29,7 +29,7 @@ RUN composer global require drush/drush \
 
 USER root
 
-RUN ln -s ~/.composer/vendor/bin/drush /usr/local/bin/
+RUN ln -s /home/build/.composer/vendor/bin/drush /usr/local/bin/
 
 COPY ./etc/ /etc
 COPY ./usr/ /usr
