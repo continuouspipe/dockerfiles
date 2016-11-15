@@ -18,7 +18,7 @@ export DATABASE_PASSWORD=drupal
 export DATABASE_ROOT_PASSWORD=drupal
 export DATABASE_HOST=database
 
-sh "$DIR/install_database.sh"
+bash "$DIR/install_database.sh"
 
 # Install composer and npm dependencies
 bash "$DIR/../install.sh";
@@ -39,7 +39,7 @@ if [ "$IS_HEM" -eq 0 ]; then
 fi
 
 # Install assets
-sh "$DIR/install_assets.sh"
+bash "$DIR/install_assets.sh"
 
 if [ -f "$DIR/install_custom.sh" ]; then
   bash "$DIR/install_custom.sh"

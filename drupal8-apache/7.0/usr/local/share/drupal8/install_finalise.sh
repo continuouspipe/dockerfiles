@@ -15,6 +15,15 @@ source "$DIR/common_functions.sh";
 
 cd /app || exit 1;
 
+# Install a database if there isn't one yet
+CURRENT_TABLES="$(as_build "drush sql-query 'SHOW TABLES;'" /app/docroot)"
+if [ "$CURRENT_TABLES" == '' ]; then
+  chmod u+w "$SETTINGS_DIR" || true
+  mkdir -p "$SETTINGS_DIR/files/"
+  as_build "echo 'y' | drush site-install lightning" "/app/docroot"
+  chmod a-w "$SETTINGS_DIR"
+fi
+
 # Download the static assets
 set +e
 is_hem_project
@@ -23,7 +32,7 @@ set -e
 if [ "$IS_HEM" -eq 0 ]; then
   export HEM_RUN_ENV="${HEM_RUN_ENV:-local}"
   as_build "hem --non-interactive --skip-host-checks assets download"
-  sh "$DIR/development/install_assets.sh"
+  bash "$DIR/development/install_assets.sh"
 fi
 
 # Fix permissions for compiled CSS files, etc.

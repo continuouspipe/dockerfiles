@@ -50,14 +50,6 @@ if [ ! -f "$SETTINGS_DIR/services.yml" ]; then
   chmod a-w "$SETTINGS_DIR"
 fi
 
-CURRENT_TABLES="$(as_build "drush sql-query 'SHOW TABLES;'" /app/docroot)"
-if [ "$CURRENT_TABLES" == '' ]; then
-  chmod u+w "$SETTINGS_DIR" || true
-  mkdir -p "$SETTINGS_DIR/files/"
-  as_build "echo 'y' | drush site-install lightning" "/app/docroot"
-  chmod a-w "$SETTINGS_DIR"
-fi
-
 if [ -f "$DIR/install_custom.sh" ]; then
   bash "$DIR/install_custom.sh"
 fi
