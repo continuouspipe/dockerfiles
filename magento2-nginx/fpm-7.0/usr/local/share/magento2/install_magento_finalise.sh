@@ -29,11 +29,8 @@ IS_HEM=$?
 if [ "$IS_HEM" -eq 0 ]; then
   export HEM_RUN_ENV="${HEM_RUN_ENV:-local}"
   as_build "hem --non-interactive --skip-host-checks assets download"
-  sh "$DIR/development/install_assets.sh"
+  bash "$DIR/development/install_assets.sh"
 fi
-
-# Update users
-# /app/tools/docker/update-users.sh
 
 # Ensure the permissions or for `www-data`
 chown -R www-data:www-data pub var auth.json
