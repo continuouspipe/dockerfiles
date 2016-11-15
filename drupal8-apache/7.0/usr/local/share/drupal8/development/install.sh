@@ -22,6 +22,7 @@ bash "$DIR/install_database.sh"
 
 # Install composer and npm dependencies
 bash "$DIR/../install.sh";
+bash "$DIR/../install_finalise.sh";
 
 # Default Docker public address
 if [ -z "$PUBLIC_ADDRESS" ]; then

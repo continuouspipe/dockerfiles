@@ -15,6 +15,8 @@ source "$DIR/common_functions.sh";
 
 cd /app || exit 1;
 
+SETTINGS_DIR="/app/docroot/sites/default"
+
 # Install a database if there isn't one yet
 CURRENT_TABLES="$(as_build "drush sql-query 'SHOW TABLES;'" /app/docroot)"
 if [ "$CURRENT_TABLES" == '' ]; then
@@ -43,7 +45,7 @@ is_nfs
 IS_NFS=$?
 set -e
 if [ "$IS_NFS" -ne 0 ]; then
-  chown -R www-data:www-data "/app/docroot/sites/default/files/"
+  chown -R www-data:www-data "$SETTINGS_DIR"
 fi
 
 if [ -f "$DIR/install_finalise_custom.sh" ]; then
