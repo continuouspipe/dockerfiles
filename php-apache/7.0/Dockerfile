@@ -33,7 +33,13 @@ RUN echo 'deb http://s3-eu-west-1.amazonaws.com/qafoo-profiler/packages debian m
       php /tmp/composer-setup.php --install-dir='/usr/local/bin/' --filename='composer' --quiet; \
       rm /tmp/composer-setup.php; \
     fi \
- && useradd --create-home --system build
+
+ # Create the build user
+ && useradd --create-home --system build \
+
+ # Enable the correct config for most sites
+ && a2disconf other-vhosts-access-log \
+ && a2enmod rewrite
 
 USER build
 
