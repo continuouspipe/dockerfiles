@@ -32,8 +32,15 @@ if [ "$IS_HEM" -eq 0 ]; then
   bash "$DIR/development/install_assets.sh"
 fi
 
-# Ensure the permissions or for `www-data`
-chown -R www-data:www-data pub var auth.json
+set +e
+is_nfs
+IS_NFS=$?
+set -e
+
+# Ensure the permissions are web writable for the assets and var folders, but only on filesystems that allow chown.
+if [ "$IS_NFS" -ne 0 ]; then
+  chown -R www-data:www-data pub/media pub/static var
+fi
 
 # Flush magento cache
 cd /app
