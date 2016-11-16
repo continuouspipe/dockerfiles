@@ -1,5 +1,5 @@
 [template]
-src   = "apache2.conf.tmpl"
+src   = "apache/apache2.conf.tmpl"
 dest  = "/etc/apache2/apache2.conf"
 mode  = "0644"
 keys = [

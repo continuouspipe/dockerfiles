@@ -1,0 +1,3 @@
+#!/bin/bash
+
+export START_APACHE=${START_APACHE:-true}

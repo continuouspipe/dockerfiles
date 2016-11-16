@@ -29,8 +29,10 @@ fi
 # Fix permissions for compiled CSS files, etc.
 # But, only if the app directory is not via an NFS mountpoint, which doesn't
 # allow chowning.
-grep -q "/app nfs " /proc/mounts
+set +e
+is_nfs
 IS_NFS=$?
+set -e
 if [ "$IS_NFS" -ne 0 ]; then
   chown -R www-data:www-data "/app/docroot/sites/default/files/"
 fi
