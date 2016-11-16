@@ -18,8 +18,10 @@ cd /app || exit 1;
 SETTINGS_DIR="/app/docroot/sites/default"
 
 # Install a database if there isn't one yet
+set +e
 as_build "drush sql-query 'SHOW TABLES;' | grep -v cache | grep -q ''" /app/docroot
 HAS_CURRENT_TABLES=$?
+set -e
 if [ "$HAS_CURRENT_TABLES" -ne 0 ]; then
   chmod u+w "$SETTINGS_DIR" || true
   mkdir -p "$SETTINGS_DIR/files/"
