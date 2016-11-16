@@ -25,8 +25,10 @@ set -e
 if [ "$HAS_CURRENT_TABLES" -ne 0 ]; then
   chmod u+w "$SETTINGS_DIR" || true
   mkdir -p "$SETTINGS_DIR/files/"
+  chown build:build "$SETTINGS_DIR/files/"
   as_build "echo 'y' | drush site-install lightning" "/app/docroot"
   chmod a-w "$SETTINGS_DIR"
+  chown -R www-data:www-data "$SETTINGS_DIR/files/"
 fi
 
 # Download the static assets
