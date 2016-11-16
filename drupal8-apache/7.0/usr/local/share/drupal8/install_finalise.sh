@@ -20,8 +20,10 @@ chmod u+w "$SETTINGS_DIR" || true
 mkdir -p "$SETTINGS_DIR/files/"
 
 # Install a database if there isn't one yet
+set +e
 as_build "drush sql-query 'SHOW TABLES;' | grep -v cache | grep -q ''" /app/docroot
 HAS_CURRENT_TABLES=$?
+set -e
 if [ "$HAS_CURRENT_TABLES" -ne 0 ] && [ -n "$DRUPAL_INSTALL_PROFILE" ]; then
   as_build "echo 'y' | drush site-install '$DRUPAL_INSTALL_PROFILE'" "/app/docroot"
 fi
