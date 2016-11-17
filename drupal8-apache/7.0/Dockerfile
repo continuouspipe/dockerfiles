@@ -16,7 +16,11 @@ RUN curl -q https://dx6pc3giz7k1r.cloudfront.net/GPG-KEY-inviqa-tools | apt-key 
 
  # Install Drupal's CLI tool
  && curl https://drupalconsole.com/installer -L -o /usr/local/bin/drupal \
- && chmod a+x /usr/local/bin/drupal
+ && chmod a+x /usr/local/bin/drupal \
+
+ # Set up hem directories
+ && mkdir -p /home/build/.hem/gems/ \
+ && chown -R build:build /home/build/.hem/
 
 USER build
 
