@@ -23,8 +23,10 @@ while [ "$?" -ne 0 ]; do
 done
 set -e
 
+set +e
 curl -s "http://localhost:8983/solr/admin/cores?action=STATUS&core=$SOLR_CORE_NAME" | grep -q "<str name=\"name\">$SOLR_CORE_NAME</str>"
 CORE_EXISTS=$?
+set -e
 if [ "$CORE_EXISTS" -ne 0 ]; then
   curl -IX GET "http://localhost:8983/solr/admin/cores?action=CREATE&name=d8&instanceDir=$SOLR_CORE_NAME&config=solrconfig.xml&schema=schema.xml&dataDir=data"
 fi
