@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 if [ -f tools/assets/development/drupaldb.sql.gz ]; then
   echo 'Dropping the Drupal DB if exists'
