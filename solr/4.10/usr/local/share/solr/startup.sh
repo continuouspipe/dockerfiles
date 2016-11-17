@@ -21,9 +21,12 @@ while [ "$?" -ne 0 ]; do
   sleep 1
   check_for_solr_started
 done
-set -e
 
-set +e
+# Clean up
+pkill -9 tee
+rm /tmp/solr.log
+
+# Check for existing core
 curl -s "http://localhost:8983/solr/admin/cores?action=STATUS&core=$SOLR_CORE_NAME" | grep -q "<str name=\"name\">$SOLR_CORE_NAME</str>"
 CORE_EXISTS=$?
 set -e
