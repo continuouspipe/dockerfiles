@@ -48,6 +48,8 @@ if [ "$IS_NFS" -ne 0 ]; then
   chown -R www-data:www-data "$SETTINGS_DIR"
 fi
 
+as_build "drush cache-rebuild" "/app/docroot"
+
 if [ -f "$DIR/install_finalise_custom.sh" ]; then
   bash "$DIR/install_finalise_custom.sh"
 fi
