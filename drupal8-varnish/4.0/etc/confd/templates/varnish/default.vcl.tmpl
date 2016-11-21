@@ -1,16 +1,16 @@
 vcl 4.0;
 
 # This Varnish VCL has been adapted from the Four Kitchens VCL for Varnish 3.
-# Based on https://github.com/geerlingguy/drupal-vm/blob/2bc896658adc94a92de9ac917bca780341b98642/provisioning/templates/drupalvm.vcl.j2
+# Based on https://raw.githubusercontent.com/geerlingguy/drupal-vm/3.5.2/provisioning/templates/drupalvm.vcl.j2
 
-import std;
-
+# Default backend definition. Points to Apache, normally.
 backend default {
     .host = "{{ getenv "VARNISH_BACKEND_HOST" }}";
     .port = "{{ getenv "VARNISH_BACKEND_PORT" }}";
     .first_byte_timeout = 300s;
 }
 
+# Access control list for PURGE requests.
 acl purge {
     "localhost";
 
@@ -39,7 +39,7 @@ sub vcl_recv {
         if (!client.ip ~ purge) {
             return (synth(405, "Not allowed."));
         }
-        return (hash);
+        return (purge);
     }
 
     # Only allow BAN requests from IP addresses in the 'purge' ACL.
@@ -49,13 +49,13 @@ sub vcl_recv {
             return (synth(403, "Not allowed."));
         }
 
-        # Logic for the ban, using the Purge-Cache-Tags header. For more info
+        # Logic for the ban, using the Cache-Tags header. For more info
         # see https://github.com/geerlingguy/drupal-vm/issues/397.
-        if (req.http.Purge-Cache-Tags) {
-            ban("obj.http.Purge-Cache-Tags ~ " + req.http.Purge-Cache-Tags);
+        if (req.http.Cache-Tags) {
+            ban("obj.http.Cache-Tags ~ " + req.http.Cache-Tags);
         }
         else {
-            return (synth(403, "Purge-Cache-Tags header missing."));
+            return (synth(403, "Cache-Tags header missing."));
         }
 
         # Throw a synthetic page so the request won't go to the backend.
