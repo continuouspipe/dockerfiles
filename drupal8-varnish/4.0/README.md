@@ -14,3 +14,6 @@ docker push
 
 As for all images based on the ubuntu base image, see
 [the base image README](../../ubuntu/16.04/README.md)
+
+We configure the varnish config file, `/etc/varnish/default.vcl` to be one from
+[geerlingguy's Drupal VM](https://raw.githubusercontent.com/geerlingguy/drupal-vm/3.5.2/provisioning/templates/drupalvm.vcl.j2)
