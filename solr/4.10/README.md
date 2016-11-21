@@ -28,6 +28,8 @@ To provide this functionality, `/bin/bash -c /usr/local/share/solr/startup.sh` w
 3. Once started and accepting connections, kill the `tee` process and clean up the temporary log file.
 4. Check (via curl) if the core named by the environment variable `$SOLR_CORE_NAME` is present already.
 5. If the core isn't present already, create it, again via curl.
+6. Force the backgrounded solr process into the foreground, so that the current bash shell does not exit and make
+   the docker daemon think that the container has crashed.
 
 The core will use the `/usr/local/share/solr/$SOLR_CORE_NAME/` directory, and you should place the desired configuration
 in `/usr/local/share/solr/$SOLR_CORE_NAME/conf/`.
