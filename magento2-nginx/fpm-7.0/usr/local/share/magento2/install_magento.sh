@@ -49,7 +49,11 @@ if [ -d "/app/tools/inviqa" ]; then
   if [ ! -d "/app/tools/inviqa/node_modules" ]; then
    as_build "npm install" "/app/tools/inviqa"
   fi
-  as_build "gulp build" "/app/tools/inviqa"
+  if [ -z "$GULP_BUILD_THEME_NAME" ]; then
+    as_build "gulp build" "/app/tools/inviqa"
+  else
+    as_build "gulp build --theme='$GULP_BUILD_THEME_NAME'" "/app/tools/inviqa"
+  fi
 
   if [ -d "/app/pub/static/frontend/" ] && [ "$IS_NFS" -ne 0 ]; then
     chown -R www-data:www-data /app/pub/static/frontend/
