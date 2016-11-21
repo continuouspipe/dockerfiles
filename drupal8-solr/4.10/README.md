@@ -14,3 +14,5 @@ docker push
 
 As this is based off of a semi-official solr image, please see their README, here:
 https://hub.docker.com/r/makuk66/docker-solr/builds/bxsjvchebmrgdmbtjabbta3/
+
+We are also based off of a parent image within this repository. Check out [the solr 4.10 image](../../solr/4.10).
