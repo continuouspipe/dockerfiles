@@ -1,12 +1,12 @@
 # MAGENTO 2 VARNISH
 
 ```Dockerfile
-FROM quay.io/inviqa_images/drupal8-varnish:4.0
+FROM quay.io/inviqa_images/drupal8-varnish:4.0_v1
 ```
 
 ## How to build
 ```bash
-docker build --pull --tag quay.io/inviqa_images/drupal8-varnish:4.0 --rm .
+docker build --pull --tag quay.io/inviqa_images/drupal8-varnish:4.0_v1 --rm .
 docker push
 ```
 
