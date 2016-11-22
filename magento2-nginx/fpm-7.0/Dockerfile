@@ -1,4 +1,4 @@
-FROM quay.io/inviqa_images/php-nginx:7.0
+FROM quay.io/continuouspipe/php-nginx:7.0
 
 MAINTAINER Kieren Evans <kieren.evans@inviqa.com>
 

@@ -1,12 +1,12 @@
 # Hem, for Ruby and Existing Helper Tasks
 
 ```Dockerfile
-FROM quay.io/inviqa_images/hem:latest
+FROM quay.io/continuouspipe/hem:latest
 ```
 
 ## How to build
 ```bash
-docker build --pull --tag quay.io/inviqa_images/hem:latest --rm .
+docker build --pull --tag quay.io/continuouspipe/hem:latest --rm .
 docker push
 ```
 

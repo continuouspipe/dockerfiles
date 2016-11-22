@@ -9,7 +9,7 @@ docker build -t quay.io/continuouspipe/php-apache:7.0 .
 popd
 
 pushd php-nginx/7.0
-docker build -t quay.io/inviqa_images/php-nginx:7.0 .
+docker build -t quay.io/continuouspipe/php-nginx:7.0 .
 popd
 
 pushd ez/6.x
@@ -17,11 +17,11 @@ docker build -t quay.io/continuouspipe/ez:6.x .
 popd
 
 pushd hem
-docker build -t quay.io/inviqa_images/hem:latest .
+docker build -t quay.io/continuouspipe/hem:latest .
 popd
 
 pushd nodejs/6.0
-docker build -t quay.io/inviqa_images/nodejs:6.0 .
+docker build -t quay.io/continuouspipe/nodejs:6.0 .
 popd
 
 pushd drupal8-apache/7.0
