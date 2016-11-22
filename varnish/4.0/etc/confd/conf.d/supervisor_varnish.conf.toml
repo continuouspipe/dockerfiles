@@ -1,0 +1,6 @@
+[template]
+src   = "supervisor/varnish.conf.tmpl"
+dest  = "/etc/supervisor/conf.d/varnish.conf"
+mode  = "0644"
+keys = [
+]

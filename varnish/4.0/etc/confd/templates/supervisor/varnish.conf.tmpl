@@ -1,0 +1,11 @@
+[program:varnish]
+command = /usr/sbin/varnishd -j unix,user=varnish -F -f /etc/varnish/default.vcl -S /etc/varnish/secret -s malloc,{{ getenv "VARNISH_CACHE_SIZE" }} {{ getenv "VARNISH_START_PARAMS" }}
+stdout_logfile=/dev/stdout
+stdout_logfile_maxbytes=0
+stderr_logfile=/dev/stderr
+stderr_logfile_maxbytes=0
+loglevel = warn
+user = root
+autostart = true
+autorestart = true
+priority = 5
