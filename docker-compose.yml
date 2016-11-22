@@ -61,6 +61,8 @@ services:
     build:
       context: ./mysql/5.6/
     image: quay.io/continuouspipe/mysql:5.6_v1
+    depends_on:
+      - external_mysql
 
   nodejs:
     build:
@@ -87,21 +89,29 @@ services:
     build:
       context: ./redis/3.2/
     image: quay.io/continuouspipe/redis:3.2_v1
+    depends_on:
+      - external_redis
 
   solr_4_10:
     build:
       context: ./solr/4.10/
     image: quay.io/continuouspipe/solr:4.10_v1
+    depends_on:
+      - external_solr_4_10
 
   solr_6_2:
     build:
       context: ./solr/6.2/
     image: quay.io/continuouspipe/solr:6.2_v1
+    depends_on:
+      - external_solr_6_2
 
   ubuntu:
     build:
       context: ./ubuntu/16.04/
     image: quay.io/continuouspipe/ubuntu:16.04_v1
+    depends_on:
+      - external_ubuntu
 
   varnish:
     build:
@@ -109,3 +119,18 @@ services:
     image: quay.io/continuouspipe/varnish/4.0_v1
     depends_on:
       - ubuntu
+
+  external_mysql:
+    image: mysql:5.6
+
+  external_redis:
+    image: redis:3.2
+
+  external_solr_4_10:
+    image: makuk66/docker-solr:4.10.4
+
+  external_solr_6_2:
+    image: solr:6.2
+
+  external_ubuntu:
+    image: ubuntu:16.04
