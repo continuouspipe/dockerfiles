@@ -1,3 +1,3 @@
 FROM redis:3.2
 
-MAINTAINER "Kieren Evans <kevans@inviqa.com>"
+MAINTAINER "Kieren Evans <kieren.evans+cp-dockerfiles@inviqa.com>"

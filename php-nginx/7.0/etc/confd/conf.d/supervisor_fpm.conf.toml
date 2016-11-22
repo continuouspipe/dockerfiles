@@ -1,0 +1,6 @@
+[template]
+src   = "supervisor/php-fpm.conf.tmpl"
+dest  = "/etc/supervisor/conf.d/php-fpm.conf"
+mode  = "0644"
+keys = [
+]

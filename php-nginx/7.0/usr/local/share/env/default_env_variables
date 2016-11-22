@@ -1,0 +1,8 @@
+#!/bin/bash
+
+export PHP_TIMEZONE=${PHP_TIMEZONE:-UTC}
+export PHP_MEMORY_LIMIT=${PHP_MEMORY_LIMIT:-256M}
+export APP_USER=${APP_USER:-www-data}
+export APP_GROUP=${APP_GROUP:-www-data}
+export START_NGINX=${START_NGINX:-false}
+export START_PHP_FPM=${START_PHP_FPM:-false}

@@ -1,6 +1,6 @@
 FROM quay.io/continuouspipe/solr:4.10_v2
 
-MAINTAINER Kieren Evans <kieren.evans@inviqa.com>
+MAINTAINER Kieren Evans <kieren.evans+cp-dockerfiles@inviqa.com>
 
 ENV SOLR_CORE_NAME=d8
 
