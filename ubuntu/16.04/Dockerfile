@@ -29,6 +29,9 @@ RUN echo 'APT::Install-Recommends 0;' >> /etc/apt/apt.conf.d/01norecommends \
  && apt-get clean \
  && rm -rf /var/lib/apt/lists/* \
 
+ # Create the build user
+ && useradd --create-home --system build \
+
  # Install confd for templating
  && curl -sSL -o /usr/local/bin/confd \
     https://github.com/kelseyhightower/confd/releases/download/v0.11.0/confd-0.11.0-linux-amd64 \

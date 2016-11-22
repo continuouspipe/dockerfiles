@@ -8,7 +8,7 @@ else
     DIR="$(dirname "$0")" ;
 fi ;
 
-source "$DIR/common_functions.sh"
+source /usr/local/share/bootstrap/common_functions.sh
 bin/magento setup:upgrade
 
 # Compile the DIC if to be productionized
