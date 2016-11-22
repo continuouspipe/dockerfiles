@@ -1,5 +1,5 @@
 # eZ
 
 ```
-FROM quay.io/inviqa_images/ez:6.x
+FROM quay.io/continuouspipe/ez:6.x
 ```

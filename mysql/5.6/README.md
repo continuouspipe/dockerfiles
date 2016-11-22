@@ -1,12 +1,12 @@
 # MySQL 5.6
 
 ```Dockerfile
-FROM quay.io/inviqa_images/mysql:5.6
+FROM quay.io/continuouspipe/mysql:5.6
 ```
 
 ## How to build
 ```bash
-docker build --pull --tag quay.io/inviqa_images/mysql:5.6 --rm .
+docker build --pull --tag quay.io/continuouspipe/mysql:5.6 --rm .
 docker push
 ```
 
