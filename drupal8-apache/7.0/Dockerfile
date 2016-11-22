@@ -1,6 +1,6 @@
 FROM quay.io/continuouspipe/php-apache:7.0
 
-MAINTAINER "Kieren Evans <kevans@inviqa.com>"
+MAINTAINER "Kieren Evans <kieren.evans+cp-dockerfiles@inviqa.com>"
 
 RUN curl -q https://dx6pc3giz7k1r.cloudfront.net/GPG-KEY-inviqa-tools | apt-key add - \
  && echo "deb https://dx6pc3giz7k1r.cloudfront.net/repos/debian jessie main" | tee /etc/apt/sources.list.d/inviqa-tools.list \
