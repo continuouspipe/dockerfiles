@@ -1,6 +1,4 @@
-FROM quay.io/continuouspipe/php-apache:7.0
-
-RUN composer global require hirak/prestissimo
+FROM quay.io/continuouspipe/php-apache:7.0_v1
 
 COPY ./etc/ /etc
 COPY ./usr/ /usr
