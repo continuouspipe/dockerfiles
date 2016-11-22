@@ -1,6 +1,6 @@
 FROM quay.io/continuouspipe/ubuntu:16.04
 
-MAINTAINER Kieren Evans <kieren.evans@inviqa.com>
+MAINTAINER Kieren Evans <kieren.evans+cp-dockerfiles@inviqa.com>
 
 # Install PHP packages, including the Tideways extension
 RUN echo 'deb http://s3-eu-west-1.amazonaws.com/qafoo-profiler/packages debian main' > /etc/apt/sources.list.d/tideways.list \

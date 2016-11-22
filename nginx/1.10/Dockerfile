@@ -1,6 +1,6 @@
 FROM quay.io/continuouspipe/ubuntu:16.04
 
-MAINTAINER Kieren Evans <kieren.evans@inviqa.com>
+MAINTAINER Kieren Evans <kieren.evans+cp-dockerfiles@inviqa.com>
 
 # Install PHP packages, including the Tideways extension
 RUN apt-get update -qq \

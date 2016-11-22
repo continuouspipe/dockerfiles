@@ -1,6 +1,6 @@
 FROM quay.io/continuouspipe/ubuntu:16.04
 
-MAINTAINER Kieren Evans <kieren.evans@inviqa.com>
+MAINTAINER Kieren Evans <kieren.evans+cp-dockerfiles@inviqa.com>
 
 RUN curl -sL https://deb.nodesource.com/setup_6.x > /tmp/install-node.sh \
  && bash /tmp/install-node.sh \
