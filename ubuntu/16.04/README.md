@@ -1,12 +1,12 @@
 # Ubuntu Base
 
 ```Dockerfile
-FROM quay.io/inviqa_images/ubuntu:16.04
+FROM quay.io/continuouspipe/ubuntu:16.04
 ```
 
 ## How to build
 ```bash
-docker build --pull --tag quay.io/inviqa_images/ubuntu:16.04 --rm .
+docker build --pull --tag quay.io/continuouspipe/ubuntu:16.04 --rm .
 docker push
 ```
 

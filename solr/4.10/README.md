@@ -1,12 +1,12 @@
 # SOLR
 
 ```Dockerfile
-FROM quay.io/inviqa_images/solr:4.10_v2
+FROM quay.io/continuouspipe/solr:4.10_v2
 ```
 
 ## How to build
 ```bash
-docker build --pull --tag quay.io/inviqa_images/solr:4.10_v2 --rm .
+docker build --pull --tag quay.io/continuouspipe/solr:4.10_v2 --rm .
 docker push
 ```
 
