@@ -19,7 +19,7 @@ if [ -z "$DO_PUBLISH" ]; then
   DO_PUBLISH='y'
 fi
 
-DO_PUBLISH="$(echo $DO_PUBLISH | tr '[A-Z]' '[a-z]')"
+DO_PUBLISH="$(echo $DO_PUBLISH | tr '[:upper:]' '[:lower:]')"
 if [ "$DO_PUBLISH" = 'y' ]; then
   echo "Pushing our images:"; echo
   (cd "$DIR" && docker-compose push)
