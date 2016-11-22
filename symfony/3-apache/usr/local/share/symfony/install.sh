@@ -12,9 +12,11 @@ IS_NFS=$?
 set -e
 
 if [ "$IS_NFS" -ne 0 ]; then
+  # Ensure code is owned by a user other than the web server user
   chown -R build:build /app
-  setfacl -R -m u:www-data:rwX -m u:build:rwX var
-  setfacl -dR -m u:www-data:rwX -m u:build:rwX var
+  # Fix permissions so the web server user can write to /app/var for symfony cache files
+  setfacl -R -m u:www-data:rwX -m u:build:rwX /app/var
+  setfacl -dR -m u:www-data:rwX -m u:build:rwX /app/var
 fi
 
 if [ ! -d "/app/vendor" ] || [ ! -f "/app/vendor/autoload.php" ]; then
