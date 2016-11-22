@@ -1,5 +1,7 @@
 #!/bin/bash
 
+set -xe
+
 source /usr/local/share/bootstrap/common_functions.sh
 
 mkdir -p /app/var
@@ -11,7 +13,8 @@ set -e
 
 if [ "$IS_NFS" -ne 0 ]; then
   chown -R build:build /app
-  chown -R www-data:www-data /app/var
+  setfacl -R -m u:www-data:rwX -m u:build:rwX var
+  setfacl -dR -m u:www-data:rwX -m u:build:rwX var
 fi
 
 if [ ! -d "/app/vendor" ] || [ ! -f "/app/vendor/autoload.php" ]; then
