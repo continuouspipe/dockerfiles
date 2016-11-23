@@ -106,6 +106,13 @@ services:
     depends_on:
       - external_solr_6_2
 
+  symfony_3_apache:
+    build:
+      context: ./symfony/3-apache/
+    image: quay.io/continuouspipe/symfony:3-apache_v1
+    depends_on:
+      - php_apache
+
   ubuntu:
     build:
       context: ./ubuntu/16.04/
