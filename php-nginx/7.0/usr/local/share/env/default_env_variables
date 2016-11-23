@@ -7,3 +7,5 @@ export APP_GROUP=${APP_GROUP:-www-data}
 export APP_LOCAL_USER=${APP_LOCAL_USER:-false}
 export START_NGINX=${START_NGINX:-true}
 export START_PHP_FPM=${START_PHP_FPM:-true}
+
+export WORK_DIRECTORY=${WORK_DIRECTORY:-/app}
