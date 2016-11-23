@@ -4,8 +4,8 @@ Timeout 300
 KeepAlive On
 MaxKeepAliveRequests 100
 KeepAliveTimeout 5
-User www-data
-Group www-data
+User {{ getenv "APP_USER" }}
+Group {{ getenv "APP_GROUP" }}
 HostnameLookups Off
 ErrorLog /proc/self/fd/2
 LogLevel warn

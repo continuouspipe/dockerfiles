@@ -10,6 +10,9 @@ source /usr/local/share/env/default_env_variables
 # Initialisation - Templating
 confd -onetime -backend env
 
+# Initialisation - create a user to match the mountpoint's settings if told to
+source /usr/local/bootstrap/trigger_update_permissions.sh
+
 # Initialisation - Runtime installation tasks
 source /usr/local/bin/supervisor_custom_start
 
