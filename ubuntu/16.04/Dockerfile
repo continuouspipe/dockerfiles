@@ -11,6 +11,7 @@ RUN echo 'APT::Install-Recommends 0;' >> /etc/apt/apt.conf.d/01norecommends \
 
  # Install base packages
  && DEBIAN_FRONTEND=noninteractive apt-get -yq install \
+    acl \
     apt-transport-https \
     ca-certificates \
     daemontools \
