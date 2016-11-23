@@ -8,7 +8,7 @@ else
     DIR="$(dirname "$0")" ;
 fi ;
 
-source "$DIR/../common_functions.sh";
+source /usr/local/share/bootstrap/common_functions.sh
 
 if [ -f tools/assets/development/media.files.tgz ]; then
   echo 'extracting media files'

@@ -36,8 +36,7 @@ RUN echo 'deb http://s3-eu-west-1.amazonaws.com/qafoo-profiler/packages debian m
     then \
       php /tmp/composer-setup.php --install-dir='/usr/local/bin/' --filename='composer' --quiet; \
       rm /tmp/composer-setup.php; \
-    fi \
- && useradd --create-home --system build
+    fi
 
 USER build
 

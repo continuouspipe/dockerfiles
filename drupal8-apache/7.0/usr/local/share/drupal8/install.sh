@@ -7,8 +7,7 @@ else
     DIR="$(dirname "$0")" ;
 fi ;
 
-# shellcheck source=./common_functions.sh
-source "$DIR/common_functions.sh";
+source /usr/local/share/bootstrap/common_functions.sh
 
 cd /app || exit 1;
 
