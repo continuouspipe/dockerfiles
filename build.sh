@@ -1,33 +1,30 @@
 #!/bin/bash
 
-pushd ubuntu/16.04
-docker build -t quay.io/continuouspipe/ubuntu:16.04 .
-popd
+set -xe
 
-pushd php-apache/7.0
-docker build -t quay.io/continuouspipe/php-apache:7.0 .
-popd
+if [ -L "$0" ] ; then
+    DIR="$(dirname "$(readlink -f "$0")")" ;
+else
+    DIR="$(dirname "$0")" ;
+fi ;
 
-pushd ez/6.x
-docker build -t quay.io/continuouspipe/ez:6.x .
-popd
+echo "Pulling any external images:"; echo
+(cd "$DIR" && grep 'external_.*:' "$DIR/docker-compose.yml" | cut -d":" -f1 | xargs docker-compose pull)
+echo "Building all images:"; echo
+(cd "$DIR" && docker-compose build --force-rm)
 
-pushd drupal8-apache/7.0
-docker build -t quay.io/continuouspipe/drupal8-apache:7.0 .
-popd
+read -r -p "Would you like to publish the images? [Y/n] " DO_PUBLISH
 
-pushd mysql/5.6
-docker build -t quay.io/continuouspipe/mysql:5.6 .
-popd
+if [ -z "$DO_PUBLISH" ]; then
+  DO_PUBLISH='y'
+fi
 
-pushd redis/3.2
-docker build -t quay.io/continuouspipe/redis:3.2 .
-popd
+DO_PUBLISH="$(echo $DO_PUBLISH | tr '[:upper:]' '[:lower:]')"
+if [ "$DO_PUBLISH" = 'y' ]; then
+  echo "Pushing our images:"; echo
+  (cd "$DIR" && docker-compose push)
+else
+  echo "Not Pushing our images."; echo
+fi
 
-pushd solr/6.2
-docker build -t quay.io/continuouspipe/solr:6.2 .
-popd
-
-pushd drupal8-solr/6.2
-docker build -t quay.io/continuouspipe/drupal8-solr:6.2 .
-popd
+echo "Done!"; echo

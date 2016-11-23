@@ -1,3 +1,3 @@
-FROM quay.io/continuouspipe/php-apache:7.0
+FROM quay.io/continuouspipe/php-apache:7.0_v1
 
 COPY etc /etc
