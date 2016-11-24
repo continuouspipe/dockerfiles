@@ -7,8 +7,8 @@ RUN curl -q https://dx6pc3giz7k1r.cloudfront.net/GPG-KEY-inviqa-tools | apt-key 
  && echo "deb https://dx6pc3giz7k1r.cloudfront.net/repos/debian jessie main" | tee /etc/apt/sources.list.d/inviqa-tools.list \
  && curl -sL https://deb.nodesource.com/setup_6.x > /tmp/install-node.sh \
  && bash /tmp/install-node.sh \
- && apt-get update -qqy \
- && DEBIAN_FRONTEND=noninteractive apt-get -qqy --no-install-recommends install \
+ && apt-get update -qq -y \
+ && DEBIAN_FRONTEND=noninteractive apt-get -qq -y --no-install-recommends install \
     hem \
     nodejs \
     rsyslog \
@@ -24,8 +24,8 @@ RUN curl -q https://dx6pc3giz7k1r.cloudfront.net/GPG-KEY-inviqa-tools | apt-key 
  && npm rebuild node-sass \
  \
  # Clean the image \
- && apt-get remove -qqy php7.0-dev pkg-config libmagickwand-dev build-essential \
- && apt-get auto-remove -qqy \
+ && apt-get remove -qq -y php7.0-dev pkg-config libmagickwand-dev build-essential \
+ && apt-get auto-remove -qq -y \
  && apt-get clean \
  && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* \
  \

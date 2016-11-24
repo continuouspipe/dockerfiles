@@ -7,10 +7,10 @@ RUN echo 'APT::Install-Recommends 0;' >> /etc/apt/apt.conf.d/01norecommends \
  && apt-get update -qq \
  && DEBIAN_FRONTEND=noninteractive apt-get -s dist-upgrade | grep "^Inst" | \
       grep -i securi | awk -F " " {'print $2'} | \
-      xargs apt-get -qqy --no-install-recommends install \
+      xargs apt-get -qq -y --no-install-recommends install \
  \
  # Install base packages \
- && DEBIAN_FRONTEND=noninteractive apt-get -qqy --no-install-recommends install \
+ && DEBIAN_FRONTEND=noninteractive apt-get -qq -y --no-install-recommends install \
     acl \
     apt-transport-https \
     ca-certificates \
@@ -26,7 +26,7 @@ RUN echo 'APT::Install-Recommends 0;' >> /etc/apt/apt.conf.d/01norecommends \
     wget \
  \
  # Clean the image \
- && apt-get auto-remove -qqy \
+ && apt-get auto-remove -qq -y \
  && apt-get clean \
  && rm -rf /var/lib/apt/lists/* \
  \

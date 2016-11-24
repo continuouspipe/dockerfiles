@@ -6,7 +6,7 @@ MAINTAINER Kieren Evans <kieren.evans+cp-dockerfiles@inviqa.com>
 RUN curl -sL https://deb.nodesource.com/setup_6.x > /tmp/install-node.sh \
  && bash /tmp/install-node.sh \
  && apt-get update -qq \
- && DEBIAN_FRONTEND=noninteractive apt-get -qqy --no-install-recommends install \
+ && DEBIAN_FRONTEND=noninteractive apt-get -qq -y --no-install-recommends install \
     nodejs \
  \
  # Set up common NPM packages \
@@ -19,6 +19,6 @@ RUN curl -sL https://deb.nodesource.com/setup_6.x > /tmp/install-node.sh \
  && npm rebuild node-sass \
  \
  # Clean the image \
- && apt-get auto-remove -qqy \
+ && apt-get auto-remove -qq -y \
  && apt-get clean \
  && rm -rf /var/lib/apt/lists/*
