@@ -26,7 +26,7 @@ RUN echo 'deb http://s3-eu-west-1.amazonaws.com/qafoo-profiler/packages debian m
     tideways-php \
  \
  # Clean the image \
- && apt-get auto-remove -y \
+ && apt-get auto-remove -qqy \
  && apt-get clean \
  && rm -rf /var/lib/apt/lists/* \
  \

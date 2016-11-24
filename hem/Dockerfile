@@ -9,6 +9,6 @@ RUN curl -q https://dx6pc3giz7k1r.cloudfront.net/GPG-KEY-inviqa-tools | apt-key 
     hem \
  \
  # Clean the image \
- && apt-get auto-remove -y \
+ && apt-get auto-remove -qqy \
  && apt-get clean \
  && rm -rf /var/lib/apt/lists/*

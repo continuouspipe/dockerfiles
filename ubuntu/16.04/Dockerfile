@@ -26,7 +26,7 @@ RUN echo 'APT::Install-Recommends 0;' >> /etc/apt/apt.conf.d/01norecommends \
     wget \
  \
  # Clean the image \
- && apt-get auto-remove -y \
+ && apt-get auto-remove -qqy \
  && apt-get clean \
  && rm -rf /var/lib/apt/lists/* \
  \

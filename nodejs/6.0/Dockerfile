@@ -19,6 +19,6 @@ RUN curl -sL https://deb.nodesource.com/setup_6.x > /tmp/install-node.sh \
  && npm rebuild node-sass \
  \
  # Clean the image \
- && apt-get auto-remove -y \
+ && apt-get auto-remove -qqy \
  && apt-get clean \
  && rm -rf /var/lib/apt/lists/*

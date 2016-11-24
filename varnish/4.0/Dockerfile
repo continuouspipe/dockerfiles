@@ -8,7 +8,7 @@ RUN apt-get update -qq \
     varnish \
  \
  # Clean the image \
- && apt-get auto-remove -y \
+ && apt-get auto-remove -qqy \
  && apt-get clean \
  && rm -rf /var/lib/apt/lists/*
 
