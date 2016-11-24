@@ -1,6 +1,6 @@
 #!/bin/bash
 
-set -ex
+set -e
 
 if [ -L "$0" ] ; then
     DIR="$(dirname "$(readlink -f "$0")")" ;
@@ -8,8 +8,19 @@ else
     DIR="$(dirname "$0")" ;
 fi
 
-command -v shellcheck >/dev/null 2>&1 || { echo >&2 "I require shellcheck but it's not installed. Aborting."; exit 1; }
-command -v hadolint >/dev/null 2>&1 || { echo >&2 "I require hadolint but it's not installed. Aborting."; exit 1; }
+docker pull koalaman/shellcheck
+docker pull lukasmartinelli/hadolint
 
-find "$DIR" -type f \( -name "*.sh" -or -name "*_env_variables" -or -name "supervisor*_start" \) -exec shellcheck --exclude SC1091 {} +
-find "$DIR" -type f -name "Dockerfile" -exec hadolint --ignore DL3008 --ignore DL3002 --ignore DL4001 {} \;
+find "$DIR" -type f ! -path "*.git/*" \( \
+  -perm +111 -or -name "*.sh" -or -name "*_env_variables" -or -name "supervisor*_start" \
+\) | while read -r script; do
+  echo "Linting '$script':";
+  docker run --rm -i koalaman/shellcheck --exclude SC1091 - < "$script";
+  echo
+done
+
+find "$DIR" -type f -name "Dockerfile" | while read -r dockerfile; do
+  echo "Linting '$dockerfile':";
+  docker run --rm -i lukasmartinelli/hadolint hadolint --ignore DL3008 --ignore DL3002 --ignore DL4001 - < "$dockerfile"
+  echo
+done
