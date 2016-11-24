@@ -5,30 +5,30 @@ MAINTAINER "Kieren Evans <kieren.evans+cp-dockerfiles@inviqa.com>"
 RUN curl -q https://dx6pc3giz7k1r.cloudfront.net/GPG-KEY-inviqa-tools | apt-key add - \
  && echo "deb https://dx6pc3giz7k1r.cloudfront.net/repos/debian jessie main" | tee /etc/apt/sources.list.d/inviqa-tools.list \
  && apt-get update -qq \
- && DEBIAN_FRONTEND=noninteractive apt-get -qqy install \
+ && DEBIAN_FRONTEND=noninteractive apt-get -qq -y --no-install-recommends install \
     hem \
     mysql-client \
-
- # Clean the image
- && apt-get auto-remove -y \
+ \
+ # Clean the image \
+ && apt-get auto-remove -qq -y \
  && apt-get clean \
  && rm -rf /var/lib/apt/lists/* \
-
- # Install Drupal's CLI tool
+ \
+ # Install Drupal's CLI tool \
  && curl https://drupalconsole.com/installer -L -o /usr/local/bin/drupal \
  && chmod a+x /usr/local/bin/drupal \
-
- # Set up hem directories
+ \
+ # Set up hem directories \
  && mkdir -p /home/build/.hem/gems/ \
  && chown -R build:build /home/build/.hem/
 
 USER build
 
- # Install Drupal's Drush tool
+# Install Drupal's Drush tool
 RUN composer global require drush/drush \
  && composer global clear-cache \
-
- # Initialise Drupal's CLI tool
+ \
+ # Initialise Drupal CLI tool \
  && /usr/local/bin/drupal init --no-interaction
 
 USER root

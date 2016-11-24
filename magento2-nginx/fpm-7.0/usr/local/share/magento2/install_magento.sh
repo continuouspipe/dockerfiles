@@ -2,12 +2,6 @@
 
 set -xe
 
-if [ -L "$0" ] ; then
-    DIR="$(dirname "$(readlink -f "$0")")" ;
-else
-    DIR="$(dirname "$0")" ;
-fi ;
-
 source /usr/local/share/bootstrap/common_functions.sh
 
 cd /app || exit 1;
