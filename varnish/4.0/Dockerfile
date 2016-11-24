@@ -6,8 +6,8 @@ MAINTAINER Kieren Evans <kieren.evans+cp-dockerfiles@inviqa.com>
 RUN apt-get update -qq \
  && DEBIAN_FRONTEND=noninteractive apt-get -qqy install \
     varnish \
-
- # Clean the image
+ \
+ # Clean the image \
  && apt-get auto-remove -y \
  && apt-get clean \
  && rm -rf /var/lib/apt/lists/*

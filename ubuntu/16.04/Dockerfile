@@ -8,8 +8,8 @@ RUN echo 'APT::Install-Recommends 0;' >> /etc/apt/apt.conf.d/01norecommends \
  && DEBIAN_FRONTEND=noninteractive apt-get -s dist-upgrade | grep "^Inst" | \
       grep -i securi | awk -F " " {'print $2'} | \
       xargs apt-get install -qqy \
-
- # Install base packages
+ \
+ # Install base packages \
  && DEBIAN_FRONTEND=noninteractive apt-get -yq install \
     acl \
     apt-transport-https \
@@ -24,16 +24,16 @@ RUN echo 'APT::Install-Recommends 0;' >> /etc/apt/apt.conf.d/01norecommends \
     unzip \
     vim.tiny \
     wget \
-
- # Clean the image
+ \
+ # Clean the image \
  && apt-get auto-remove -y \
  && apt-get clean \
  && rm -rf /var/lib/apt/lists/* \
-
- # Create the build user
+ \
+ # Create the build user \
  && useradd --create-home --system build \
-
- # Install confd for templating
+ \
+ # Install confd for templating \
  && curl -sSL -o /usr/local/bin/confd \
     https://github.com/kelseyhightower/confd/releases/download/v0.11.0/confd-0.11.0-linux-amd64 \
  && chmod +x /usr/local/bin/confd

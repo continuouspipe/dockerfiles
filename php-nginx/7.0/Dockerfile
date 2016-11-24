@@ -24,13 +24,13 @@ RUN echo 'deb http://s3-eu-west-1.amazonaws.com/qafoo-profiler/packages debian m
     php7.0-xsl \
     php7.0-zip \
     tideways-php \
-
- # Clean the image
+ \
+ # Clean the image \
  && apt-get auto-remove -y \
  && apt-get clean \
  && rm -rf /var/lib/apt/lists/* \
-
- # Install composer for PHP dependencies - Syntax looks wrong but it works!
+ \
+ # Install composer for PHP dependencies - Syntax looks wrong but it works! \
  && php -r "copy('https://getcomposer.org/installer', '/tmp/composer-setup.php');" \
  && if [ "$(wget https://composer.github.io/installer.sig -O - -q)" = "$(php -r 'echo hash_file("SHA384", "/tmp/composer-setup.php");')" ]; \
     then \

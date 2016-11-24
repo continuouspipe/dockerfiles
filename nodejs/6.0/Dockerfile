@@ -11,8 +11,8 @@ RUN curl -sL https://deb.nodesource.com/setup_6.x > /tmp/install-node.sh \
  && npm install --global node-gyp \
  && npm install --global gulp \
  && npm rebuild node-sass \
-
- # Clean the image
+ \
+ # Clean the image \
  && apt-get auto-remove -y \
  && apt-get clean \
  && rm -rf /var/lib/apt/lists/*
