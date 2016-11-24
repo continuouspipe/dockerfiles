@@ -1,0 +1,13 @@
+language: bash
+
+sudo: required
+
+services:
+  - docker
+
+before_install:
+  - docker pull koalaman/shellcheck
+  - docker pull lukasmartinelli/hadolint
+
+script:
+  - bash ./test.sh
