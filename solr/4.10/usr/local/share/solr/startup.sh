@@ -20,10 +20,8 @@ check_for_solr_started()
 }
 
 set +e
-check_for_solr_started
-while [ "$?" -ne 0 ]; do
+until check_for_solr_started; do
   sleep 1
-  check_for_solr_started
 done
 
 # Clean up
