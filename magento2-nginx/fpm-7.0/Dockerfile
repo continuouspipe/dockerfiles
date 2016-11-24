@@ -8,7 +8,7 @@ RUN curl -q https://dx6pc3giz7k1r.cloudfront.net/GPG-KEY-inviqa-tools | apt-key 
  && curl -sL https://deb.nodesource.com/setup_6.x > /tmp/install-node.sh \
  && bash /tmp/install-node.sh \
  && apt-get update -qqy \
- && DEBIAN_FRONTEND=noninteractive apt-get -qqy install \
+ && DEBIAN_FRONTEND=noninteractive apt-get -qqy --no-install-recommends install \
     hem \
     nodejs \
     rsyslog \
@@ -19,6 +19,8 @@ RUN curl -q https://dx6pc3giz7k1r.cloudfront.net/GPG-KEY-inviqa-tools | apt-key 
  && npm install --global marked \
  && npm install --global node-gyp \
  && npm install --global gulp \
+ \
+ # Install node-sass's linux bindings \
  && npm rebuild node-sass \
  \
  # Clean the image \

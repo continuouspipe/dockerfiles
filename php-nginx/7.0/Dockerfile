@@ -6,7 +6,7 @@ MAINTAINER Kieren Evans <kieren.evans+cp-dockerfiles@inviqa.com>
 RUN echo 'deb http://s3-eu-west-1.amazonaws.com/qafoo-profiler/packages debian main' > /etc/apt/sources.list.d/tideways.list \
  && curl -sS https://s3-eu-west-1.amazonaws.com/qafoo-profiler/packages/EEB5E8F4.gpg | apt-key add - \
  && apt-get update -qq \
- && DEBIAN_FRONTEND=noninteractive apt-get -qqy install \
+ && DEBIAN_FRONTEND=noninteractive apt-get -qqy --no-install-recommends install \
     nginx \
     mysql-client \
     php-apcu \

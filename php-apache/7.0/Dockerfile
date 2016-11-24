@@ -1,9 +1,11 @@
 FROM quay.io/continuouspipe/ubuntu:16.04_v1
 
+MAINTAINER Kieren Evans <kieren.evans+cp-dockerfiles@inviqa.com>
+
 RUN echo 'deb http://s3-eu-west-1.amazonaws.com/qafoo-profiler/packages debian main' > /etc/apt/sources.list.d/tideways.list \
  && curl -sS https://s3-eu-west-1.amazonaws.com/qafoo-profiler/packages/EEB5E8F4.gpg | apt-key add - \
- && apt-get update \
- && DEBIAN_FRONTEND=noninteractive apt-get -yq install \
+ && apt-get update -qq \
+ && DEBIAN_FRONTEND=noninteractive apt-get -qqy --no-install-recommends install \
     apache2 \
     apache2-utils \
     curl \

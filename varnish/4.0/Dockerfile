@@ -4,7 +4,7 @@ MAINTAINER Kieren Evans <kieren.evans+cp-dockerfiles@inviqa.com>
 
 # Install Varnish
 RUN apt-get update -qq \
- && DEBIAN_FRONTEND=noninteractive apt-get -qqy install \
+ && DEBIAN_FRONTEND=noninteractive apt-get -qqy --no-install-recommends install \
     varnish \
  \
  # Clean the image \
