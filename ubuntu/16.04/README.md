@@ -18,9 +18,10 @@ The `etc` and `usr` folders local to this README get copied into the image. That
 Upon booting, `/bin/bash /usr/local/bin/supervisor_start` will run, which will:
 
 1. Include environment variable definitions from /usr/local/share/env/
-2. Run `confd` to render templates with environment variables.
-3. Run any custom tasks in /usr/local/bin/supervisor_custom_start
-4. Run supervisord to start services
+2. Optionally create a user and group to match the given file or directory on a mountpoint.
+3. Run `confd` to render templates with environment variables.
+4. Run any custom tasks in /usr/local/bin/supervisor_custom_start
+5. Run supervisord to start services
 
 ### SupervisorD
 
@@ -93,6 +94,28 @@ export START_PHP_FPM=${START_PHP_FPM:-false}
 ```
 This will use any of the named variables that are defined outside of the container, for example if passed in through
 docker-compose, they will be used instead of these defaults.
+
+### Volume Permission Fixes
+
+Using `/usr/local/share/bootstrap/trigger_update_permissions.sh`, we can create a user and group that matches up with
+the user and group of the file/directory referenced by `WORK_DIRECTORY`.
+
+The default values for these are given below, `false` to turn this functionality off by default, and `/app` to pick up
+on the permissions of the `/app` directory:
+
+```bash
+export APP_USER_LOCAL=${APP_USER_LOCAL:-false}
+export WORK_DIRECTORY=${WORK_DIRECTORY:-/app}
+```
+
+After creating the user/group, the APP_USER and APP_GROUP environment variables will be exported, allowing `confd` to
+pick up on these for use in templates.
+
+Please note that running services as this randomly created user/group could cause a security risk. For instance, in the
+case of a web server, running the web server process with the same user or group as the code could let an attacker
+alter any file in the codebase.
+
+As such, only set APP_USER_LOCAL in development when using volumes.
 
 ### Custom Startup Scripts
 
