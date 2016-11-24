@@ -23,3 +23,17 @@ internal services and for the application templates.
 - [Redis 3.2](redis/3.2/)
 - [MySQL 5.6](mysql/5.6/)
 - [Apache w/ PHP 7.0](php-apache/7.0/)
+- [NGINX w/ PHP-FPM 7.0](php-nginx/7.0/)
+
+## Testing
+
+We try to follow best practises when creating shell scripts and Dockerfiles.
+
+To run the best practise checkers, install [shellcheck](https://github.com/koalaman/shellcheck) and
+[hadolint](https://github.com/lukasmartinelli/hadolint) then run:
+
+```bash
+bash test.sh
+```
+
+This run shellcheck for every script found and hadolint for every Dockerfile.
