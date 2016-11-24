@@ -7,6 +7,9 @@ source /usr/local/share/env/custom_env_variables
 # Initialisation - Declare default environment variables
 source /usr/local/share/env/default_env_variables
 
+# Initialisation - create a user to match the mountpoint's settings if told to
+source /usr/local/share/bootstrap/trigger_update_permissions.sh
+
 # Initialisation - Templating
 confd -onetime -backend env
 
