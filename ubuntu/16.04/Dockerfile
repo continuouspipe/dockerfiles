@@ -6,7 +6,7 @@ RUN echo 'APT::Install-Recommends 0;' >> /etc/apt/apt.conf.d/01norecommends \
  && echo 'APT::Install-Suggests 0;' >> /etc/apt/apt.conf.d/01norecommends \
  && apt-get update -qq \
  && DEBIAN_FRONTEND=noninteractive apt-get -s dist-upgrade | grep "^Inst" | \
-      grep -i securi | awk -F " " {'print $2'} | \
+      grep -i securi | awk -F " " '{print $2}' | \
       xargs apt-get -qq -y --no-install-recommends install \
  \
  # Install base packages \
