@@ -1,4 +1,4 @@
-#/bin/bash
+#!/bin/bash
 
 source /usr/local/share/bootstrap/common_functions.sh
 
