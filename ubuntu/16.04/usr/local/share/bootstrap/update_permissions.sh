@@ -26,8 +26,8 @@ function update_permissions() {
             CODE_GROUP="$APP_GROUP"
             export APP_GROUP
             export CODE_GROUP
-            addgroup --system --gid "$group_id" "$APP_GROUP"
+            groupadd --system --gid "$group_id" "$APP_GROUP"
         fi
-        adduser --system --uid="$owner_id" --gid="$group_id" "$APP_USER"
+        useradd --create-home --system --uid "$owner_id" --gid "$group_id" "$APP_USER"
     fi
 }
