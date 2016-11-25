@@ -1,0 +1,6 @@
+[template]
+src   = "drupal/settings.php.tmpl"
+dest  = "/app/docroot/sites/default/settings.php"
+mode  = "0400"
+keys = [
+]
