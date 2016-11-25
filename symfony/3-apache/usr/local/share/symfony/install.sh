@@ -3,6 +3,7 @@
 set -xe
 
 source /usr/local/share/bootstrap/common_functions.sh
+source /usr/local/share/php/common_functions.sh
 
 mkdir -p /app/var
 
@@ -22,8 +23,4 @@ else
   chmod -R a+rw /app/var
 fi
 
-if [ ! -d "/app/vendor" ] || [ ! -f "/app/vendor/autoload.php" ]; then
-  as_build "composer install --no-interaction --optimize-autoloader"
-fi
-
-chmod -R go-w /app/vendor
+run_composer
