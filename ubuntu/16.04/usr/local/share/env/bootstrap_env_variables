@@ -1,0 +1,6 @@
+#!/bin/bash
+
+export APP_USER_LOCAL=${APP_USER_LOCAL:-false}
+export WORK_DIRECTORY=${WORK_DIRECTORY:-/app}
+export CODE_OWNER=${CODE_OWNER:-build}
+export CODE_GROUP=${CODE_GROUP:-build}

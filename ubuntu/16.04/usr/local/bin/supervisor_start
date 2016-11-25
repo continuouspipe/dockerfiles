@@ -7,6 +7,10 @@ source /usr/local/share/bootstrap/setup.sh
 # Initalisation - Run templating (confd) after declaring environment variables
 source /usr/local/share/bootstrap/run_confd.sh
 
+# Initialisation - Declare variables used by scripts in the ubuntu base image
+# to avoid undeclared variables!
+source /usr/local/share/env/bootstrap_env_variables
+
 # Initialisation - Runtime installation tasks
 source /usr/local/bin/supervisor_custom_start
 

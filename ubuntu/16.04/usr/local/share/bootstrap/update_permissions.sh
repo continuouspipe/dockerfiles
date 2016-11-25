@@ -18,9 +18,14 @@ function update_permissions() {
     read -r owner group owner_id group_id < <(stat -c '%U %G %u %g' "$REFERENCE")
     if [[ "$owner" = UNKNOWN ]]; then
         APP_USER="$(randname)"
+        CODE_OWNER="$APP_USER"
         export APP_USER
+        export CODE_OWNER
         if [[ "$group" = UNKNOWN ]]; then
-            export APP_GROUP="$owner"
+            APP_GROUP="$owner"
+            CODE_GROUP="$APP_GROUP"
+            export APP_GROUP
+            export CODE_GROUP
             addgroup --system --gid "$group_id" "$APP_GROUP"
         fi
         adduser --system --uid="$owner_id" --gid="$group_id" "$APP_USER"

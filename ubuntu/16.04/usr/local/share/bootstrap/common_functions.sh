@@ -1,16 +1,28 @@
 #!/bin/bash
 
-as_build() {
+as_user() {
   local COMMAND="$1"
   local WORKING_DIR="$2"
+  local USER="$3"
   if [ -z "$COMMAND" ]; then
     return 1;
   fi
   if [ -z "$WORKING_DIR" ]; then
     WORKING_DIR='/app';
   fi
+  if [ -z "$USER" ]; then
+    USER='build';
+  fi
 
-  su -l build -c "cd '$WORKING_DIR'; $COMMAND"
+  su -l "$USER" -c "cd '$WORKING_DIR'; $COMMAND"
+}
+
+as_build() {
+  as_user $@ 'build'
+}
+
+as_code_owner() {
+  as_user $@ "$CODE_OWNER"
 }
 
 is_hem_project() {

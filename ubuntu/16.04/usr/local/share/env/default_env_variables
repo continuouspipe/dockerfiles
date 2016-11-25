@@ -1,4 +1,1 @@
 #!/bin/bash
-
-export APP_USER_LOCAL=${APP_USER_LOCAL:-false}
-export WORK_DIRECTORY=${WORK_DIRECTORY:-/app}
