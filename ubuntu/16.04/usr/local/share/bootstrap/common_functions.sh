@@ -18,11 +18,11 @@ as_user() {
 }
 
 as_build() {
-  as_user $@ 'build'
+  as_user "$1" "$2" 'build'
 }
 
 as_code_owner() {
-  as_user $@ "$CODE_OWNER"
+  as_user "$1" "$2" "$CODE_OWNER"
 }
 
 is_hem_project() {
