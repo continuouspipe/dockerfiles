@@ -21,13 +21,13 @@ mkdir -p "$SETTINGS_DIR/files/"
 
 # Install a database if there isn't one yet
 set +e
-as_build "drush sql-query 'SHOW TABLES;' | grep -v cache | grep -q ''" /app/docroot
+as_code_owner "drush sql-query 'SHOW TABLES;' | grep -v cache | grep -q ''" /app/docroot
 HAS_CURRENT_TABLES=$?
 set -e
 if [ "$HAS_CURRENT_TABLES" -ne 0 ] && [ -n "$DRUPAL_INSTALL_PROFILE" ]; then
-  chown build:build "$SETTINGS_DIR/files/"
-  as_build "echo 'y' | drush site-install lightning" "/app/docroot"
-  chown -R www-data:www-data "$SETTINGS_DIR/files/"
+  chown "$CODE_OWNER:$CODE_GROUP" "$SETTINGS_DIR/files/"
+  as_code_owner "echo 'y' | drush site-install lightning" "/app/docroot"
+  chown -R "$APP_USER:$APP_GROUP" "$SETTINGS_DIR/files/"
 fi
 
 chmod a-w "$SETTINGS_DIR"
@@ -51,10 +51,10 @@ is_nfs
 IS_NFS=$?
 set -e
 if [ "$IS_NFS" -ne 0 ]; then
-  chown -R www-data:www-data "$SETTINGS_DIR/files/"
+  chown -R "$APP_USER:$APP_GROUP" "$SETTINGS_DIR/files/"
 fi
 
-as_build "drush cache-rebuild" "/app/docroot"
+as_code_owner "drush cache-rebuild" "/app/docroot"
 
 if [ -f "$DIR/install_finalise_custom.sh" ]; then
   bash "$DIR/install_finalise_custom.sh"
