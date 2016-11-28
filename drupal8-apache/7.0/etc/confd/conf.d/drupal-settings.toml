@@ -1,6 +1,6 @@
 [template]
 src   = "drupal/settings.php.tmpl"
 dest  = "/app/docroot/sites/default/settings.docker.php"
-mode  = "0400"
+mode  = "0644"
 keys = [
 ]
