@@ -4,11 +4,22 @@ MAINTAINER "Kieren Evans <kieren.evans+cp-dockerfiles@inviqa.com>"
 
 RUN curl -q https://dx6pc3giz7k1r.cloudfront.net/GPG-KEY-inviqa-tools | apt-key add - \
  && echo "deb https://dx6pc3giz7k1r.cloudfront.net/repos/debian jessie main" | tee /etc/apt/sources.list.d/inviqa-tools.list \
- && apt-get update -qq \
+ && curl -sL https://deb.nodesource.com/setup_6.x > /tmp/install-node.sh \
+ && bash /tmp/install-node.sh \
+ && apt-get update -qq -y \
  && DEBIAN_FRONTEND=noninteractive apt-get -qq -y --no-install-recommends install \
     hem \
     mysql-client \
+    nodejs \
  \
+ # Configure Node dependencies \
+ && npm config set --global loglevel warn \
+ && npm install --global marked \
+ && npm install --global node-gyp \
+ && npm install --global gulp \
+ \
+ # Install node-sass's linux bindings \
+ && npm rebuild node-sass \
  # Clean the image \
  && apt-get auto-remove -qq -y \
  && apt-get clean \
