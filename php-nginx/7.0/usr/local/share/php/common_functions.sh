@@ -19,6 +19,7 @@ run_composer() {
     fi
 
     as_code_owner "composer install --no-interaction --optimize-autoloader"
+    rm -rf /home/build/.composer/cache/
     as_code_owner "composer clear-cache"
 
     if [ "$IS_NFS" -ne 0 ]; then
