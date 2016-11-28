@@ -20,9 +20,14 @@ chmod u+w "$SETTINGS_DIR" || true
 mkdir -p "$SETTINGS_DIR/files/"
 
 # Install a database if there isn't one yet
-CURRENT_TABLES="$(as_build "drush sql-query 'SHOW TABLES;'" /app/docroot)"
-if [ "$CURRENT_TABLES" == '' ]; then
+set +e
+as_build "drush sql-query 'SHOW TABLES;' | grep -v cache | grep -q ''" /app/docroot
+HAS_CURRENT_TABLES=$?
+set -e
+if [ "$HAS_CURRENT_TABLES" -ne 0 ]; then
+  chown build:build "$SETTINGS_DIR/files/"
   as_build "echo 'y' | drush site-install lightning" "/app/docroot"
+  chown -R www-data:www-data "$SETTINGS_DIR/files/"
 fi
 
 chmod a-w "$SETTINGS_DIR"
