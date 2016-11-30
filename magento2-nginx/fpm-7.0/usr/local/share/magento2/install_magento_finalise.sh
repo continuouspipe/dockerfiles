@@ -9,14 +9,14 @@ else
 fi ;
 
 source /usr/local/share/bootstrap/common_functions.sh
-bin/magento setup:upgrade
+as_code_owner "bin/magento setup:upgrade"
 
 # Compile the DIC if to be productionized
 if [ "$PRODUCTION_ENVIRONMENT" = "1" ]; then
-  bin/magento setup:di:compile
+  as_code_owner "bin/magento setup:di:compile"
 fi
 
-(bin/magento indexer:reindex || echo "Failing indexing to the end, ignoring.") && echo "Indexing successful"
+(as_code_owner "bin/magento indexer:reindex" || echo "Failing indexing to the end, ignoring.") && echo "Indexing successful"
 
 # Download and install the assets when running the image
 # (sad that we have to do that tho...)
@@ -39,9 +39,9 @@ set -e
 
 # Ensure the permissions are web writable for the assets and var folders, but only on filesystems that allow chown.
 if [ "$IS_NFS" -ne 0 ]; then
-  chown -R www-data:www-data pub/media pub/static var
+  chown -R "${APP_USER}:${APP_GROUP}" pub/media pub/static var
 fi
 
 # Flush magento cache
 cd /app
-bin/magento cache:flush
+as_code_owner "bin/magento cache:flush"
