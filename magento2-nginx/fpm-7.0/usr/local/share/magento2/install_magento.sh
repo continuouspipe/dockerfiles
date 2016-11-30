@@ -3,6 +3,9 @@
 set -xe
 
 source /usr/local/share/bootstrap/common_functions.sh
+source /usr/local/share/env/custom_env_variables
+source /usr/local/share/env/default_env_variables
+source /usr/local/share/env/bootstrap_env_variables
 
 cd /app || exit 1;
 
@@ -29,10 +32,13 @@ if [ ! -d "/app/vendor" ] || [ ! -f "/app/vendor/autoload.php" ]; then
   chmod 600 auth.json
   chmod -R go-w vendor
   chmod +x bin/magento
+fi
 
-  if [ "$IS_NFS" -ne 0 ]; then
-    chown -R "${APP_USER}:${APP_GROUP}" pub/media pub/static var
-  fi
+if [ "$IS_NFS" -ne 0 ]; then
+  chown -R "${APP_USER}:${CODE_GROUP}" pub/media pub/static var
+  chmod ug+rw,o-w pub/media pub/static var
+else
+  chmod a+rw pub/media pub/static var
 fi
 
 if [ -d "/app/tools/inviqa" ]; then

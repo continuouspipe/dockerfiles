@@ -9,6 +9,7 @@ else
 fi ;
 
 source /usr/local/share/bootstrap/common_functions.sh
+
 as_code_owner "bin/magento setup:upgrade"
 
 # Compile the DIC if to be productionized
