@@ -10,7 +10,14 @@ fi ;
 
 source /usr/local/share/bootstrap/common_functions.sh
 
+# Preserve compiled theme files across setup:upgrade calls.
+mkdir /tmp/assets
+cp -pR /app/pub/static/frontend/ /tmp/assets
+
 as_code_owner "bin/magento setup:upgrade"
+
+mv /tmp/assets/* /app/pub/static/frontend/
+rm -rf /tmp/assets
 
 # Compile the DIC if to be productionized
 if [ "$PRODUCTION_ENVIRONMENT" = "1" ]; then

@@ -14,9 +14,10 @@ is_nfs
 IS_NFS=$?
 set -e
 
+# TODO: Convert to template
 if [ ! -f "/app/app/etc/env.php" ]; then
-  cp /app/tools/docker/magento/env.php /app/app/etc/env.php
-  cp /app/tools/docker/magento/config.php /app/app/etc/config.php
+  as_code_owner "cp /app/tools/docker/magento/env.php /app/app/etc/env.php"
+  as_code_owner "cp /app/tools/docker/magento/config.php /app/app/etc/config.php"
 fi
 
 if [ ! -d "/app/vendor" ] || [ ! -f "/app/vendor/autoload.php" ]; then
