@@ -1,8 +1,8 @@
-{{if getenv "BASIC_AUTH_ENABLED"}}
+{{if getenv "AUTH_HTTP_ENABLED"}}
 <LocationMatch "^/.*">
-  AuthUserFile {{ getenv "BASIC_AUTH_FILE" }}
-  AuthType {{ getenv "BASIC_AUTH_TYPE" }}
-  AuthName "{{ getenv "BASIC_AUTH_REALM" }}"
+  AuthUserFile {{ getenv "AUTH_HTTP_FILE" }}
+  AuthType {{ getenv "AUTH_HTTP_TYPE" }}
+  AuthName "{{ getenv "AUTH_HTTP_REALM" }}"
   Require valid-user
 </LocationMatch>
 {{end}}
