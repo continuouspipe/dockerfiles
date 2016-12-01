@@ -21,7 +21,7 @@ if [ -f /app/tools/assets/development/media.files.tgz ]; then
 
   if [ "$IS_NFS" -ne 0 ]; then
     chown -R "${APP_USER}:${APP_GROUP}" /app/pub/media
-    chmod -R u+rw,o-rw /app/media
+    chmod -R u+rw,o-rw /app/pub/media
   else
     chmod -R a+rw /app/pub/media
   fi
