@@ -10,10 +10,12 @@ fi ;
 
 source /usr/local/share/bootstrap/common_functions.sh
 
+cd /app || exit 1
+
 # Preserve compiled theme files across setup:upgrade calls.
 mkdir /tmp/assets
 cp -pR /app/pub/static/frontend/ /tmp/assets
-chown -R "${CODE_OWNER}":"${CODE_GROUP}" /app/pub/static/frontend/
+chown -R "${CODE_OWNER}":"${CODE_GROUP}" pub/media pub/static var
 
 as_code_owner "bin/magento setup:upgrade"
 
