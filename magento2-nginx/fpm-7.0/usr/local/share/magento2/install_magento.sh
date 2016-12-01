@@ -28,6 +28,7 @@ if [ ! -d "/app/vendor" ] || [ ! -f "/app/vendor/autoload.php" ]; then
 
   # do not use optimize-autoloader parameter yet, according to github, Mage2 has issues with it
   as_code_owner "composer install --no-interaction"
+  rm -rf /home/build/.composer/cache/
   as_code_owner "composer clear-cache"
 
   chmod -R go-w vendor
