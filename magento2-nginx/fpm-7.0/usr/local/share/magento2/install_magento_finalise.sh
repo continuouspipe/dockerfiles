@@ -13,6 +13,7 @@ source /usr/local/share/bootstrap/common_functions.sh
 # Preserve compiled theme files across setup:upgrade calls.
 mkdir /tmp/assets
 cp -pR /app/pub/static/frontend/ /tmp/assets
+chown -R "${CODE_OWNER}":"${CODE_GROUP}" /app/pub/static/frontend/
 
 as_code_owner "bin/magento setup:upgrade"
 
@@ -45,11 +46,10 @@ is_nfs
 IS_NFS=$?
 set -e
 
+# Flush magento cache
+as_code_owner "bin/magento cache:flush"
+
 # Ensure the permissions are web writable for the assets and var folders, but only on filesystems that allow chown.
 if [ "$IS_NFS" -ne 0 ]; then
   chown -R "${APP_USER}:${APP_GROUP}" pub/media pub/static var
 fi
-
-# Flush magento cache
-cd /app
-as_code_owner "bin/magento cache:flush"
