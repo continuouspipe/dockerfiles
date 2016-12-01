@@ -1,0 +1,3 @@
+#!/bin/bash
+
+export DRUPAL_INSTALL_PROFILE=${DRUPAL_INSTALL_PROFILE:-lightning}
