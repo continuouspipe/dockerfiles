@@ -12,14 +12,6 @@ RUN curl -q https://dx6pc3giz7k1r.cloudfront.net/GPG-KEY-inviqa-tools | apt-key 
     mysql-client \
     nodejs \
  \
- # Configure Node dependencies \
- && npm config set --global loglevel warn \
- && npm install --global marked \
- && npm install --global node-gyp \
- && npm install --global gulp \
- \
- # Install node-sass's linux bindings \
- && npm rebuild node-sass \
  # Clean the image \
  && apt-get auto-remove -qq -y \
  && apt-get clean \
