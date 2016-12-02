@@ -26,7 +26,7 @@ HAS_CURRENT_TABLES=$?
 set -e
 if [ "$HAS_CURRENT_TABLES" -ne 0 ] && [ -n "$DRUPAL_INSTALL_PROFILE" ]; then
   chown "$CODE_OWNER:$CODE_GROUP" "$SETTINGS_DIR/files/"
-  as_code_owner "echo 'y' | drush site-install lightning" "/app/docroot"
+  as_code_owner "echo 'y' | drush site-install $DRUPAL_INSTALL_PROFILE" "/app/docroot"
   chown -R "$APP_USER:$APP_GROUP" "$SETTINGS_DIR/files/"
 fi
 
