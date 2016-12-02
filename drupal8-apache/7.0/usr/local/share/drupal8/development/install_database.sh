@@ -1,12 +1,50 @@
 #!/bin/bash
 
+function database_exists() {
+  mysql -h"$DATABASE_HOST" -u"$DATABASE_USER" -p"$DATABASE_PASSWORD" "$DATABASE_NAME" -e "SHOW TABLES; SELECT FOUND_ROWS() > 0;" | grep -q 1
+}
+
 if [ -f tools/assets/development/drupaldb.sql.gz ]; then
-  echo 'Dropping the Drupal DB if exists'
-  mysql -h"$DATABASE_HOST" -uroot -p"$DATABASE_ROOT_PASSWORD" -e "DROP DATABASE IF EXISTS $DATABASE_NAME" || exit 1
+  if [ "$FORCE_DATABASE_DROP" == 'true' ]; then
+    echo 'Dropping the Drupal DB if exists'
+    mysql -h"$DATABASE_HOST" -uroot -p"$DATABASE_ROOT_PASSWORD" -e "DROP DATABASE IF EXISTS $DATABASE_NAME" || exit 1
+  fi
 
-  echo 'Create drupal database'
-  echo "create database $DATABASE_NAME ; grant ALL on $DATABASE_NAME.* to $DATABASE_USER@'%' identified by '$DATABASE_PASSWORD' ; flush privileges" |  mysql -uroot -p"$DATABASE_ROOT_PASSWORD" -h"$DATABASE_HOST"
+  set +e
+  database_exists
+  DATABASE_EXISTS=$?
+  set -e
 
-  echo 'zcating the drupal database dump into the database'
-  zcat tools/assets/development/drupaldb.sql.gz | mysql -h"$DATABASE_HOST" -uroot -p"$DATABASE_ROOT_PASSWORD" "$DATABASE_NAME" || exit 1
+  if [ "$DATABASE_EXISTS" -ne 0 ]; then
+    echo 'Create drupal database'
+    echo "CREATE DATABASE IF NOT EXISTS $DATABASE_NAME ; GRANT ALL ON $DATABASE_NAME.* TO $DATABASE_USER@'%' IDENTIFIED BY '$DATABASE_PASSWORD' ; FLUSH PRIVILEGES" |  mysql -uroot -p"$DATABASE_ROOT_PASSWORD" -h"$DATABASE_HOST"
+
+    echo 'zcating the drupal database dump into the database'
+    zcat tools/assets/development/drupaldb.sql.gz | mysql -h"$DATABASE_HOST" -uroot -p"$DATABASE_ROOT_PASSWORD" "$DATABASE_NAME" || exit 1
+  fi
+fi
+
+set +e
+database_exists
+DATABASE_EXISTS=$?
+set -e
+
+if [ "$DATABASE_EXISTS" -ne 0 ]; then
+  SETTINGS_DIR="/app/docroot/sites/default"
+
+  chmod u+w "$SETTINGS_DIR" || true
+  mkdir -p "$SETTINGS_DIR/files/"
+
+  # Install a database if there isn't one yet
+  set +e
+  as_code_owner "drush sql-query 'SHOW TABLES;' | grep -v cache | grep -q ''" /app/docroot
+  HAS_CURRENT_TABLES=$?
+  set -e
+  if [ "$HAS_CURRENT_TABLES" -ne 0 ] && [ -n "$DRUPAL_INSTALL_PROFILE" ]; then
+    chown "$CODE_OWNER:$CODE_GROUP" "$SETTINGS_DIR/files/"
+    as_code_owner "echo 'y' | drush site-install $DRUPAL_INSTALL_PROFILE" "/app/docroot"
+    chown -R "$APP_USER:$APP_GROUP" "$SETTINGS_DIR/files/"
+  fi
+
+  chmod a-w "$SETTINGS_DIR"
 fi

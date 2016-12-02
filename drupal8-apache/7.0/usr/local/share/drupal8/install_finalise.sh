@@ -16,22 +16,6 @@ cd /app || exit 1;
 
 SETTINGS_DIR="/app/docroot/sites/default"
 
-chmod u+w "$SETTINGS_DIR" || true
-mkdir -p "$SETTINGS_DIR/files/"
-
-# Install a database if there isn't one yet
-set +e
-as_code_owner "drush sql-query 'SHOW TABLES;' | grep -v cache | grep -q ''" /app/docroot
-HAS_CURRENT_TABLES=$?
-set -e
-if [ "$HAS_CURRENT_TABLES" -ne 0 ] && [ -n "$DRUPAL_INSTALL_PROFILE" ]; then
-  chown "$CODE_OWNER:$CODE_GROUP" "$SETTINGS_DIR/files/"
-  as_code_owner "echo 'y' | drush site-install $DRUPAL_INSTALL_PROFILE" "/app/docroot"
-  chown -R "$APP_USER:$APP_GROUP" "$SETTINGS_DIR/files/"
-fi
-
-chmod a-w "$SETTINGS_DIR"
-
 # Download the static assets
 set +e
 is_hem_project
@@ -50,7 +34,7 @@ set +e
 is_nfs
 IS_NFS=$?
 set -e
-if [ "$IS_NFS" -ne 0 ]; then
+if [ "$IS_NFS" -ne 0 ] && [ -d "$SETTINGS_DIR/files/" ]; then
   chown -R "$APP_USER:$APP_GROUP" "$SETTINGS_DIR/files/"
 fi
 
