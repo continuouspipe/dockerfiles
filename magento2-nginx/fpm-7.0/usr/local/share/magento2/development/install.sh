@@ -3,6 +3,8 @@ set -xe
 
 mkdir -p /home/build/.hem/gems/ && chown -R build:build /home/build/.hem/
 
+# Ensure the hem settings files exists by running confd before continuing
+source /usr/local/share/bootstrap/setup.sh
 source /usr/local/share/bootstrap/run_confd.sh
 
 # install DB and assets
