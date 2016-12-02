@@ -1,18 +1,12 @@
 #!/bin/bash
 set -xe
 
-# Initialisation - Declare custom environment variables
-source /usr/local/share/env/custom_env_variables
-
-# Initialisation - Declare default environment variables
-source /usr/local/share/env/default_env_variables
-
+# Ensure confd can create the hem config in the build user's home directory
 mkdir -p /home/build/.hem/gems/ && chown -R build:build /home/build/.hem/
 
-set +e
-# Initialisation - Templating
-confd -onetime -backend env
-set -e
+# Ensure the hem and drupal settings files exists by running confd before continuing
+source /usr/local/share/bootstrap/setup.sh
+source /usr/local/share/bootstrap/run_confd.sh
 
 # install DB and assets
 if [ -L "$0" ] ; then
