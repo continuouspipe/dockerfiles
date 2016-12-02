@@ -4,7 +4,8 @@ set -xe
 # Ensure confd can create the hem config in the build user's home directory
 mkdir -p /home/build/.hem/gems/ && chown -R build:build /home/build/.hem/
 
-# Ensure the settings file exists by running confd before continuing
+# Ensure the hem and drupal settings files exists by running confd before continuing
+source /usr/local/share/bootstrap/setup.sh
 source /usr/local/share/bootstrap/run_confd.sh
 
 # install DB and assets

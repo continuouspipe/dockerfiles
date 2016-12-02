@@ -1,7 +1,10 @@
 #!/bin/bash
 set -xe
 
-# Initalisation - Run confd after declaring environment variables
+# Initialisation - Declare variables and run pre-templating steps.
+source /usr/local/share/bootstrap/setup.sh
+
+# Initalisation - Run templating (confd) after declaring environment variables
 source /usr/local/share/bootstrap/run_confd.sh
 
 # Initialisation - Runtime installation tasks
