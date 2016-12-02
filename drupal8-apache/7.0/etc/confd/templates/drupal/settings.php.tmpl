@@ -2,15 +2,15 @@
 /*
  * Variables declared via environment variables go here!
  */
-$settings['hash_salt'] = '{{ getenv "DRUPAL_HASH_SALT" }}';
+$settings['hash_salt'] = $_ENV['DRUPAL_HASH_SALT']';
 $databases['default']['default'] = array (
-    'database' => '{{ getenv "DRUPAL_DATABASE_NAME" }}',
-    'username' => '{{ getenv "DRUPAL_DATABASE_USERNAME" }}',
-    'password' => '{{ getenv "DRUPAL_DATABASE_PASSWORD" }}',
-    'prefix' => '{{ getenv "DRUPAL_DATABASE_PREFIX" }}',
-    'host' => '{{ getenv "DRUPAL_DATABASE_HOST" }}',
-    'port' => '{{ getenv "DRUPAL_DATABASE_PORT" }}',
+    'database' => $_ENV['DRUPAL_DATABASE_NAME']',
+    'username' => $_ENV['DRUPAL_DATABASE_USERNAME']',
+    'password' => $_ENV['DRUPAL_DATABASE_PASSWORD']',
+    'prefix' => $_ENV['DRUPAL_DATABASE_PREFIX']',
+    'host' => $_ENV['DRUPAL_DATABASE_HOST']',
+    'port' => $_ENV['DRUPAL_DATABASE_PORT']',
     'namespace' => 'Drupal\\Core\\Database\\Driver\\mysql',
     'driver' => 'mysql',
 );
-$config_directories['sync'] = 'sites/default/files/config_{{ getenv "DRUPAL_CONFIG_DIRECTORY_SECRET" }}/sync';
+$config_directories['sync'] = "sites/default/files/config_{$_ENV['DRUPAL_CONFIG_DIRECTORY_SECRET']}/sync";
