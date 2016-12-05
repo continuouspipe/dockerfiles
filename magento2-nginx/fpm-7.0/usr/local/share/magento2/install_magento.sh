@@ -15,12 +15,12 @@ IS_NFS=$?
 set -e
 
 # TODO: Convert to template
-if [ ! -f "/app/app/etc/env.php" ]; then
-  as_code_owner "cp /app/tools/docker/magento/env.php /app/app/etc/env.php"
-  as_code_owner "cp /app/tools/docker/magento/config.php /app/app/etc/config.php"
+if [ ! -f "app/etc/env.php" ]; then
+  as_code_owner "cp tools/docker/magento/env.php app/etc/env.php"
+  as_code_owner "cp tools/docker/magento/config.php app/etc/config.php"
 fi
 
-if [ ! -d "/app/vendor" ] || [ ! -f "/app/vendor/autoload.php" ]; then
+if [ ! -d "vendor" ] || [ ! -f "vendor/autoload.php" ]; then
   as_code_owner "composer config repositories.magento composer https://repo.magento.com/"
   as_code_owner "composer global config http-basic.repo.magento.com '$MAGENTO_USERNAME' '$MAGENTO_PASSWORD'"
   as_code_owner "composer global config http-basic.toran.inviqa.com '$TORAN_USERNAME' '$TORAN_PASSWORD'"
@@ -42,23 +42,23 @@ else
   chmod a+rw pub/media pub/static var
 fi
 
-if [ -d "/app/tools/inviqa" ]; then
-  mkdir -p /app/pub/static/frontend/
+if [ -d "tools/inviqa" ]; then
+  mkdir -p pub/static/frontend/
 
-  if [ -d "/app/pub/static/frontend/" ] && [ "$IS_NFS" -ne 0 ]; then
-    chown -R "${CODE_OWNER}:${CODE_GROUP}" /app/pub/static/frontend/
+  if [ -d "pub/static/frontend/" ] && [ "$IS_NFS" -ne 0 ]; then
+    chown -R "${CODE_OWNER}:${CODE_GROUP}" pub/static/frontend/
   fi
 
-  if [ ! -d "/app/tools/inviqa/node_modules" ]; then
-   as_code_owner "npm install" "/app/tools/inviqa"
+  if [ ! -d "tools/inviqa/node_modules" ]; then
+   as_code_owner "npm install" "tools/inviqa"
   fi
   if [ -z "$GULP_BUILD_THEME_NAME" ]; then
-    as_code_owner "gulp build" "/app/tools/inviqa"
+    as_code_owner "gulp build" "tools/inviqa"
   else
-    as_code_owner "gulp build --theme='$GULP_BUILD_THEME_NAME'" "/app/tools/inviqa"
+    as_code_owner "gulp build --theme='$GULP_BUILD_THEME_NAME'" "tools/inviqa"
   fi
 
-  if [ -d "/app/pub/static/frontend/" ] && [ "$IS_NFS" -ne 0 ]; then
-    chown -R "${APP_USER}:${APP_GROUP}" /app/pub/static/frontend/
+  if [ -d "pub/static/frontend/" ] && [ "$IS_NFS" -ne 0 ]; then
+    chown -R "${APP_USER}:${APP_GROUP}" pub/static/frontend/
   fi
 fi

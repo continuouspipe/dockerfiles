@@ -14,12 +14,12 @@ cd /app || exit 1
 
 # Preserve compiled theme files across setup:upgrade calls.
 mkdir /tmp/assets
-cp -pR /app/pub/static/frontend/ /tmp/assets
+cp -pR pub/static/frontend/ /tmp/assets
 chown -R "${CODE_OWNER}":"${CODE_GROUP}" pub/media pub/static var
 
 as_code_owner "bin/magento setup:upgrade"
 
-mv /tmp/assets/* /app/pub/static/frontend/
+mv /tmp/assets/* pub/static/frontend/
 rm -rf /tmp/assets
 
 # Compile the DIC if to be productionized
