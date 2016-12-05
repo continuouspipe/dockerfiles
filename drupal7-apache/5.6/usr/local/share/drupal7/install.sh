@@ -14,8 +14,6 @@ cd /app || exit 1;
 
 run_composer
 
-cd /app/docroot || exit 1;
-
 if [ -f "$DIR/install_custom.sh" ]; then
   bash "$DIR/install_custom.sh"
 fi
