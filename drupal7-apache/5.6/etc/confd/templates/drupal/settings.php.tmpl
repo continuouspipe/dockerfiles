@@ -1,0 +1,16 @@
+<?php
+/*
+ * Variables declared via environment variables go here!
+ */
+$settings['hash_salt'] = $_ENV['DRUPAL_HASH_SALT']';
+$databases['default']['default'] = array (
+    'database' => $_ENV['DRUPAL_DATABASE_NAME']',
+    'username' => $_ENV['DRUPAL_DATABASE_USERNAME']',
+    'password' => $_ENV['DRUPAL_DATABASE_PASSWORD']',
+    'prefix' => $_ENV['DRUPAL_DATABASE_PREFIX']',
+    'host' => $_ENV['DRUPAL_DATABASE_HOST']',
+    'port' => $_ENV['DRUPAL_DATABASE_PORT']',
+    'namespace' => 'Drupal\\Core\\Database\\Driver\\mysql',
+    'driver' => 'mysql',
+);
+$config_directories['sync'] = "sites/default/files/config_{$_ENV['DRUPAL_CONFIG_DIRECTORY_SECRET']}/sync";
