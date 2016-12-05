@@ -16,23 +16,6 @@ run_composer
 
 cd /app/docroot || exit 1;
 
-SETTINGS_DIR="/app/docroot/sites/default"
-
-if [ ! -f "$SETTINGS_DIR/services.yml" ]; then
-  mkdir -p "$SETTINGS_DIR"
-  chmod u+w "$SETTINGS_DIR"
-
-  SOURCE_FILE="$SETTINGS_DIR/default.services.yml"
-  if [ -f /app/tools/docker/config/services.yml ]; then
-    SOURCE_FILE="/app/tools/docker/config/services.yml"
-  fi
-
-  cp "$SOURCE_FILE" "$SETTINGS_DIR/services.yml"
-  chmod go-w "$SETTINGS_DIR/services.yml"
-
-  chmod a-w "$SETTINGS_DIR"
-fi
-
 if [ -f "$DIR/install_custom.sh" ]; then
   bash "$DIR/install_custom.sh"
 fi
