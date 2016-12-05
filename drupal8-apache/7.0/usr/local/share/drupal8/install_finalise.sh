@@ -38,8 +38,6 @@ if [ "$IS_NFS" -ne 0 ] && [ -d "$SETTINGS_DIR/files/" ]; then
   chown -R "$APP_USER:$APP_GROUP" "$SETTINGS_DIR/files/"
 fi
 
-as_code_owner "drush cache-rebuild" "/app/docroot"
-
 if [ -f "$DIR/install_finalise_custom.sh" ]; then
   bash "$DIR/install_finalise_custom.sh"
 fi

@@ -54,6 +54,8 @@ fi
 # Install assets
 bash "$DIR/install_assets.sh"
 
+as_code_owner "drush cache-rebuild" "/app/docroot"
+
 if [ -f "$DIR/install_custom.sh" ]; then
   bash "$DIR/install_custom.sh"
 fi
