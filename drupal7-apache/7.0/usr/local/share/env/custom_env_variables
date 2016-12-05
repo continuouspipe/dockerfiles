@@ -1,0 +1,4 @@
+#!/bin/bash
+
+export DRUPAL_INSTALL_PROFILE=${DRUPAL_INSTALL_PROFILE:-lightning}
+export FORCE_DATABASE_DROP=${FORCE_DATABASE_DROP:-false}

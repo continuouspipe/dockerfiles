@@ -1,6 +1,13 @@
 version: '2'
 
 services:
+  drupal7_apache:
+    build:
+      context: ./drupal7-apache/7.0/
+    image: quay.io/continuouspipe/drupal7-apache:7.0_v1
+    depends_on:
+      - php_apache
+
   drupal8_apache:
     build:
       context: ./drupal8-apache/7.0/

@@ -1,0 +1,4 @@
+#!/bin/bash
+
+bash /usr/local/share/drupal7/install.sh
+bash /usr/local/share/drupal7/install_finalise.sh
