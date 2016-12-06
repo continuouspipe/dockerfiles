@@ -19,11 +19,6 @@ source /usr/local/share/bootstrap/common_functions.sh
 # Install composer and npm dependencies
 bash "$DIR/../install_magento.sh";
 
-# Default Docker public address
-if [ -z "$PUBLIC_ADDRESS" ]; then
-    export PUBLIC_ADDRESS=http://magento_web.docker/
-fi
-
 set +e
 is_hem_project
 set -e
@@ -34,13 +29,6 @@ if [ "$IS_HEM" -eq 0 ]; then
   as_build "hem --non-interactive --skip-host-checks assets download"
 fi
 
-# Install assets
-export DATABASE_NAME=magentodb
-export DATABASE_USER=magento
-export DATABASE_PASSWORD=magento
-export DATABASE_ROOT_PASSWORD=magento
-export DATABASE_HOST=database
-
 bash "$DIR/install_database.sh"
 
 echo "DELETE from core_config_data WHERE path LIKE 'web/%base_url';
@@ -49,7 +37,8 @@ INSERT INTO core_config_data VALUES (NULL, 'default', '0', 'web/unsecure/base_ur
 INSERT INTO core_config_data VALUES (NULL, 'default', '0', 'web/secure/base_url', '$PUBLIC_ADDRESS');
 INSERT INTO core_config_data VALUES (NULL, 'default', '0', 'system/full_page_cache/varnish/access_list', 'varnish');
 INSERT INTO core_config_data VALUES (NULL, 'default', '0', 'system/full_page_cache/varnish/backend_host', 'varnish');
-INSERT INTO core_config_data VALUES (NULL, 'default', '0', 'system/full_page_cache/varnish/backend_port', '80');" |  mysql -h$DATABASE_HOST -u$DATABASE_USER -p$DATABASE_PASSWORD $DATABASE_NAME || exit 1
+INSERT INTO core_config_data VALUES (NULL, 'default', '0', 'system/full_page_cache/varnish/backend_port', '80');
+$ADDITIONAL_SETUP_SQL" |  mysql -h"$DATABASE_HOST" -u"$DATABASE_USER" -p"$DATABASE_PASSWORD" "$DATABASE_NAME" || exit 1
 
 bash "$DIR/install_assets.sh"
 
