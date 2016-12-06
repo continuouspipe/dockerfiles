@@ -3,10 +3,11 @@
 set -xe
 
 source /usr/local/share/bootstrap/common_functions.sh
+source /usr/local/share/bootstrap/setup.sh
 
 cd /app || exit 1
 
-if [ -f tools/assets/development/media.files.tgz ]; then
+if [ -f "$ASSET_ARCHIVE_PATH" ]; then
   set +e
   is_nfs
   IS_NFS=$?
@@ -19,7 +20,7 @@ if [ -f tools/assets/development/media.files.tgz ]; then
   fi
 
   echo 'extracting media files'
-  as_code_owner "tar --no-same-owner --extract --strip-components=2 --touch --overwrite --gzip --file=tools/assets/development/media.files.tgz || exit 1" pub/media
+  as_code_owner "tar --no-same-owner --extract --strip-components=2 --touch --overwrite --gzip --file=$ASSET_ARCHIVE_PATH || exit 1" pub/media
 
   if [ "$IS_NFS" -ne 0 ]; then
     chown -R "${APP_USER}:${APP_GROUP}" pub/media
