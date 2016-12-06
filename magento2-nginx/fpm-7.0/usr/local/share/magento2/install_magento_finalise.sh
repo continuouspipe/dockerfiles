@@ -13,14 +13,20 @@ source /usr/local/share/bootstrap/common_functions.sh
 cd /app || exit 1
 
 # Preserve compiled theme files across setup:upgrade calls.
-mkdir /tmp/assets
-cp -pR pub/static/frontend/ /tmp/assets
+if [ -d pub/static/frontend/ ]; then
+  mkdir /tmp/assets
+  cp -pR pub/static/frontend/ /tmp/assets
+fi
+
 chown -R "${CODE_OWNER}":"${CODE_GROUP}" pub/media pub/static var
 
 as_code_owner "bin/magento setup:upgrade"
 
-mv /tmp/assets/* pub/static/frontend/
-rm -rf /tmp/assets
+if [ -d /tmp/assets/ ]; then
+  mkdir -p pub/static/frontend/
+  mv /tmp/assets/* pub/static/frontend/
+  rm -rf /tmp/assets
+fi
 
 # Compile the DIC if to be productionized
 if [ "$PRODUCTION_ENVIRONMENT" = "1" ]; then
