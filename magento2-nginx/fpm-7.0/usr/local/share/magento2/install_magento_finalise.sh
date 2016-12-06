@@ -63,5 +63,6 @@ if [ "$IS_NFS" -ne 0 ]; then
 fi
 
 if [ -f "$DIR/install_magento_finalise_custom.sh" ]; then
+  # shellcheck source=./install_magento_finalise_custom.sh
   source "$DIR/install_magento_finalise_custom.sh"
 fi

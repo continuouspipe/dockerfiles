@@ -70,5 +70,6 @@ if [ -d "$FRONTEND_BUILD_DIRECTORY" ]; then
 fi
 
 if [ -f "$DIR/install_magento_custom.sh" ]; then
+  # shellcheck source=./install_magento_custom.sh
   source "$DIR/install_magento_custom.sh"
 fi
