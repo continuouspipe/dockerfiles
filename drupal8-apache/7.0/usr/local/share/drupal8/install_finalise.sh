@@ -16,17 +16,6 @@ cd /app || exit 1;
 
 SETTINGS_DIR="/app/docroot/sites/default"
 
-chmod u+w "$SETTINGS_DIR" || true
-mkdir -p "$SETTINGS_DIR/files/"
-
-# Install a database if there isn't one yet
-CURRENT_TABLES="$(as_build "drush sql-query 'SHOW TABLES;'" /app/docroot)"
-if [ "$CURRENT_TABLES" == '' ] && [ -n "$DRUPAL_INSTALL_PROFILE" ]; then
-  as_build "echo 'y' | drush site-install '$DRUPAL_INSTALL_PROFILE'" "/app/docroot"
-fi
-
-chmod a-w "$SETTINGS_DIR"
-
 # Download the static assets
 set +e
 is_hem_project
@@ -45,11 +34,9 @@ set +e
 is_nfs
 IS_NFS=$?
 set -e
-if [ "$IS_NFS" -ne 0 ]; then
-  chown -R www-data:www-data "$SETTINGS_DIR/files/"
+if [ "$IS_NFS" -ne 0 ] && [ -d "$SETTINGS_DIR/files/" ]; then
+  chown -R "$APP_USER:$APP_GROUP" "$SETTINGS_DIR/files/"
 fi
-
-as_build "drush cache-rebuild" "/app/docroot"
 
 if [ -f "$DIR/install_finalise_custom.sh" ]; then
   bash "$DIR/install_finalise_custom.sh"

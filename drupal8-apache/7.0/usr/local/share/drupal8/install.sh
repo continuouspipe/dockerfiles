@@ -5,22 +5,14 @@ if [ -L "$0" ] ; then
     DIR="$(dirname "$(readlink -f "$0")")" ;
 else
     DIR="$(dirname "$0")" ;
-fi ;
+fi
 
 source /usr/local/share/bootstrap/common_functions.sh
+source /usr/local/share/php/common_functions.sh
 
 cd /app || exit 1;
 
-if [ ! -d "/app/vendor" ] || [ ! -f "/app/vendor/autoload.php" ]; then
-  if [ -n "$GITHUB_TOKEN" ]; then
-    as_build "composer config github-oauth.github.com '$GITHUB_TOKEN'"
-  fi
-
-  as_build "composer install --optimize-autoloader --no-interaction"
-  as_build "composer clear-cache"
-
-  chmod -R go-w vendor
-fi
+run_composer
 
 cd /app/docroot || exit 1;
 
