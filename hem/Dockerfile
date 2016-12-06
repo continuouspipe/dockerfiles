@@ -11,4 +11,18 @@ RUN curl -q https://dx6pc3giz7k1r.cloudfront.net/GPG-KEY-inviqa-tools | apt-key 
  # Clean the image \
  && apt-get auto-remove -qq -y \
  && apt-get clean \
- && rm -rf /var/lib/apt/lists/*
+ && rm -rf /var/lib/apt/lists/* \
+ \
+ # Set up hem directories \
+ && mkdir -p /home/build/.hem/gems/ \
+ && chown -R build:build /home/build/.hem/ \
+ \
+ && mkdir /app \
+ && chown build:build /app
+
+COPY ./etc/ /etc
+COPY ./usr/ /usr
+
+WORKDIR /app
+
+USER build
