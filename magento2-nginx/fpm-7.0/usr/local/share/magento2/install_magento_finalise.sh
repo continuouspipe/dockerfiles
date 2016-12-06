@@ -61,3 +61,7 @@ as_code_owner "bin/magento cache:flush"
 if [ "$IS_NFS" -ne 0 ]; then
   chown -R "${APP_USER}:${APP_GROUP}" pub/media pub/static var
 fi
+
+if [ -f "$DIR/install_magento_finalise_custom.sh" ]; then
+  source "$DIR/install_magento_finalise_custom.sh"
+fi

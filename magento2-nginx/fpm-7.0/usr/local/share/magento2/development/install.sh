@@ -53,3 +53,7 @@ INSERT INTO core_config_data VALUES (NULL, 'default', '0', 'system/full_page_cac
 
 bash "$DIR/install_assets.sh"
 
+if [ -f "$DIR/install_custom.sh" ]; then
+  source "$DIR/install_custom.sh"
+fi
+

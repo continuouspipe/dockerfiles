@@ -62,3 +62,7 @@ if [ -d "tools/inviqa" ]; then
     chown -R "${APP_USER}:${APP_GROUP}" pub/static/frontend/
   fi
 fi
+
+if [ -f "$DIR/install_magento_custom.sh" ]; then
+  source "$DIR/install_magento_custom.sh"
+fi
