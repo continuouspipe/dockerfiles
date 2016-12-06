@@ -21,4 +21,12 @@ RUN curl -sL https://deb.nodesource.com/setup_6.x > /tmp/install-node.sh \
  # Clean the image \
  && apt-get auto-remove -qq -y \
  && apt-get clean \
- && rm -rf /var/lib/apt/lists/*
+ && rm -rf /var/lib/apt/lists/* \
+ && rm /tmp/install-node.sh \
+ \
+ && mkdir /app \
+ && chown build:build /app
+
+WORKDIR /app
+
+USER build
