@@ -9,14 +9,25 @@ else
 fi ;
 
 source /usr/local/share/bootstrap/common_functions.sh
-bin/magento setup:upgrade
+
+cd /app || exit 1
+
+# Preserve compiled theme files across setup:upgrade calls.
+mkdir /tmp/assets
+cp -pR pub/static/frontend/ /tmp/assets
+chown -R "${CODE_OWNER}":"${CODE_GROUP}" pub/media pub/static var
+
+as_code_owner "bin/magento setup:upgrade"
+
+mv /tmp/assets/* pub/static/frontend/
+rm -rf /tmp/assets
 
 # Compile the DIC if to be productionized
 if [ "$PRODUCTION_ENVIRONMENT" = "1" ]; then
-  bin/magento setup:di:compile
+  as_code_owner "bin/magento setup:di:compile"
 fi
 
-(bin/magento indexer:reindex || echo "Failing indexing to the end, ignoring.") && echo "Indexing successful"
+(as_code_owner "bin/magento indexer:reindex" || echo "Failing indexing to the end, ignoring.") && echo "Indexing successful"
 
 # Download and install the assets when running the image
 # (sad that we have to do that tho...)
@@ -37,11 +48,10 @@ is_nfs
 IS_NFS=$?
 set -e
 
+# Flush magento cache
+as_code_owner "bin/magento cache:flush"
+
 # Ensure the permissions are web writable for the assets and var folders, but only on filesystems that allow chown.
 if [ "$IS_NFS" -ne 0 ]; then
-  chown -R www-data:www-data pub/media pub/static var
+  chown -R "${APP_USER}:${APP_GROUP}" pub/media pub/static var
 fi
-
-# Flush magento cache
-cd /app
-bin/magento cache:flush

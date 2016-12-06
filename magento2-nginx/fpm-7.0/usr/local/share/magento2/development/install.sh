@@ -1,25 +1,18 @@
 #!/bin/bash
 set -xe
 
-# Initialisation - Declare custom environment variables
-source /usr/local/share/env/custom_env_variables
-
-# Initialisation - Declare default environment variables
-source /usr/local/share/env/default_env_variables
-
 mkdir -p /home/build/.hem/gems/ && chown -R build:build /home/build/.hem/
 
-set +e
-# Initialisation - Templating
-confd -onetime -backend env
-set -e
+# Ensure the hem settings files exists by running confd before continuing
+source /usr/local/share/bootstrap/setup.sh
+source /usr/local/share/bootstrap/run_confd.sh
 
 # install DB and assets
 if [ -L "$0" ] ; then
     DIR="$(dirname "$(readlink -f "$0")")" ;
 else
     DIR="$(dirname "$0")" ;
-fi ;
+fi
 
 source /usr/local/share/bootstrap/common_functions.sh
 
