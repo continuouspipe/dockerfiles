@@ -7,7 +7,7 @@ if [ -f "$DATABASE_ARCHIVE_PATH" ]; then
   fi
 
   set +e
-  mysql -h"$DATABASE_HOST" -u"$DATABASE_USER" -p"$DATABASE_PASSWORD" magentodb -e "SHOW TABLES; SELECT FOUND_ROWS() > 0;" | grep -q 1
+  mysql -h"$DATABASE_HOST" -u"$DATABASE_USER" -p"$DATABASE_PASSWORD" "$DATABASE_NAME" -e "SHOW TABLES; SELECT FOUND_ROWS() > 0;" | grep -q 1
   DATABASE_EXISTS=$?
   set -e
 
