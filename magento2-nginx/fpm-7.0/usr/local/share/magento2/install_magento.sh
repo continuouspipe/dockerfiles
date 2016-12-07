@@ -55,8 +55,8 @@ if [ -d "$FRONTEND_BUILD_DIRECTORY" ]; then
     chown -R "${CODE_OWNER}:${CODE_GROUP}" pub/static/frontend/
   fi
 
-  if [ ! -d "tools/inviqa/node_modules" ]; then
-   as_code_owner "npm install" "$FRONTEND_BUILD_DIRECTORY"
+  if [ ! -d "$FRONTEND_INSTALL_DIRECTORY/node_modules" ]; then
+    as_code_owner "npm install" "$FRONTEND_INSTALL_DIRECTORY"
   fi
   if [ -z "$GULP_BUILD_THEME_NAME" ]; then
     as_code_owner "gulp $FRONTEND_BUILD_ACTION" "$FRONTEND_BUILD_DIRECTORY"
