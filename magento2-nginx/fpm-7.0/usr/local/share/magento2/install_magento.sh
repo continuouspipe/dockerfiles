@@ -48,7 +48,7 @@ else
   chmod a+rw pub/media pub/static var
 fi
 
-if [ -d "$FRONTEND_BUILD_DIRECTORY" ]; then
+if [ -d "$FRONTEND_INSTALL_DIRECTORY" ]; then
   mkdir -p pub/static/frontend/
 
   if [ -d "pub/static/frontend/" ] && [ "$IS_NFS" -ne 0 ]; then
