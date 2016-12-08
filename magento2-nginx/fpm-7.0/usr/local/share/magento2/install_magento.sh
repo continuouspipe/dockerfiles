@@ -43,9 +43,9 @@ fi
 
 if [ "$IS_NFS" -ne 0 ]; then
   chown -R "${APP_USER}:${CODE_GROUP}" pub/media pub/static var
-  chmod ug+rw,o-w pub/media pub/static var
+  chmod -R ug+rw,o-w pub/media pub/static var
 else
-  chmod a+rw pub/media pub/static var
+  chmod -R a+rw pub/media pub/static var
 fi
 
 if [ -d "$FRONTEND_INSTALL_DIRECTORY" ]; then
