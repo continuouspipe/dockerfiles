@@ -1,0 +1,8 @@
+    location ~ \.php(/|$) {
+        fastcgi_pass unix:/run/php/php7.0-fpm.sock;
+        fastcgi_split_path_info ^(.+\.php)(/.*)$;
+        include fastcgi_params;
+{{ if eq "true" (getenv "SERVICES_NGINX_HTTPS") }}
+        fastcgi_param HTTPS on;{{end}}
+        fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
+    }

@@ -1,5 +1,5 @@
 [template]
-src   = "nginx/nginx_site.conf.tmpl"
+src   = "nginx/site.conf.tmpl"
 dest  = "/etc/nginx/sites-available/default"
 mode  = "0644"
 keys = [ 
