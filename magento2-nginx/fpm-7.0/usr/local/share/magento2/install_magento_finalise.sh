@@ -15,16 +15,25 @@ cd /app || exit 1
 # Preserve compiled theme files across setup:upgrade calls.
 if [ -d pub/static/frontend/ ]; then
   mkdir /tmp/assets
-  cp -pR pub/static/frontend/ /tmp/assets
+  mv pub/static/frontend/ /tmp/assets/
 fi
 
-chown -R "${CODE_OWNER}":"${CODE_GROUP}" pub/media pub/static var
+set +e
+is_nfs
+IS_NFS=$?
+set -e
+
+if [ "$IS_NFS" -ne 0 ]; then
+  chown -R "${CODE_OWNER}":"${CODE_GROUP}" pub/media pub/static var
+else
+  chmod a+rw pub/media pub/static var
+fi
 
 as_code_owner "bin/magento setup:upgrade"
 
 if [ -d /tmp/assets/ ]; then
-  mkdir -p pub/static/frontend/
-  mv /tmp/assets/* pub/static/frontend/
+  mkdir -p pub/static/
+  mv /tmp/assets/frontend/ pub/static/
   rm -rf /tmp/assets
 fi
 
@@ -53,11 +62,6 @@ if [ "$IS_HEM" -eq 0 ]; then
   as_build "hem --non-interactive --skip-host-checks assets download"
   bash "$DIR/development/install_assets.sh"
 fi
-
-set +e
-is_nfs
-IS_NFS=$?
-set -e
 
 # Flush magento cache
 as_code_owner "bin/magento cache:flush"
