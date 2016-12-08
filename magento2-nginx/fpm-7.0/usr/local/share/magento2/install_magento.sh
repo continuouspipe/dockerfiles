@@ -69,6 +69,11 @@ if [ -d "$FRONTEND_INSTALL_DIRECTORY" ]; then
   fi
 fi
 
+# Compile static content if it's a production container.
+if [ "$MAGENTO_MODE" = "production" ]; then
+  as_code_owner "bin/magento setup:static-content:deploy $FRONTEND_COMPILE_LANGUAGES"
+fi
+
 if [ -f "$DIR/install_magento_custom.sh" ]; then
   # shellcheck source=./install_magento_custom.sh
   source "$DIR/install_magento_custom.sh"

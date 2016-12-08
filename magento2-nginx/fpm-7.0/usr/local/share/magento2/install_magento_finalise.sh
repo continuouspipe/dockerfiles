@@ -30,7 +30,7 @@ fi
 
 # Compile the DIC if to be productionized
 if [ "$PRODUCTION_ENVIRONMENT" = "1" ]; then
-  as_code_owner "bin/magento setup:di:compile"
+  as_code_owner "$MAGENTO_DEPENDENCY_INJECTION_COMPILE_COMMAND"
 fi
 
 (as_code_owner "bin/magento indexer:reindex" || echo "Failing indexing to the end, ignoring.") && echo "Indexing successful"
