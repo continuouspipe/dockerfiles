@@ -33,6 +33,11 @@ if [ "$PRODUCTION_ENVIRONMENT" = "1" ]; then
   as_code_owner "$MAGENTO_DEPENDENCY_INJECTION_COMPILE_COMMAND"
 fi
 
+# Compile static content if it's a production container.
+if [ "$MAGENTO_MODE" = "production" ]; then
+  as_code_owner "bin/magento setup:static-content:deploy $FRONTEND_COMPILE_LANGUAGES"
+fi
+
 (as_code_owner "bin/magento indexer:reindex" || echo "Failing indexing to the end, ignoring.") && echo "Indexing successful"
 
 # Download and install the assets when running the image
