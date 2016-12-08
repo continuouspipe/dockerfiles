@@ -41,6 +41,7 @@ if [ ! -d "vendor" ] || [ ! -f "vendor/autoload.php" ]; then
   chmod +x bin/magento
 fi
 
+mkdir -p pub/media pub/static var
 if [ "$IS_NFS" -ne 0 ]; then
   chown -R "${APP_USER}:${CODE_GROUP}" pub/media pub/static var
   chmod -R ug+rw,o-w pub/media pub/static var
