@@ -4,126 +4,126 @@ services:
   drupal8_apache:
     build:
       context: ./drupal8-apache/7.0/
-    image: quay.io/continuouspipe/drupal8-apache:7.0_v1
+    image: quay.io/continuouspipe/drupal8-apache-php7:v1.0
     depends_on:
       - php_apache
 
   drupal8_solr_4_10:
     build:
       context: ./drupal8-solr/4.10/
-    image: quay.io/continuouspipe/drupal8-solr:4.10_v1
+    image: quay.io/continuouspipe/drupal8-solr4:v1.0
     depends_on:
       - solr_4_10
 
   drupal8_solr_6_2:
     build:
       context: ./drupal8-solr/6.2/
-    image: quay.io/continuouspipe/drupal8-solr:6.2_v1
+    image: quay.io/continuouspipe/drupal8-solr6:v1.0
     depends_on:
       - solr_6_2
 
   drupal8_varnish:
     build:
       context: ./drupal8-varnish/4.0/
-    image: quay.io/continuouspipe/drupal8-varnish:4.0_v1
+    image: quay.io/continuouspipe/drupal8-varnish4:v1.0
     depends_on:
       - varnish
 
   ez:
     build:
       context: ./ez/6.x/
-    image: quay.io/continuouspipe/ez:6.x_v1
+    image: quay.io/continuouspipe/ez6-apache-php7:v1.0
     depends_on:
       - php_apache
 
   hem:
     build:
       context: ./hem/
-    image: quay.io/continuouspipe/hem:latest
+    image: quay.io/continuouspipe/hem1:v1.0
     depends_on:
       - ubuntu
 
   magento2_nginx:
     build:
       context: ./magento2-nginx/fpm-7.0/
-    image: quay.io/continuouspipe/magento2-nginx:fpm-7.0_v1
+    image: quay.io/continuouspipe/magento2-nginx-php7:v1.0
     depends_on:
       - php_nginx
 
   magento2_varnish:
     build:
       context: ./magento2-varnish/4.0/
-    image: quay.io/continuouspipe/magento2-varnish:4.0_v1
+    image: quay.io/continuouspipe/magento2-varnish4:v1.0
     depends_on:
       - varnish
 
   mysql:
     build:
       context: ./mysql/5.6/
-    image: quay.io/continuouspipe/mysql:5.6_v1
+    image: quay.io/continuouspipe/mysql5.6:v1.0
     depends_on:
       - external_mysql
 
   nodejs:
     build:
       context: ./nodejs/6.0/
-    image: quay.io/continuouspipe/nodejs:6.0_v1
+    image: quay.io/continuouspipe/nodejs6:v1.0
     depends_on:
       - ubuntu
 
   php_apache:
     build:
       context: ./php-apache/7.0/
-    image: quay.io/continuouspipe/php-apache:7.0_v1
+    image: quay.io/continuouspipe/php7-apache:v1.0
     depends_on:
       - ubuntu
 
   php_nginx:
     build:
       context: ./php-nginx/7.0/
-    image: quay.io/continuouspipe/php-nginx:7.0_v1
+    image: quay.io/continuouspipe/php7-nginx:v1.0
     depends_on:
       - ubuntu
 
   redis:
     build:
       context: ./redis/3.2/
-    image: quay.io/continuouspipe/redis:3.2_v1
+    image: quay.io/continuouspipe/redis3:v1.0
     depends_on:
       - external_redis
 
   solr_4_10:
     build:
       context: ./solr/4.10/
-    image: quay.io/continuouspipe/solr:4.10_v1
+    image: quay.io/continuouspipe/solr4:v1.0
     depends_on:
       - external_solr_4_10
 
   solr_6_2:
     build:
       context: ./solr/6.2/
-    image: quay.io/continuouspipe/solr:6.2_v1
+    image: quay.io/continuouspipe/solr6:v1.0
     depends_on:
       - external_solr_6_2
 
   symfony_3_apache:
     build:
       context: ./symfony/3-apache/
-    image: quay.io/continuouspipe/symfony:3-apache_v1
+    image: quay.io/continuouspipe/symfony3-apache-php7:v1.0
     depends_on:
       - php_apache
 
   ubuntu:
     build:
       context: ./ubuntu/16.04/
-    image: quay.io/continuouspipe/ubuntu:16.04_v1
+    image: quay.io/continuouspipe/ubuntu16.04:v1.0
     depends_on:
       - external_ubuntu
 
   varnish:
     build:
       context: ./varnish/4.0/
-    image: quay.io/continuouspipe/varnish:4.0_v1
+    image: quay.io/continuouspipe/varnish4:v1.0
     depends_on:
       - ubuntu
 
