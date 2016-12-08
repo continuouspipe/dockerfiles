@@ -50,12 +50,15 @@ The following variables are supported
 
 Variable | Description | Expected values | Default
 --- | --- | --- | ----
+WEB_HOST | The domain of the website | a domain | localhost
 WEB_HTTP | Whether to support HTTP traffic on the WEB_HTTP_PORT. If auto, it's behaviour is the reverse setting of WEB_HTTPS, and if false, will redirect to HTTPS. | true/false/auto | auto
 WEB_HTTP_PORT | The port to serve the HTTP traffic or redirect from | 0-65535 | 80
 WEB_HTTPS | Whether to support HTTPS traffic on the WEB_HTTPS_PORT | true/false | false
 WEB_HTTPS_PORT | The port to serve the HTTPS traffic from | 0-65535 | 443
 WEB_HTTPS_OFFLOADED | Whether the HTTPS traffic has been forwarded without SSL | true/false | false
 WEB_REVERSE_PROXIED | Whether to interpret X-Forwarded-Proto as the $custom_scheme and $custom_https emulation. | true/false | $WEB_HTTPS_OFFLOADED
+WEB_SSL_FULLCHAIN | The location of the SSL certificate and intermediate chain file | absolute filename | /etc/ssl/certs/fullchain.pem
+WEB_SSL_PRIVKEY | The location of the SSL private key file | absolute filename | /etc/ssl/private/privkey.pem
 
 The project using the image can define these environment variables to control
 what is rendered in the Nginx configuration
@@ -75,6 +78,16 @@ use confd to add templates which render to the right location.
 You can replace the existing files in a project, but keep in mind that replacing
 them means you wont get any updates from newer image versions, so it's better
 to try and work out a generic solution to Pull Request to the dockerfile repository.
+
+### SSL Certificates/key
+
+By default the image will generate a self-signed certificate if the SSL certificate
+chain ($WEB_SSL_FULLCHAIN) and private key ($WEB_SSL_PRIVKEY) don't already exist.
+
+It will use a common name of $WEB_HOST.
+
+For a valid SSL certificate, it's recommended if you can use Kubernetes secrets
+or Hashicorp Vault to populate a secret volume to point the environment variables at.
 
 ### Basic authentication
 
