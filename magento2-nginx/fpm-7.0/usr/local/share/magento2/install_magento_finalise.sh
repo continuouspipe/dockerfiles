@@ -12,12 +12,6 @@ fi
 
 cd /app || exit 1
 
-# Preserve compiled theme files across setup:upgrade calls.
-if [ -d pub/static/frontend/ ]; then
-  mkdir /tmp/assets
-  mv pub/static/frontend/ /tmp/assets/
-fi
-
 set +e
 is_nfs
 IS_NFS=$?
@@ -27,6 +21,12 @@ if [ "$IS_NFS" -ne 0 ]; then
   chown -R "${CODE_OWNER}":"${CODE_GROUP}" pub/media pub/static var
 else
   chmod a+rw pub/media pub/static var
+fi
+
+# Preserve compiled theme files across setup:upgrade calls.
+if [ -d pub/static/frontend/ ]; then
+  mkdir /tmp/assets
+  mv pub/static/frontend/ /tmp/assets/
 fi
 
 as_code_owner "bin/magento setup:upgrade"
