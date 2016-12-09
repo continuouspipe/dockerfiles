@@ -9,7 +9,7 @@ server {
 server {
     listen {{ getenv "WEB_HTTPS_PORT" }} default_server;
     server_name _;
-{{ if ne "true" (getenv "WEB_HTTPS_REVERSE") }}
+{{ if ne "true" (getenv "WEB_REVERSE_PROXIED") }}
     ssl on;
     ssl_certificate {{ getenv "WEB_SSL_FULLCHAIN" }};
     ssl_certificate_key {{ getenv "WEB_SSL_PRIVKEY" }};{{ end }}{{ end }}
