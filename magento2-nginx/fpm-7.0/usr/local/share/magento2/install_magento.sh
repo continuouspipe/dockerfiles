@@ -32,7 +32,7 @@ if [ ! -d "vendor" ] || [ ! -f "vendor/autoload.php" ]; then
   if [ -n "$MAGENTO_USERNAME" ] && [ -n "$MAGENTO_PASSWORD" ]; then
     as_code_owner "composer global config http-basic.repo.magento.com '$MAGENTO_USERNAME' '$MAGENTO_PASSWORD'"
   fi
-  if [ -n "$TORAN_USERNAME" ]; then
+  if [ -n "$TORAN_USERNAME" ] && [ -n "$TORAN_PASSWORD" ]; then
     as_code_owner "composer global config http-basic.toran.inviqa.com '$TORAN_USERNAME' '$TORAN_PASSWORD'"
   fi
   if [ -n "$GITHUB_TOKEN" ]; then
