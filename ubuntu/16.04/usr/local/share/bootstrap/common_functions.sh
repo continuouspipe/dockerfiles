@@ -14,7 +14,7 @@ as_user() {
     USER='build';
   fi
 
-  su -l "$USER" -c "cd '$WORKING_DIR'; $COMMAND"
+  sudo -u "$USER" -E /bin/bash -c "cd '$WORKING_DIR'; $COMMAND"
 }
 
 as_build() {
