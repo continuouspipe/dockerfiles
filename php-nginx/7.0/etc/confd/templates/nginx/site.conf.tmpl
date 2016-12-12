@@ -1,16 +1,19 @@
 server {
+    server_name _;
     listen {{ getenv "WEB_HTTP_PORT" }} default_server;
 {{ if eq "true" (getenv "WEB_HTTPS") }}
-    server_name _;
+{{ if ne "true" (getenv "WEB_HTTP") }}
+
     access_log off;
     rewrite ^ https://$host$request_uri? permanent;
 }
 
 server {
-    listen {{ getenv "WEB_HTTPS_PORT" }} default_server;
     server_name _;
-{{ if ne "true" (getenv "WEB_REVERSE_PROXIED") }}
-    ssl on;
+{{ end }}
+{{ if eq "true" (getenv "WEB_REVERSE_PROXIED") }}
+    listen {{ getenv "WEB_HTTPS_PORT" }} default_server;{{ else }}
+    listen {{ getenv "WEB_HTTPS_PORT" }} default_server ssl;
     ssl_certificate {{ getenv "WEB_SSL_FULLCHAIN" }};
     ssl_certificate_key {{ getenv "WEB_SSL_PRIVKEY" }};{{ end }}{{ end }}
 
