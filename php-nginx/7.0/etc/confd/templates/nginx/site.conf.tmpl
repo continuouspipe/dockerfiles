@@ -1,6 +1,6 @@
 server {
     server_name _;
-    listen {{ getenv "WEB_HTTP_PORT" }} default_server;
+    listen {{ getenv "WEB_HTTP_PORT" }} default_server http2;
 {{ if eq "true" (getenv "WEB_HTTPS") }}
 {{ if ne "true" (getenv "WEB_HTTP") }}
 
@@ -12,8 +12,8 @@ server {
     server_name _;
 {{ end }}
 {{ if eq "true" (getenv "WEB_REVERSE_PROXIED") }}
-    listen {{ getenv "WEB_HTTPS_PORT" }} default_server;{{ else }}
-    listen {{ getenv "WEB_HTTPS_PORT" }} default_server ssl;
+    listen {{ getenv "WEB_HTTPS_PORT" }} default_server http2;{{ else }}
+    listen {{ getenv "WEB_HTTPS_PORT" }} default_server ssl http2;
     ssl_certificate {{ getenv "WEB_SSL_FULLCHAIN" }};
     ssl_certificate_key {{ getenv "WEB_SSL_PRIVKEY" }};{{ end }}{{ end }}
 
