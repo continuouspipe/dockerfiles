@@ -8,6 +8,11 @@ source /usr/local/share/bootstrap/setup.sh
 source /usr/local/share/bootstrap/run_confd.sh
 
 # Initialisation - Runtime installation tasks
+for file in /usr/local/bin/supervisor_custom_start-*; do
+  # shellcheck source=/dev/null
+  source "${file}"
+done
+
 source /usr/local/bin/supervisor_custom_start
 
 # Start services

@@ -1,4 +1,4 @@
-FROM quay.io/continuouspipe/ubuntu:16.04_v1
+FROM quay.io/continuouspipe/ubuntu16.04:v1.0
 
 MAINTAINER Kieren Evans <kieren.evans+cp-dockerfiles@inviqa.com>
 
