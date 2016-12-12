@@ -1,0 +1,5 @@
+#!/bin/bash
+
+set -e
+
+bash /usr/local/share/symfony/install.sh

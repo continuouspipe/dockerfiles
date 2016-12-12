@@ -1,0 +1,3 @@
+#!/bin/bash
+
+export PHP_MEMORY_LIMIT=${PHP_MEMORY_LIMIT:-512M}

@@ -1,0 +1,25 @@
+; Configuration for Tideways Profiler Extension
+; priority=40
+extension=tideways.so
+
+; Tideways Application API-Key to configure when using just one application on
+; this php installation.
+;tideways.api_key=
+
+; Configure the profiling sample rate for this PHP server globally.  The given
+; number is an integer representing percent between 0 and 100
+tideways.sample_rate=25
+
+; Automatically detect transactions and exceptions of a given framework The
+; following frameworks are currently supported:
+;
+; symfony2, symfony2c, shopware, oxid, magento, zend1, zend2, laravel,
+; wordpress
+{{if getenv "TIDEWAYS_FRAMEWORK"}}
+tideways.framework={{ getenv "TIDEWAYS_FRAMEWORK" }}
+{{end}}
+
+{{if getenv "TIDEWAYS_API_KEY"}}
+tideways.api_key = {{ getenv "TIDEWAYS_API_KEY" }}
+tideways.connection = {{ getenv "TIDEWAYS_CONNECTION" }}
+{{end}}
