@@ -46,7 +46,9 @@ The following variables are supported
 * WEB_HTTP_PORT - The port to serve the HTTP traffic or redirect from
 * WEB_HTTPS - Whether to support HTTPS traffic on the WEB_HTTPS_PORT
 * WEB_HTTPS_PORT - The port to serve the HTTPS traffic from
-* WEB_REVERSE_PROXIED - Whether to interpret X-Forwarded-Proto as the $custom_scheme and $custom_https emulation
+* WEB_HTTPS_OFFLOADED - Whether the HTTPS traffic has been forwarded without SSL
+* WEB_REVERSE_PROXIED - Whether to interpret X-Forwarded-Proto as the $custom_scheme
+  and $custom_https emulation. Defaults to what was set for WEB_HTTPS_OFFLOADED
 
 The project using the image can define these environment variables to control
 what is rendered in the Nginx configuration
