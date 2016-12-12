@@ -28,9 +28,16 @@ fi
 
 if [ ! -d "vendor" ] || [ ! -f "vendor/autoload.php" ]; then
   as_code_owner "composer config repositories.magento composer https://repo.magento.com/"
-  as_code_owner "composer global config http-basic.repo.magento.com '$MAGENTO_USERNAME' '$MAGENTO_PASSWORD'"
-  as_code_owner "composer global config http-basic.toran.inviqa.com '$TORAN_USERNAME' '$TORAN_PASSWORD'"
-  as_code_owner "composer global config github-oauth.github.com '$GITHUB_TOKEN'"
+
+  if [ -n "$MAGENTO_USERNAME" ]; then
+    as_code_owner "composer global config http-basic.repo.magento.com '$MAGENTO_USERNAME' '$MAGENTO_PASSWORD'"
+  fi
+  if [ -n "$TORAN_USERNAME" ]; then
+    as_code_owner "composer global config http-basic.toran.inviqa.com '$TORAN_USERNAME' '$TORAN_PASSWORD'"
+  fi
+  if [ -n "$GITHUB_TOKEN" ]; then
+    as_code_owner "composer global config github-oauth.github.com '$GITHUB_TOKEN'"
+  fi
 
   # do not use optimize-autoloader parameter yet, according to github, Mage2 has issues with it
   as_code_owner "composer install --no-interaction"
