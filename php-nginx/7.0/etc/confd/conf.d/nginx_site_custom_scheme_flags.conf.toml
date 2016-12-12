@@ -1,0 +1,6 @@
+[template]
+src   = "nginx/site_custom_scheme_flags.conf.tmpl"
+dest  = "/etc/nginx/sites-available/default-05-custom_scheme_flags.conf"
+mode  = "0644"
+keys = [ 
+]

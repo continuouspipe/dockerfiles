@@ -1,0 +1,5 @@
+    root {{ getenv "WEB_DIRECTORY" }};
+
+    location / {
+        try_files $uri @rewriteapp;
+    }

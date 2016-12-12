@@ -1,0 +1,6 @@
+[template]
+src   = "nginx/site_rewriteapp.conf.tmpl"
+dest  = "/etc/nginx/sites-available/default-20-rewriteapp.conf"
+mode  = "0644"
+keys = [ 
+]
