@@ -35,6 +35,9 @@ if [ ! -d "vendor" ] || [ ! -f "vendor/autoload.php" ]; then
   if [ -n "$GITHUB_TOKEN" ]; then
     as_code_owner "composer global config github-oauth.github.com '$GITHUB_TOKEN'"
   fi
+  if [ -n "$COMPOSER_CUSTOM_CONFIG_COMMAND" ]; then
+    as_code_owner "$COMPOSER_CUSTOM_CONFIG_COMMAND"
+  fi
 
   # do not use optimize-autoloader parameter yet, according to github, Mage2 has issues with it
   as_code_owner "composer install --no-interaction"
