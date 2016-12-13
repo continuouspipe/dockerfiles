@@ -29,7 +29,9 @@ IS_HEM=$?
 if [ "$IS_HEM" -eq 0 ]; then
   # Run HEM
   export HEM_RUN_ENV="${HEM_RUN_ENV:-local}"
-  as_build "hem --non-interactive --skip-host-checks assets download -e $ASSET_DOWNLOAD_ENVIRONMENT"
+  for asset_env in $ASSET_DOWNLOAD_ENVIRONMENTS; do
+    as_build "hem --non-interactive --skip-host-checks assets download -e $asset_env"
+  done
 fi
 
 bash "$DIR/install_database.sh"
