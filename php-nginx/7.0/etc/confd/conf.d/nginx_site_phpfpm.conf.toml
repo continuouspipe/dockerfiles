@@ -1,0 +1,6 @@
+[template]
+src   = "nginx/site_phpfpm.conf.tmpl"
+dest  = "/etc/nginx/sites-available/default-30-phpfpm.conf"
+mode  = "0644"
+keys = [ 
+]

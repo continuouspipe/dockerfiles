@@ -14,7 +14,7 @@ as_user() {
     USER='build';
   fi
 
-  su -l "$USER" -c "cd '$WORKING_DIR'; $COMMAND"
+  sudo -u "$USER" -E HOME="$(getent passwd "$USER" | cut -d: -f 6)" /bin/bash -c "cd '$WORKING_DIR'; $COMMAND"
 }
 
 as_build() {
