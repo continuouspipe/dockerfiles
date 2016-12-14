@@ -19,6 +19,15 @@ docker-compose build php56_nginx
 docker-compose push php56_nginx
 ```
 
+## About
+
+This is a Docker image for PHP (using the php-fpm SAPI) and Nginx. It uses, by
+default, our recommended default configuration, including:
+
+* A default HTTPS only website, with HTTP redirecting to HTTPS
+* A self signed SSL certificate auto-generated on container start
+* Nginx connecting to php-fpm using a private unix socket on the same container
+
 ## How to use
 
 As for all images based on the ubuntu base image, see
