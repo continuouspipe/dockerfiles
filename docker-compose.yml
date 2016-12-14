@@ -6,7 +6,7 @@ services:
       context: ./drupal7-apache/5.6/
     image: quay.io/continuouspipe/drupal7-apache-php5.6:v1.0
     depends_on:
-      - php_apache
+      - php56_apache
 
   drupal8_apache:
     build:

@@ -1,4 +1,4 @@
-FROM quay.io/continuouspipe/php-apache:5.6_v1
+FROM quay.io/continuouspipe/php5.6-apache:v1.0
 
 MAINTAINER "Kieren Evans <kieren.evans+cp-dockerfiles@inviqa.com>"
 
