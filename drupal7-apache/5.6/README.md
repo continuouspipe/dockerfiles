@@ -1,12 +1,12 @@
 # DRUPAL 8 APACHE/PHP
 
 ```Dockerfile
-FROM quay.io/continuouspipe/drupal7-apache:5.6_v1
+FROM quay.io/continuouspipe/drupal7-apache-php5.6:v1.0
 ```
 
 ## How to build
 ```bash
-docker build --pull --tag quay.io/continuouspipe/drupal7-apache:5.6_v1 --rm .
+docker build --pull --tag quay.io/continuouspipe/drupal7-apache-php5.6:v1.0 --rm .
 docker push
 ```
 
