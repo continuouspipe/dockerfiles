@@ -13,7 +13,7 @@ export WEB_DIRECTORY=${WEB_DIRECTORY:-${WORK_DIRECTORY}/web}
 
 export WEB_HOST=${WEB_HOST:-localhost}
 export WEB_HTTP_PORT=${WEB_HTTP_PORT:-80}
-export WEB_HTTPS=${WEB_HTTPS:-false}
+export WEB_HTTPS=${WEB_HTTPS:-true}
 export WEB_HTTP=${WEB_HTTP:-auto}
 export WEB_HTTPS_PORT=${WEB_HTTPS_PORT:-443}
 export WEB_HTTPS_OFFLOADED=${WEB_HTTPS_OFFLOADED:-false}

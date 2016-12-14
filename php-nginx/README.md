@@ -53,7 +53,7 @@ Variable | Description | Expected values | Default
 WEB_HOST | The domain of the website | a domain | localhost
 WEB_HTTP | Whether to support HTTP traffic on the WEB_HTTP_PORT. If auto, it's behaviour is the reverse setting of WEB_HTTPS, and if false, will redirect to HTTPS. | true/false/auto | auto
 WEB_HTTP_PORT | The port to serve the HTTP traffic or redirect from | 0-65535 | 80
-WEB_HTTPS | Whether to support HTTPS traffic on the WEB_HTTPS_PORT | true/false | false
+WEB_HTTPS | Whether to support HTTPS traffic on the WEB_HTTPS_PORT | true/false | true
 WEB_HTTPS_PORT | The port to serve the HTTPS traffic from | 0-65535 | 443
 WEB_HTTPS_OFFLOADED | Whether the HTTPS traffic has been forwarded without SSL | true/false | false
 WEB_REVERSE_PROXIED | Whether to interpret X-Forwarded-Proto as the $custom_scheme and $custom_https emulation. | true/false | $WEB_HTTPS_OFFLOADED
