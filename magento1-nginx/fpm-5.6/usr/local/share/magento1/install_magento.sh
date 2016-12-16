@@ -29,6 +29,9 @@ fi
 
 run_composer
 
+if [ ! -f bin/n98-magerun.phar ]; then
+  as_code_owner "curl -o bin/n98-magerun.phar https://files.magerun.net/n98-magerun.phar"
+fi
 
 mkdir -p pub/media pub/static var
 if [ "$IS_NFS" -ne 0 ]; then
