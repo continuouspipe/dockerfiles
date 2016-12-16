@@ -1,11 +1,15 @@
+upstream php-fpm {
+   server unix:///var/run/php5.6-fpm.sock;
+}
+
 server {
     listen 80;
 
-    root /vagrant/public;
+    root /app/public;
     index index.html;
 
 
-    server_name magento-test.dev;
+    server_name {{ getenv "APP_HOSTNAME" }};
 
 
 
@@ -60,7 +64,7 @@ server {
 
 
     location / {
-                try_files $uri @rewriteapp;
+        try_files $uri @rewriteapp;
     }
 
     location @rewriteapp {
@@ -77,9 +81,11 @@ server {
         fastcgi_param HTTPS $https;
         fastcgi_param HTTP_PROXY "";
 
+{{ if eq "developer" (getenv "MAGENTO_MODE") }}
         fastcgi_param MAGE_IS_DEVELOPER_MODE 1;
+{{ end }}
 
-        fastcgi_pass unix:/var/run/php-fpm-www.sock;
+        fastcgi_pass php-fpm;
     }
 
     error_log /var/log/nginx/magento-test.dev_error.log;
