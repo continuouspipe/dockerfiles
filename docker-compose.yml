@@ -74,13 +74,17 @@ services:
   php_apache:
     build:
       context: ./php-apache/7.0/
+      args:
+        PHP_VERSION: 7.0
     image: quay.io/continuouspipe/php7-apache:v1.0
     depends_on:
       - ubuntu
 
-  php_apache_56:
+  php56_apache:
     build:
-      context: ./php-apache/5.6/
+      context: ./php-apache/7.0/
+      args:
+        PHP_VERSION: 5.6
     image: quay.io/continuouspipe/php5.6-apache:v1.0
     depends_on:
       - ubuntu
