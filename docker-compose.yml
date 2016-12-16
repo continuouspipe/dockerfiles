@@ -6,7 +6,7 @@ services:
       context: ./drupal8-apache/7.0/
     image: quay.io/continuouspipe/drupal8-apache-php7:v1.0
     depends_on:
-      - php_apache
+      - php70_apache
 
   drupal8_solr_4_10:
     build:
@@ -34,7 +34,7 @@ services:
       context: ./ez/6.x/
     image: quay.io/continuouspipe/ez6-apache-php7:v1.0
     depends_on:
-      - php_apache
+      - php70_apache
 
   hem:
     build:
@@ -48,7 +48,7 @@ services:
       context: ./magento2-nginx/fpm-7.0/
     image: quay.io/continuouspipe/magento2-nginx-php7:v1.0
     depends_on:
-      - php_nginx
+      - php70_nginx
 
   magento2_varnish:
     build:
@@ -71,7 +71,7 @@ services:
     depends_on:
       - ubuntu
 
-  php_apache:
+  php70_apache:
     build:
       context: ./php-apache/7.0/
       args:
@@ -89,7 +89,7 @@ services:
     depends_on:
       - ubuntu
 
-  php_nginx:
+  php70_nginx:
     build:
       context: ./php-nginx/7.0/
       args:
@@ -133,7 +133,7 @@ services:
       context: ./symfony/3-apache/
     image: quay.io/continuouspipe/symfony3-apache-php7:v1.0
     depends_on:
-      - php_apache
+      - php70_apache
 
   ubuntu:
     build:
