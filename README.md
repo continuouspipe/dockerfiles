@@ -22,8 +22,8 @@ internal services and for the application templates.
 - [Solr 6.2](solr/6.2/)
 - [Redis 3.2](redis/3.2/)
 - [MySQL 5.6](mysql/5.6/)
-- [Apache w/ PHP 7.0](php-apache/7.0/)
-- [NGINX w/ PHP-FPM 7.0](php-nginx/7.0/)
+- [Apache w/ PHP](php-apache/)
+- [NGINX w/ PHP-FPM](php-nginx/)
 
 ## Testing
 
