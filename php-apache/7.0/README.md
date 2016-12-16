@@ -1,7 +1,22 @@
 # PHP 7.0 base
 
+```Dockerfile
+# For PHP 7.0
+FROM quay.io/continuouspipe/php7-apache:v1.0
+
+# For PHP 5.6
+FROM quay.io/continuouspipe/php5.6-apache:v1.0
 ```
-FROM quay.io/continuouspipe/php-apache:7.0
+
+## How to build
+```bash
+# For PHP 7.0
+docker-compose build php_apache
+docker-compose push php_apache
+
+# For PHP 5.6
+docker-compose build php56_apache
+docker-compose push php56_apache
 ```
 
 ### Basic authentication
