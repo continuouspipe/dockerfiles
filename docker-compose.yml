@@ -88,7 +88,18 @@ services:
   php_nginx:
     build:
       context: ./php-nginx/7.0/
+      args:
+        PHP_VERSION: 7.0
     image: quay.io/continuouspipe/php7-nginx:v1.0
+    depends_on:
+      - ubuntu
+
+  php56_nginx:
+    build:
+      context: ./php-nginx/7.0/
+      args:
+        PHP_VERSION: 5.6
+    image: quay.io/continuouspipe/php5.6-nginx:v1.0
     depends_on:
       - ubuntu
 
