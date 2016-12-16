@@ -1,12 +1,12 @@
 # PHP NGINX
 
 ```Dockerfile
-FROM quay.io/continuouspipe/php-nginx:7.0
+FROM quay.io/continuouspipe/php7-nginx:v1.0
 ```
 
 ## How to build
 ```bash
-docker build --pull --tag quay.io/continuouspipe/php-nginx:7.0 --rm .
+docker build --pull --tag quay.io/continuouspipe/php7-nginx:v1.0 --rm .
 docker push
 ```
 
