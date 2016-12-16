@@ -3,26 +3,32 @@ FROM quay.io/continuouspipe/ubuntu16.04:v1.0
 MAINTAINER Kieren Evans <kieren.evans+cp-dockerfiles@inviqa.com>
 
 # Install PHP packages, including the Tideways extension
+ARG PHP_VERSION
+ENV PHP_VERSION ${PHP_VERSION:-7.0}
 RUN echo 'deb http://s3-eu-west-1.amazonaws.com/qafoo-profiler/packages debian main' > /etc/apt/sources.list.d/tideways.list \
  && curl -sS https://s3-eu-west-1.amazonaws.com/qafoo-profiler/packages/EEB5E8F4.gpg | apt-key add - \
+ && if [ "$PHP_VERSION" != "7.0" ]; then \
+   echo 'deb http://ppa.launchpad.net/ondrej/php/ubuntu xenial main' > /etc/apt/sources.list.d/php-ppa.list; \
+   apt-key adv --keyserver keyserver.ubuntu.com --recv-keys E5267A6C; \
+ fi \
  && apt-get update -qq \
  && DEBIAN_FRONTEND=noninteractive apt-get -qq -y --no-install-recommends install \
     nginx \
     mysql-client \
     php-apcu \
     php-redis \
-    php7.0-bcmath \
-    php7.0-bz2 \
-    php7.0-curl \
-    php7.0-fpm \
-    php7.0-gd \
-    php7.0-intl \
-    php7.0-mbstring \
-    php7.0-mcrypt \
-    php7.0-mysql \
-    php7.0-soap \
-    php7.0-xsl \
-    php7.0-zip \
+    "php$PHP_VERSION-bcmath" \
+    "php$PHP_VERSION-bz2" \
+    "php$PHP_VERSION-curl" \
+    "php$PHP_VERSION-fpm" \
+    "php$PHP_VERSION-gd" \
+    "php$PHP_VERSION-intl" \
+    "php$PHP_VERSION-mbstring" \
+    "php$PHP_VERSION-mcrypt" \
+    "php$PHP_VERSION-mysql" \
+    "php$PHP_VERSION-soap" \
+    "php$PHP_VERSION-xsl" \
+    "php$PHP_VERSION-zip" \
     tideways-php \
  \
  # Clean the image \
@@ -48,3 +54,5 @@ USER root
 
 COPY ./etc/ /etc/
 COPY ./usr/ /usr/
+
+RUN find /etc/confd/conf.d/ -name "*.toml" -type f -exec sed -i'' "s/\$PHP_VERSION/$PHP_VERSION/" {} \;

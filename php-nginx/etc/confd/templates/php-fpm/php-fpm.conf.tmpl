@@ -7,7 +7,7 @@
 ;;;;;;;;;;;;;;;;;;
 
 [global]
-pid = /run/php7.0-fpm.pid
+pid = /run/php{{ getenv "PHP_VERSION" }}-fpm.pid
 error_log = /dev/stderr
 daemonize = no
 
@@ -15,4 +15,4 @@ daemonize = no
 ; Pool Definitions ;
 ;;;;;;;;;;;;;;;;;;;;
 
-include=/etc/php/7.0/fpm/pool.d/*.conf
+include=/etc/php/{{ getenv "PHP_VERSION" }}/fpm/pool.d/*.conf

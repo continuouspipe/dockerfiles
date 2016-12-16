@@ -1,13 +1,22 @@
 # PHP NGINX
 
 ```Dockerfile
-FROM quay.io/continuouspipe/php-nginx:7.0
+# For PHP 7.0
+FROM quay.io/continuouspipe/php7-nginx:v1.0
+
+# For PHP 5.6
+FROM quay.io/continuouspipe/php5.6-nginx:v1.0
 ```
 
 ## How to build
 ```bash
-docker build --pull --tag quay.io/continuouspipe/php-nginx:7.0 --rm .
-docker push
+# For PHP 7.0
+docker-compose build php70_nginx
+docker-compose push php70_nginx
+
+# For PHP 5.6
+docker-compose build php56_nginx
+docker-compose push php56_nginx
 ```
 
 ## How to use
