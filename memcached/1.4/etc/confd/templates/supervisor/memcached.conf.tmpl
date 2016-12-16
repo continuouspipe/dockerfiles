@@ -1,0 +1,11 @@
+[program:memcached]
+command = /usr/bin/memcached -m 64 -U 11211 -p 11211 -u memcache -l 0.0.0.0 -c 1024 -I 1m
+stdout_logfile=/dev/stdout
+stdout_logfile_maxbytes=0
+stderr_logfile=/dev/stderr
+stderr_logfile_maxbytes=0
+loglevel = warn
+user = memcache
+autostart = true
+autorestart = true
+priority = 5
