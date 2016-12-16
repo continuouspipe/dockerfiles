@@ -71,6 +71,15 @@ services:
     depends_on:
       - ubuntu
 
+  php71_apache:
+    build:
+      context: ./php-apache/
+      args:
+        PHP_VERSION: 7.1
+    image: quay.io/continuouspipe/php7.1-apache:v1.0
+    depends_on:
+      - ubuntu
+
   php70_apache:
     build:
       context: ./php-apache/
@@ -86,6 +95,15 @@ services:
       args:
         PHP_VERSION: 5.6
     image: quay.io/continuouspipe/php5.6-apache:v1.0
+    depends_on:
+      - ubuntu
+
+  php71_nginx:
+    build:
+      context: ./php-nginx/
+      args:
+        PHP_VERSION: 7.1
+    image: quay.io/continuouspipe/php7.1-nginx:v1.0
     depends_on:
       - ubuntu
 
