@@ -14,53 +14,76 @@ server {
 
 
     location ~ ^/errors/.*\.(xml|phtml)$ {
-        deny all;    }
+        deny all;
+    }
     location ~ ^/var(/|$) {
-        deny all;    }
+        deny all;
+    }
     location ~ ^/skin(/|$) {    }
     location ~ ^/shell(/|$) {
-        deny all;    }
+        deny all;
+    }
     location ~ ^/report/config\.xml(/|$) {
-        deny all;    }
+        deny all;
+    }
     location ~ ^/pkginfo(/|$) {
-        deny all;    }
+        deny all;
+    }
     location ~ ^/php\.ini\.sample(/|$) {
-        deny all;    }
+        deny all;
+    }
     location ~ ^/media/downloadable(/|$) {
-        deny all;    }
+        deny all;
+    }
     location ~ ^/media/customer(/|$) {
-        deny all;    }
+        deny all;
+    }
     location ~ ^/media/custom_options(/|$) {
-        deny all;    }
+        deny all;
+    }
     location ~ ^/media(/|$) {    }
     location ~ ^/mage(/|$) {
-        deny all;    }
+        deny all;
+    }
     location ~ ^/lib(/|$) {
-        deny all;    }
+        deny all;
+    }
     location ~ ^/install\.php(/|$) {
-        deny all;    }
+        deny all;
+    }
     location ~ ^/index\.php\.sample(/|$) {
-        deny all;    }
+        deny all;
+    }
     location ~ ^/includes(/|$) {
-        deny all;    }
+        deny all;
+    }
     location ~ ^/downloader(/|$) {
-        deny all;    }
+        deny all;
+    }
     location ~ ^/dev(/|$) {
-        deny all;    }
+        deny all;
+    }
     location ~ ^/cron\.sh(/|$) {
-        deny all;    }
+        deny all;
+    }
     location ~ ^/cron\.php(/|$) {
-        deny all;    }
+        deny all;
+    }
     location ~ ^/composer\.json(/|$) {
-        deny all;    }
+        deny all;
+    }
     location ~ ^/app(/|$) {
-        deny all;    }
+        deny all;
+    }
     location ~ /\.ht[^/]*$ {
-        deny all;    }
+        deny all;
+    }
     location ~ ^/RELEASE_NOTES\.txt(/|$) {
-        deny all;    }
+        deny all;
+    }
     location ~ ^/\.gitignore(/|$) {
-        deny all;    }
+        deny all;
+    }
 
 
     location / {
