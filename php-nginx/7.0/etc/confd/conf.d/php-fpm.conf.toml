@@ -1,6 +1,6 @@
 [template]
 src   = "php-fpm/php-fpm.conf.tmpl"
-dest  = "/etc/php/7.0/fpm/php-fpm.conf"
+dest  = "/etc/php/$PHP_VERSION/fpm/php-fpm.conf"
 mode  = "0644"
 keys = [
 ]

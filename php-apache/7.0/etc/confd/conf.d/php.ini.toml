@@ -1,6 +1,6 @@
 [template]
 src   = "php/php.ini.tmpl"
-dest  = "/etc/php/7.0/apache2/php.ini"
+dest  = "/etc/php/$PHP_VERSION/apache2/php.ini"
 mode  = "0644"
 keys = [
 ]

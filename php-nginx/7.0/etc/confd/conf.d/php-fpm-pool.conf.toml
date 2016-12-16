@@ -1,6 +1,6 @@
 [template]
 src   = "php-fpm/pool.conf.tmpl"
-dest  = "/etc/php/7.0/fpm/pool.d/www.conf"
+dest  = "/etc/php/$PHP_VERSION/fpm/pool.d/www.conf"
 mode  = "0644"
 keys = [
 ]

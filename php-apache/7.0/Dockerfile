@@ -57,3 +57,5 @@ USER root
 # Add configuration
 COPY ./etc/ /etc/
 COPY ./usr/ /usr/
+
+RUN find /etc/confd/conf.d/ -name "*.toml" -type f -exec sed -i'' "s/\$PHP_VERSION/$PHP_VERSION/" {} \;
