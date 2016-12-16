@@ -1,0 +1,6 @@
+[template]
+src   = "supervisor/apache.conf.tmpl"
+dest  = "/etc/supervisor/conf.d/apache.conf"
+mode  = "0644"
+keys = [
+]

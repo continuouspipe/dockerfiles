@@ -1,0 +1,10 @@
+<VirtualHost *:80>
+    DocumentRoot /app/web
+    DirectoryIndex index.php index.html
+
+    <Directory /app/web>
+        Options FollowSymLinks
+        AllowOverride None
+        Require all granted
+    </Directory>
+</VirtualHost>

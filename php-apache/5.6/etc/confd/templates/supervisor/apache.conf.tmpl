@@ -1,0 +1,11 @@
+[program:apache]
+command = /usr/sbin/apache2 -DFOREGROUND
+stdout_logfile=/dev/stdout
+stdout_logfile_maxbytes=0
+stderr_logfile=/dev/stderr
+stderr_logfile_maxbytes=0
+loglevel = warn
+user = root
+autostart = {{ getenv "START_APACHE" }}
+autorestart = true
+priority = 5
