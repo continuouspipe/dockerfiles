@@ -43,6 +43,13 @@ services:
     depends_on:
       - ubuntu
 
+  magento1_nginx:
+    build:
+      context: ./magento1-nginx/fpm-5.6/
+    image: quay.io/continuouspipe/magento1-nginx-php5.6:v1.0
+    depends_on:
+      - php56_nginx
+
   magento2_nginx:
     build:
       context: ./magento2-nginx/fpm-7.0/

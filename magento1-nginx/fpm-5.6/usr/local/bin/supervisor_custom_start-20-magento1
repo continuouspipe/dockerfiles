@@ -1,0 +1,4 @@
+#!/bin/bash
+
+bash /usr/local/share/magento1/install_magento.sh
+bash /usr/local/share/magento1/install_magento_finalise.sh
