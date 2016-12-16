@@ -3,6 +3,7 @@
 set -xe
 
 source /usr/local/share/bootstrap/common_functions.sh
+source /usr/local/share/php/common_functions.sh
 source /usr/local/share/env/custom_env_variables
 source /usr/local/share/env/default_env_variables
 source /usr/local/share/env/bootstrap_env_variables
@@ -26,27 +27,8 @@ if [ ! -f "app/etc/env.php" ]; then
   as_code_owner "cp tools/docker/magento/config.php app/etc/config.php"
 fi
 
-if [ ! -d "vendor" ] || [ ! -f "vendor/autoload.php" ]; then
-  as_code_owner "composer config repositories.magento composer https://repo.magento.com/"
+run_composer
 
-  if [ -n "$MAGENTO_USERNAME" ] && [ -n "$MAGENTO_PASSWORD" ]; then
-    as_code_owner "composer global config http-basic.repo.magento.com '$MAGENTO_USERNAME' '$MAGENTO_PASSWORD'"
-  fi
-  if [ -n "$GITHUB_TOKEN" ]; then
-    as_code_owner "composer global config github-oauth.github.com '$GITHUB_TOKEN'"
-  fi
-  if [ -n "$COMPOSER_CUSTOM_CONFIG_COMMAND" ]; then
-    as_code_owner "$COMPOSER_CUSTOM_CONFIG_COMMAND"
-  fi
-
-  # do not use optimize-autoloader parameter yet, according to github, Mage2 has issues with it
-  as_code_owner "composer install --no-interaction"
-  rm -rf /home/build/.composer/cache/
-  as_code_owner "composer clear-cache"
-
-  chmod -R go-w vendor
-  chmod +x bin/magento
-fi
 
 mkdir -p pub/media pub/static var
 if [ "$IS_NFS" -ne 0 ]; then
