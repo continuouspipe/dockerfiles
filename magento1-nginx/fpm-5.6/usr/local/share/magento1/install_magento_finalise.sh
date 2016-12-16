@@ -17,37 +17,10 @@ is_nfs
 IS_NFS=$?
 set -e
 
-if [ "$IS_NFS" -ne 0 ]; then
-  chown -R "${CODE_OWNER}":"${CODE_GROUP}" pub/media pub/static var
-else
-  chmod a+rw pub/media pub/static var
-fi
+as_code_owner "php /app/bin/n98-magerun.phar cache:clean config" /app/public
+as_code_owner "php /app/bin/n98-magerun.phar sys:setup:incremental -n" /app/public
 
-# Preserve compiled theme files across setup:upgrade calls.
-if [ -d pub/static/frontend/ ]; then
-  mkdir /tmp/assets
-  mv pub/static/frontend/ /tmp/assets/
-fi
-
-as_code_owner "bin/magento setup:upgrade"
-
-if [ -d /tmp/assets/ ]; then
-  mkdir -p pub/static/
-  mv /tmp/assets/frontend/ pub/static/
-  rm -rf /tmp/assets
-fi
-
-# Compile the DIC if to be productionized
-if [ "$PRODUCTION_ENVIRONMENT" = "1" ]; then
-  as_code_owner "$MAGENTO_DEPENDENCY_INJECTION_COMPILE_COMMAND"
-fi
-
-# Compile static content if it's a production container.
-if [ "$MAGENTO_MODE" = "production" ]; then
-  as_code_owner "bin/magento setup:static-content:deploy $FRONTEND_COMPILE_LANGUAGES"
-fi
-
-(as_code_owner "bin/magento indexer:reindex" || echo "Failing indexing to the end, ignoring.") && echo "Indexing successful"
+(as_code_owner "php /app/bin/n98-magerun.phar indexer:reindex" /app/public || echo "Failing indexing to the end, ignoring.") && echo "Indexing successful"
 
 # Download and install the assets when running the image
 # (sad that we have to do that tho...)
@@ -66,12 +39,7 @@ if [ "$IS_HEM" -eq 0 ]; then
 fi
 
 # Flush magento cache
-as_code_owner "bin/magento cache:flush"
-
-# Ensure the permissions are web writable for the assets and var folders, but only on filesystems that allow chown.
-if [ "$IS_NFS" -ne 0 ]; then
-  chown -R "${APP_USER}:${APP_GROUP}" pub/media pub/static var
-fi
+as_code_owner "php bin/n98-magerun.phar cache:flush"
 
 if [ -f "$DIR/install_magento_finalise_custom.sh" ]; then
   # shellcheck source=./install_magento_finalise_custom.sh

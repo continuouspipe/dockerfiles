@@ -33,12 +33,12 @@ if [ ! -f bin/n98-magerun.phar ]; then
   as_code_owner "curl -o bin/n98-magerun.phar https://files.magerun.net/n98-magerun.phar"
 fi
 
-mkdir -p pub/media pub/static var
+mkdir -p public/media public/sitemaps public/staging public/var
 if [ "$IS_NFS" -ne 0 ]; then
-  chown -R "${APP_USER}:${CODE_GROUP}" pub/media pub/static var
-  chmod -R ug+rw,o-w pub/media pub/static var
+  chown -R "${APP_USER}:${CODE_GROUP}" public/media public/sitemaps public/staging public/var
+  chmod -R ug+rw,o-w public/media public/sitemaps public/staging public/var
 else
-  chmod -R a+rw pub/media pub/static var
+  chmod -R a+rw public/media public/sitemaps public/staging public/var
 fi
 
 if [ -d "$FRONTEND_INSTALL_DIRECTORY" ]; then
