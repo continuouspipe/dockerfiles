@@ -1,4 +1,4 @@
-# MAGENTO 2 NGINX/FPM
+# MAGENTO 1 NGINX/FPM
 
 ```Dockerfile
 FROM quay.io/continuouspipe/magento1-nginx-php5.6:v1.0

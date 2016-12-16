@@ -24,7 +24,7 @@ RUN curl -q https://dx6pc3giz7k1r.cloudfront.net/GPG-KEY-inviqa-tools | apt-key 
  && npm rebuild node-sass \
  \
  # Clean the image \
- && apt-get remove -qq -y php7.0-dev pkg-config libmagickwand-dev build-essential \
+ && apt-get remove -qq -y php5.6-dev pkg-config libmagickwand-dev build-essential \
  && apt-get auto-remove -qq -y \
  && apt-get clean \
  && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* \
