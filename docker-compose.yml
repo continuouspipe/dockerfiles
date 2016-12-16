@@ -73,7 +73,7 @@ services:
 
   php70_apache:
     build:
-      context: ./php-apache/7.0/
+      context: ./php-apache/
       args:
         PHP_VERSION: 7.0
     image: quay.io/continuouspipe/php7-apache:v1.0
@@ -82,7 +82,7 @@ services:
 
   php56_apache:
     build:
-      context: ./php-apache/7.0/
+      context: ./php-apache/
       args:
         PHP_VERSION: 5.6
     image: quay.io/continuouspipe/php5.6-apache:v1.0
@@ -91,7 +91,7 @@ services:
 
   php70_nginx:
     build:
-      context: ./php-nginx/7.0/
+      context: ./php-nginx/
       args:
         PHP_VERSION: 7.0
     image: quay.io/continuouspipe/php7-nginx:v1.0
@@ -100,7 +100,7 @@ services:
 
   php56_nginx:
     build:
-      context: ./php-nginx/7.0/
+      context: ./php-nginx/
       args:
         PHP_VERSION: 5.6
     image: quay.io/continuouspipe/php5.6-nginx:v1.0
