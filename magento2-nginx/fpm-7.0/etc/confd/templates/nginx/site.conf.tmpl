@@ -1,5 +1,5 @@
 map $http_host $MAGE_RUN_CODE {
-    {{ getenv "APP_HOSTNAME" }} default;
+    {{ getenv "MAGENTO_RUN_CODE_MAPPING" }}
 }
 
 upstream php-fpm {
@@ -10,7 +10,7 @@ server {
     listen       80;
 
     set $MAGE_ROOT /app;
-    set $MAGE_MODE developer;
+    set $MAGE_MODE {{ getenv "MAGENTO_MODE" }};
 
     root $MAGE_ROOT/pub;
 
