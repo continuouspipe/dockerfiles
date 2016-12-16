@@ -1,0 +1,83 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Placed by Confd
+ */
+-->
+<config>
+    <global>
+        <environment><![CDATA[]]></environment>
+        <install>
+            <date><![CDATA[Thu, 01 Jul 2010 10:29:20 +0000]]></date>
+        </install>
+        <crypt>
+            <key><![CDATA[{{ getenv "MAGENTO_CRYPT_KEY" }}]]></key>
+        </crypt>
+        <disable_local_modules>false</disable_local_modules>
+
+
+        <skip_process_modules_updates><![CDATA[1]]></skip_process_modules_updates>
+        <skip_process_modules_updates_dev_mode><![CDATA[1]]></skip_process_modules_updates_dev_mode>
+        <resources>
+            <db>
+                <table_prefix><![CDATA[]]></table_prefix>
+            </db>
+            <default_setup>
+                <connection>
+                    <host><![CDATA[{{ getenv "DATABASE_HOST" }}]]></host>
+                    <dbname><![CDATA[{{ getenv "DATABASE_NAME" }}]]></dbname>
+                    <username><![CDATA[{{ getenv "DATABASE_USER" }}]]></username>
+                    <persistent><![CDATA[0]]></persistent>
+                    <active><![CDATA[1]]></active>
+                    <model><![CDATA[mysql4]]></model>
+                    <initStatements><![CDATA[SET NAMES utf8]]></initStatements>
+                    <type><![CDATA[pdo_mysql]]></type>
+                    <password><![CDATA[{{ getenv "DATABASE_PASSWORD" }}]]></password>
+                </connection>
+            </default_setup>
+        </resources>
+        <session_save><![CDATA[memcache]]></session_save>
+        <session_save_path><![CDATA[tcp://{{ getenv "MEMCACHED_HOST" }}:{{ getenv "MEMCACHED_PORT" }}?persistent=1&weight=1&timeout=10&retry_interval=10]]></session_save_path><!-- e.g. for memcache session save handler tcp://10.0.0.1:11211?persistent=1&weight=2&timeout=10&retry_interval=10 -->
+        <session_cache_limiter><![CDATA[nocache]]></session_cache_limiter><!-- see http://php.net/manual/en/function.session-cache-limiter.php#82174 for possible values -->
+        <cache>
+             <backend><![CDATA[Cm_Cache_Backend_Redis]]></backend><!-- apc / memcached / xcache / Cm_Cache_Backend_Redis empty=file -->
+                <backend_options>
+                    <server><![CDATA[{{ getenv "REDIS_HOST" }}]]></server> <!-- or absolute path to unix socket for better performance -->
+                     <port><![CDATA[{{ getenv "REDIS_PORT" }}]]></port>
+                     <database><![CDATA[{{ getenv "MAGENTO_REDIS_CACHE_DATABASE" }}]]></database>
+                     <force_standalone><![CDATA[1]]></force_standalone><!-- 0 for phpredis, 1 for standalone PHP -->
+                     <automatic_cleaning_factor><![CDATA[0]]></automatic_cleaning_factor> <!-- Disabled by default -->
+                     <compress_data><![CDATA[1]]></compress_data><!-- 0-9 for compression level, recommended: 0 or 1 -->
+                     <compress_tags><![CDATA[1]]></compress_tags><!-- 0-9 for compression level, recommended: 0 or 1 -->
+                     <compress_threshold><![CDATA[2048]]></compress_threshold><!-- Strings below this size will not be compressed -->
+                     <compression_lib><![CDATA[gzip]]></compression_lib> <!-- Supports gzip, lzf and snappy -->
+                </backend_options>
+
+        </cache>
+
+        <full_page_cache>
+             <backend><![CDATA[Cm_Cache_Backend_Redis]]></backend><!-- apc / memcached / xcache / Cm_Cache_Backend_Redis empty=file -->
+                 <backend_options>
+                    <server><![CDATA[{{ getenv "REDIS_HOST" }}]]></server> <!-- or absolute path to unix socket for better performance -->
+                     <port><![CDATA[{{ getenv "REDIS_PORT" }}]]></port>
+                     <database><![CDATA[{{ getenv "MAGENTO_REDIS_FULL_PAGE_CACHE_DATABASE" }}]]></database>
+                     <force_standalone><![CDATA[1]]></force_standalone><!-- 0 for phpredis, 1 for standalone PHP -->
+                     <automatic_cleaning_factor><![CDATA[0]]></automatic_cleaning_factor> <!-- Disabled by default -->
+                     <compress_data><![CDATA[1]]></compress_data><!-- 0-9 for compression level, recommended: 0 or 1 -->
+                     <compress_tags><![CDATA[1]]></compress_tags><!-- 0-9 for compression level, recommended: 0 or 1 -->
+                     <compress_threshold><![CDATA[2048]]></compress_threshold><!-- Strings below this size will not be compressed -->
+                     <compression_lib><![CDATA[gzip]]></compression_lib> <!-- Supports gzip, lzf and snappy -->
+                 </backend_options>
+
+        </full_page_cache>
+    </global>
+    <admin>
+        <routers>
+            <adminhtml>
+                <args>
+                    <frontName><![CDATA[{{ getenv "MAGENTO_ADMIN_FRONTNAME" }}]]></frontName>
+                </args>
+            </adminhtml>
+        </routers>
+    </admin>
+</config>
