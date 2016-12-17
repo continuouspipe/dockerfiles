@@ -24,7 +24,7 @@ server {
         fastcgi_param HTTPS $https;
         fastcgi_param HTTP_PROXY "";
 
-        fastcgi_pass unix:///var/run/php7.0-fpm.sock;
+        fastcgi_pass unix:///var/run/php{{ getenv "PHP_VERSION" }}-fpm.sock;
     }
 
     error_log /dev/stderr info;

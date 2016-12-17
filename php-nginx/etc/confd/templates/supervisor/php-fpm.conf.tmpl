@@ -1,5 +1,5 @@
 [program:php-fpm]
-command = /usr/sbin/php-fpm7.0 -F
+command = /usr/sbin/php-fpm{{ getenv "PHP_VERSION" }} -F
 stdout_logfile=/dev/stdout
 stdout_logfile_maxbytes=0
 stderr_logfile=/dev/stderr
