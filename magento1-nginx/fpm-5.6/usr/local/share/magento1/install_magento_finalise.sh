@@ -12,11 +12,6 @@ fi
 
 cd /app || exit 1
 
-set +e
-is_nfs
-IS_NFS=$?
-set -e
-
 as_code_owner "php /app/bin/n98-magerun.phar cache:clean config" /app/public
 as_code_owner "php /app/bin/n98-magerun.phar sys:setup:incremental -n" /app/public
 
