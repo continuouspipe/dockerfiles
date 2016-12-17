@@ -15,7 +15,7 @@ cd /app || exit 1
 as_code_owner "php /app/bin/n98-magerun.phar cache:clean config" /app/public
 as_code_owner "php /app/bin/n98-magerun.phar sys:setup:incremental -n" /app/public
 
-(as_code_owner "php /app/bin/n98-magerun.phar indexer:reindex" /app/public || echo "Failing indexing to the end, ignoring.") && echo "Indexing successful"
+(as_code_owner "php /app/bin/n98-magerun.phar index:reindex" /app/public || echo "Failing indexing to the end, ignoring.") && echo "Indexing successful"
 
 # Download and install the assets when running the image
 # (sad that we have to do that tho...)

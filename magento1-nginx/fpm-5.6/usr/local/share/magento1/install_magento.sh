@@ -31,6 +31,7 @@ mkdir -p public/media public/sitemaps public/staging public/var
 if [ "$IS_NFS" -ne 0 ]; then
   chown -R "${APP_USER}:${CODE_GROUP}" public/media public/sitemaps public/staging public/var
   chmod -R ug+rw,o-w public/media public/sitemaps public/staging public/var
+  chmod -R a+r public/media public/sitemaps public/staging
 else
   chmod -R a+rw public/media public/sitemaps public/staging public/var
 fi

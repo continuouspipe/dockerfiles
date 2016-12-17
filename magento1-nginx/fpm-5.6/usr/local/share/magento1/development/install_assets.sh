@@ -24,7 +24,7 @@ if [ -f "$ASSET_ARCHIVE_PATH" ]; then
 
   if [ "$IS_NFS" -ne 0 ]; then
     chown -R "${APP_USER}:${APP_GROUP}" public/media
-    chmod -R u+rw,o-rw public/media
+    chmod -R u+rw,go-w,go+r public/media
   else
     chmod -R a+rw public/media
   fi
