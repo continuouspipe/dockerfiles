@@ -2,7 +2,7 @@
 user = {{ getenv "APP_USER" }}
 group = {{ getenv "APP_GROUP" }}
 
-listen = /run/php7.0-fpm.sock
+listen = /run/php{{ getenv "PHP_VERSION" }}-fpm.sock
 
 listen.owner = www-data
 listen.group = www-data
