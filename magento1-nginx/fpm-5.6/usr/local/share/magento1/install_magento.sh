@@ -21,12 +21,6 @@ is_nfs
 IS_NFS=$?
 set -e
 
-# TODO: Convert to template
-if [ ! -f "app/etc/env.php" ]; then
-  as_code_owner "cp tools/docker/magento/env.php app/etc/env.php"
-  as_code_owner "cp tools/docker/magento/config.php app/etc/config.php"
-fi
-
 run_composer
 
 if [ ! -f bin/n98-magerun.phar ]; then
