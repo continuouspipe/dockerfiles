@@ -8,10 +8,14 @@ source /usr/local/share/bootstrap/setup.sh
 source /usr/local/share/bootstrap/run_confd.sh
 
 # Initialisation - Runtime installation tasks
-for file in /usr/local/bin/supervisor_custom_start-*; do
-  # shellcheck source=/dev/null
-  source "${file}"
-done
+shopt -s nullglob
+set -- /usr/local/bin/supervisor_custom_start-*
+if [ "$#" -gt 0 ]; then
+  for file in "$@"; do
+    # shellcheck source=/dev/null
+    source "${file}"
+  done
+fi
 
 source /usr/local/bin/supervisor_custom_start
 
