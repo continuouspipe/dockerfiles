@@ -1,0 +1,3 @@
+#!/bin/bash
+
+bash /usr/local/share/php/install.sh
