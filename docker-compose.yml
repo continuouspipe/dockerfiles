@@ -124,6 +124,13 @@ services:
     image: quay.io/continuouspipe/php5.6-nginx:v1.0
     depends_on:
       - ubuntu
+      
+  scala_sbt:
+    build:
+      context: ./scala-base/1.0/
+    image: quay.io/continuouspipe/scala-base:1.0
+    depends_on:
+      - ubuntu
 
   redis:
     build:
