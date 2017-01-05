@@ -1,6 +1,6 @@
 server {
     server_name _;
-    listen {{ getenv "WEB_HTTP_PORT" }} default_server http2;
+    listen {{ getenv "WEB_HTTP_PORT" }} default_server;
 {{ if eq "true" (getenv "WEB_HTTPS") }}
 {{ if ne "true" (getenv "WEB_HTTP") }}
 
