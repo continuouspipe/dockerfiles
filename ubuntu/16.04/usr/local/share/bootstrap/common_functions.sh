@@ -1,5 +1,16 @@
 #!/bin/bash
 
+load_env() {
+  shopt -s nullglob
+  set -- /usr/local/share/env/*
+  if [ "$#" -gt 0 ]; then
+    for file in "$@"; do
+      # shellcheck source=/dev/null
+      source "${file}"
+    done
+  fi
+}
+
 as_user() {
   local COMMAND="$1"
   local WORKING_DIR="$2"

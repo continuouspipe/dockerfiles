@@ -3,9 +3,8 @@
 set -xe
 
 source /usr/local/share/bootstrap/common_functions.sh
-source /usr/local/share/env/custom_env_variables
-source /usr/local/share/env/default_env_variables
-source /usr/local/share/env/bootstrap_env_variables
+
+load_env
 
 if [ -L "$0" ] ; then
     DIR="$(dirname "$(readlink -f "$0")")" ;
