@@ -2,5 +2,7 @@
 src   = "magento/local.xml.tmpl"
 dest  = "/app/public/app/etc/local.xml"
 mode  = "0640"
+owner = "build"
+group = "www-data"
 keys = [
 ]
