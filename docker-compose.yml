@@ -167,6 +167,30 @@ services:
     depends_on:
       - php70_apache
 
+  symfony3_php71_nginx:
+    build:
+      context: ./symfony/3-nginx/
+      dockerfile: Dockerfile-7.1
+    image: quay.io/continuouspipe/symfony3-php7.1-nginx:v1.0
+    depends_on:
+      - php71_nginx
+
+  symfony3_php70_nginx:
+    build:
+      context: ./symfony/3-nginx/
+      dockerfile: Dockerfile-7.0
+    image: quay.io/continuouspipe/symfony3-php7-nginx:v1.0
+    depends_on:
+      - php70_nginx
+
+  symfony3_php56_nginx:
+    build:
+      context: ./symfony/3-nginx/
+      dockerfile: Dockerfile-5.6
+    image: quay.io/continuouspipe/symfony3-php5.6-nginx:v1.0
+    depends_on:
+      - php56_nginx
+
   ubuntu:
     build:
       context: ./ubuntu/16.04/
