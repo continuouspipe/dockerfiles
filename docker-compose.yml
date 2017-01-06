@@ -57,6 +57,13 @@ services:
     depends_on:
       - varnish
 
+  memcached:
+    build:
+      context: ./memcached/1.4/
+    image: quay.io/continuouspipe/memcached1.4:v1.0
+    depends_on:
+      - ubuntu
+
   mysql:
     build:
       context: ./mysql/5.6/

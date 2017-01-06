@@ -1,0 +1,6 @@
+[template]
+src   = "supervisor/memcached.conf.tmpl"
+dest  = "/etc/supervisor/conf.d/memcached.conf"
+mode  = "0644"
+keys = [
+]
