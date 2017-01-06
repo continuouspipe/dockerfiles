@@ -1,0 +1,3 @@
+    location @rewriteapp {
+        rewrite ^(.*)$ /app.php/$1 last;
+    }
