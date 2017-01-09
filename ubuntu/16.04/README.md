@@ -78,10 +78,11 @@ keys = [
 ### Default Environment Variables
 
 To define default environment variables, for confd to use when rendering templates, place an export line in
-`usr/local/share/env/default_env_variables` for base images, or `usr/local/share/env/custom_env_variables` for images
-where you wish to override the defaults.
+a file in `usr/local/share/env/` for example `usr/local/share/env/40-stack` for stack images, or
+`usr/local/share/env/30-framwork` for framework images. The resulting /usr/local/share/env/ files will be
+imported in alphanumeric sort order (the same as directory listing order).
 
-For example, a default_env_variables:
+For example, a 40-stack file:
 ```bash
 #!/bin/bash
 

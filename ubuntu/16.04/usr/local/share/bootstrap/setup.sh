@@ -1,14 +1,8 @@
 #!/bin/bash
 
-# Initialisation - Declare custom environment variables
-source /usr/local/share/env/custom_env_variables
+source /usr/local/share/bootstrap/common_functions.sh
 
-# Initialisation - Declare default environment variables
-source /usr/local/share/env/default_env_variables
-
-# Initialisation - Declare variables used by scripts in the ubuntu base image
-# to avoid undeclared variables!
-source /usr/local/share/env/bootstrap_env_variables
+load_env
 
 # Initialisation - Pre templating
 source /usr/local/share/bootstrap/pre_templating.sh

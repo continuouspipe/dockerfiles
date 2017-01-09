@@ -109,7 +109,7 @@ To use this functionality:
 3. Run the following to generate the htpasswd line: `htpasswd -n <username>`
 4. Provide this htpasswd line securely in the environment for this image as `AUTH_HTTP_HTPASSWD`
 5. Also provide the following variable with some values either through docker-compose environment or in
-   `/usr/local/share/env/custom_env_variables`:
+   `/usr/local/share/env/`:
   ```
   export AUTH_HTTP_ENABLED=true
   ```
