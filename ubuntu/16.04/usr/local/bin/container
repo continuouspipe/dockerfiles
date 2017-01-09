@@ -1,15 +1,14 @@
 #!/bin/bash
 set -xe
 
+TASK=$1
+
 # Initialisation - Declare variables and run pre-templating steps.
 source /usr/local/share/bootstrap/setup.sh
 
-# Initalisation - Run templating (confd) after declaring environment variables
-source /usr/local/share/bootstrap/run_confd.sh
-
 # Initialisation - Runtime installation tasks
 shopt -s nullglob
-set -- /usr/local/bin/supervisor_custom_start-*
+set -- /usr/local/share/container/baseimage-*
 if [ "$#" -gt 0 ]; then
   for file in "$@"; do
     # shellcheck source=/dev/null
@@ -17,7 +16,10 @@ if [ "$#" -gt 0 ]; then
   done
 fi
 
-source /usr/local/bin/supervisor_custom_start
+source /usr/local/share/container/plan.sh
 
-# Start services
-exec /usr/bin/supervisord -c /etc/supervisor/supervisord.conf
+if [ "$TASK" == "start" ]; then
+  source /usr/local/bin/supervisor_custom_start
+fi
+
+"do_$TASK"

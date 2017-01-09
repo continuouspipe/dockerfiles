@@ -49,3 +49,17 @@ is_nfs() {
   grep -q "/app nfs " /proc/mounts
   return $?
 }
+
+alias_function() {
+    local -r ORIG_FUNC=$(declare -f $1)
+    local -r NEWNAME_FUNC="$2${ORIG_FUNC#$1}"
+    eval "$NEWNAME_FUNC"
+}
+
+do_build() {
+  :
+}
+
+do_start() {
+  :
+}

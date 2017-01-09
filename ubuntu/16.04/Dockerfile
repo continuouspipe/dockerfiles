@@ -42,4 +42,4 @@ RUN echo 'APT::Install-Recommends 0;' >> /etc/apt/apt.conf.d/01norecommends \
 COPY ./etc/ /etc/
 COPY ./usr/ /usr/
 
-CMD ["/usr/local/bin/supervisor_start"]
+CMD ["/usr/local/bin/container", "start"]

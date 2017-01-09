@@ -10,6 +10,8 @@ fi
 source /usr/local/share/bootstrap/common_functions.sh
 source /usr/local/share/php/common_functions.sh
 
+load_env
+
 cd /app || exit 1;
 
 run_composer

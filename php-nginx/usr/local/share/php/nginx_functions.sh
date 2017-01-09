@@ -38,4 +38,6 @@ function do_https_certificates() {
     fi
 }
 
-do_https_certificates
+do_nginx() {
+  do_https_certificates
+}

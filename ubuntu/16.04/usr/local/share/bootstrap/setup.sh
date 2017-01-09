@@ -14,3 +14,7 @@ function do_confd() {
   # Initialisation - Templating
   confd -onetime -backend env
 }
+
+function do_supervisord() {
+  exec /usr/bin/supervisord -c /etc/supervisor/supervisord.conf
+}
