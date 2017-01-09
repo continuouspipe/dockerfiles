@@ -5,7 +5,7 @@ export WEB_DIRECTORY=${WEB_DIRECTORY:-/app/public}
 
 export PRODUCTION_ENVIRONMENT=${PRODUCTION_ENVIRONMENT:-false}
 export APP_HOSTNAME=${APP_HOSTNAME:-magento1.dev}
-export PUBLIC_ADDRESS=${PUBLIC_ADDRESS:-http://magento_web.docker/}
+export PUBLIC_ADDRESS=${PUBLIC_ADDRESS:-https://magento_web.docker/}
 
 export FORCE_DATABASE_DROP=${FORCE_DATABASE_DROP:-false}
 export DATABASE_ARCHIVE_PATH=${DATABASE_ARCHIVE_PATH:-tools/assets/development/magentodb.sql.gz}
