@@ -1,8 +1,8 @@
 [template]
 src   = "magento/local.xml.tmpl"
 dest  = "/app/public/app/etc/local.xml"
-mode  = "0644"
-owner = "build"
-group = "www-data"
+mode  = "0640"
+uid = 999
+gid = 33
 keys = [
 ]
