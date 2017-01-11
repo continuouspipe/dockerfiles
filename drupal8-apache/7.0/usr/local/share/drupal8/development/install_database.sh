@@ -1,5 +1,7 @@
 #!/bin/bash
 
+source /usr/local/share/bootstrap/common_functions.sh
+
 function database_connected() {
   mysql -h"$DATABASE_HOST" -u"$DATABASE_USER" -p"$DATABASE_PASSWORD" -e "SELECT 1;"
 }

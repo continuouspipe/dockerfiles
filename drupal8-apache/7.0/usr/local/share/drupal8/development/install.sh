@@ -15,6 +15,10 @@ else
     DIR="$(dirname "$0")" ;
 fi ;
 
+# Install composer and npm dependencies
+bash "$DIR/../install.sh";
+bash "$DIR/../install_finalise.sh";
+
 source /usr/local/share/bootstrap/common_functions.sh
 
 set +e
@@ -35,10 +39,6 @@ export DATABASE_ROOT_PASSWORD=drupal
 export DATABASE_HOST=database
 
 bash "$DIR/install_database.sh"
-
-# Install composer and npm dependencies
-bash "$DIR/../install.sh";
-bash "$DIR/../install_finalise.sh";
 
 # Default Docker public address
 if [ -z "$PUBLIC_ADDRESS" ]; then
