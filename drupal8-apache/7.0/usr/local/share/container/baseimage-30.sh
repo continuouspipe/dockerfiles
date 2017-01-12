@@ -12,6 +12,12 @@ do_development_start() {
   bash /usr/local/share/drupal8/development/install.sh
 }
 
+alias_function do_templating do_drupal8_templating_inner
+do_templating() {
+  mkdir -p /app/docroot/sites/default/
+  do_drupal8_templating_inner
+}
+
 do_composer() {
   # disable original composer in image hierarchy till install ported
   :
