@@ -65,6 +65,7 @@ In addition to the bash functions defined in this base image's parent images:
 This base image adds the following bash functions:
 
 function | description | executed on
+--- | --- | ---
 do_composer | Runs composer install in /app if it's not been run yet | do_build, do_development_start
 
 These functions can be triggered via the /usr/local/bin/container command, dropping off the "do_" part. e.g:

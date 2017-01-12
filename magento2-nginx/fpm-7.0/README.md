@@ -40,6 +40,7 @@ In addition to the bash functions defined in this base image's parent images:
 This base image adds the following bash functions:
 
 function | description | executed on
+--- | --- | ---
 do_magento2_install | Builds Magento | do_build
 do_magento2_development_start | Installs Magento | do_development_start
 
