@@ -9,7 +9,7 @@ do_build() {
 alias_function do_development_start do_drupal8_development_start_inner
 do_development_start() {
   do_drupal8_development_start_inner
-  bash /usr/local/share/drupal8/development/install.sh
+  do_drupal8_development_start
 }
 
 alias_function do_templating do_drupal8_templating_inner
@@ -26,4 +26,8 @@ do_composer() {
 do_drupal8_install() {
   bash /usr/local/share/drupal8/install.sh
   bash /usr/local/share/drupal8/install_finalise.sh
+}
+
+do_drupal8_development_start() {
+  bash /usr/local/share/drupal8/development/install.sh
 }

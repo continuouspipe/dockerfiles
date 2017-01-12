@@ -1,7 +1,6 @@
 #!/bin/bash
 
-alias_function do_composer do_symfony_composer_inner
-do_composer() {
+do_symfony_build() {
   mkdir -p /app/var
 
   if [ "$IS_NFS" -ne 0 ]; then
@@ -12,6 +11,10 @@ do_composer() {
   else
     chmod -R a+rw /app/var
   fi
+}
 
+alias_function do_composer do_symfony_composer_inner
+do_composer() {
+  do_symfony_build
   do_symfony_composer_inner
 }
