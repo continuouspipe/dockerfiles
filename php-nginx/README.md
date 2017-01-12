@@ -1,11 +1,21 @@
 # PHP NGINX
 
+For PHP 7.0
 ```Dockerfile
-# For PHP 7.0
 FROM quay.io/continuouspipe/php7-nginx:v1.0
+ARG GITHUB_TOKEN=
 
-# For PHP 5.6
+COPY . /app
+RUN container build
+```
+
+For PHP 5.6
+```Dockerfile
 FROM quay.io/continuouspipe/php5.6-nginx:v1.0
+ARG GITHUB_TOKEN=
+
+COPY . /app
+RUN container build
 ```
 
 ## How to build
@@ -121,3 +131,26 @@ To use this functionality:
 
 We also support using the basic auth delegate feature of NGINX, by providing: `AUTH_HTTP_REMOTE_URL`.
 Pretty please make this a HTTPS URL!
+
+### Custom build and startup scripts
+
+To run commands during the build and startup sequences that the base images add,
+please add `usr/local/share/container/plan.sh` for a project, or
+`usr/local/share/container/baseimage-{number}.sh` if creating another base image.
+
+This allows you to define and override bash functions that the base images add.
+
+In addition to the bash functions defined in this base image's parent images:
+[the base image functions](../../ubuntu/16.04/README.md#Custom build and startup scripts)
+
+This base image adds the following bash functions:
+
+function | desciption | executed on
+do_composer | Runs composer install in /app if it's not been run yet | do_build, do_development_start
+do_nginx | Runs nginx-related setup scripts | do_start
+do_https_certificates | Ensures there are [HTTPS certificates](#SSL Certificates/key) | do_nginx
+
+These functions can be triggered via the /usr/local/bin/container command, dropping off the "do_" part. e.g:
+
+/usr/local/bin/container build # runs do_build
+/usr/local/bin/container start_supervisord # runs do_start_supervisord
