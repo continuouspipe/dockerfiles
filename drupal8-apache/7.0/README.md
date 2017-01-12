@@ -40,14 +40,14 @@ please add `usr/local/share/container/plan.sh` for a project, or
 This allows you to define and override bash functions that the base images add.
 
 In addition to the bash functions defined in this base image's parent images:
-[the base image functions](../../ubuntu/16.04/README.md#Custom build and startup scripts)
-[the php-apache image functions](../../php-apache/README.md#Custom build and startup scripts)
+[the base image functions](../../ubuntu/16.04/README.md#custom-build-and-startup-scripts)
+[the php-apache image functions](../../php-apache/README.md#custom-build-and-startup-scripts)
 
 This base image adds the following bash functions:
 
-function | desciption | executed on
-do_drupal8_install | Builds Drupal | do_build
-do_drupal8_development_start | Installs Drupal | do_development_start
+function | description | executed on
+* do_drupal8_install | Builds Drupal | do_build
+* do_drupal8_development_start | Installs Drupal | do_development_start
 
 These functions can be triggered via the /usr/local/bin/container command, dropping off the "do_" part. e.g:
 
