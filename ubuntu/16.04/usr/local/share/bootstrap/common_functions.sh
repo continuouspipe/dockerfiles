@@ -1,6 +1,7 @@
 #!/bin/bash
 
 load_env() {
+  set +x
   shopt -s nullglob
   set -- /usr/local/share/env/*
   if [ "$#" -gt 0 ]; then
@@ -9,6 +10,7 @@ load_env() {
       source "${file}"
     done
   fi
+  set -x
 }
 
 as_user() {
