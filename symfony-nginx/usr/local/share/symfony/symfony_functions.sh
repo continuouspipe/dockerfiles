@@ -8,6 +8,7 @@ do_symfony_build_permissions() {
 
   if [ "$IS_NFS" -ne 0 ]; then
     # Prepare a default parameters.yml. incenteev/parameters-handler can still update it
+    mkdir -p /app/app/config
     [ ! -f /app/app/config/parameters.yml ] && echo 'parameters: {}' > /app/app/config/parameters.yml
     setfacl -R -m "d:u:$CODE_OWNER:rwX" -m "u:$CODE_OWNER:rwX" /app/
 
