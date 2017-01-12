@@ -12,6 +12,8 @@ fi ;
 
 source /usr/local/share/bootstrap/common_functions.sh
 
+load_env
+
 cd /app || exit 1;
 
 SETTINGS_DIR="/app/docroot/sites/default"

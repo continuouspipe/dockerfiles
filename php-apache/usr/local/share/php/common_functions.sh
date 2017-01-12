@@ -1,13 +1,6 @@
 #!/bin/bash
 
-source /usr/local/share/bootstrap/common_functions.sh
-
 run_composer() {
-  set +e
-  is_nfs
-  IS_NFS=$?
-  set -e
-
   if [ ! -d "/app/vendor" ] || [ ! -f "/app/vendor/autoload.php" ]; then
     mkdir -p /app/vendor
     if [ "$IS_NFS" -ne 0 ]; then
@@ -27,5 +20,11 @@ run_composer() {
     fi
 
     chmod -R go-w /app/vendor
+  fi
+}
+
+do_composer() {
+  if [ -f "${WORK_DIRECTORY}/composer.json" ]; then
+    run_composer
   fi
 }

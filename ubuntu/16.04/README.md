@@ -2,6 +2,10 @@
 
 ```Dockerfile
 FROM quay.io/continuouspipe/ubuntu:16.04
+
+COPY ./somedir /somedir
+
+RUN container build
 ```
 
 ## How to build
@@ -118,10 +122,30 @@ alter any file in the codebase.
 
 As such, only set APP_USER_LOCAL in development when using volumes.
 
-### Custom Startup Scripts
+### Custom build and startup scripts
 
-To run custom scripts before a service starts, please add `usr/local/bin/supervisor_custom_start` in your child image
-and it will automatically be executed before supervisor is started.
+To run commands during the build and startup sequences that the base images add,
+please add `usr/local/share/container/plan.sh` for a project, or
+`usr/local/share/container/baseimage-{number}.sh` if creating another base image.
+
+This allows you to define and override bash functions that the base images add.
+
+This base image adds the following bash functions:
+
+function | description | executed on
+do_build | By default does nothing in this image
+do_start_supervisord | Runs do_start and do_supervisord
+do_supervisord | Runs [supervisord](#SupervisorD) | do_start_supervisor
+do_start | Runs the following bash functions | do_start_supervisor
+do_update_permissions | Runs the [Volume Permission Fixes](#Volume Permission Fixes) | do_start
+do_development_start | By default does nothing in this image | do_start
+do_templating | Runs [confd](#ConfD) | do_start
+
+These functions can be triggered via the /usr/local/bin/container command, dropping off the "do_" part. e.g:
+
+/usr/local/bin/container build # runs do_build
+/usr/local/bin/container start_supervisord # runs do_start_supervisord
+
 
 ## Known child images
 

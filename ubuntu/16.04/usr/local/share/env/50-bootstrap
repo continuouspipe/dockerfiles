@@ -5,3 +5,10 @@ export APP_USER_LOCAL_RANDOM=${APP_USER_LOCAL_RANDOM:-false}
 export WORK_DIRECTORY=${WORK_DIRECTORY:-/app}
 export CODE_OWNER=${CODE_OWNER:-build}
 export CODE_GROUP=${CODE_GROUP:-build}
+
+set +e
+is_nfs
+export IS_NFS=$?
+set -e
+
+export DEVELOPMENT_MODE=${DEVELOPMENT_MODE:-${IS_NFS}}
