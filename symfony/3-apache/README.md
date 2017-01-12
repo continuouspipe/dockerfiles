@@ -24,6 +24,7 @@ In addition to the bash functions defined in this base image's parent images:
 This base image adds the following bash functions:
 
 function | description | executed on
+--- | --- | ---
 do_symfony_build | Updates the permissions of the Symfony app as required for composer and web write access | do_composer
 
 These functions can be triggered via the /usr/local/bin/container command, dropping off the "do_" part. e.g:

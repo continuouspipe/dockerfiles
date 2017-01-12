@@ -46,6 +46,7 @@ In addition to the bash functions defined in this base image's parent images:
 This base image adds the following bash functions:
 
 function | description | executed on
+--- | --- | ---
 * do_drupal8_install | Builds Drupal | do_build
 * do_drupal8_development_start | Installs Drupal | do_development_start
 

@@ -146,6 +146,7 @@ In addition to the bash functions defined in this base image's parent images:
 This base image adds the following bash functions:
 
 function | description | executed on
+--- | --- | ---
 do_composer | Runs composer install in /app if it's not been run yet | do_build, do_development_start
 do_nginx | Runs nginx-related setup scripts | do_start
 do_https_certificates | Ensures there are [HTTPS certificates](#SSL Certificates/key) | do_nginx

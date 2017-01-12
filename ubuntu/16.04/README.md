@@ -133,6 +133,7 @@ This allows you to define and override bash functions that the base images add.
 This base image adds the following bash functions:
 
 function | description | executed on
+--- | --- | ---
 do_build | By default does nothing in this image
 do_start_supervisord | Runs do_start and do_supervisord
 do_supervisord | Runs [supervisord](#SupervisorD) | do_start_supervisor
