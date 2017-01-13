@@ -11,6 +11,7 @@ do_update_permissions()
 alias_function do_start do_ubuntu_start_inner
 do_start() {
     do_ubuntu_start_inner
+    do_update_permissions
     check_development_start
     do_templating
 }
