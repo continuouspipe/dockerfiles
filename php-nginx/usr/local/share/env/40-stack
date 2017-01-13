@@ -4,7 +4,6 @@ export PHP_TIMEZONE=${PHP_TIMEZONE:-UTC}
 export PHP_MEMORY_LIMIT=${PHP_MEMORY_LIMIT:-256M}
 export APP_USER=${APP_USER:-www-data}
 export APP_GROUP=${APP_GROUP:-www-data}
-export APP_USER_LOCAL=${APP_USER_LOCAL:-false}
 export START_NGINX=${START_NGINX:-true}
 export START_PHP_FPM=${START_PHP_FPM:-true}
 
