@@ -7,8 +7,8 @@ export CODE_OWNER=${CODE_OWNER:-build}
 export CODE_GROUP=${CODE_GROUP:-build}
 
 set +e
-is_nfs
-export IS_NFS=$?
+is_chown_supported
+export IS_CHOWN_SUPPORTED=$?
 set -e
 
-export DEVELOPMENT_MODE=${DEVELOPMENT_MODE:-${IS_NFS}}
+export DEVELOPMENT_MODE=${DEVELOPMENT_MODE:-${IS_CHOWN_SUPPORTED}}
