@@ -33,10 +33,10 @@ fi
 # But, only if the app directory is not via an NFS mountpoint, which doesn't
 # allow chowning.
 set +e
-is_chown_supported
-IS_CHOWN_SUPPORTED=$?
+is_chown_forbidden
+IS_CHOWN_FORBIDDEN=$?
 set -e
-if [ "$IS_CHOWN_SUPPORTED" -ne 0 ] && [ -d "$SETTINGS_DIR/files/" ]; then
+if [ "$IS_CHOWN_FORBIDDEN" -ne 0 ] && [ -d "$SETTINGS_DIR/files/" ]; then
   chown -R "$APP_USER:$APP_GROUP" "$SETTINGS_DIR/files/"
 fi
 

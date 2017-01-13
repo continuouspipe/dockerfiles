@@ -1,7 +1,7 @@
 #!/bin/bash
 
 do_build_permissions() {
-  if [ "$IS_CHOWN_SUPPORTED" -ne 0 ]; then
+  if [ "$IS_CHOWN_FORBIDDEN" -ne 0 ]; then
     chown -R "$CODE_OWNER":"$CODE_GROUP" /app/
   else
     chmod -R a+rw /app/
@@ -11,7 +11,7 @@ do_build_permissions() {
 run_composer() {
   if [ ! -d "/app/vendor" ] || [ ! -f "/app/vendor/autoload.php" ]; then
     mkdir -p /app/vendor
-    if [ "$IS_CHOWN_SUPPORTED" -ne 0 ]; then
+    if [ "$IS_CHOWN_FORBIDDEN" -ne 0 ]; then
       chown "$CODE_OWNER":"$CODE_GROUP" /app/vendor
     fi
 
@@ -23,7 +23,7 @@ run_composer() {
     rm -rf /home/build/.composer/cache/
     as_code_owner "composer clear-cache"
 
-    if [ "$IS_CHOWN_SUPPORTED" -ne 0 ]; then
+    if [ "$IS_CHOWN_FORBIDDEN" -ne 0 ]; then
       chown -R "$CODE_OWNER:$APP_GROUP" /app/vendor
     fi
 
