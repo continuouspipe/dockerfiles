@@ -52,12 +52,9 @@ is_chown_supported() {
   return $?
 }
 
-do_vboxsf_permissions() {
+is_vboxsf_mountpoint() {
   grep -q "/app vboxsf" /proc/mounts
-  IS_VBOXSF="$?"
-  if [ "$IS_VBOXSF" -eq 0 ]; then
-    export APP_USER_LOCAL=true
-  fi
+  return $?
 }
 
 alias_function() {
@@ -71,5 +68,5 @@ do_build() {
 }
 
 do_start() {
-  do_vboxsf_permissions
+  :
 }

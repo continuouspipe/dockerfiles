@@ -1,7 +1,5 @@
 #!/bin/bash
 
-export APP_USER_LOCAL=${APP_USER_LOCAL:-false}
-export APP_USER_LOCAL_RANDOM=${APP_USER_LOCAL_RANDOM:-false}
 export WORK_DIRECTORY=${WORK_DIRECTORY:-/app}
 export CODE_OWNER=${CODE_OWNER:-build}
 export CODE_GROUP=${CODE_GROUP:-build}
@@ -9,6 +7,11 @@ export CODE_GROUP=${CODE_GROUP:-build}
 set +e
 is_chown_supported
 export IS_CHOWN_SUPPORTED=$?
+
+is_vboxsf_mount
+export IS_VBOXSF_MOUNT=$?
 set -e
 
 export DEVELOPMENT_MODE=${DEVELOPMENT_MODE:-${IS_CHOWN_SUPPORTED}}
+export APP_USER_LOCAL=${APP_USER_LOCAL:-${IS_VBOXSF_MOUNT}}
+export APP_USER_LOCAL_RANDOM=${APP_USER_LOCAL_RANDOM:-false}
