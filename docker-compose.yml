@@ -64,12 +64,37 @@ services:
     depends_on:
       - ubuntu
 
-  mysql:
+  mongodb34:
     build:
-      context: ./mysql/5.6/
+      context: ./mongodb/
+      dockerfile: Dockerfile-3.4
+    image: quay.io/continuouspipe/mongodb3.4:v1.0
+    depends_on:
+      - external_mongodb34
+
+  mysql80:
+    build:
+      context: ./mysql/
+      dockerfile: Dockerfile-8.0
+    image: quay.io/continuouspipe/mysql8.0:v1.0
+    depends_on:
+      - external_mysql80
+
+  mysql57:
+    build:
+      context: ./mysql/
+      dockerfile: Dockerfile-5.7
+    image: quay.io/continuouspipe/mysql5.7:v1.0
+    depends_on:
+      - external_mysql57
+
+  mysql56:
+    build:
+      context: ./mysql/
+      dockerfile: Dockerfile-5.6
     image: quay.io/continuouspipe/mysql5.6:v1.0
     depends_on:
-      - external_mysql
+      - external_mysql56
 
   nodejs:
     build:
@@ -205,7 +230,16 @@ services:
     depends_on:
       - ubuntu
 
-  external_mysql:
+  external_mongodb34:
+    image: mongo:3.4
+
+  external_mysql80:
+    image: mysql:8.0
+
+  external_mysql57:
+    image: mysql:5.7
+
+  external_mysql56:
     image: mysql:5.6
 
   external_redis:
