@@ -4,6 +4,12 @@ do_symfony_config_create() {
   # Prepare a default parameters.yml. incenteev/parameters-handler can still update it
   if [ ! -f /app/app/config/parameters.yml ]; then
     echo 'parameters: {}' > /app/app/config/parameters.yml
+    if [ "$IS_NFS" -ne 0 ]; then
+      chown "$CODE_OWNER:$APP_USER" /app/app/config/parameters.yml
+      chmod u+rw,g+r,o-rwx /app/app/config/parameters.yml
+    else
+      chmod a+rw /app/app/config/parameters.yml
+    fi
   fi
 }
 
