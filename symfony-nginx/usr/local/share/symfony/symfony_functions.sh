@@ -13,10 +13,10 @@ do_symfony_build_permissions() {
 
     # Fix permissions so the web server user can write to cache and logs folders
     if [ "$SYMFONY_MAJOR_VERSION" -eq 2 ]; then
-      setfacl -R -m "d:u:$APP_USER:rwX" -m "u:$APP_USER:rwX" /app/app/{cache,logs}
-      chmod -R ug+rw,o-rw /app/app/{cache,logs}
+      chown -R "$APP_USER:$CODE_GROUP" /app/app/{cache,logs}
+      chmod -R ug+rw,o-rwx /app/app/{cache,logs}
     fi
-    setfacl -R -m "d:u:$APP_USER:rwX" -m "u:$APP_USER:rwX" /app/var
+    chown -R "$APP_USER:$CODE_GROUP" /app/var
     chmod -R ug+rw,o-rwx /app/var
   else
     if [ "$SYMFONY_MAJOR_VERSION" -eq 2 ]; then
