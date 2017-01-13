@@ -8,10 +8,10 @@ set +e
 is_chown_forbidden
 export IS_CHOWN_FORBIDDEN=$?
 
-is_vboxsf_mount
-export IS_VBOXSF_MOUNT=$?
+is_vboxsf_mountpoint
+export IS_VBOXSF_MOUNTPOINT=$?
 set -e
 
 export DEVELOPMENT_MODE=${DEVELOPMENT_MODE:-${IS_CHOWN_FORBIDDEN}}
-export APP_USER_LOCAL=${APP_USER_LOCAL:-${IS_VBOXSF_MOUNT}}
+export APP_USER_LOCAL=${APP_USER_LOCAL:-${IS_VBOXSF_MOUNTPOINT}}
 export APP_USER_LOCAL_RANDOM=${APP_USER_LOCAL_RANDOM:-false}
