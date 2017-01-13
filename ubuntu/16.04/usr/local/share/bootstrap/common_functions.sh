@@ -52,7 +52,7 @@ is_chown_supported() {
   return $?
 }
 
-do_vboxsf_warning() {
+do_vboxsf_permissions() {
   grep -q "/app vboxsf" /proc/mounts
   IS_VBOXSF="$?"
   if [ "$IS_VBOXSF" -eq 0 ]; then
@@ -71,5 +71,5 @@ do_build() {
 }
 
 do_start() {
-  do_vboxsf_warning
+  do_vboxsf_permissions
 }
