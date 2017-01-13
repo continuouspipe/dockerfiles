@@ -52,6 +52,27 @@ is_chown_supported() {
   return $?
 }
 
+do_vboxsf_warning() {
+  grep -q "/app vboxsf" /proc/mounts
+  IS_VBOXSF="$?"
+  if [ "$IS_VBOXSF" -eq 0 ]; then
+    NON_WRITABLE_COUNT="$(find /app ! -perm /o+w | wc -l)"
+    if [ "$NON_WRITABLE_COUNT" -ge 0 ]; then
+      echo
+      echo "Hello, it seems you are trying to run this image with a codebase mountpoint provided by Virtualbox. "
+      echo
+      echo "If trying to write files or directories to the codebase, you may encounter permissions issues."
+      echo
+      echo "For permissions to be correct for the codebase inside this docker container, please run "
+      echo
+      echo "'chmod a+rw /path/to/the/codebase/folder/that/needs/write/permissions'"
+      echo
+      echo "on your host filesystem, then stop and start this container."
+      echo
+    fi
+  fi
+}
+
 alias_function() {
     local -r ORIG_FUNC=$(declare -f $1)
     local -r NEWNAME_FUNC="$2${ORIG_FUNC#$1}"
@@ -63,5 +84,5 @@ do_build() {
 }
 
 do_start() {
-  :
+  do_vboxsf_warning
 }
