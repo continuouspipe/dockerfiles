@@ -1,13 +1,14 @@
-# MySQL 5.6
+# MongoDB 3.4
 
 ```Dockerfile
-FROM quay.io/continuouspipe/mysql:5.6
+FROM quay.io/continuouspipe/mongodb3.4:v1.0
 ```
 
 ## How to build
 ```bash
-docker build --pull --tag quay.io/continuouspipe/mysql:5.6 --rm .
-docker push
+./build.sh
+docker-compose build mongodb34
+docker-compose push mongodb34
 ```
 
 ## How to use
