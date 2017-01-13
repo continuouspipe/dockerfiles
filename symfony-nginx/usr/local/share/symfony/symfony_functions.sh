@@ -10,7 +10,6 @@ do_symfony_build_permissions() {
     # Prepare a default parameters.yml. incenteev/parameters-handler can still update it
     mkdir -p /app/app/config
     [ ! -f /app/app/config/parameters.yml ] && echo 'parameters: {}' > /app/app/config/parameters.yml
-    setfacl -R -m "d:u:$CODE_OWNER:rwX" -m "u:$CODE_OWNER:rwX" /app/
 
     # Fix permissions so the web server user can write to cache and logs folders
     if [ "$SYMFONY_MAJOR_VERSION" -eq 2 ]; then
