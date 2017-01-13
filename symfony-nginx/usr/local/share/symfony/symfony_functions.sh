@@ -2,7 +2,9 @@
 
 do_symfony_config_create() {
   # Prepare a default parameters.yml. incenteev/parameters-handler can still update it
-  [ ! -f /app/app/config/parameters.yml ] && echo 'parameters: {}' > /app/app/config/parameters.yml
+  if [ ! -f /app/app/config/parameters.yml ]; then
+    echo 'parameters: {}' > /app/app/config/parameters.yml
+  fi
 }
 
 do_symfony_directory_create() {
