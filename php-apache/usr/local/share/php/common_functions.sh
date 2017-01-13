@@ -2,9 +2,9 @@
 
 do_build_permissions() {
   if [ "$IS_NFS" -ne 0 ]; then
-    setfacl -R -m "d:u:$CODE_OWNER:rwX" -m "u:$CODE_OWNER:rwX" /app/
+    chown -R "$CODE_OWNER":"$CODE_GROUP" /app/
   else
-    chown -R "$CODE_OWNER:$CODE_GROUP" /app/
+    chmod -R a+rw /app/
   fi
 }
 
