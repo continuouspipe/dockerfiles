@@ -13,8 +13,6 @@ else
     DIR="$(dirname "$0")" ;
 fi
 
-cd /app || exit 1;
-
 function do_composer() {
   run_composer
 }
@@ -26,16 +24,16 @@ function do_magento_n98_download() {
 }
 
 function do_magento_create_directories() {
-  mkdir -p public/media public/sitemaps public/staging public/var
+  mkdir -p /app/public/media /app/public/sitemaps /app/public/staging /app/public/var
 }
 
 function do_magento_directory_permissions() {
   if [ "$IS_CHOWN_FORBIDDEN" -ne 0 ]; then
-    chown -R "${APP_USER}:${CODE_GROUP}" public/media public/sitemaps public/staging public/var
-    chmod -R ug+rw,o-w public/media public/sitemaps public/staging public/var
-    chmod -R a+r public/media public/sitemaps public/staging
+    chown -R "${APP_USER}:${CODE_GROUP}" /app/public/media /app/public/sitemaps /app/public/staging /app/public/var
+    chmod -R ug+rw,o-w /app/public/media /app/public/sitemaps /app/public/staging /app/public/var
+    chmod -R a+r /app/public/media /app/public/sitemaps /app/public/staging
   else
-    chmod -R a+rw public/media public/sitemaps public/staging public/var
+    chmod -R a+rw /app/public/media /app/public/sitemaps /app/public/staging /app/public/var
   fi
 }
 
