@@ -49,7 +49,6 @@ function do_magento_assets_download() {
     for asset_env in $ASSET_DOWNLOAD_ENVIRONMENTS; do
       as_build "hem --non-interactive --skip-host-checks assets download -e $asset_env"
     done
-    bash "$DIR/development/install_assets.sh"
   fi
 }
 
