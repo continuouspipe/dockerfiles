@@ -141,7 +141,6 @@ function do_magento_build() {
 }
 
 function do_magento_development_build() {
-  do_replace_core_config_values
   do_magento_assets_download
   do_magento_database_install
   do_replace_core_config_values
