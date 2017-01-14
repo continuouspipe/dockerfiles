@@ -31,5 +31,6 @@ do_magento_install() {
 }
 
 do_magento_development_start() {
+  do_magento_install
   do_magento_development_build
 }
