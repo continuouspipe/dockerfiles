@@ -21,7 +21,6 @@ do_development_start() {
 
 do_magento_install() {
   do_magento_build
-  bash /usr/local/share/magento1/install_magento_finalise.sh
 }
 
 do_magento_development_start() {
