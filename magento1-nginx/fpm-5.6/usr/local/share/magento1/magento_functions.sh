@@ -50,10 +50,21 @@ function do_magento_custom() {
   fi
 }
 
+function do_magento_assets() {
+  # Download the static assets
+  if [ "$IS_HEM" -eq 0 ]; then
+    for asset_env in $ASSET_DOWNLOAD_ENVIRONMENTS; do
+      as_build "hem --non-interactive --skip-host-checks assets download -e $asset_env"
+    done
+    bash "$DIR/development/install_assets.sh"
+  fi
+}
+
 function do_magento_build() {
   do_magento_n98_download
   do_magento_create_directories
   do_magento_directory_permissions
   do_magento_frontend_build
+  do_magento_assets
   do_magento_custom
 }

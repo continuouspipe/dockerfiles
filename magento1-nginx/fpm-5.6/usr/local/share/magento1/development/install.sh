@@ -22,17 +22,7 @@ source "$DIR/replace_core_config_values.sh"
 # shellcheck source=../install_magento.sh
 bash "$DIR/../install_magento.sh";
 
-set +e
-is_hem_project
-set -e
-IS_HEM=$?
-if [ "$IS_HEM" -eq 0 ]; then
-  # Run HEM
-  export HEM_RUN_ENV="${HEM_RUN_ENV:-local}"
-  for asset_env in $ASSET_DOWNLOAD_ENVIRONMENTS; do
-    as_build "hem --non-interactive --skip-host-checks assets download -e $asset_env"
-  done
-fi
+do_magento_assets
 
 bash "$DIR/install_database.sh"
 
