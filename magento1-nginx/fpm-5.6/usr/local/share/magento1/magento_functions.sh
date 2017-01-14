@@ -1,22 +1,5 @@
 #!/bin/bash
 
-set -xe
-
-source /usr/local/share/bootstrap/common_functions.sh
-source /usr/local/share/php/common_functions.sh
-
-load_env
-
-if [ -L "$0" ] ; then
-    DIR="$(dirname "$(readlink -f "$0")")" ;
-else
-    DIR="$(dirname "$0")" ;
-fi
-
-function do_composer() {
-  run_composer
-}
-
 function do_magento_n98_download() {
   if [ ! -f bin/n98-magerun.phar ]; then
     as_code_owner "curl -o bin/n98-magerun.phar https://files.magerun.net/n98-magerun.phar"
@@ -68,7 +51,6 @@ function do_magento_custom() {
 }
 
 function do_magento_build() {
-  do_composer
   do_magento_n98_download
   do_magento_create_directories
   do_magento_directory_permissions

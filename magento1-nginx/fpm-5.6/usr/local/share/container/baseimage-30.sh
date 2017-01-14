@@ -1,5 +1,7 @@
 #!/bin/bash
 
+source /usr/local/share/magento1/magento_function.sh
+
 alias_function do_build do_magento_build_inner
 do_build() {
   do_magento_build_inner
@@ -12,13 +14,13 @@ do_development_start() {
   do_magento_development_start
 }
 
-do_composer() {
-  # disable original composer in image hierarchy till install ported
-  :
-}
+# alias_function do_composer do_magento_composer_inner
+# do_composer() {
+#   do_magento_composer_inner
+# }
 
 do_magento_install() {
-  bash /usr/local/share/magento1/install_magento.sh
+  do_magento_build
   bash /usr/local/share/magento1/install_magento_finalise.sh
 }
 
