@@ -138,6 +138,7 @@ function do_magento_build() {
   do_magento_directory_permissions
   do_magento_frontend_build
   do_magento_assets_download
+  do_magento_assets_install
 }
 
 function do_magento_development_build() {
