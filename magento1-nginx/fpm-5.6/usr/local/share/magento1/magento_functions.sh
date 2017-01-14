@@ -54,6 +54,7 @@ function do_magento_assets_download() {
 
 function do_magento_assets_install() {
   if [ -f "$ASSET_ARCHIVE_PATH" ]; then
+    mkdir -p /app/public/media
     if [ "$IS_CHOWN_FORBIDDEN" -ne 0 ]; then
       chown -R "${CODE_OWNER}:${CODE_GROUP}" /app/public/media
     else
