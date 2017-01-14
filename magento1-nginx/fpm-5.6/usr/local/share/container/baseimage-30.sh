@@ -1,6 +1,6 @@
 #!/bin/bash
 
-source /usr/local/share/magento1/magento_function.sh
+source /usr/local/share/magento1/magento_functions.sh
 
 alias_function do_build do_magento_build_inner
 do_build() {
@@ -32,5 +32,4 @@ do_magento_install() {
 
 do_magento_development_start() {
   do_magento_development_build
-  bash /usr/local/share/magento1/install_magento_finalise.sh
 }
