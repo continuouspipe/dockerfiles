@@ -14,6 +14,13 @@ do_development_start() {
   do_magento_development_start
 }
 
+alias_function do_templating do_magento_templating_inner
+do_templating() {
+  mkdir -p /home/build/.hem/gems/
+  chown -R build:build /home/build/.hem/
+  do_magento_templating_inner
+}
+
 # alias_function do_composer do_magento_composer_inner
 # do_composer() {
 #   do_magento_composer_inner
