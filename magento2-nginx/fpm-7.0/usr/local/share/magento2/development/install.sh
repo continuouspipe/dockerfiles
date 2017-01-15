@@ -18,30 +18,42 @@ source /usr/local/share/bootstrap/common_functions.sh
 # shellcheck source=./replace_core_config_values.sh
 source "$DIR/replace_core_config_values.sh"
 
-# Install composer and npm dependencies
-# shellcheck source=../install_magento.sh
-bash "$DIR/../install_magento.sh";
+function do_magento_install() {
+  # Install composer and npm dependencies
+  # shellcheck source=../install_magento.sh
+  bash "$DIR/../install_magento.sh";
+}
 
 set -x
 set +e
 IS_HEM="$(is_hem_project)"
 set -e
-if [ "$IS_HEM" == 'true' ]; then
-  # Run HEM
-  export HEM_RUN_ENV="${HEM_RUN_ENV:-local}"
-  for asset_env in $ASSET_DOWNLOAD_ENVIRONMENTS; do
-    as_build "hem --non-interactive --skip-host-checks assets download -e $asset_env"
-  done
-fi
 
-bash "$DIR/install_database.sh"
+function do_magento_assets_download() {
+  if [ "$IS_HEM" == 'true' ]; then
+    # Run HEM
+    export HEM_RUN_ENV="${HEM_RUN_ENV:-local}"
+    for asset_env in $ASSET_DOWNLOAD_ENVIRONMENTS; do
+      as_build "hem --non-interactive --skip-host-checks assets download -e $asset_env"
+    done
+  fi
+}
 
-replace_core_config_values
+function do_magento_database_install() {
+  bash "$DIR/install_database.sh"
+}
 
-bash "$DIR/install_assets.sh"
+function do_replace_core_config_values() {
+  replace_core_config_values
+}
 
-if [ -f "$DIR/install_custom.sh" ]; then
-  # shellcheck source=./install_custom.sh
-  source "$DIR/install_custom.sh"
-fi
+function do_magento_assets_install() {
+  bash "$DIR/install_assets.sh"
+}
 
+function do_magento_install_development_custom() {
+  if [ -f "$DIR/install_custom.sh" ]; then
+    # shellcheck source=./install_custom.sh
+    source "$DIR/install_custom.sh"
+  fi
+}
