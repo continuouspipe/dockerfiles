@@ -123,15 +123,6 @@ function do_magento_cache_flush() {
   as_code_owner "php bin/n98-magerun.phar cache:flush"
 }
 
-function do_magento_build_finalise() {
-  do_magento_cache_clean
-  do_magento_system_setup
-  do_magento_reindex
-  do_magento_assets_download
-  do_magento_assets_install
-  do_magento_cache_flush
-}
-
 function do_magento_build() {
   do_magento_n98_download
   do_magento_create_directories
@@ -143,7 +134,15 @@ function do_magento_build() {
 
 function do_magento_development_build() {
   do_magento_assets_download
+  do_magento_setup
+  do_magento_assets_install
+}
+
+function do_magento_setup() {
   do_magento_database_install
   do_replace_core_config_values
-  do_magento_assets_install
+  do_magento_cache_clean
+  do_magento_system_setup
+  do_magento_reindex
+  do_magento_cache_flush
 }

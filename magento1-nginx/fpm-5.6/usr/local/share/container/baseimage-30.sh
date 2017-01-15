@@ -21,11 +21,6 @@ do_templating() {
   do_magento_templating_inner
 }
 
-# alias_function do_composer do_magento_composer_inner
-# do_composer() {
-#   do_magento_composer_inner
-# }
-
 do_magento_install() {
   do_magento_build
 }
@@ -33,4 +28,8 @@ do_magento_install() {
 do_magento_development_start() {
   do_magento_install
   do_magento_development_build
+}
+
+do_setup() {
+  do_magento_setup
 }
