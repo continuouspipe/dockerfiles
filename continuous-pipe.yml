@@ -3,3 +3,5 @@ tasks:
         build:
             services:
                 ubuntu: ~
+
+filter: code_reference.branch in ["master", "build-images-with-cp"]
