@@ -13,11 +13,11 @@ fi
 cd /app || exit 1
 
 set +e
-is_nfs
-IS_NFS=$?
+is_chown_forbidden
+IS_CHOWN_FORBIDDEN=$?
 set -e
 
-if [ "$IS_NFS" -ne 0 ]; then
+if [ "$IS_CHOWN_FORBIDDEN" -ne 0 ]; then
   chown -R "${CODE_OWNER}":"${CODE_GROUP}" pub/media pub/static var
 else
   chmod a+rw pub/media pub/static var
@@ -69,7 +69,7 @@ fi
 as_code_owner "bin/magento cache:flush"
 
 # Ensure the permissions are web writable for the assets and var folders, but only on filesystems that allow chown.
-if [ "$IS_NFS" -ne 0 ]; then
+if [ "$IS_CHOWN_FORBIDDEN" -ne 0 ]; then
   chown -R "${APP_USER}:${APP_GROUP}" pub/media pub/static var
 fi
 

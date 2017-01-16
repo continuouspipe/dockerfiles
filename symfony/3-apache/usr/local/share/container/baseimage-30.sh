@@ -3,7 +3,7 @@
 do_symfony_build() {
   mkdir -p /app/var
 
-  if [ "$IS_NFS" -ne 0 ]; then
+  if [ "$IS_CHOWN_FORBIDDEN" -ne 0 ]; then
     # Fix permissions so the web server user can write to /app/var for symfony cache files
     chown -R "$CODE_OWNER:$CODE_GROUP" /app
     chown -R "$CODE_OWNER:$APP_GROUP" /app/var

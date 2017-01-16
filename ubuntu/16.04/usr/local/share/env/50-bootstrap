@@ -1,14 +1,22 @@
 #!/bin/bash
 
-export APP_USER_LOCAL=${APP_USER_LOCAL:-false}
-export APP_USER_LOCAL_RANDOM=${APP_USER_LOCAL_RANDOM:-false}
 export WORK_DIRECTORY=${WORK_DIRECTORY:-/app}
 export CODE_OWNER=${CODE_OWNER:-build}
 export CODE_GROUP=${CODE_GROUP:-build}
 
 set +e
-is_nfs
-export IS_NFS=$?
+is_chown_forbidden
+export IS_CHOWN_FORBIDDEN=$?
+
+is_vboxsf_mountpoint
+export IS_VBOXSF_MOUNTPOINT=$?
 set -e
 
-export DEVELOPMENT_MODE=${DEVELOPMENT_MODE:-${IS_NFS}}
+export DEVELOPMENT_MODE=${DEVELOPMENT_MODE:-${IS_CHOWN_FORBIDDEN}}
+
+if [ "$IS_VBOXSF_MOUNTPOINT" -eq 0 ]; then
+  export APP_USER_LOCAL=${APP_USER_LOCAL:-true}
+else
+  export APP_USER_LOCAL=${APP_USER_LOCAL:-false}
+fi
+export APP_USER_LOCAL_RANDOM=${APP_USER_LOCAL_RANDOM:-false}

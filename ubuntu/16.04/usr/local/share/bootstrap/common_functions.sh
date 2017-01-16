@@ -46,9 +46,14 @@ is_hem_project() {
   return 1
 }
 
-is_nfs() {
+is_chown_forbidden() {
   # Determine if the app directory is an NFS mountpoint, which doesn't allow chowning.
-  grep -q "/app nfs " /proc/mounts
+  grep -q -E "/app (nfs|vboxsf)" /proc/mounts
+  return $?
+}
+
+is_vboxsf_mountpoint() {
+  grep -q "/app vboxsf" /proc/mounts
   return $?
 }
 
