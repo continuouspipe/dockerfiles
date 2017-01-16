@@ -1,7 +1,7 @@
 # Ubuntu Base
 
 ```Dockerfile
-FROM quay.io/continuouspipe/ubuntu:16.04
+FROM quay.io/continuouspipe/ubuntu16.04:v1.0
 
 COPY ./somedir /somedir
 
@@ -10,8 +10,15 @@ RUN container build
 
 ## How to build
 ```bash
-docker build --pull --tag quay.io/continuouspipe/ubuntu:16.04 --rm .
+docker build --pull --tag quay.io/continuouspipe/ubuntu16.04:v1.0 --rm .
 docker push
+```
+
+or:
+
+```bash
+docker-compose build ubuntu
+docker-compose push ubuntu
 ```
 
 ## How to use
@@ -19,7 +26,7 @@ docker push
 The `etc` and `usr` folders local to this README get copied into the image. That means we can influence any file in
 `etc` or `usr` using Docker's layering filesystem.
 
-Upon booting, `/bin/bash /usr/local/bin/supervisor_start` will run, which will:
+Upon booting, `/bin/bash /usr/local/bin/container start_supervisord` will run, which will:
 
 1. Include environment variable definitions from /usr/local/share/env/
 2. Optionally create a user and group to match the given file or directory on a mountpoint.
