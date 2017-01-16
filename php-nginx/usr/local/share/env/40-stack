@@ -1,28 +1,4 @@
 #!/bin/bash
 
-export PHP_TIMEZONE=${PHP_TIMEZONE:-UTC}
-export PHP_MEMORY_LIMIT=${PHP_MEMORY_LIMIT:-256M}
-export APP_USER=${APP_USER:-www-data}
-export APP_GROUP=${APP_GROUP:-www-data}
-export APP_USER_LOCAL=${APP_USER_LOCAL:-false}
-export START_NGINX=${START_NGINX:-true}
-export START_PHP_FPM=${START_PHP_FPM:-true}
-
-export WORK_DIRECTORY=${WORK_DIRECTORY:-/app}
 export WEB_DIRECTORY=${WEB_DIRECTORY:-${WORK_DIRECTORY}/web}
-
-export WEB_HOST=${WEB_HOST:-localhost}
-export WEB_HTTP_PORT=${WEB_HTTP_PORT:-80}
-export WEB_HTTPS=${WEB_HTTPS:-true}
-export WEB_HTTP=${WEB_HTTP:-auto}
-export WEB_HTTPS_PORT=${WEB_HTTPS_PORT:-443}
-export WEB_HTTPS_OFFLOADED=${WEB_HTTPS_OFFLOADED:-false}
 export WEB_REVERSE_PROXIED=${WEB_REVERSE_PROXIED:-${WEB_HTTPS_OFFLOADED}}
-export WEB_SSL_FULLCHAIN=${WEB_SSL_FULLCHAIN:-/etc/ssl/certs/fullchain.pem}
-export WEB_SSL_PRIVKEY=${WEB_SSL_PRIVKEY:-/etc/ssl/certs/privkey.pem}
-
-export AUTH_HTTP_ENABLED=${AUTH_HTTP_ENABLED:-}
-export AUTH_HTTP_REALM=${AUTH_HTTP_REALM:-Protected System}
-export AUTH_HTTP_FILE=${AUTH_HTTP_FILE:-/etc/nginx/htpasswd}
-export AUTH_HTTP_REMOTE_URL=${AUTH_HTTP_REMOTE_URL:-}
-export AUTH_HTTP_HTPASSWD=${AUTH_HTTP_HTPASSWD:-}

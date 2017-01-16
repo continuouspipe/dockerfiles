@@ -42,4 +42,9 @@ RUN echo 'APT::Install-Recommends 0;' >> /etc/apt/apt.conf.d/01norecommends \
 COPY ./etc/ /etc/
 COPY ./usr/ /usr/
 
+ENV APP_USER_LOCAL=false \
+    APP_USER_LOCAL_RANDOM=false \
+    WORK_DIRECTORY=/app \
+    CODE_OWNER=build \
+    CODE_GROUP=build
 CMD ["/usr/local/bin/container", "start_supervisord"]
