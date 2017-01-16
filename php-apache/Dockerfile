@@ -59,3 +59,22 @@ COPY ./etc/ /etc/
 COPY ./usr/ /usr/
 
 RUN find /etc/confd/conf.d/ -name "*.toml" -type f -exec sed -i'' "s/\$PHP_VERSION/$PHP_VERSION/" {} \;
+
+ENV PHP_TIMEZONE=UTC \
+    PHP_MEMORY_LIMIT=256M \
+    APP_USER=www-data \
+    APP_GROUP=www-data \
+    APP_USER_LOCAL=false \
+    START_APACHE=true \
+
+    TIDEWAYS_FRAMEWORK="" \
+    TIDEWAYS_API_KEY="" \
+    TIDEWAYS_CONNECTION="tcp://tideways:9135" \
+\
+    WORK_DIRECTORY=/app \
+\
+    AUTH_HTTP_ENABLED="" \
+    AUTH_HTTP_REALM="Protected System" \
+    AUTH_HTTP_FILE=/etc/apache2/htpasswd \
+    AUTH_HTTP_TYPE=Basic \
+    AUTH_HTTP_HTPASSWD=""

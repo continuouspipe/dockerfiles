@@ -40,3 +40,15 @@ RUN ln -s /home/build/.composer/vendor/bin/drush /usr/local/bin/
 
 COPY ./etc/ /etc
 COPY ./usr/ /usr
+
+ENV DRUPAL_DATABASE_NAME=drupaldb \
+    DRUPAL_DATABASE_USERNAME=drupal \
+    DRUPAL_DATABASE_PASSWORD=drupal \
+    DRUPAL_DATABASE_PREFIX="" \
+    DRUPAL_DATABASE_HOST=database \
+    DRUPAL_DATABASE_PORT=3306 \
+    DRUPAL_CONFIG_DIRECTORY_SECRET="" \
+    DRUPAL_HASH_SALT="" \
+\
+    DRUPAL_INSTALL_PROFILE=lightning \
+    FORCE_DATABASE_DROP=false

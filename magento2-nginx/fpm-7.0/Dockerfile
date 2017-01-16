@@ -37,3 +37,36 @@ WORKDIR /app
 
 COPY ./etc/ /etc/
 COPY ./usr/ /usr/
+
+ENV PHP_MEMORY_LIMIT=768M \
+\
+    PRODUCTION_ENVIRONMENT=false \
+    APP_HOSTNAME=magento2.dev \
+    PUBLIC_ADDRESS=http://magento_web.docker/ \
+\
+    FORCE_DATABASE_DROP=false \
+    DATABASE_ARCHIVE_PATH=tools/assets/development/magentodb.sql.gz \
+\
+    DATABASE_NAME=magentodb \
+    DATABASE_USER=magento \
+    DATABASE_PASSWORD=magento \
+    DATABASE_ROOT_PASSWORD=magento \
+    DATABASE_HOST=database \
+    ADDITIONAL_SETUP_SQL="" \
+\
+    ASSET_ARCHIVE_PATH=tools/assets/development/media.files.tgz \
+    ASSET_DOWNLOAD_ENVIRONMENTS=development \
+\
+    FRONTEND_INSTALL_DIRECTORY=/app/tools/inviqa \
+    FRONTEND_BUILD_DIRECTORY=/app/tools/inviqa \
+    FRONTEND_BUILD_ACTION=build \
+    GULP_BUILD_THEME_NAME="" \
+\
+    MAGENTO_MODE=production \
+\
+    FRONTEND_COMPILE_LANGUAGES=en_GB \
+    MAGENTO_DEPENDENCY_INJECTION_COMPILE_COMMAND="bin/magento setup:di:compile" \
+\
+    MAGENTO_CRYPT_KEY="" \
+\
+    COMPOSER_CUSTOM_CONFIG_COMMAND=""

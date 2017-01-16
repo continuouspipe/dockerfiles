@@ -56,3 +56,25 @@ COPY ./etc/ /etc/
 COPY ./usr/ /usr/
 
 RUN find /etc/confd/conf.d/ -name "*.toml" -type f -exec sed -i'' "s/\$PHP_VERSION/$PHP_VERSION/" {} \;
+
+ENV PHP_TIMEZONE=UTC \
+    PHP_MEMORY_LIMIT=256M \
+    APP_USER=www-data \
+    APP_GROUP=www-data \
+    START_NGINX=true \
+    START_PHP_FPM=true \
+\
+    WEB_HOST=localhost \
+    WEB_HTTP_PORT=80 \
+    WEB_HTTPS=true \
+    WEB_HTTP=auto \
+    WEB_HTTPS_PORT=443 \
+    WEB_HTTPS_OFFLOADED=false \
+    WEB_SSL_FULLCHAIN=/etc/ssl/certs/fullchain.pem \
+    WEB_SSL_PRIVKEY=/etc/ssl/certs/privkey.pem \
+\
+    AUTH_HTTP_ENABLED="" \
+    AUTH_HTTP_REALM="Protected System" \
+    AUTH_HTTP_FILE=/etc/nginx/htpasswd \
+    AUTH_HTTP_REMOTE_URL="" \
+    AUTH_HTTP_HTPASSWD=""
