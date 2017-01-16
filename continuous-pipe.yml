@@ -7,7 +7,7 @@ tasks:
       services:
         ubuntu:
           image: quay.io/continuouspipe/ubuntu16.04
-          tag: dev
+          tag: v1.0
         mongodb34:
           image: quay.io/continuouspipe/mongodb3.4
           tag: dev
