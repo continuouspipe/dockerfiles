@@ -110,4 +110,4 @@ tasks:
           image: quay.io/continuouspipe/symfony-php5.6-nginx
           tag: v1.0
 
-filter: code_reference.branch in ["master", "build-images-with-cp"]
+filter: code_reference.branch in ["master"]
