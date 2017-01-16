@@ -112,7 +112,7 @@ tasks:
     build:
       services:
         scala_sbt:
-          image: quay.io/continuouspipe/scala-base:1.0
+          image: quay.io/continuouspipe/scala-base
           tag: dev
   varnish:
     build:
@@ -182,13 +182,13 @@ tasks:
     build:
       services:
         symfony_php70_nginx:
-          image: quay.io/continuouspipe/symfony-php7-nginx:v1.0
+          image: quay.io/continuouspipe/symfony-php7-nginx
           tag: dev
   symfony_php56_nginx:
     build:
       services:
         symfony_php56_nginx:
-          image: quay.io/continuouspipe/symfony-php5.6-nginx:v1.0
+          image: quay.io/continuouspipe/symfony-php5.6-nginx
           tag: dev
 
 filter: code_reference.branch in ["master", "build-images-with-cp"]
