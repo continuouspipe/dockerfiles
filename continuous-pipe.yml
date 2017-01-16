@@ -51,9 +51,9 @@ tasks:
           image: quay.io/continuouspipe/solr6
           tag: dev
 
-  #########################
-  # Based On Ubuntu 16.04 #
-  #########################
+  ############################
+  # Second generation images #
+  ############################
   hem:
     build:
       services:
@@ -119,6 +119,76 @@ tasks:
       services:
         varnish:
           image: quay.io/continuouspipe/varnish4
+          tag: dev
+
+  ###############################
+  # Second generation of images #
+  ###############################
+  drupal8_apache:
+    build:
+      services:
+        drupal8_apache:
+          image: quay.io/continuouspipe/drupal8-apache-php7
+          tag: dev
+  drupal8_solr_4_10:
+    build:
+      services:
+        drupal8_solr_4_10:
+          image: quay.io/continuouspipe/drupal8-solr4
+          tag: dev
+  drupal8_solr_6_2:
+    build:
+      services:
+        drupal8_solr_6_2:
+          image: quay.io/continuouspipe/drupal8-solr6
+          tag: dev
+  drupal8_varnish:
+    build:
+      services:
+        drupal8_varnish:
+          image: quay.io/continuouspipe/drupal8-varnish4
+          tag: dev
+  ez:
+    build:
+      services:
+        ez:
+          image: quay.io/continuouspipe/ez6-apache-php7
+          tag: dev
+  magento2_nginx:
+    build:
+      services:
+        magento2_nginx:
+          image: quay.io/continuouspipe/magento2-nginx-php7
+          tag: dev
+  magento2_varnish:
+    build:
+      services:
+        magento2_varnish:
+          image: quay.io/continuouspipe/magento2-varnish4
+          tag: dev
+  symfony_3_apache:
+    build:
+      services:
+        symfony_3_apache:
+          image: quay.io/continuouspipe/symfony3-apache-php7
+          tag: dev
+  symfony_php71_nginx:
+    build:
+      services:
+        symfony_php71_nginx:
+          image: quay.io/continuouspipe/symfony-php7.1-nginx
+          tag: dev
+  symfony_php70_nginx:
+    build:
+      services:
+        symfony_php70_nginx:
+          image: quay.io/continuouspipe/symfony-php7-nginx:v1.0
+          tag: dev
+  symfony_php56_nginx:
+    build:
+      services:
+        symfony_php56_nginx:
+          image: quay.io/continuouspipe/symfony-php5.6-nginx:v1.0
           tag: dev
 
 filter: code_reference.branch in ["master", "build-images-with-cp"]
