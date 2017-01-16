@@ -10,25 +10,25 @@ tasks:
           tag: v1.0
         mongodb34:
           image: quay.io/continuouspipe/mongodb3.4
-          tag: dev
+          tag: v1.0
         mysql80:
           image: quay.io/continuouspipe/mysql8.0
-          tag: dev
+          tag: v1.0
         mysql57:
           image: quay.io/continuouspipe/mysql5.7
-          tag: dev
+          tag: v1.0
         mysql56:
           image: quay.io/continuouspipe/mysql5.6
-          tag: dev
+          tag: v1.0
         redis:
           image: quay.io/continuouspipe/redis3
-          tag: dev
+          tag: v1.0
         solr_4_10:
           image: quay.io/continuouspipe/solr4
-          tag: dev
+          tag: v1.0
         solr_6_2:
           image: quay.io/continuouspipe/solr6
-          tag: dev
+          tag: v1.0
 
   ############################
   # Second generation images #
@@ -38,37 +38,37 @@ tasks:
       services:
         hem:
           image: quay.io/continuouspipe/hem1
-          tag: dev
+          tag: v1.0
         memcached:
           image: quay.io/continuouspipe/memcached1.4
-          tag: dev
+          tag: v1.0
         nodejs:
           image: quay.io/continuouspipe/nodejs6
-          tag: dev
+          tag: v1.0
         php71_apache:
           image: quay.io/continuouspipe/php7.1-apache
-          tag: dev
+          tag: v1.0
         php70_apache:
           image: quay.io/continuouspipe/php7-apache
-          tag: dev
+          tag: v1.0
         php56_apache:
           image: quay.io/continuouspipe/php5.6-apache
-          tag: dev
+          tag: v1.0
         php71_nginx:
           image: quay.io/continuouspipe/php7.1-nginx
-          tag: dev
+          tag: v1.0
         php70_nginx:
           image: quay.io/continuouspipe/php7-nginx
-          tag: dev
+          tag: v1.0
         php56_nginx:
           image: quay.io/continuouspipe/php5.6-nginx
-          tag: dev
+          tag: v1.0
         scala_sbt:
           image: quay.io/continuouspipe/scala-base
-          tag: dev
+          tag: v1.0
         varnish:
           image: quay.io/continuouspipe/varnish4
-          tag: dev
+          tag: v1.0
 
   ###########################
   # Third generation images #
@@ -78,36 +78,36 @@ tasks:
       services:
         drupal8_apache:
           image: quay.io/continuouspipe/drupal8-apache-php7
-          tag: dev
+          tag: v1.0
         drupal8_solr_4_10:
           image: quay.io/continuouspipe/drupal8-solr4
-          tag: dev
+          tag: v1.0
         drupal8_solr_6_2:
           image: quay.io/continuouspipe/drupal8-solr6
-          tag: dev
+          tag: v1.0
         drupal8_varnish:
           image: quay.io/continuouspipe/drupal8-varnish4
-          tag: dev
+          tag: v1.0
         ez:
           image: quay.io/continuouspipe/ez6-apache-php7
-          tag: dev
+          tag: v1.0
         magento2_nginx:
           image: quay.io/continuouspipe/magento2-nginx-php7
-          tag: dev
+          tag: v1.0
         magento2_varnish:
           image: quay.io/continuouspipe/magento2-varnish4
-          tag: dev
+          tag: v1.0
         symfony_3_apache:
           image: quay.io/continuouspipe/symfony3-apache-php7
-          tag: dev
+          tag: v1.0
         symfony_php71_nginx:
           image: quay.io/continuouspipe/symfony-php7.1-nginx
-          tag: dev
+          tag: v1.0
         symfony_php70_nginx:
           image: quay.io/continuouspipe/symfony-php7-nginx
-          tag: dev
+          tag: v1.0
         symfony_php56_nginx:
           image: quay.io/continuouspipe/symfony-php5.6-nginx
-          tag: dev
+          tag: v1.0
 
 filter: code_reference.branch in ["master", "build-images-with-cp"]
