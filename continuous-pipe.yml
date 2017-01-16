@@ -2,6 +2,8 @@ tasks:
     ubuntu:
         build:
             services:
-                ubuntu: ~
+                ubuntu:
+                    image: quay.io/continuouspipe/ubuntu16.04
+                    tag: v1.0
 
 filter: code_reference.branch in ["master", "build-images-with-cp"]
