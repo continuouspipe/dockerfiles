@@ -11,39 +11,21 @@ tasks:
         mongodb34:
           image: quay.io/continuouspipe/mongodb3.4
           tag: dev
-  mysql80:
-    build:
-      services:
         mysql80:
           image: quay.io/continuouspipe/mysql8.0
           tag: dev
-  mysql57:
-    build:
-      services:
         mysql57:
           image: quay.io/continuouspipe/mysql5.7
           tag: dev
-  mysql56:
-    build:
-      services:
         mysql56:
           image: quay.io/continuouspipe/mysql5.6
           tag: dev
-  redis:
-    build:
-      services:
         redis:
           image: quay.io/continuouspipe/redis3
           tag: dev
-  solr_4_10:
-    build:
-      services:
         solr_4_10:
           image: quay.io/continuouspipe/solr4
           tag: dev
-  solr_6_2:
-    build:
-      services:
         solr_6_2:
           image: quay.io/continuouspipe/solr6
           tag: dev
@@ -51,139 +33,79 @@ tasks:
   ############################
   # Second generation images #
   ############################
-  hem:
+  second_generation_images:
     build:
       services:
         hem:
           image: quay.io/continuouspipe/hem1
           tag: dev
-  memcached:
-    build:
-      services:
         memcached:
           image: quay.io/continuouspipe/memcached1.4
           tag: dev
-  nodejs:
-    build:
-      services:
         nodejs:
           image: quay.io/continuouspipe/nodejs6
           tag: dev
-  php71_apache:
-    build:
-      services:
         php71_apache:
           image: quay.io/continuouspipe/php7.1-apache
           tag: dev
-  php70_apache:
-    build:
-      services:
         php70_apache:
           image: quay.io/continuouspipe/php7-apache
           tag: dev
-  php56_apache:
-    build:
-      services:
         php56_apache:
           image: quay.io/continuouspipe/php5.6-apache
           tag: dev
-  php71_nginx:
-    build:
-      services:
         php71_nginx:
           image: quay.io/continuouspipe/php7.1-nginx
           tag: dev
-  php70_nginx:
-    build:
-      services:
         php70_nginx:
           image: quay.io/continuouspipe/php7-nginx
           tag: dev
-  php56_nginx:
-    build:
-      services:
         php56_nginx:
           image: quay.io/continuouspipe/php5.6-nginx
           tag: dev
-  scala_sbt:
-    build:
-      services:
         scala_sbt:
           image: quay.io/continuouspipe/scala-base
           tag: dev
-  varnish:
-    build:
-      services:
         varnish:
           image: quay.io/continuouspipe/varnish4
           tag: dev
 
-  ###############################
-  # Second generation of images #
-  ###############################
-  drupal8_apache:
+  ###########################
+  # Third generation images #
+  ###########################
+  third_generation_images:
     build:
       services:
         drupal8_apache:
           image: quay.io/continuouspipe/drupal8-apache-php7
           tag: dev
-  drupal8_solr_4_10:
-    build:
-      services:
         drupal8_solr_4_10:
           image: quay.io/continuouspipe/drupal8-solr4
           tag: dev
-  drupal8_solr_6_2:
-    build:
-      services:
         drupal8_solr_6_2:
           image: quay.io/continuouspipe/drupal8-solr6
           tag: dev
-  drupal8_varnish:
-    build:
-      services:
         drupal8_varnish:
           image: quay.io/continuouspipe/drupal8-varnish4
           tag: dev
-  ez:
-    build:
-      services:
         ez:
           image: quay.io/continuouspipe/ez6-apache-php7
           tag: dev
-  magento2_nginx:
-    build:
-      services:
         magento2_nginx:
           image: quay.io/continuouspipe/magento2-nginx-php7
           tag: dev
-  magento2_varnish:
-    build:
-      services:
         magento2_varnish:
           image: quay.io/continuouspipe/magento2-varnish4
           tag: dev
-  symfony_3_apache:
-    build:
-      services:
         symfony_3_apache:
           image: quay.io/continuouspipe/symfony3-apache-php7
           tag: dev
-  symfony_php71_nginx:
-    build:
-      services:
         symfony_php71_nginx:
           image: quay.io/continuouspipe/symfony-php7.1-nginx
           tag: dev
-  symfony_php70_nginx:
-    build:
-      services:
         symfony_php70_nginx:
           image: quay.io/continuouspipe/symfony-php7-nginx
           tag: dev
-  symfony_php56_nginx:
-    build:
-      services:
         symfony_php56_nginx:
           image: quay.io/continuouspipe/symfony-php5.6-nginx
           tag: dev
