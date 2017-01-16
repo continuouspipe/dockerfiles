@@ -1,0 +1,5 @@
+tasks:
+    ubuntu:
+        build:
+            services:
+                ubuntu: ~
