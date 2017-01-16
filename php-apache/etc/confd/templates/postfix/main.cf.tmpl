@@ -1,0 +1,24 @@
+append_dot_mydomain = no
+biff = no
+header_size_limit = 4096000
+inet_interfaces = loopback-only
+mydestination = {{ getenv "WEB_HOST" }}, localhost.localdomain, localhost
+mydomain = {{ getenv "WEB_HOST" }}
+myhostname = {{ getenv "WEB_HOST" }}
+myorgin = $myhostname
+{{ if getenv "SENDMAIL_RELAY_HOST" }}
+relayhost = [{{ getenv "SENDMAIL_RELAY_HOST" }}]:{{ getenv "SENDMAIL_RELAY_PORT" }}
+{{ end }}
+{{ if getenv "SENDMAIL_RELAY_USER" }}
+smtp_sasl_auth_enable = yes
+smtp_sasl_password_maps = hash:/etc/postfix/sasl_passwd
+smtp_sasl_security_options = noanonymous
+{{ end }}
+smtp_tls_CAfile = /etc/pki/tls/cert.pem
+smtp_tls_security_level = {{ getenv "SENDMAIL_RELAY_TLS_SECURITY_LEVEL" }}
+smtp_tls_session_cache_database = btree:${data_directory}/smtp_scache
+smtpd_tls_CAfile = /etc/pki/tls/cert.pem
+smtpd_tls_cert_file = /etc/ssl/certs/ssl-cert-snakeoil.pem
+smtpd_tls_key_file = /etc/ssl/private/ssl-cert-snakeoil.key
+smtpd_tls_session_cache_database = btree:${data_directory}/smtpd_scache
+smtpd_use_tls = yes

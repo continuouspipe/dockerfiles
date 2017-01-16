@@ -94,6 +94,12 @@ WEB_HTTPS_ONLY      | Whether to redirect all HTTP traffic to HTTPS | true/false
 WEB_REVERSE_PROXIED | Whether to interpret X-Forwarded-Proto as the $custom_scheme and $custom_https emulation. | true/false | true
 WEB_SSL_FULLCHAIN | The location of the SSL certificate and intermediate chain file | absolute filename | /etc/ssl/certs/fullchain.pem
 WEB_SSL_PRIVKEY | The location of the SSL private key file | absolute filename | /etc/ssl/private/privkey.pem
+SENDMAIL_RELAY_HOST | The MTA host to relay PHP's mail() to. PHP mail() will return false if not set | a domain
+SENDMAIL_RELAY_PORT | The MTA port to relay PHP's mail() to | 0-65535 | 25
+SENDMAIL_RELAY_USER | The user to authenticate with the relay. Anonymous SMTP used if not set | relay's username
+SENDMAIL_RELAY_PASSWORD | The password to authenticate with the relay | relay's password
+SENDMAIL_RELAY_TLS_SECURITY_LEVEL | Controls whether to use TLS, and what authentication of TLS | http://www.postfix.org/postconf.5.html#smtp_tls_security_level | may
+
 
 The project using the image can define these environment variables to control
 what is rendered in the Apache HTTPd configuration
@@ -157,6 +163,7 @@ To use this functionality:
   ```
   export AUTH_IP_WHITELIST_ENABLED=true
   ```
+
 
 2. By default when enabled, the loopback ips are whitelisted
   ```

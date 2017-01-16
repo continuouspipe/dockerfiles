@@ -31,6 +31,7 @@ RUN echo 'deb http://s3-eu-west-1.amazonaws.com/qafoo-profiler/packages debian m
     "php$PHP_VERSION-soap" \
     "php$PHP_VERSION-xsl" \
     "php$PHP_VERSION-zip" \
+    postfix \
     tideways-php \
  \
  # Clean the image \

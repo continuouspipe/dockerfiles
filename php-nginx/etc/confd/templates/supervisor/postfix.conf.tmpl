@@ -1,0 +1,7 @@
+[program:postfix]
+process_name = master
+directory = /etc/postfix
+command = /usr/local/sbin/postfix.sh
+startsecs = 0
+autostart = {{ if getenv "SENDMAIL_RELAY_HOST" }}yes{{ else }}no{{ end }}
+autorestart = false
