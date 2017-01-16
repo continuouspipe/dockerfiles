@@ -5,10 +5,6 @@ tasks:
         ubuntu:
           image: quay.io/continuouspipe/ubuntu16.04
           tag: dev
-
-  mongodb34:
-    build:
-      services:
         mongodb34:
           image: quay.io/continuouspipe/mongodb3.4
           tag: dev
