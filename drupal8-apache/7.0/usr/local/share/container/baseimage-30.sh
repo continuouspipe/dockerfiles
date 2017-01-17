@@ -25,9 +25,17 @@ do_composer() {
 
 do_drupal8_install() {
   bash /usr/local/share/drupal8/install.sh
-  bash /usr/local/share/drupal8/install_finalise.sh
 }
 
 do_drupal8_development_start() {
   bash /usr/local/share/drupal8/development/install.sh
+  do_drupal8_setup
+}
+
+do_setup() {
+  do_drupal8_setup
+}
+
+do_drupal8_setup() {
+  bash /usr/local/share/drupal8/install_finalise.sh
 }
