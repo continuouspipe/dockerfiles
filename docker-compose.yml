@@ -185,36 +185,53 @@ services:
     depends_on:
       - external_solr_6_2
 
-  symfony_3_apache:
-    build:
-      context: ./symfony/3-apache/
-    image: quay.io/continuouspipe/symfony3-apache-php7:v1.0
-    depends_on:
-      - php70_apache
-
   symfony_php71_nginx:
     build:
-      context: ./symfony-nginx/
-      dockerfile: Dockerfile-7.1
+      context: ./symfony/
+      dockerfile: Dockerfile-php7.1-nginx
     image: quay.io/continuouspipe/symfony-php7.1-nginx:v1.0
     depends_on:
       - php71_nginx
 
   symfony_php70_nginx:
     build:
-      context: ./symfony-nginx/
-      dockerfile: Dockerfile-7
+      context: ./symfony/
+      dockerfile: Dockerfile-php7-nginx
     image: quay.io/continuouspipe/symfony-php7-nginx:v1.0
     depends_on:
       - php70_nginx
 
   symfony_php56_nginx:
     build:
-      context: ./symfony-nginx/
-      dockerfile: Dockerfile-5.6
+      context: ./symfony/
+      dockerfile: Dockerfile-php5.6-nginx
     image: quay.io/continuouspipe/symfony-php5.6-nginx:v1.0
     depends_on:
       - php56_nginx
+
+  symfony_php71_apache:
+    build:
+      context: ./symfony/
+      dockerfile: Dockerfile-php7.1-apache
+    image: quay.io/continuouspipe/symfony-php7.1-apache:v1.0
+    depends_on:
+      - php71_apache
+
+  symfony_php70_apache:
+    build:
+      context: ./symfony/
+      dockerfile: Dockerfile-php7-apache
+    image: quay.io/continuouspipe/symfony-php7-apache:v1.0
+    depends_on:
+      - php70_apache
+
+  symfony_php56_apache:
+    build:
+      context: ./symfony/
+      dockerfile: Dockerfile-php5.6-apache
+    image: quay.io/continuouspipe/symfony-php5.6-apache:v1.0
+    depends_on:
+      - php56_apache
 
   ubuntu:
     build:

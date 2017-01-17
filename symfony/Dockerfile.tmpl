@@ -1,0 +1,6 @@
+FROM quay.io/continuouspipe/php{{PHP_VERSION}}-{{WEB_SERVER}}:v1.0
+
+MAINTAINER Kieren Evans <kieren.evans+cp-dockerfiles@inviqa.com>
+
+COPY ./{{WEB_SERVER}}/etc/ /etc
+COPY ./usr/ /usr

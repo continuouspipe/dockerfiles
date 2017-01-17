@@ -1,6 +1,6 @@
-FROM quay.io/continuouspipe/php{{PHP_VERSION}}-nginx:v1.0
+FROM quay.io/continuouspipe/php5.6-apache:v1.0
 
 MAINTAINER Kieren Evans <kieren.evans+cp-dockerfiles@inviqa.com>
 
-COPY ./etc/ /etc
+COPY ./apache/etc/ /etc
 COPY ./usr/ /usr

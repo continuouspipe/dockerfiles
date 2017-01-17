@@ -1,0 +1,6 @@
+FROM quay.io/continuouspipe/php7-nginx:v1.0
+
+MAINTAINER Kieren Evans <kieren.evans+cp-dockerfiles@inviqa.com>
+
+COPY ./nginx/etc/ /etc
+COPY ./usr/ /usr

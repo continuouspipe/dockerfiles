@@ -1,24 +1,56 @@
-# Symfony 3 with Nginx
+# Symfony with Nginx
 
 ```
-FROM quay.io/continuouspipe/symfony3-php7.1-nginx:v1.0
+FROM quay.io/continuouspipe/symfony-php7.1-nginx:v1.0
 ARG GITHUB_TOKEN=
+ARG SYMFONY_ENV=prod
 
 COPY . /app/
 RUN container build
 ```
 
 ```
-FROM quay.io/continuouspipe/symfony3-php7-nginx:v1.0
+FROM quay.io/continuouspipe/symfony-php7-nginx:v1.0
 ARG GITHUB_TOKEN=
+ARG SYMFONY_ENV=prod
 
 COPY . /app/
 RUN container build
 ```
 
 ```
-FROM quay.io/continuouspipe/symfony3-php5.6-nginx:v1.0
+FROM quay.io/continuouspipe/symfony-php5.6-nginx:v1.0
 ARG GITHUB_TOKEN=
+ARG SYMFONY_ENV=prod
+
+COPY . /app/
+RUN container build
+```
+
+# Symfony with Apache
+
+```
+FROM quay.io/continuouspipe/symfony-php7.1-apache:v1.0
+ARG GITHUB_TOKEN=
+ARG SYMFONY_ENV=prod
+
+COPY . /app/
+RUN container build
+```
+
+```
+FROM quay.io/continuouspipe/symfony-php7-apache:v1.0
+ARG GITHUB_TOKEN=
+ARG SYMFONY_ENV=prod
+
+COPY . /app/
+RUN container build
+```
+
+```
+FROM quay.io/continuouspipe/symfony-php5.6-apache:v1.0
+ARG GITHUB_TOKEN=
+ARG SYMFONY_ENV=prod
 
 COPY . /app/
 RUN container build
@@ -34,7 +66,8 @@ This allows you to define and override bash functions that the base images add.
 
 In addition to the bash functions defined in this base image's parent images:
 * [the base image functions](../ubuntu/16.04/README.md#custom-build-and-startup-scripts)
-* [the php-nginx image functions](../php-nginx/README.md#custom-build-and-startup-scripts)
+* either [the php-nginx image functions](../php-nginx/README.md#custom-build-and-startup-scripts)
+* or [the php-apache image functions](../php-apache/README.md#custom-build-and-startup-scripts)
 
 This base image adds the following bash functions:
 
