@@ -38,7 +38,7 @@ do_symfony_build_permissions() {
       chown -R "$APP_USER:$CODE_GROUP" /app/app/{cache,logs}
       chmod -R ug+rw,o-rwx /app/app/{cache,logs}
     fi
-  else if [ "$SYMFONY_MAJOR_VERSION" -eq 2 ]; then
+  elif [ "$SYMFONY_MAJOR_VERSION" -eq 2 ]; then
     chmod -R a+rw /app/app/{cache,logs}
   fi
   do_symfony_composer_permissions
