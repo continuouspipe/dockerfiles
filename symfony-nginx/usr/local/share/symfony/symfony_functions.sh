@@ -21,6 +21,16 @@ do_symfony_directory_create() {
   mkdir -p /app/var
 }
 
+do_symfony_composer_permissions() {
+  # Allow composer to write to certain directories
+  if [ "$IS_CHOWN_FORBIDDEN" -ne 0 ]; then
+    chown -R "$APP_USER:$CODE_GROUP" /app/var
+    chmod -R ug+rw,o-rwx /app/var
+  else
+    chmod -R a+rw /app/var
+  fi
+}
+
 do_symfony_build_permissions() {
   if [ "$IS_CHOWN_FORBIDDEN" -ne 0 ]; then
     # Fix permissions so the web server user can write to cache and logs folders
@@ -28,17 +38,14 @@ do_symfony_build_permissions() {
       chown -R "$APP_USER:$CODE_GROUP" /app/app/{cache,logs}
       chmod -R ug+rw,o-rwx /app/app/{cache,logs}
     fi
-    chown -R "$APP_USER:$CODE_GROUP" /app/var
-    chmod -R ug+rw,o-rwx /app/var
-  else
-    if [ "$SYMFONY_MAJOR_VERSION" -eq 2 ]; then
-      chmod -R a+rw /app/app/{cache,logs}
-    fi
-    chmod -R a+rw /app/var
+  elif [ "$SYMFONY_MAJOR_VERSION" -eq 2 ]; then
+    chmod -R a+rw /app/app/{cache,logs}
   fi
+  do_symfony_composer_permissions
 }
 
 do_symfony_build() {
   do_symfony_directory_create
   do_symfony_config_create
+  do_symfony_composer_permissions
 }
