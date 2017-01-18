@@ -12,7 +12,7 @@ server {
     server_name _;
 {{ end }}
 {{ if eq "true" (getenv "WEB_HTTPS_OFFLOADED") }}
-    listen {{ getenv "WEB_HTTPS_PORT" }} default_server http2;{{ else }}
+    listen {{ getenv "WEB_HTTPS_PORT" }} default_server;{{ else }}
     listen {{ getenv "WEB_HTTPS_PORT" }} default_server ssl http2;
     ssl_certificate {{ getenv "WEB_SSL_FULLCHAIN" }};
     ssl_certificate_key {{ getenv "WEB_SSL_PRIVKEY" }};{{ end }}{{ end }}
