@@ -25,12 +25,3 @@ export AUTH_HTTP_REALM=${AUTH_HTTP_REALM:-Protected System}
 export AUTH_HTTP_FILE=${AUTH_HTTP_FILE:-/etc/nginx/htpasswd}
 export AUTH_HTTP_REMOTE_URL=${AUTH_HTTP_REMOTE_URL:-}
 export AUTH_HTTP_HTPASSWD=${AUTH_HTTP_HTPASSWD:-}
-
-DEFAULT_COMPOSER_FLAGS="--no-interaction --optimize-autoloader"
-# Due to ordering of files, the 50-bootstrap setting of DEVELOPMENT_MODE will not
-# be taken account of here. Please set DEVELOPMENT_MODE explicitly if you wish to have
-# development composer dependencies.
-if [ -z "$DEVELOPMENT_MODE" ] || [ "$DEVELOPMENT_MODE" -ne 0 ]; then
-  DEFAULT_COMPOSER_FLAGS="${DEFAULT_COMPOSER_FLAGS} --no-dev"
-fi
-export COMPOSER_INSTALL_FLAGS=${COMPOSER_INSTALL_FLAGS:-$DEFAULT_COMPOSER_FLAGS}

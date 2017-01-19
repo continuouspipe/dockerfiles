@@ -1,0 +1,8 @@
+#!/bin/bash
+
+DEFAULT_COMPOSER_FLAGS="--no-interaction --optimize-autoloader"
+
+if [ -z "$DEVELOPMENT_MODE" ] || [ "$DEVELOPMENT_MODE" -ne 0 ]; then
+  DEFAULT_COMPOSER_FLAGS="${DEFAULT_COMPOSER_FLAGS} --no-dev"
+fi
+export COMPOSER_INSTALL_FLAGS=${COMPOSER_INSTALL_FLAGS:-$DEFAULT_COMPOSER_FLAGS}
