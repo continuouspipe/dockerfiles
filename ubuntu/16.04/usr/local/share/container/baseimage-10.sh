@@ -16,6 +16,12 @@ do_start() {
     do_templating
 }
 
+alias_function do_build do_ubuntu_build_inner
+do_build() {
+  do_build_user_ssh_keys
+  do_ubuntu_build_inner
+}
+
 check_development_start() {
   if [ "$DEVELOPMENT_MODE" -eq 0 ]; then
     do_development_start
