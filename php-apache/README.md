@@ -28,6 +28,82 @@ docker-compose push php70_apache
 docker-compose build php56_apache
 docker-compose push php56_apache
 ```
+## About
+
+This is a Docker image for PHP (using the mod_php SAPI) and Apache HTTPd. It uses,
+by default, our recommended default configuration, including:
+
+* A default HTTPS only website, with HTTP redirecting to HTTPS
+* A self signed SSL certificate auto-generated on container start
+
+## How to use
+
+As for all images based on the ubuntu base image, see
+[the base image README](../../ubuntu/16.04/README.md)
+
+### Adding/replacing Apache HTTPd configuration
+
+The image supports a single server (virtual host) by default:
+
+/etc/apache2/sites-enabled/000-default.conf
+
+This server configuration is split out into separate component files:
+
+/etc/apache2/sites-available/000-default-05-custom_scheme_flags.conf
+/etc/apache2/sites-available/000-default-10-base.conf
+/etc/apache2/sites-available/000-default-20-rewriteapp.conf
+
+These are generated from confd templates, which can be manipulated via:
+
+* environment variables
+* inserting additional files matching the /etc/apache2/sites-available/000-default-*.conf
+* replacing individual files
+
+
+#### Environment variables
+
+The following variables are supported
+
+Variable | Description | Expected values | Default
+--- | --- | --- | ----
+WEB_HOST | The domain of the website | a domain | localhost
+WEB_HTTP | Whether to support HTTP traffic on the WEB_HTTP_PORT. If auto, it's behaviour is the reverse setting of WEB_HTTPS, and if false, will redirect to HTTPS. | true/false/auto | auto
+WEB_HTTP_PORT | The port to serve the HTTP traffic or redirect from | 0-65535 | 80
+WEB_HTTPS | Whether to support HTTPS traffic on the WEB_HTTPS_PORT | true/false | true
+WEB_HTTPS_PORT | The port to serve the HTTPS traffic from | 0-65535 | 443
+WEB_HTTPS_OFFLOADED | Whether the HTTPS traffic has been forwarded without SSL | true/false | false
+WEB_REVERSE_PROXIED | Whether to interpret X-Forwarded-Proto as the $custom_scheme and $custom_https emulation. | true/false | $WEB_HTTPS_OFFLOADED
+WEB_SSL_FULLCHAIN | The location of the SSL certificate and intermediate chain file | absolute filename | /etc/ssl/certs/fullchain.pem
+WEB_SSL_PRIVKEY | The location of the SSL private key file | absolute filename | /etc/ssl/private/privkey.pem
+
+The project using the image can define these environment variables to control
+what is rendered in the Apache HTTPd configuration
+
+#### Inserting additional files
+
+You can place additional files that match /etc/apache2/sites-available/000-default-*.conf,
+which will be imported in order of filenames. Numbers are used in the filenames
+in order to control the order. Placing a configuration with a lower number will
+interpret it earlier in the configuration, as will a higher number later.
+
+The project using the image can either insert static configuration directly, or
+use confd to add templates which render to the right location.
+
+#### Replacing individual files
+
+You can replace the existing files in a project, but keep in mind that replacing
+them means you wont get any updates from newer image versions, so it's better
+to try and work out a generic solution to Pull Request to the dockerfile repository.
+
+### SSL Certificates/key
+
+By default the image will generate a self-signed certificate if the SSL certificate
+chain ($WEB_SSL_FULLCHAIN) and private key ($WEB_SSL_PRIVKEY) don't already exist.
+
+It will use a common name of $WEB_HOST.
+
+For a valid SSL certificate, it's recommended if you can use Kubernetes secrets
+or Hashicorp Vault to populate a secret volume to point the environment variables at.
 
 ### Basic authentication
 
