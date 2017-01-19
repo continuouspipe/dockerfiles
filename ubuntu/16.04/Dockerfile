@@ -19,6 +19,7 @@ RUN echo 'APT::Install-Recommends 0;' >> /etc/apt/apt.conf.d/01norecommends \
     curl \
     git \
     net-tools \
+    openssh-client \
     rsync \
     sudo \
     supervisor \
