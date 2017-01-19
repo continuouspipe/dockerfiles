@@ -33,9 +33,9 @@ do_development_start() {
 }
 
 do_build_user_ssh_keys() {
-  echo "Setting up SSH keys for the build user"
   set +x
   if [ -n "$BUILD_USER_SSH_PRIVATE_KEY" ] && [ -n "$BUILD_USER_SSH_PUBLIC_KEY" ]; then
+    echo "Setting up SSH keys for the build user"
     mkdir -p /home/build/.ssh/
     echo "$BUILD_USER_SSH_PRIVATE_KEY" | base64 --decode > /home/build/.ssh/id_rsa
     echo "$BUILD_USER_SSH_PUBLIC_KEY" | base64 --decode > /home/build/.ssh/id_rsa.pub
