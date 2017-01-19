@@ -19,7 +19,7 @@ run_composer() {
       as_code_owner "composer global config github-oauth.github.com '$GITHUB_TOKEN'"
     fi
 
-    as_code_owner "composer install --no-interaction --optimize-autoloader"
+    as_code_owner "composer install ${COMPOSER_INSTALL_FLAGS}"
     rm -rf /home/build/.composer/cache/
     as_code_owner "composer clear-cache"
 
