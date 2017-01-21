@@ -57,6 +57,13 @@ services:
     depends_on:
       - varnish
 
+  mailcatcher:
+    build:
+      context: ./mailcatcher/
+    image: quay.io/continuouspipe/mailcatcher:v1.0
+    depends_on:
+      - ubuntu
+
   memcached:
     build:
       context: ./memcached/1.4/
