@@ -39,6 +39,9 @@ tasks:
         hem:
           image: quay.io/continuouspipe/hem1
           tag: v1.0
+        mailcatcher:
+          image: quay.io/continuouspipe/mailcatcher
+          tag: v1.0
         memcached:
           image: quay.io/continuouspipe/memcached1.4
           tag: v1.0
