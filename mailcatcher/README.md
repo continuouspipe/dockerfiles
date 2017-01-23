@@ -4,5 +4,5 @@
 FROM quay.io/continuouspipe/mailcatcher:stable
 ```
 
-Port 25 is where mail should be relayed to
-Port 80 is where you can visit the UI
+Port 1025 is where mail should be relayed to
+Port 1080 is where you can visit the UI

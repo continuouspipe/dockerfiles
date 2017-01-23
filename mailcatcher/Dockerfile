@@ -15,13 +15,14 @@ RUN apt-get update -qq \
  && DEBIAN_FRONTEND=noninteractive apt-get -qq -y remove ruby-dev build-essential libsqlite3-dev \
  && apt-get auto-remove -qq -y \
  && apt-get clean \
- && rm -rf /var/lib/apt/lists/*
+ && rm -rf /var/lib/apt/lists/* \
+ && useradd --create-home mailcatcher
 
 COPY ./etc/ /etc/
 COPY ./usr/ /usr/
 
 # smtp port
-EXPOSE 25
+EXPOSE 1025
 
 # webserver port
-EXPOSE 80
+EXPOSE 1080
