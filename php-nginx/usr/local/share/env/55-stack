@@ -1,5 +1,10 @@
 #!/bin/bash
 
+# Relative WEB_DIRECTORY converted to absolute path
+if ! [[ "$WEB_DIRECTORY" =~ ^/ ]]; then
+  export WEB_DIRECTORY=${WORK_DIRECTORY}/${WEB_DIRECTORY}
+fi
+
 DEFAULT_COMPOSER_FLAGS="--no-interaction --optimize-autoloader"
 
 if [ -z "$DEVELOPMENT_MODE" ] || [ "$DEVELOPMENT_MODE" -ne 0 ]; then
