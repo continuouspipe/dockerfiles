@@ -19,10 +19,18 @@ do_composer() {
 
 do_magento2_install() {
   bash /usr/local/share/magento2/install_magento.sh
+}
+
+do_setup() {
+  do_magento2_setup
+}
+
+do_magento2_setup() {
   bash /usr/local/share/magento2/install_magento_finalise.sh
 }
 
 do_magento2_development_start()
 {
   bash /usr/local/share/magento2/development/install.sh
+  do_magento2_setup
 }
