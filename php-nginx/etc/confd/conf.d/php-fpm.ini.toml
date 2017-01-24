@@ -1,6 +1,0 @@
-[template]
-src   = "php/php.ini.tmpl"
-dest  = "/etc/php/$PHP_VERSION/fpm/php.ini"
-mode  = "0644"
-keys = [
-]
