@@ -6,7 +6,7 @@ FROM quay.io/continuouspipe/elasticsearch2.4:latest
 
 ## How to build
 ```bash
-docker build --pull --tag quay.io/continuouspipe/elasticsearch:2.4 --rm .
+docker build --pull --tag quay.io/continuouspipe/elasticsearch2.4:latest --rm .
 docker push
 ```
 
