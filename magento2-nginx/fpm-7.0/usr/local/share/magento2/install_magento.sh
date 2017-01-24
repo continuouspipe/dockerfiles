@@ -19,12 +19,6 @@ is_chown_forbidden
 IS_CHOWN_FORBIDDEN=$?
 set -e
 
-# TODO: Convert to template
-if [ ! -f "app/etc/env.php" ]; then
-  as_code_owner "cp tools/docker/magento/env.php app/etc/env.php"
-  as_code_owner "cp tools/docker/magento/config.php app/etc/config.php"
-fi
-
 if [ ! -d "vendor" ] || [ ! -f "vendor/autoload.php" ]; then
   as_code_owner "composer config repositories.magento composer https://repo.magento.com/"
 
