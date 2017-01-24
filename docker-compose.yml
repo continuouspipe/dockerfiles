@@ -180,8 +180,8 @@ services:
 
   elasticsearch:
     build:
-      context: ./elasticsearch/2.4/
-    image: quay.io/continuouspipe/elasticsearch24:latest
+      context: ./elasticsearch/
+    image: quay.io/continuouspipe/elasticsearch2.4:latest
     depends_on:
       - external_elasticsearch
 
