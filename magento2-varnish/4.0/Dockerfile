@@ -1,4 +1,4 @@
-FROM quay.io/continuouspipe/varnish4:stable
+FROM quay.io/continuouspipe/varnish4:latest
 
 MAINTAINER Kieren Evans <kieren.evans+cp-dockerfiles@inviqa.com>
 

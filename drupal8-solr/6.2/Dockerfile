@@ -1,4 +1,4 @@
-FROM quay.io/continuouspipe/solr6:stable
+FROM quay.io/continuouspipe/solr6:latest
 
 MAINTAINER Kieren Evans <kieren.evans+cp-dockerfiles@inviqa.com>
 
