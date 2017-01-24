@@ -1,7 +1,7 @@
 # MAGENTO 2 NGINX/FPM
 
 ```Dockerfile
-FROM quay.io/continuouspipe/magento2-nginx-php7:v1.0
+FROM quay.io/continuouspipe/magento2-nginx-php7:stable
 ARG GITHUB_TOKEN=
 
 COPY . /app

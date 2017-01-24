@@ -4,70 +4,70 @@ services:
   drupal8_apache:
     build:
       context: ./drupal8-apache/7.0/
-    image: quay.io/continuouspipe/drupal8-apache-php7:v1.0
+    image: quay.io/continuouspipe/drupal8-apache-php7:stable
     depends_on:
       - php70_apache
 
   drupal8_solr_4_10:
     build:
       context: ./drupal8-solr/4.10/
-    image: quay.io/continuouspipe/drupal8-solr4:v1.0
+    image: quay.io/continuouspipe/drupal8-solr4:stable
     depends_on:
       - solr_4_10
 
   drupal8_solr_6_2:
     build:
       context: ./drupal8-solr/6.2/
-    image: quay.io/continuouspipe/drupal8-solr6:v1.0
+    image: quay.io/continuouspipe/drupal8-solr6:stable
     depends_on:
       - solr_6_2
 
   drupal8_varnish:
     build:
       context: ./drupal8-varnish/4.0/
-    image: quay.io/continuouspipe/drupal8-varnish4:v1.0
+    image: quay.io/continuouspipe/drupal8-varnish4:stable
     depends_on:
       - varnish
 
   ez:
     build:
       context: ./ez/6.x/
-    image: quay.io/continuouspipe/ez6-apache-php7:v1.0
+    image: quay.io/continuouspipe/ez6-apache-php7:stable
     depends_on:
       - php70_apache
 
   hem:
     build:
       context: ./hem/
-    image: quay.io/continuouspipe/hem1:v1.0
+    image: quay.io/continuouspipe/hem1:stable
     depends_on:
       - ubuntu
 
   magento2_nginx:
     build:
       context: ./magento2-nginx/fpm-7.0/
-    image: quay.io/continuouspipe/magento2-nginx-php7:v1.0
+    image: quay.io/continuouspipe/magento2-nginx-php7:stable
     depends_on:
       - php70_nginx
 
   magento2_varnish:
     build:
       context: ./magento2-varnish/4.0/
-    image: quay.io/continuouspipe/magento2-varnish4:v1.0
+    image: quay.io/continuouspipe/magento2-varnish4:stable
     depends_on:
       - varnish
 
   mailcatcher:
     build:
       context: ./mailcatcher/
-    image: quay.io/continuouspipe/mailcatcher:v1.0
+    image: quay.io/continuouspipe/mailcatcher:stable
     depends_on:
       - ubuntu
 
   memcached:
     build:
       context: ./memcached/1.4/
-    image: quay.io/continuouspipe/memcached1.4:v1.0
+    image: quay.io/continuouspipe/memcached1.4:stable
     depends_on:
       - ubuntu
 
@@ -75,7 +75,7 @@ services:
     build:
       context: ./mongodb/
       dockerfile: Dockerfile-3.4
-    image: quay.io/continuouspipe/mongodb3.4:v1.0
+    image: quay.io/continuouspipe/mongodb3.4:stable
     depends_on:
       - external_mongodb34
 
@@ -83,7 +83,7 @@ services:
     build:
       context: ./mysql/
       dockerfile: Dockerfile-8.0
-    image: quay.io/continuouspipe/mysql8.0:v1.0
+    image: quay.io/continuouspipe/mysql8.0:stable
     depends_on:
       - external_mysql80
 
@@ -91,7 +91,7 @@ services:
     build:
       context: ./mysql/
       dockerfile: Dockerfile-5.7
-    image: quay.io/continuouspipe/mysql5.7:v1.0
+    image: quay.io/continuouspipe/mysql5.7:stable
     depends_on:
       - external_mysql57
 
@@ -99,14 +99,14 @@ services:
     build:
       context: ./mysql/
       dockerfile: Dockerfile-5.6
-    image: quay.io/continuouspipe/mysql5.6:v1.0
+    image: quay.io/continuouspipe/mysql5.6:stable
     depends_on:
       - external_mysql56
 
   nodejs:
     build:
       context: ./nodejs/6.0/
-    image: quay.io/continuouspipe/nodejs6:v1.0
+    image: quay.io/continuouspipe/nodejs6:stable
     depends_on:
       - ubuntu
 
@@ -115,7 +115,7 @@ services:
       context: ./php-apache/
       args:
         PHP_VERSION: 7.1
-    image: quay.io/continuouspipe/php7.1-apache:v1.0
+    image: quay.io/continuouspipe/php7.1-apache:stable
     depends_on:
       - ubuntu
 
@@ -124,7 +124,7 @@ services:
       context: ./php-apache/
       args:
         PHP_VERSION: 7.0
-    image: quay.io/continuouspipe/php7-apache:v1.0
+    image: quay.io/continuouspipe/php7-apache:stable
     depends_on:
       - ubuntu
 
@@ -133,7 +133,7 @@ services:
       context: ./php-apache/
       args:
         PHP_VERSION: 5.6
-    image: quay.io/continuouspipe/php5.6-apache:v1.0
+    image: quay.io/continuouspipe/php5.6-apache:stable
     depends_on:
       - ubuntu
 
@@ -142,7 +142,7 @@ services:
       context: ./php-nginx/
       args:
         PHP_VERSION: 7.1
-    image: quay.io/continuouspipe/php7.1-nginx:v1.0
+    image: quay.io/continuouspipe/php7.1-nginx:stable
     depends_on:
       - ubuntu
 
@@ -151,7 +151,7 @@ services:
       context: ./php-nginx/
       args:
         PHP_VERSION: 7.0
-    image: quay.io/continuouspipe/php7-nginx:v1.0
+    image: quay.io/continuouspipe/php7-nginx:stable
     depends_on:
       - ubuntu
 
@@ -160,7 +160,7 @@ services:
       context: ./php-nginx/
       args:
         PHP_VERSION: 5.6
-    image: quay.io/continuouspipe/php5.6-nginx:v1.0
+    image: quay.io/continuouspipe/php5.6-nginx:stable
     depends_on:
       - ubuntu
       
@@ -174,21 +174,21 @@ services:
   redis:
     build:
       context: ./redis/3.2/
-    image: quay.io/continuouspipe/redis3:v1.0
+    image: quay.io/continuouspipe/redis3:stable
     depends_on:
       - external_redis
 
   solr_4_10:
     build:
       context: ./solr/4.10/
-    image: quay.io/continuouspipe/solr4:v1.0
+    image: quay.io/continuouspipe/solr4:stable
     depends_on:
       - external_solr_4_10
 
   solr_6_2:
     build:
       context: ./solr/6.2/
-    image: quay.io/continuouspipe/solr6:v1.0
+    image: quay.io/continuouspipe/solr6:stable
     depends_on:
       - external_solr_6_2
 
@@ -196,7 +196,7 @@ services:
     build:
       context: ./symfony/
       dockerfile: Dockerfile-php7.1-nginx
-    image: quay.io/continuouspipe/symfony-php7.1-nginx:v1.0
+    image: quay.io/continuouspipe/symfony-php7.1-nginx:stable
     depends_on:
       - php71_nginx
 
@@ -204,7 +204,7 @@ services:
     build:
       context: ./symfony/
       dockerfile: Dockerfile-php7-nginx
-    image: quay.io/continuouspipe/symfony-php7-nginx:v1.0
+    image: quay.io/continuouspipe/symfony-php7-nginx:stable
     depends_on:
       - php70_nginx
 
@@ -212,7 +212,7 @@ services:
     build:
       context: ./symfony/
       dockerfile: Dockerfile-php5.6-nginx
-    image: quay.io/continuouspipe/symfony-php5.6-nginx:v1.0
+    image: quay.io/continuouspipe/symfony-php5.6-nginx:stable
     depends_on:
       - php56_nginx
 
@@ -220,7 +220,7 @@ services:
     build:
       context: ./symfony/
       dockerfile: Dockerfile-php7.1-apache
-    image: quay.io/continuouspipe/symfony-php7.1-apache:v1.0
+    image: quay.io/continuouspipe/symfony-php7.1-apache:stable
     depends_on:
       - php71_apache
 
@@ -228,7 +228,7 @@ services:
     build:
       context: ./symfony/
       dockerfile: Dockerfile-php7-apache
-    image: quay.io/continuouspipe/symfony-php7-apache:v1.0
+    image: quay.io/continuouspipe/symfony-php7-apache:stable
     depends_on:
       - php70_apache
 
@@ -236,21 +236,21 @@ services:
     build:
       context: ./symfony/
       dockerfile: Dockerfile-php5.6-apache
-    image: quay.io/continuouspipe/symfony-php5.6-apache:v1.0
+    image: quay.io/continuouspipe/symfony-php5.6-apache:stable
     depends_on:
       - php56_apache
 
   ubuntu:
     build:
       context: ./ubuntu/16.04/
-    image: quay.io/continuouspipe/ubuntu16.04:v1.0
+    image: quay.io/continuouspipe/ubuntu16.04:stable
     depends_on:
       - external_ubuntu
 
   varnish:
     build:
       context: ./varnish/4.0/
-    image: quay.io/continuouspipe/varnish4:v1.0
+    image: quay.io/continuouspipe/varnish4:stable
     depends_on:
       - ubuntu
 

@@ -7,28 +7,28 @@ tasks:
       services:
         ubuntu:
           image: quay.io/continuouspipe/ubuntu16.04
-          tag: v1.0
+          tag: stable
         mongodb34:
           image: quay.io/continuouspipe/mongodb3.4
-          tag: v1.0
+          tag: stable
         mysql80:
           image: quay.io/continuouspipe/mysql8.0
-          tag: v1.0
+          tag: stable
         mysql57:
           image: quay.io/continuouspipe/mysql5.7
-          tag: v1.0
+          tag: stable
         mysql56:
           image: quay.io/continuouspipe/mysql5.6
-          tag: v1.0
+          tag: stable
         redis:
           image: quay.io/continuouspipe/redis3
-          tag: v1.0
+          tag: stable
         solr_4_10:
           image: quay.io/continuouspipe/solr4
-          tag: v1.0
+          tag: stable
         solr_6_2:
           image: quay.io/continuouspipe/solr6
-          tag: v1.0
+          tag: stable
 
   ############################
   # Second generation images #
@@ -38,40 +38,40 @@ tasks:
       services:
         hem:
           image: quay.io/continuouspipe/hem1
-          tag: v1.0
+          tag: stable
         mailcatcher:
           image: quay.io/continuouspipe/mailcatcher
-          tag: v1.0
+          tag: stable
         memcached:
           image: quay.io/continuouspipe/memcached1.4
-          tag: v1.0
+          tag: stable
         nodejs:
           image: quay.io/continuouspipe/nodejs6
-          tag: v1.0
+          tag: stable
         php71_apache:
           image: quay.io/continuouspipe/php7.1-apache
-          tag: v1.0
+          tag: stable
         php70_apache:
           image: quay.io/continuouspipe/php7-apache
-          tag: v1.0
+          tag: stable
         php56_apache:
           image: quay.io/continuouspipe/php5.6-apache
-          tag: v1.0
+          tag: stable
         php71_nginx:
           image: quay.io/continuouspipe/php7.1-nginx
-          tag: v1.0
+          tag: stable
         php70_nginx:
           image: quay.io/continuouspipe/php7-nginx
-          tag: v1.0
+          tag: stable
         php56_nginx:
           image: quay.io/continuouspipe/php5.6-nginx
-          tag: v1.0
+          tag: stable
         scala_sbt:
           image: quay.io/continuouspipe/scala-base
-          tag: v1.0
+          tag: stable
         varnish:
           image: quay.io/continuouspipe/varnish4
-          tag: v1.0
+          tag: stable
 
   ###########################
   # Third generation images #
@@ -81,42 +81,42 @@ tasks:
       services:
         drupal8_apache:
           image: quay.io/continuouspipe/drupal8-apache-php7
-          tag: v1.0
+          tag: stable
         drupal8_solr_4_10:
           image: quay.io/continuouspipe/drupal8-solr4
-          tag: v1.0
+          tag: stable
         drupal8_solr_6_2:
           image: quay.io/continuouspipe/drupal8-solr6
-          tag: v1.0
+          tag: stable
         drupal8_varnish:
           image: quay.io/continuouspipe/drupal8-varnish4
-          tag: v1.0
+          tag: stable
         ez:
           image: quay.io/continuouspipe/ez6-apache-php7
-          tag: v1.0
+          tag: stable
         magento2_nginx:
           image: quay.io/continuouspipe/magento2-nginx-php7
-          tag: v1.0
+          tag: stable
         magento2_varnish:
           image: quay.io/continuouspipe/magento2-varnish4
-          tag: v1.0
+          tag: stable
         symfony_php71_nginx:
           image: quay.io/continuouspipe/symfony-php7.1-nginx
-          tag: v1.0
+          tag: stable
         symfony_php70_nginx:
           image: quay.io/continuouspipe/symfony-php7-nginx
-          tag: v1.0
+          tag: stable
         symfony_php56_nginx:
           image: quay.io/continuouspipe/symfony-php5.6-nginx
-          tag: v1.0
+          tag: stable
         symfony_php71_apache:
           image: quay.io/continuouspipe/symfony-php7.1-apache
-          tag: v1.0
+          tag: stable
         symfony_php70_apache:
           image: quay.io/continuouspipe/symfony-php7-apache
-          tag: v1.0
+          tag: stable
         symfony_php56_apache:
           image: quay.io/continuouspipe/symfony-php5.6-apache
-          tag: v1.0
+          tag: stable
 
 filter: code_reference.branch in ["master"]

@@ -1,4 +1,4 @@
-FROM quay.io/continuouspipe/ubuntu16.04:v1.0
+FROM quay.io/continuouspipe/ubuntu16.04:stable
 
 MAINTAINER Sarunas Valaskevicius <svalaskevicius+cp-dockerfiles@inviqa.com>
 

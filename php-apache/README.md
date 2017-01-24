@@ -2,7 +2,7 @@
 
 For PHP 7.0
 ```Dockerfile
-FROM quay.io/continuouspipe/php7-apache:v1.0
+FROM quay.io/continuouspipe/php7-apache:stable
 ARG GITHUB_TOKEN=
 
 COPY . /app
@@ -11,7 +11,7 @@ RUN container build
 
 For PHP 5.6
 ```Dockerfile
-FROM quay.io/continuouspipe/php5.6-apache:v1.0
+FROM quay.io/continuouspipe/php5.6-apache:stable
 ARG GITHUB_TOKEN=
 
 COPY . /app

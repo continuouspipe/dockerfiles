@@ -1,7 +1,7 @@
 # Ubuntu Base
 
 ```Dockerfile
-FROM quay.io/continuouspipe/ubuntu16.04:v1.0
+FROM quay.io/continuouspipe/ubuntu16.04:stable
 
 COPY ./somedir /somedir
 
@@ -10,7 +10,7 @@ RUN container build
 
 ## How to build
 ```bash
-docker build --pull --tag quay.io/continuouspipe/ubuntu16.04:v1.0 --rm .
+docker build --pull --tag quay.io/continuouspipe/ubuntu16.04:stable --rm .
 docker push
 ```
 

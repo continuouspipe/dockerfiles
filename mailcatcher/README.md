@@ -1,7 +1,7 @@
 # Mailcatcher
 
 ```Dockerfile
-FROM quay.io/continuouspipe/mailcatcher:v1.0
+FROM quay.io/continuouspipe/mailcatcher:stable
 ```
 
 Port 25 is where mail should be relayed to

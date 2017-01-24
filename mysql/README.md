@@ -1,19 +1,19 @@
 # MySQL 8.0
 
 ```Dockerfile
-FROM quay.io/continuouspipe/mysql8.0:v1.0
+FROM quay.io/continuouspipe/mysql8.0:stable
 ```
 
 # MySQL 5.7
 
 ```Dockerfile
-FROM quay.io/continuouspipe/mysql5.7:v1.0
+FROM quay.io/continuouspipe/mysql5.7:stable
 ```
 
 # MySQL 5.6
 
 ```Dockerfile
-FROM quay.io/continuouspipe/mysql5.6:v1.0
+FROM quay.io/continuouspipe/mysql5.6:stable
 ```
 
 ## How to build

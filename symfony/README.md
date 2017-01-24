@@ -1,7 +1,7 @@
 # Symfony with Nginx
 
 ```
-FROM quay.io/continuouspipe/symfony-php7.1-nginx:v1.0
+FROM quay.io/continuouspipe/symfony-php7.1-nginx:stable
 ARG GITHUB_TOKEN=
 ARG SYMFONY_ENV=prod
 
@@ -10,7 +10,7 @@ RUN container build
 ```
 
 ```
-FROM quay.io/continuouspipe/symfony-php7-nginx:v1.0
+FROM quay.io/continuouspipe/symfony-php7-nginx:stable
 ARG GITHUB_TOKEN=
 ARG SYMFONY_ENV=prod
 
@@ -19,7 +19,7 @@ RUN container build
 ```
 
 ```
-FROM quay.io/continuouspipe/symfony-php5.6-nginx:v1.0
+FROM quay.io/continuouspipe/symfony-php5.6-nginx:stable
 ARG GITHUB_TOKEN=
 ARG SYMFONY_ENV=prod
 
@@ -30,7 +30,7 @@ RUN container build
 # Symfony with Apache
 
 ```
-FROM quay.io/continuouspipe/symfony-php7.1-apache:v1.0
+FROM quay.io/continuouspipe/symfony-php7.1-apache:stable
 ARG GITHUB_TOKEN=
 ARG SYMFONY_ENV=prod
 
@@ -39,7 +39,7 @@ RUN container build
 ```
 
 ```
-FROM quay.io/continuouspipe/symfony-php7-apache:v1.0
+FROM quay.io/continuouspipe/symfony-php7-apache:stable
 ARG GITHUB_TOKEN=
 ARG SYMFONY_ENV=prod
 
@@ -48,7 +48,7 @@ RUN container build
 ```
 
 ```
-FROM quay.io/continuouspipe/symfony-php5.6-apache:v1.0
+FROM quay.io/continuouspipe/symfony-php5.6-apache:stable
 ARG GITHUB_TOKEN=
 ARG SYMFONY_ENV=prod
 

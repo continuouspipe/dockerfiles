@@ -1,4 +1,4 @@
-FROM quay.io/continuouspipe/ubuntu16.04:v1.0
+FROM quay.io/continuouspipe/ubuntu16.04:stable
 MAINTAINER Kieren Evans <kieren.evans+cp-dockerfiles@inviqa.com>
 
 RUN apt-get update -qq \
