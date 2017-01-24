@@ -1,4 +1,4 @@
-FROM quay.io/continuouspipe/php7-nginx:stable
+FROM quay.io/continuouspipe/php7-nginx:latest
 
 MAINTAINER Kieren Evans <kieren.evans+cp-dockerfiles@inviqa.com>
 
