@@ -1,7 +1,7 @@
 # MongoDB 3.4
 
 ```Dockerfile
-FROM quay.io/continuouspipe/mongodb3.4:v1.0
+FROM quay.io/continuouspipe/mongodb3.4:stable
 ```
 
 ## How to build

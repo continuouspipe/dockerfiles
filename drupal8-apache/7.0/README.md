@@ -1,7 +1,7 @@
 # DRUPAL 8 APACHE/PHP
 
 ```Dockerfile
-FROM quay.io/continuouspipe/drupal8-apache-php7:v1.0
+FROM quay.io/continuouspipe/drupal8-apache-php7:stable
 ARG GITHUB_TOKEN=
 
 COPY . /app
