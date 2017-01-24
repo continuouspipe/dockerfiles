@@ -1,0 +1,8 @@
+DirectoryIndex index.html
+
+RewriteEngine on
+
+# REQUEST_FILENAME at VirtualHost level doesn't have the document root in
+# CONTEXT_DOCUMENT_ROOT will be aware of whether the request is in a Alias or DocumentRoot
+RewriteCond %{CONTEXT_DOCUMENT_ROOT}%{REQUEST_FILENAME} !-f
+RewriteRule ^(.*)$ /app.php [QSA,L]

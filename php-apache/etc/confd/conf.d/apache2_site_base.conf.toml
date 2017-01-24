@@ -1,0 +1,6 @@
+[template]
+src   = "apache/site_base.conf.tmpl"
+dest  = "etc/apache2/sites-available/000-default-10-base.conf"
+mode  = "0644"
+keys = [ 
+]

@@ -1,0 +1,6 @@
+[template]
+src   = "apache/site_rewriteapp.conf.tmpl"
+dest  = "etc/apache2/sites-available/000-default-20-rewriteapp.conf"
+mode  = "0644"
+keys = [ 
+]
