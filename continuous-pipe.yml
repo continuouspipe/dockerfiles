@@ -23,6 +23,9 @@ tasks:
         redis:
           image: quay.io/continuouspipe/redis3
           tag: latest
+        elasticsearch:
+          image: quay.io/continuouspipe/elasticsearch2.4
+          tag: latest
         solr_4_10:
           image: quay.io/continuouspipe/solr4
           tag: latest
