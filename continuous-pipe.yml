@@ -51,21 +51,39 @@ tasks:
         php71_apache:
           image: quay.io/continuouspipe/php7.1-apache
           tag: latest
+          environment:
+            - name: PHP_VERSION
+              value: 7.1
         php70_apache:
           image: quay.io/continuouspipe/php7-apache
           tag: latest
+          environment:
+            - name: PHP_VERSION
+              value: 7.0
         php56_apache:
           image: quay.io/continuouspipe/php5.6-apache
           tag: latest
+          environment:
+            - name: PHP_VERSION
+              value: 5.6
         php71_nginx:
           image: quay.io/continuouspipe/php7.1-nginx
           tag: latest
+          environment:
+            - name: PHP_VERSION
+              value: 7.1
         php70_nginx:
           image: quay.io/continuouspipe/php7-nginx
           tag: latest
+          environment:
+            - name: PHP_VERSION
+              value: 7.0
         php56_nginx:
           image: quay.io/continuouspipe/php5.6-nginx
           tag: latest
+          environment:
+            - name: PHP_VERSION
+              value: 5.6
         scala_sbt:
           image: quay.io/continuouspipe/scala-base
           tag: latest
