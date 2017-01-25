@@ -5,8 +5,6 @@ MAINTAINER Kieren Evans <kieren.evans+cp-dockerfiles@inviqa.com>
 # Install hem and npm
 RUN curl -q https://dx6pc3giz7k1r.cloudfront.net/GPG-KEY-inviqa-tools | apt-key add - \
  && echo "deb https://dx6pc3giz7k1r.cloudfront.net/repos/debian jessie main" | tee /etc/apt/sources.list.d/inviqa-tools.list \
- && apt-key adv --keyserver keyserver.ubuntu.com --recv-keys E5267A6C \
- && echo "deb http://ppa.launchpad.net/ondrej/php/ubuntu xenial main" | tee /etc/apt/sources.list.d/ondrej.list \
  && curl -sL https://deb.nodesource.com/setup_6.x > /tmp/install-node.sh \
  && bash /tmp/install-node.sh \
  && apt-get update -qq -y \
@@ -15,7 +13,6 @@ RUN curl -q https://dx6pc3giz7k1r.cloudfront.net/GPG-KEY-inviqa-tools | apt-key 
     nodejs \
     rsyslog \
     sudo \
-    php-memcached \
  \
  # Configure Node dependencies \
  && npm config set --global loglevel warn \
