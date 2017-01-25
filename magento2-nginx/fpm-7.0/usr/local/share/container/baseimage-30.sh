@@ -12,6 +12,12 @@ do_development_start() {
   do_magento2_development_start
 }
 
+alias_function do_templating do_magento2_templating_inner
+do_templating() {
+  mkdir -p /app/app/etc/
+  do_magento2_templating_inner
+}
+
 do_composer() {
   # disable original composer in image hierarchy till install_magento ported
   :
