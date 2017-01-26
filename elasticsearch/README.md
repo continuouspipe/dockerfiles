@@ -1,7 +1,7 @@
 # ELASTICSEARCH 2.4
 
 ```Dockerfile
-FROM quay.io/continuouspipe/elasticsearch2.4:latest
+FROM quay.io/continuouspipe/elasticsearch2.4:stable
 ```
 
 ## How to build
