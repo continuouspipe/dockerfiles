@@ -34,14 +34,20 @@ do_development_start() {
 
 do_build_user_ssh_keys() {
   set +x
-  if [ -n "$BUILD_USER_SSH_PRIVATE_KEY" ] && [ -n "$BUILD_USER_SSH_PUBLIC_KEY" ]; then
+  if [ -n "$BUILD_USER_SSH_PRIVATE_KEY" ]; then
     echo "Setting up SSH keys for the build user"
-    mkdir -p /home/build/.ssh/
-    echo "$BUILD_USER_SSH_PRIVATE_KEY" | base64 --decode > /home/build/.ssh/id_rsa
-    echo "$BUILD_USER_SSH_PUBLIC_KEY" | base64 --decode > /home/build/.ssh/id_rsa.pub
-    echo "$BUILD_USER_SSH_KNOWN_HOSTS" | base64 --decode > /home/build/.ssh/known_hosts
+    (
+      umask 0200
+      mkdir -p /home/build/.ssh/
+      echo "$BUILD_USER_SSH_PRIVATE_KEY" | base64 --decode > /home/build/.ssh/id_rsa
+    )
+    if [ -n "$BUILD_USER_SSH_PUBLIC_KEY" ]; then
+      echo "$BUILD_USER_SSH_PUBLIC_KEY" | base64 --decode > /home/build/.ssh/id_rsa.pub
+    fi
+    if [ -n "$BUILD_USER_SSH_KNOWN_HOSTS" ]; then
+      echo "$BUILD_USER_SSH_KNOWN_HOSTS" | base64 --decode > /home/build/.ssh/known_hosts
+    fi
     chown -R build:build /home/build/.ssh/
-    chmod 600 /home/build/.ssh/{id_rsa,id_rsa.pub,known_hosts}
     unset BUILD_USER_SSH_PRIVATE_KEY
     unset BUILD_USER_SSH_PUBLIC_KEY
     unset BUILD_USER_SSH_KNOWN_HOSTS
