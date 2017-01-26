@@ -77,6 +77,14 @@ do_symfony_build | Updates the permissions of the Symfony app as required for co
 do_symfony_config_create | Creates an empty parameters.yml that the composer installation can update via the incenteev/parameters-handler package | do_symfony_build
 do_symfony_directory_create | Creates directories that may not be present in the codebase but are required before composer can run to install dependencies | do_symfony_build
 do_symfony_build_permissions | Fix the owner and permissions of the web-writable directories, to allow symfony to function | do_composer
+do_cache_clear | Clears/warms up the Symfony cache | nothing by default
+do_database_build | Installs or updates the database schema depending on whether the database exists | nothing by default
+do_database_install | Runs database install process (assumes Doctrine ORM/migrations), which is by default do_database_schema_create, do_database_migrations_mark_done, do_database_fixtures | do_database_build
+do_database_update | Runs database update process(assumes Doctrine ORM/migrations), which is by default do_database_migrate | do_database_build
+do_database_schema_create | Runs doctrine:schema:create | do_database_install
+do_database_schema_update | Runs doctrine:schema:update --force (not recommmended) | nothing by default
+do_database_migrations_mark_done | Marks all Doctrine migrations as done | do_database_install
+do_database_migrate | Runs doctrine:migrations:migrate --no-interaction | do_database_update
 
 These functions can be triggered via the /usr/local/bin/container command, dropping off the "do_" part. e.g:
 
