@@ -10,9 +10,12 @@ export IS_CHOWN_FORBIDDEN=$?
 
 is_vboxsf_mountpoint
 export IS_VBOXSF_MOUNTPOINT=$?
+
+is_app_mountpoint()
+export IS_APP_MOUNTPOINT=$?
 set -e
 
-export DEVELOPMENT_MODE=${DEVELOPMENT_MODE:-${IS_CHOWN_FORBIDDEN}}
+export DEVELOPMENT_MODE=${DEVELOPMENT_MODE:-${IS_APP_MOUNTPOINT}}
 
 if [ "$IS_VBOXSF_MOUNTPOINT" -eq 0 ]; then
   export APP_USER_LOCAL=${APP_USER_LOCAL:-true}
