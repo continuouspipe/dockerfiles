@@ -53,10 +53,15 @@ do_database_build() {
   # load the database if it doesn't exist
   set +e
   as_app_user "'$SYMFONY_CONSOLE' doctrine:database:create >/dev/null"
-  DATABASE_EXISTED=$?
+  local DATABASE_EXISTED=$?
   set -e
 
-  if [ "$DATABASE_EXISTED" -ne 1 ]; then
+  local QUERY_LINE_COUNT=0
+  if [ "$DATABASE_EXISTED" -eq 1 ]; then
+    QUERY_LINE_COUNT="$(as_app_user "'$SYMFONY_CONSOLE' doctrine:query:sql 'SELECT TABLE_NAME FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = database()' | wc -l")"
+  fi
+
+  if [ "$DATABASE_EXISTED" -ne 1 ] || [ "$QUERY_LINE_COUNT" -lt 3 ]; then
     do_database_install
   else
     do_database_update
