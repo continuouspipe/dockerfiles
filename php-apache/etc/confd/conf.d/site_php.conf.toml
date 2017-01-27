@@ -1,6 +1,6 @@
 [template]
 src   = "apache/site_php.conf.tmpl"
-dest  = "etc/apache2/sites-available/000-default-05-php.conf"
+dest  = "/etc/apache2/sites-available/000-default-05-php.conf"
 mode  = "0644"
 keys = [ 
 ]
