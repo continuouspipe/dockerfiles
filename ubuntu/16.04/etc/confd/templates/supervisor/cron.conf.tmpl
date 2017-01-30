@@ -1,10 +1,12 @@
-[program:mailcatcher]
-command = /usr/local/bin/mailcatcher.sh
+[program:cron]
+command = /usr/sbin/cron -f
 stdout_logfile=/dev/stdout
 stdout_logfile_maxbytes=0
 stderr_logfile=/dev/stderr
 stderr_logfile_maxbytes=0
-user = mailcatcher
-autostart = true
+loglevel = warn
+user = root
+autostart = {{ getenv "START_CRON" }}
 autorestart = true
 priority = 5
+

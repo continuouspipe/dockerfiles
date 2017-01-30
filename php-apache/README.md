@@ -143,6 +143,7 @@ This base image adds the following bash functions:
 function | description | executed on
 --- | --- | ---
 do_composer | Runs composer install in /app if it's not been run yet | do_build, do_development_start
+do_composer_postinstall_scripts | runs composer post-install-cmd event to trigger scripts attached | nothing by default
 do_build_permissions | Ensures that /app is owned by the build user and not www-data or root, for security and ability to run composer as a non-root user | do_build, do_development_start
 
 These functions can be triggered via the /usr/local/bin/container command, dropping off the "do_" part. e.g:

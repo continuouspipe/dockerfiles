@@ -5,8 +5,13 @@ export PHP_MEMORY_LIMIT=${PHP_MEMORY_LIMIT:-256M}
 export PHP_MEMORY_LIMIT_CLI=${PHP_MEMORY_LIMIT_CLI:--1}
 export APP_USER=${APP_USER:-www-data}
 export APP_GROUP=${APP_GROUP:-www-data}
-export START_NGINX=${START_NGINX:-true}
-export START_PHP_FPM=${START_PHP_FPM:-true}
+
+export START_MODE=${START_MODE:-web}
+declare "START_MODE_${START_MODE^^}=true"
+
+export START_NGINX=${START_NGINX:-${START_MODE_WEB:-false}}
+export START_PHP_FPM=${START_PHP_FPM:-${START_MODE_WEB:-false}}
+export START_CRON=${START_CRON:-${START_MODE_CRON:-false}}
 
 export WORK_DIRECTORY=${WORK_DIRECTORY:-/app}
 export WEB_DIRECTORY=${WEB_DIRECTORY:-web}

@@ -4,15 +4,20 @@ export WORK_DIRECTORY=${WORK_DIRECTORY:-/app}
 export CODE_OWNER=${CODE_OWNER:-build}
 export CODE_GROUP=${CODE_GROUP:-build}
 
+export START_CRON=${START_CRON:-false}
+
 set +e
 is_chown_forbidden
 export IS_CHOWN_FORBIDDEN=$?
 
 is_vboxsf_mountpoint
 export IS_VBOXSF_MOUNTPOINT=$?
+
+is_app_mountpoint
+export IS_APP_MOUNTPOINT=$?
 set -e
 
-export DEVELOPMENT_MODE=${DEVELOPMENT_MODE:-${IS_CHOWN_FORBIDDEN}}
+export DEVELOPMENT_MODE=${DEVELOPMENT_MODE:-${IS_APP_MOUNTPOINT}}
 
 if [ "$IS_VBOXSF_MOUNTPOINT" -eq 0 ]; then
   export APP_USER_LOCAL=${APP_USER_LOCAL:-true}
@@ -20,3 +25,7 @@ else
   export APP_USER_LOCAL=${APP_USER_LOCAL:-false}
 fi
 export APP_USER_LOCAL_RANDOM=${APP_USER_LOCAL_RANDOM:-false}
+
+export BUILD_USER_SSH_PRIVATE_KEY=${BUILD_USER_SSH_PRIVATE_KEY:-}
+export BUILD_USER_SSH_PUBLIC_KEY=${BUILD_USER_SSH_PUBLIC_KEY:-}
+export BUILD_USER_SSH_KNOWN_HOSTS=${BUILD_USER_SSH_KNOWN_HOSTS:-}

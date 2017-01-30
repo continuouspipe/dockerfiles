@@ -38,12 +38,21 @@ as_code_owner() {
   as_user "$1" "$2" "$CODE_OWNER"
 }
 
+as_app_user() {
+  as_user "$1" "$2" "$APP_USER"
+}
+
 is_hem_project() {
   if [ -f /app/tools/hem/config.yaml ] || [ -f /app/tools/hobo/config.yaml ]; then
     return 0
   fi
 
   return 1
+}
+
+is_app_mountpoint() {
+  grep -q -E "/app (nfs|vboxsf|fuse\.osxfs)" /proc/mounts
+  return $?
 }
 
 is_chown_forbidden() {

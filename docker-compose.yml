@@ -178,6 +178,13 @@ services:
     depends_on:
       - external_redis
 
+  elasticsearch:
+    build:
+      context: ./elasticsearch/
+    image: quay.io/continuouspipe/elasticsearch2.4:latest
+    depends_on:
+      - external_elasticsearch
+
   solr_4_10:
     build:
       context: ./solr/4.10/
@@ -268,6 +275,9 @@ services:
 
   external_redis:
     image: redis:3.2
+
+  external_elasticsearch:
+    image: elasticsearch:2.4
 
   external_solr_4_10:
     image: makuk66/docker-solr:4.10.4

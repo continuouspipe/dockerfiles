@@ -36,3 +36,7 @@ do_composer() {
     run_composer
   fi
 }
+
+do_composer_postinstall_scripts() {
+  as_code_owner 'composer run-script post-install-cmd'
+}

@@ -1,6 +1,6 @@
 [template]
 src   = "php/env.ini.tmpl"
-dest  = "/etc/php/$PHP_VERSION/apache/conf.d/05-env.ini"
+dest  = "/etc/php/$PHP_VERSION/apache2/conf.d/05-env.ini"
 mode  = "0644"
 keys = [
 ]
