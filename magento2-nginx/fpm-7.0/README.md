@@ -48,3 +48,40 @@ These functions can be triggered via the /usr/local/bin/container command, dropp
 
 /usr/local/bin/container build # runs do_build
 /usr/local/bin/container start_supervisord # runs do_start_supervisord
+
+#### Environment variables
+
+The following variables are supported
+
+Variable | Description | Expected values | Default
+--- | --- | --- | ----
+PHP_MEMORY_LIMIT | PHP memory limit | - | 768M
+PRODUCTION_ENVIRONMENT | If true, magento DI will be compiled | true/false | false
+APP_HOSTNAME | Web server's host name | \<projectname\>_web.docker | magento_web.docker
+PUBLIC_ADDRESS | Magento base URL |  http://\<projectname\>_web.docker/ | http://magento_web.docker/
+FORCE_DATABASE_DROP | Drops the existing database before importing from assets | true/false | false
+DATABASE_ARCHIVE_PATH | Database dump's archive path | relative path | tools/assets/development/magentodb.sql.gz
+DATABASE_NAME | Magento database name | - | magentodb
+DATABASE_USER | Magento database user | - | magento
+DATABASE_PASSWORD | Magento database password | - | magento
+DATABASE_ROOT_PASSWORD | MySql root password (Used to create magento database and user) | - | magento
+DATABASE_HOST | Magneto database host | - | database
+ADDITIONAL_SETUP_SQL | Any additional SQL query which should be executed after database import (changing base URLs and setting varnish host/port is added by default) | SQL Query | - 
+ASSET_ARCHIVE_PATH | Asset files archive path | relative path | tools/assets/development/media.files.tgz 
+ASSET_DOWNLOAD_ENVIRONMENTS | Assets will be downloaded for this environment name | - | development
+FRONTEND_INSTALL_DIRECTORY | NPM modules will be installed within this directory (if it exists) | absolute path (normally we mount the source at /app) | /app/tools/inviqa
+FRONTEND_BUILD_DIRECTORY | Gulp command will be executed within this directory (if it exists) | absolute path (normally we mount the source at /app) | /app/tools/inviqa
+FRONTEND_BUILD_ACTION | Gulp command to run | gulp command name | build
+GULP_BUILD_THEME_NAME | If specified, will be passed to gulp command as "--theme=<theme name>" | - | - 
+MAGENTO_MODE | Used to set Magento mode. If set to "production", static contents will be deployed | default/developer/production | production
+MAGENTO_RUN_CODE_MAPPING | Mapped to http_host and default store name. First part of the value is the host name and second part is magento's store code (separated by space). Don't forget to add ";" at the end. | - | magento_web.docker default; 
+FRONTEND_COMPILE_LANGUAGES | Used during static content deployment. It can be multiple language codes. | language code(s) separated by space | en_GB
+MAGENTO_DEPENDENCY_INJECTION_COMPILE_COMMAND | Magento DI compile command | - | bin/magento setup:di:compile 
+MAGENTO_CRYPT_KEY | Magneto crypt key | - | -
+COMPOSER_CUSTOM_CONFIG_COMMAND | Used to set any custom composer configuration, will be executed before composer install | composer config .. | -
+REDIS_HOST | Redis host name (to store cache and sessions) | - | redis 
+REDIS_HOST_PORT | Redis port | port number | 6379
+MAGENTO_REDIS_CACHE_DATABASE | Redis database number to store block cache | database number | 0 
+MAGENTO_REDIS_FULL_PAGE_CACHE_DATABASE | Redis database number to store full page cache | database number | 1
+MAGENTO_REDIS_SESSION_DATABASE | Redis database number to store sessions | database number | 2
+MAGENTO_ADMIN_FRONTNAME | Magento backend frontname | - | admin

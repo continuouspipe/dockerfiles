@@ -159,7 +159,7 @@ server {
         include        fastcgi_params;
 
         # Set Mage run Type and Code dynamically
-        fastcgi_param  MAGE_RUN_TYPE website;
+        fastcgi_param  MAGE_RUN_TYPE store;
         fastcgi_param  MAGE_RUN_CODE $MAGE_RUN_CODE;
     }
 
