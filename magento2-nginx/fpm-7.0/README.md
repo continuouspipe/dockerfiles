@@ -58,7 +58,7 @@ Variable | Description | Expected values | Default
 PHP_MEMORY_LIMIT | PHP memory limit | - | 768M
 PRODUCTION_ENVIRONMENT | If true, magento DI will be compiled | true/false | false
 APP_HOSTNAME | Web server's host name | \<projectname\>_web.docker | magento_web.docker
-PUBLIC_ADDRESS | Magento base URL |  http://\<projectname\>_web.docker/ | http://magento_web.docker/
+PUBLIC_ADDRESS | Magento base URL |  https://\<projectname\>_web.docker/ | https://magento_web.docker/
 FORCE_DATABASE_DROP | Drops the existing database before importing from assets | true/false | false
 DATABASE_ARCHIVE_PATH | Database dump's archive path | relative path | tools/assets/development/magentodb.sql.gz
 DATABASE_NAME | Magento database name | - | magentodb
