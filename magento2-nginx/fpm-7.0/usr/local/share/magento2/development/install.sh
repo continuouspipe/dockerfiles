@@ -24,8 +24,8 @@ bash "$DIR/../install_magento.sh";
 
 set +e
 is_hem_project
-set -e
 IS_HEM=$?
+set -e
 if [ "$IS_HEM" -eq 0 ]; then
   # Run HEM
   export HEM_RUN_ENV="${HEM_RUN_ENV:-local}"
