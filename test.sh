@@ -12,7 +12,7 @@ docker pull koalaman/shellcheck
 docker pull lukasmartinelli/hadolint
 
 find "$DIR" -type f ! -path "*.git/*" \( \
-  -perm +111 -or -name "*.sh" -or -wholename "*usr/local/env/*" -or -wholename "*usr/local/share/container/*" \
+  -perm +111 -or -name "*.sh" -or -wholename "*usr/local/share/env/*" -or -wholename "*usr/local/share/container/*" \
 \) | while read -r script; do
   echo "Linting '$script':";
   docker run --rm -i koalaman/shellcheck --exclude SC1091 - < "$script";
