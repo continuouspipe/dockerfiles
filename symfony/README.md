@@ -56,6 +56,18 @@ COPY . /app/
 RUN container build
 ```
 
+### Environment variables
+
+The following variables are supported
+
+Variable | Description | Expected values | Default
+--- | --- | --- | ----
+SYMFONY_ENV | The Symfony env to use, when the app reads this variable | string | prod
+SYMFONY_MAJOR_VERSION | The major version of Symfony that will be used | 2, 3 | auto-detected based on location of console script
+SYMFONY_CONSOLE | The location of the Symfony console script | file path | auto-detected
+SYMFONY_WEB_APP_ENV_REWRITE | Whether to use web/app_*.php when SYMFONY_ENV != prod | true, false | false
+SYMFONY_APP_ENDPOINT | The uri of the web application php endpoint | domain relative uri | auto-detected based on SYMFONY_ENV and SYMFONY_WEB_APP_ENV_REWRITE
+
 ### Custom build and startup scripts
 
 To run commands during the build and startup sequences that the base images add,

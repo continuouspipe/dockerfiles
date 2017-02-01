@@ -1,7 +1,7 @@
-    location ~ ^/(app|app_dev|config)\.php(/|$) {
-        fastcgi_pass unix:/run/php{{ getenv "PHP_VERSION" }}-fpm.sock;
-        fastcgi_split_path_info ^(.+\.php)(/.*)$;
-        include fastcgi_params;
-        fastcgi_param HTTPS $custom_https if_not_empty;
-        fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
-    }
+location ~ ^{{ getenv "SYMFONY_APP_ENDPOINT_REGEX" }}(/|$) {
+    fastcgi_pass unix:/run/php{{ getenv "PHP_VERSION" }}-fpm.sock;
+    fastcgi_split_path_info ^(.+\.php)(/.*)$;
+    include fastcgi_params;
+    fastcgi_param HTTPS $custom_https if_not_empty;
+    fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
+}
