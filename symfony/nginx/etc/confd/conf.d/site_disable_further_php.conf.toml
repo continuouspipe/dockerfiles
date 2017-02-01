@@ -1,0 +1,6 @@
+[template]
+src   = "nginx/site_disable_further_php.conf.tmpl"
+dest  = "/etc/nginx/sites-available/default-50-disable_further_php.conf"
+mode  = "0644"
+keys = [ 
+]
