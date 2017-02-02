@@ -51,6 +51,9 @@ tasks:
         nodejs:
           image: quay.io/continuouspipe/nodejs6
           tag: latest
+        nodejs7:
+          image: quay.io/continuouspipe/nodejs7
+          tag: latest
         php71_apache:
           image: quay.io/continuouspipe/php7.1-apache
           tag: latest
