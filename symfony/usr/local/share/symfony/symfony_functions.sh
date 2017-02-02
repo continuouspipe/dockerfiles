@@ -87,9 +87,7 @@ do_cache_clear() {
 }
 
 do_database_fixtures() {
-  if [ "$SYMFONY_DATABASE_FIXTURE_INSTALL" -eq 1 ]; then
-    as_app_user "'$SYMFONY_CONSOLE' doctrine:fixtures:load -n"
-  fi
+  as_app_user "'$SYMFONY_CONSOLE' doctrine:fixtures:load -n"
 }
 
 do_symfony_build() {
