@@ -37,7 +37,7 @@ do_build_user_ssh_keys() {
   if [ -n "$BUILD_USER_SSH_PRIVATE_KEY" ]; then
     echo "Setting up SSH keys for the build user"
     (
-      umask 0200
+      umask 0077
       mkdir -p /home/build/.ssh/
       echo "$BUILD_USER_SSH_PRIVATE_KEY" | base64 --decode > /home/build/.ssh/id_rsa
     )
