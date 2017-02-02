@@ -1,59 +1,20 @@
 tasks:
-  ####################
-  # Base Image Tasks #
-  ####################
-  base_images:
+  ##################################
+  # Second level dependency images #
+  ##################################
+  second_level_dependency_images:
     build:
       services:
         ubuntu:
           image: quay.io/continuouspipe/ubuntu16.04
           tag: latest
-        mongodb34:
-          image: quay.io/continuouspipe/mongodb3.4
-          tag: latest
-        mysql80:
-          image: quay.io/continuouspipe/mysql8.0
-          tag: latest
-        mysql57:
-          image: quay.io/continuouspipe/mysql5.7
-          tag: latest
-        mysql56:
-          image: quay.io/continuouspipe/mysql5.6
-          tag: latest
-        redis:
-          image: quay.io/continuouspipe/redis3
-          tag: latest
-        elasticsearch:
-          image: quay.io/continuouspipe/elasticsearch2.4
-          tag: latest
-        solr_4_10:
-          image: quay.io/continuouspipe/solr4
-          tag: latest
-        solr_6_2:
-          image: quay.io/continuouspipe/solr6
-          tag: latest
 
-  ############################
-  # Second generation images #
-  ############################
-  second_generation_images:
+  #################################
+  # First level dependency images #
+  #################################
+  first_level_dependency_images:
     build:
       services:
-        hem:
-          image: quay.io/continuouspipe/hem1
-          tag: latest
-        mailcatcher:
-          image: quay.io/continuouspipe/mailcatcher
-          tag: latest
-        memcached:
-          image: quay.io/continuouspipe/memcached1.4
-          tag: latest
-        nodejs:
-          image: quay.io/continuouspipe/nodejs6
-          tag: latest
-        nodejs7:
-          image: quay.io/continuouspipe/nodejs7
-          tag: latest
         php71_apache:
           image: quay.io/continuouspipe/php7.1-apache
           tag: latest
@@ -90,17 +51,20 @@ tasks:
           environment:
             - name: PHP_VERSION
               value: '5.6'
-        scala_sbt:
-          image: quay.io/continuouspipe/scala-base
+        solr_4_10:
+          image: quay.io/continuouspipe/solr4
+          tag: latest
+        solr_6_2:
+          image: quay.io/continuouspipe/solr6
           tag: latest
         varnish:
           image: quay.io/continuouspipe/varnish4
           tag: latest
 
   ###########################
-  # Third generation images #
+  # No dependency images    #
   ###########################
-  third_generation_images:
+  no_dependency_images:
     build:
       services:
         drupal8_apache:
@@ -115,14 +79,50 @@ tasks:
         drupal8_varnish:
           image: quay.io/continuouspipe/drupal8-varnish4
           tag: latest
+        elasticsearch:
+          image: quay.io/continuouspipe/elasticsearch2.4
+          tag: latest
         ez:
           image: quay.io/continuouspipe/ez6-apache-php7
+          tag: latest
+        hem:
+          image: quay.io/continuouspipe/hem1
           tag: latest
         magento2_nginx:
           image: quay.io/continuouspipe/magento2-nginx-php7
           tag: latest
         magento2_varnish:
           image: quay.io/continuouspipe/magento2-varnish4
+          tag: latest
+        mailcatcher:
+          image: quay.io/continuouspipe/mailcatcher
+          tag: latest
+        memcached:
+          image: quay.io/continuouspipe/memcached1.4
+          tag: latest
+        mongodb34:
+          image: quay.io/continuouspipe/mongodb3.4
+          tag: latest
+        mysql80:
+          image: quay.io/continuouspipe/mysql8.0
+          tag: latest
+        mysql57:
+          image: quay.io/continuouspipe/mysql5.7
+          tag: latest
+        mysql56:
+          image: quay.io/continuouspipe/mysql5.6
+          tag: latest
+        nodejs:
+          image: quay.io/continuouspipe/nodejs6
+          tag: latest
+        nodejs7:
+          image: quay.io/continuouspipe/nodejs7
+          tag: latest
+        redis:
+          image: quay.io/continuouspipe/redis3
+          tag: latest
+        scala_sbt:
+          image: quay.io/continuouspipe/scala-base
           tag: latest
         symfony_php71_nginx:
           image: quay.io/continuouspipe/symfony-php7.1-nginx
