@@ -1,4 +1,4 @@
-# NodeJS
+# NodeJS, for SASS and Gulp
 
 ```Dockerfile
 FROM quay.io/continuouspipe/nodejs:7.x
