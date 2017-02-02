@@ -1,12 +1,12 @@
 # NodeJS, for SASS and Gulp
 
 ```Dockerfile
-FROM quay.io/continuouspipe/nodejs:6.0
+FROM quay.io/continuouspipe/nodejs:7.x
 ```
 
 ## How to build
 ```bash
-docker build --pull --tag quay.io/continuouspipe/nodejs:6.0 --rm .
+docker build --pull --tag quay.io/continuouspipe/nodejs:7.x --rm .
 docker push
 ```
 

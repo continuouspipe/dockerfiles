@@ -110,6 +110,13 @@ services:
     depends_on:
       - ubuntu
 
+  nodejs7:
+    build:
+      context: ./nodejs/7.x/
+    image: quay.io/continuouspipe/nodejs7:latest
+    depends_on:
+      - ubuntu
+
   php71_apache:
     build:
       context: ./php-apache/
