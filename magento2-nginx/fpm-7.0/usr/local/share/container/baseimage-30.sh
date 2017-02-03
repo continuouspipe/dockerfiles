@@ -37,10 +37,6 @@ do_setup() {
   do_magento2_setup
 }
 
-do_magento2_setup() {
-  do_magento2_install_finalise
-}
-
 do_magento2_development_start()
 {
   do_magento2_install

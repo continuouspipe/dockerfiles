@@ -197,6 +197,10 @@ function do_magento2_build() {
   do_magento_install_custom
 }
 
+do_magento2_setup() {
+  do_magento2_install_finalise
+}
+
 function do_magento2_install_finalise() {
   do_magento_switch_web_writable_directories_to_code_owner
   do_magento_move_compiled_assets_away_from_codebase
