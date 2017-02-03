@@ -1,27 +1,18 @@
 #!/bin/bash
 
-function do_composer() {
-  if [ ! -d "vendor" ] || [ ! -f "vendor/autoload.php" ]; then
-    as_code_owner "composer config repositories.magento composer https://repo.magento.com/"
+function do_composer_config() {
+  as_code_owner "composer config repositories.magento composer https://repo.magento.com/"
 
-    if [ -n "$MAGENTO_USERNAME" ] && [ -n "$MAGENTO_PASSWORD" ]; then
-      as_code_owner "composer global config http-basic.repo.magento.com '$MAGENTO_USERNAME' '$MAGENTO_PASSWORD'"
-    fi
-    if [ -n "$GITHUB_TOKEN" ]; then
-      as_code_owner "composer global config github-oauth.github.com '$GITHUB_TOKEN'"
-    fi
-    if [ -n "$COMPOSER_CUSTOM_CONFIG_COMMAND" ]; then
-      as_code_owner "$COMPOSER_CUSTOM_CONFIG_COMMAND"
-    fi
-
-    # do not use optimize-autoloader parameter yet, according to github, Mage2 has issues with it
-    as_code_owner "composer install --no-interaction"
-    rm -rf /home/build/.composer/cache/
-    as_code_owner "composer clear-cache"
-
-    chmod -R go-w vendor
-    chmod +x bin/magento
+  if [ -n "$MAGENTO_USERNAME" ] && [ -n "$MAGENTO_PASSWORD" ]; then
+    as_code_owner "composer global config http-basic.repo.magento.com '$MAGENTO_USERNAME' '$MAGENTO_PASSWORD'"
   fi
+  if [ -n "$COMPOSER_CUSTOM_CONFIG_COMMAND" ]; then
+    as_code_owner "$COMPOSER_CUSTOM_CONFIG_COMMAND"
+  fi
+}
+
+function do_composer_post_install() {
+  chmod +x bin/magento
 }
 
 function do_magento_create_web_writable_directories() {
@@ -120,10 +111,6 @@ function do_magento_assets_download() {
   fi
 }
 
-function do_magento_assets_install() {
-  bash "$DIR/development/install_assets.sh"
-}
-
 function do_magento_cache_flush() {
   # Flush magento cache
   as_code_owner "bin/magento cache:flush"
@@ -143,21 +130,6 @@ function do_magento_install_finalise_custom() {
   fi
 }
 
-function do_magento_install() {
-  # Install composer and npm dependencies
-  # shellcheck source=../install_magento.sh
-  bash "$DIR/../install_magento.sh";
-}
-
-function do_magento_assets_download() {
-  if [ "$IS_HEM" -eq 0 ]; then
-    # Run HEM
-    export HEM_RUN_ENV="${HEM_RUN_ENV:-local}"
-    for asset_env in $ASSET_DOWNLOAD_ENVIRONMENTS; do
-      as_build "hem --non-interactive --skip-host-checks assets download -e $asset_env"
-    done
-  fi
-}
 
 function do_magento_database_install() {
   if [ -f "$DATABASE_ARCHIVE_PATH" ]; then
@@ -220,7 +192,6 @@ function do_replace_core_config_values() {
 }
 
 function do_magento_install() {
-  do_composer
   do_magento_create_web_writable_directories
   do_magento_frontend_build
   do_magento_install_custom

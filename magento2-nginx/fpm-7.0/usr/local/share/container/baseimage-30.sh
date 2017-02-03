@@ -26,6 +26,7 @@ alias_function do_composer do_magento2_composer_inner
 do_composer() {
   do_magento2_composer
   do_magento2_composer_inner
+  do_composer_post_install
 }
 
 do_magento2_install() {
