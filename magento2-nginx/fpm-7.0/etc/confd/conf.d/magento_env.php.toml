@@ -1,7 +1,7 @@
 [template]
 src   = "magento/env.php.tmpl"
 dest  = "/app/app/etc/env.php"
-mode  = "0640"
+mode  = "0660"
 uid = 999
 gid = 33
 keys = [
