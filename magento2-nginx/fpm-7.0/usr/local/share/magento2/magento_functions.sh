@@ -191,13 +191,13 @@ function do_replace_core_config_values() {
   $ADDITIONAL_SETUP_SQL" |  mysql -h"$DATABASE_HOST" -u"$DATABASE_USER" -p"$DATABASE_PASSWORD" "$DATABASE_NAME"
 }
 
-function do_magento_install() {
+function do_magento2_build() {
   do_magento_create_web_writable_directories
   do_magento_frontend_build
   do_magento_install_custom
 }
 
-function do_magento_install_finalise() {
+function do_magento2_install_finalise() {
   do_magento_switch_web_writable_directories_to_code_owner
   do_magento_move_compiled_assets_away_from_codebase
   do_magento_setup_upgrade
@@ -212,8 +212,7 @@ function do_magento_install_finalise() {
   do_magento_install_finalise_custom
 }
 
-function do_magento_development_install() {
-  do_magento_install
+function do_magento2_development_build() {
   do_magento_assets_download
   do_magento_database_install
   do_replace_core_config_values
