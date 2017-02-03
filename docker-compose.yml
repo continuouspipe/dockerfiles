@@ -117,6 +117,12 @@ services:
     depends_on:
       - ubuntu
 
+  phantomjs2:
+    build: ./phantomjs
+    image: quay.io/continuouspipe/phantomjs2:latest
+    depends_on:
+      - ubuntu
+
   php71_apache:
     build:
       context: ./php-apache/

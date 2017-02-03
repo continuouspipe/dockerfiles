@@ -118,6 +118,9 @@ tasks:
         nodejs7:
           image: quay.io/continuouspipe/nodejs7
           tag: latest
+        phantomjs2:
+          image: quay.io/continuouspipe/phantomjs2
+          tag: latest
         redis:
           image: quay.io/continuouspipe/redis3
           tag: latest
