@@ -1,0 +1,6 @@
+[template]
+src   = "nginx/run_code_mapping.conf.tmpl"
+dest  = "/etc/nginx/conf.d/run_code_mapping.conf"
+mode  = "0644"
+keys = [ 
+]

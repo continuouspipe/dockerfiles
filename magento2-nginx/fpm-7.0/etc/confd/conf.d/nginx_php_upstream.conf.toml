@@ -1,0 +1,6 @@
+[template]
+src   = "nginx/php_upstream.conf.tmpl"
+dest  = "/etc/nginx/conf.d/php_upstream.conf"
+mode  = "0644"
+keys = [ 
+]

@@ -1,0 +1,21 @@
+# PHP entry point for main application
+location ~ (index|get|static|report|404|503)\.php$ {
+    try_files $uri =404;
+    fastcgi_pass    php-fpm;
+    fastcgi_buffers 1024 4k;
+
+    fastcgi_param  PHP_FLAG  "session.auto_start=off \n suhosin.session.cryptua=off";
+    fastcgi_param  PHP_VALUE "memory_limit=768M \n max_execution_time=600";
+
+    fastcgi_read_timeout 600s;
+    fastcgi_connect_timeout 600s;
+    fastcgi_param  MAGE_MODE $MAGE_MODE;
+
+    fastcgi_index  index.php;
+    fastcgi_param  SCRIPT_FILENAME  $document_root$fastcgi_script_name;
+    include        fastcgi_params;
+
+    # Set Mage run Type and Code dynamically
+    fastcgi_param  MAGE_RUN_TYPE store;
+    fastcgi_param  MAGE_RUN_CODE $MAGE_RUN_CODE;
+}

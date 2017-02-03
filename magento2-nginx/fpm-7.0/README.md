@@ -57,8 +57,8 @@ Variable | Description | Expected values | Default
 --- | --- | --- | ----
 PHP_MEMORY_LIMIT | PHP memory limit | - | 768M
 PRODUCTION_ENVIRONMENT | If true, magento DI will be compiled | true/false | false
-APP_HOSTNAME | Web server's host name | \<projectname\>_web.docker | magento_web.docker
-PUBLIC_ADDRESS | Magento base URL |  http://\<projectname\>_web.docker/ | http://magento_web.docker/
+APP_HOSTNAME | Web server's host name | \<projectname\>.docker | magento.docker
+PUBLIC_ADDRESS | Magento base URL. Note that an underscore should not be used due to magento admin login using PHP's filter_var to check for domain validity. "_" is not a valid character in a domain name. |  https://\<projectname\>.docker/ | https://magento.docker/
 FORCE_DATABASE_DROP | Drops the existing database before importing from assets | true/false | false
 DATABASE_ARCHIVE_PATH | Database dump's archive path | relative path | tools/assets/development/magentodb.sql.gz
 DATABASE_NAME | Magento database name | - | magentodb
