@@ -106,7 +106,7 @@ do_user_ssh_keys() {
     if [ -n "$SSH_KNOWN_HOSTS" ]; then
       echo "$SSH_KNOWN_HOSTS" | base64 --decode > "~$SSH_USER/.ssh/known_hosts"
     fi
-    chown -R build:build /home/build/.ssh/
+    chown -R "$SSH_USER" "~$SSH_USER/.ssh/"
     unset SSH_PRIVATE_KEY
     unset SSH_PUBLIC_KEY
     unset SSH_KNOWN_HOSTS
