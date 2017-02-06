@@ -1,1 +1,5 @@
-* * * * * php-fpm (cd /app/ && php bin/magento cron:run)
+# don't send any mail
+MAILTO=""
+SUPERVISORCTL="supervisor -c /etc/supervisor/supervisord.conf -u supervisor -p supervisor"
+
+* * * * * root $SUPERVISORCTL start magento-cron
