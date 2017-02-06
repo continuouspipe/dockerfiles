@@ -93,20 +93,22 @@ do_user_ssh_keys() {
   local SSH_PUBLIC_KEY="$4"
   local SSH_KNOWN_HOSTS="$5"
 
+  local SSH_USER_HOME=$(getent passwd "$SSH_USER" | cut -d: -f 6)
+
   if [ -n "$SSH_PRIVATE_KEY" ]; then
     echo "Setting up SSH keys for the $SSH_USER user"
     (
       umask 0077
-      mkdir -p "~$SSH_USER/.ssh/"
-      echo "$SSH_PRIVATE_KEY" | base64 --decode > "~$SSH_USER/.ssh/$SSH_FILENAME"
+      mkdir -p "$SSH_USER_HOME/.ssh/"
+      echo "$SSH_PRIVATE_KEY" | base64 --decode > "$SSH_USER_HOME/.ssh/$SSH_FILENAME"
     )
     if [ -n "$SSH_PUBLIC_KEY" ]; then
-      echo "$SSH_PUBLIC_KEY" | base64 --decode > "~$SSH_USER/.ssh/$SSH_FILENAME.pub"
+      echo "$SSH_PUBLIC_KEY" | base64 --decode > "$SSH_USER_HOME/.ssh/$SSH_FILENAME.pub"
     fi
     if [ -n "$SSH_KNOWN_HOSTS" ]; then
-      echo "$SSH_KNOWN_HOSTS" | base64 --decode > "~$SSH_USER/.ssh/known_hosts"
+      echo "$SSH_KNOWN_HOSTS" | base64 --decode > "$SSH_USER_HOME/.ssh/known_hosts"
     fi
-    chown -R "$SSH_USER" "~$SSH_USER/.ssh/"
+    chown -R "$SSH_USER" "$SSH_USER_HOME/.ssh/"
     unset SSH_PRIVATE_KEY
     unset SSH_PUBLIC_KEY
     unset SSH_KNOWN_HOSTS
