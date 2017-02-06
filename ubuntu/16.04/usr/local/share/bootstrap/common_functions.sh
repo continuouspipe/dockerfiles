@@ -101,7 +101,8 @@ do_user_ssh_keys() {
   local SSH_PUBLIC_KEY="$4"
   local SSH_KNOWN_HOSTS="$5"
 
-  local SSH_USER_HOME=$(get_user_home_directory "$SSH_USER")
+  local SSH_USER_HOME
+  SSH_USER_HOME=$(get_user_home_directory "$SSH_USER")
 
   if [ -n "$SSH_PRIVATE_KEY" ]; then
     echo "Setting up SSH keys for the $SSH_USER user"
