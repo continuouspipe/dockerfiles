@@ -13,6 +13,14 @@ load_env() {
   set -x
 }
 
+get_user_home_directory() {
+  local USER="$1"
+  if [ -z "$USER" ]; then
+    return 1
+  fi
+  getent passwd "$USER" | cut -d: -f 6
+}
+
 as_user() {
   local COMMAND="$1"
   local WORKING_DIR="$2"
@@ -27,7 +35,7 @@ as_user() {
     USER='build';
   fi
 
-  sudo -u "$USER" -E HOME="$(getent passwd "$USER" | cut -d: -f 6)" /bin/bash -c "cd '$WORKING_DIR'; $COMMAND"
+  sudo -u "$USER" -E HOME="$(get_user_home_directory "$USER")" /bin/bash -c "cd '$WORKING_DIR'; $COMMAND"
 }
 
 as_build() {
@@ -93,7 +101,7 @@ do_user_ssh_keys() {
   local SSH_PUBLIC_KEY="$4"
   local SSH_KNOWN_HOSTS="$5"
 
-  local SSH_USER_HOME=$(getent passwd "$SSH_USER" | cut -d: -f 6)
+  local SSH_USER_HOME=$(get_user_home_directory "$SSH_USER")
 
   if [ -n "$SSH_PRIVATE_KEY" ]; then
     echo "Setting up SSH keys for the $SSH_USER user"
