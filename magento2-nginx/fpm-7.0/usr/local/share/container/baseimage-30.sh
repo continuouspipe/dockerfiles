@@ -24,7 +24,7 @@ do_templating() {
 
 alias_function do_composer do_magento2_composer_inner
 do_composer() {
-  do_magento2_composer
+  do_composer_config
   do_magento2_composer_inner
   do_composer_post_install
 }
