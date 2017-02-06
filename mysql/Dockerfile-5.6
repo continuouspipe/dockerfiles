@@ -1,3 +1,5 @@
 FROM mysql:5.6
 
+COPY ./docker-entrypoint-initdb.d/ /docker-entrypoint-initdb.d/
+
 MAINTAINER "Kieren Evans <kieren.evans+cp-dockerfiles@inviqa.com>"
