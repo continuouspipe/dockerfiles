@@ -79,3 +79,37 @@ do_build() {
 do_start() {
   :
 }
+
+
+do_user_ssh_keys() {
+  set +x
+  local SSH_USER="$1"
+  if [ -z "$SSH_USER" ]; then
+    return 1;
+  fi
+
+  local SSH_FILENAME="$2"
+  local SSH_PRIVATE_KEY="$3"
+  local SSH_PUBLIC_KEY="$4"
+  local SSH_KNOWN_HOSTS="$5"
+
+  if [ -n "$SSH_PRIVATE_KEY" ]; then
+    echo "Setting up SSH keys for the $SSH_USER user"
+    (
+      umask 0077
+      mkdir -p "~$SSH_USER/.ssh/"
+      echo "$SSH_PRIVATE_KEY" | base64 --decode > "~$SSH_USER/.ssh/$SSH_FILENAME"
+    )
+    if [ -n "$SSH_PUBLIC_KEY" ]; then
+      echo "$SSH_PUBLIC_KEY" | base64 --decode > "~$SSH_USER/.ssh/$SSH_FILENAME.pub"
+    fi
+    if [ -n "$SSH_KNOWN_HOSTS" ]; then
+      echo "$SSH_KNOWN_HOSTS" | base64 --decode > "~$SSH_USER/.ssh/known_hosts"
+    fi
+    chown -R build:build /home/build/.ssh/
+    unset SSH_PRIVATE_KEY
+    unset SSH_PUBLIC_KEY
+    unset SSH_KNOWN_HOSTS
+  fi
+  set -x
+}
