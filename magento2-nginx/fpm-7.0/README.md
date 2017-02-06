@@ -85,3 +85,4 @@ MAGENTO_REDIS_CACHE_DATABASE | Redis database number to store block cache | data
 MAGENTO_REDIS_FULL_PAGE_CACHE_DATABASE | Redis database number to store full page cache | database number | 1
 MAGENTO_REDIS_SESSION_DATABASE | Redis database number to store sessions | database number | 2
 MAGENTO_ADMIN_FRONTNAME | Magento backend frontname | - | admin
+START_MODE | Start in "web" mode to serve a site, or "cron" mode to run the cron | (web|cron) | web
