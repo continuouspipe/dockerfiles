@@ -16,6 +16,7 @@ RUN echo 'deb http://s3-eu-west-1.amazonaws.com/qafoo-profiler/packages debian m
     nginx \
     mysql-client \
     php-apcu \
+    php-imagick \
     php-redis \
     "php$PHP_VERSION-bcmath" \
     "php$PHP_VERSION-bz2" \
@@ -26,6 +27,7 @@ RUN echo 'deb http://s3-eu-west-1.amazonaws.com/qafoo-profiler/packages debian m
     "php$PHP_VERSION-mbstring" \
     "php$PHP_VERSION-mcrypt" \
     "php$PHP_VERSION-mysql" \
+    "php$PHP_VERSION-opcache" \
     "php$PHP_VERSION-soap" \
     "php$PHP_VERSION-xsl" \
     "php$PHP_VERSION-zip" \

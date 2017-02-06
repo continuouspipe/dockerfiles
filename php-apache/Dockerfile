@@ -20,12 +20,16 @@ RUN echo 'deb http://s3-eu-west-1.amazonaws.com/qafoo-profiler/packages debian m
     php-apcu \
     php-imagick \
     php-redis \
+    "php$PHP_VERSION-bcmath" \
+    "php$PHP_VERSION-bz2" \
     "php$PHP_VERSION-curl" \
     "php$PHP_VERSION-gd" \
     "php$PHP_VERSION-intl" \
     "php$PHP_VERSION-mbstring" \
     "php$PHP_VERSION-mcrypt" \
     "php$PHP_VERSION-mysql" \
+    "php$PHP_VERSION-opcache" \
+    "php$PHP_VERSION-soap" \
     "php$PHP_VERSION-xsl" \
     "php$PHP_VERSION-zip" \
  \
