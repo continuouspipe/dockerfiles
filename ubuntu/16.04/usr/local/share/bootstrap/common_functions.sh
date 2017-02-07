@@ -13,6 +13,14 @@ load_env() {
   set -x
 }
 
+get_user_home_directory() {
+  local USER="$1"
+  if [ -z "$USER" ]; then
+    return 1
+  fi
+  getent passwd "$USER" | cut -d: -f 6
+}
+
 as_user() {
   local COMMAND="$1"
   local WORKING_DIR="$2"
@@ -27,7 +35,7 @@ as_user() {
     USER='build';
   fi
 
-  sudo -u "$USER" -E HOME="$(getent passwd "$USER" | cut -d: -f 6)" /bin/bash -c "cd '$WORKING_DIR'; $COMMAND"
+  sudo -u "$USER" -E HOME="$(get_user_home_directory "$USER")" /bin/bash -c "cd '$WORKING_DIR'; $COMMAND"
 }
 
 as_build() {
@@ -78,4 +86,41 @@ do_build() {
 
 do_start() {
   :
+}
+
+
+do_user_ssh_keys() {
+  set +x
+  local SSH_USER="$1"
+  if [ -z "$SSH_USER" ]; then
+    return 1;
+  fi
+
+  local SSH_FILENAME="$2"
+  local SSH_PRIVATE_KEY="$3"
+  local SSH_PUBLIC_KEY="$4"
+  local SSH_KNOWN_HOSTS="$5"
+
+  local SSH_USER_HOME
+  SSH_USER_HOME=$(get_user_home_directory "$SSH_USER")
+
+  if [ -n "$SSH_PRIVATE_KEY" ]; then
+    echo "Setting up SSH keys for the $SSH_USER user"
+    (
+      umask 0077
+      mkdir -p "$SSH_USER_HOME/.ssh/"
+      echo "$SSH_PRIVATE_KEY" | base64 --decode > "$SSH_USER_HOME/.ssh/$SSH_FILENAME"
+    )
+    if [ -n "$SSH_PUBLIC_KEY" ]; then
+      echo "$SSH_PUBLIC_KEY" | base64 --decode > "$SSH_USER_HOME/.ssh/$SSH_FILENAME.pub"
+    fi
+    if [ -n "$SSH_KNOWN_HOSTS" ]; then
+      echo "$SSH_KNOWN_HOSTS" | base64 --decode > "$SSH_USER_HOME/.ssh/known_hosts"
+    fi
+    chown -R "$SSH_USER" "$SSH_USER_HOME/.ssh/"
+    unset SSH_PRIVATE_KEY
+    unset SSH_PUBLIC_KEY
+    unset SSH_KNOWN_HOSTS
+  fi
+  set -x
 }
