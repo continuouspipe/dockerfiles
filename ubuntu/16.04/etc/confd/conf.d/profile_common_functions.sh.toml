@@ -1,0 +1,6 @@
+[template]
+src   = "profile/common_functions.sh.tmpl"
+dest  = "/etc/profile.d/common_functions.sh"
+mode  = "0755"
+keys = [
+]
