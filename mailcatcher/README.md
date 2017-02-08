@@ -15,9 +15,9 @@ mailcatcher:
     extra_hosts:
         - "mailcatcher:127.0.0.1"
     expose:
-        - 25
+        - 1025
     ports:
-        - "1080:80"
+        - "1080:1080"
 ```
 
 _Note: the Mailcatcher ports are 25 (SMTP) and 80 (web interface)._
@@ -30,6 +30,6 @@ mailer_transport: smtp
     mailer_user: null
     mailer_password: null
     mailer_sender_mail: some@email.com
-    mailer_port: 25
+    mailer_port: 1025
     mailer_encryption: null
 ```
