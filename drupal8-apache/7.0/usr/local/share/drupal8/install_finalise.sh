@@ -18,16 +18,7 @@ cd /app || exit 1;
 
 SETTINGS_DIR="/app/docroot/sites/default"
 
-# Download the static assets
-set +e
-is_hem_project
-IS_HEM=$?
-set -e
-if [ "$IS_HEM" -eq 0 ]; then
-  export HEM_RUN_ENV="${HEM_RUN_ENV:-local}"
-  as_build "hem --non-interactive --skip-host-checks assets download"
-  bash "$DIR/development/install_assets.sh"
-fi
+bash "$DIR/development/install_assets.sh"
 
 # Fix permissions for compiled CSS files, etc.
 # But, only if the app directory is not via an NFS mountpoint, which doesn't

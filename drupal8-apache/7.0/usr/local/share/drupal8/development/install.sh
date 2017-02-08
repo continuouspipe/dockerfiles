@@ -21,16 +21,6 @@ bash "$DIR/../install_finalise.sh";
 
 source /usr/local/share/bootstrap/common_functions.sh
 
-set +e
-is_hem_project
-IS_HEM=$?
-set -e
-if [ "$IS_HEM" -eq 0 ]; then
-  # Run HEM
-  export HEM_RUN_ENV="${HEM_RUN_ENV:-local}"
-  as_build "hem --non-interactive --skip-host-checks assets download"
-fi
-
 # Install database
 export DATABASE_NAME=drupaldb
 export DATABASE_USER=drupal
@@ -45,7 +35,6 @@ if [ -z "$PUBLIC_ADDRESS" ]; then
     export PUBLIC_ADDRESS=http://drupal_docker.docker/
 fi
 
-# Install assets
 bash "$DIR/install_assets.sh"
 
 as_code_owner "drush cache-rebuild" "/app/docroot"
