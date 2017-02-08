@@ -30,7 +30,7 @@ if [ -d pub/static/frontend/ ]; then
 fi
 
 rm -rf var/generated/
-as_code_owner "bin/magento cache:clear"
+as_code_owner "bin/magento cache:flush"
 as_code_owner "bin/magento setup:upgrade"
 
 if [ -d /tmp/assets/ ]; then
