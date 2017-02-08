@@ -29,8 +29,9 @@ if [ -d pub/static/frontend/ ]; then
   mv pub/static/frontend/ /tmp/assets/
 fi
 
-rm -rf var/generated/
-as_code_owner "bin/magento cache:flush"
+rm -rf var/generation/*
+redis-cli -h "$REDIS_HOST" -p "$REDIS_HOST_PORT" -n "$MAGENTO_REDIS_CACHE_DATABASE" "FLUSHDB"
+redis-cli -h "$REDIS_HOST" -p "$REDIS_HOST_PORT" -n "$MAGENTO_REDIS_FULL_PAGE_CACHE_DATABASE" "FLUSHDB"
 as_code_owner "bin/magento setup:upgrade"
 
 if [ -d /tmp/assets/ ]; then
