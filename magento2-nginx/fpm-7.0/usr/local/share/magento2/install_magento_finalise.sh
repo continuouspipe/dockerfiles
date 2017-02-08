@@ -29,6 +29,8 @@ if [ -d pub/static/frontend/ ]; then
   mv pub/static/frontend/ /tmp/assets/
 fi
 
+rm -rf var/generated/
+as_code_owner "bin/magento cache:clear"
 as_code_owner "bin/magento setup:upgrade"
 
 if [ -d /tmp/assets/ ]; then
