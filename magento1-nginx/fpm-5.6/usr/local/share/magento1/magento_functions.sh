@@ -133,6 +133,22 @@ function do_magento_cache_flush() {
   as_code_owner "php bin/n98-magerun.phar cache:flush"
 }
 
+function do_magento_create_admin_user() {
+  if [ "$MAGENTO_CREATE_ADMIN_USER" -ne 0 ]; then
+    return 0
+  fi
+
+  # Create magento admin user
+  as_code_owner "php bin/n98-magerun.phar admin:user:list | grep -q '$MAGENTO_ADMIN_USERNAME'"
+  local HAS_ADMIN_USER=$?
+  if [ "$HAS_ADMIN_USER" -ne 0 ]; then
+    set +x
+    echo "Creating admin user '$MAGENTO_ADMIN_USERNAME'"
+    as_code_owner "php bin/n98-magerun.phar admin:user:create '$MAGENTO_ADMIN_USERNAME' '$MAGENTO_ADMIN_EMAIL' '$MAGENTO_ADMIN_PASSWORD' '$MAGENTO_ADMIN_FORENAME' '$MAGENTO_ADMIN_SURNAME' Administrators"
+    set -x
+  fi
+}
+
 function do_magento_templating() {
   mkdir -p /home/build/.hem/gems/
   chown -R build:build /home/build/.hem/
@@ -156,6 +172,7 @@ function do_magento_setup() {
   do_replace_core_config_values
   do_magento_cache_clean
   do_magento_system_setup
+  do_magento_create_admin_user
   do_magento_reindex
   do_magento_cache_flush
 }
