@@ -4,8 +4,8 @@
 FROM quay.io/continuouspipe/mailcatcher:stable
 ```
 
-Port 1025 is where mail should be relayed to
-Port 1080 is where you can visit the UI
+- Port 1025 is where mail should be relayed to (SMTP).
+- Port 1080 is where you can visit the UI.
 
 Example `docker-compose` configuration:
 
@@ -19,8 +19,6 @@ mailcatcher:
     ports:
         - "1080:1080"
 ```
-
-_Note: the Mailcatcher ports are 25 (SMTP) and 80 (web interface)._
 
 Then in `parameters.yml` (in case of Symfony application):
 
