@@ -3,7 +3,9 @@ FROM quay.io/continuouspipe/ubuntu16.04:latest
 MAINTAINER Kieren Evans <kieren.evans+cp-dockerfiles@inviqa.com>
 
 # Install node
-RUN curl -sL https://deb.nodesource.com/setup_6.x > /tmp/install-node.sh \
+ARG NODE_VERSION
+ENV NODE_VERSION ${NODE_VERSION:-7.x}
+RUN curl -sL "https://deb.nodesource.com/setup_$NODE_VERSION" > /tmp/install-node.sh \
  && bash /tmp/install-node.sh \
  && apt-get update -qq \
  && DEBIAN_FRONTEND=noninteractive apt-get -qq -y --no-install-recommends install \
