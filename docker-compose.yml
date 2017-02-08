@@ -103,16 +103,20 @@ services:
     depends_on:
       - external_mysql56
 
-  nodejs:
+  nodejs6:
     build:
-      context: ./nodejs/6.0/
+      context: ./nodejs/
+      args:
+        NODE_VERSION: "6.x"
     image: quay.io/continuouspipe/nodejs6:latest
     depends_on:
       - ubuntu
 
   nodejs7:
     build:
-      context: ./nodejs/7.x/
+      context: ./nodejs/
+      args:
+        NODE_VERSION: "7.x"
     image: quay.io/continuouspipe/nodejs7:latest
     depends_on:
       - ubuntu

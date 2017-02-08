@@ -112,12 +112,18 @@ tasks:
         mysql56:
           image: quay.io/continuouspipe/mysql5.6
           tag: latest
-        nodejs:
+        nodejs6:
           image: quay.io/continuouspipe/nodejs6
           tag: latest
+          environment:
+            - name: NODE_VERSION
+              value: "6.x"
         nodejs7:
           image: quay.io/continuouspipe/nodejs7
           tag: latest
+          environment:
+            - name: NODE_VERSION
+              value: "7.x"
         phantomjs2:
           image: quay.io/continuouspipe/phantomjs2
           tag: latest
