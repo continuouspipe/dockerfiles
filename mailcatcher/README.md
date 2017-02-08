@@ -29,7 +29,7 @@ mailer_transport: smtp
     mailer_host: mailcatcher
     mailer_user: null
     mailer_password: null
-    mailer_sender_mail: devel@newsandmedia.sk
+    mailer_sender_mail: some@email.com
     mailer_port: 25
     mailer_encryption: null
 ```
