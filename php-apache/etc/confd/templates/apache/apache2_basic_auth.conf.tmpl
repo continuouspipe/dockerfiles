@@ -5,7 +5,7 @@
   AuthName "{{ getenv "AUTH_HTTP_REALM" }}"
   Require valid-user
   
-  {{ $ips := split "AUTH_HTTP_WHITELIST_IPS" "," }}
+  {{ $ips := split getenv "AUTH_HTTP_WHITELIST_IPS" "," }}
   {{ range $ips }}
   Require ip {{ . }};
   {{ end }}
