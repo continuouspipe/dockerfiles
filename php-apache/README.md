@@ -126,6 +126,14 @@ To use this functionality:
   export AUTH_HTTP_TYPE=Basic
   export AUTH_HTTP_FILE=/etc/apache2/custom-htpasswd-path
   ```
+7. Localhost is allowed to bypass the authentication requirement due to the following config:
+  ```
+  export AUTH_HTTP_WHITELIST_IPS=${AUTH_HTTP_WHITELIST_IPS:-
+    127.0.0.1,
+    ::1
+  }
+  ```
+You can add IPs to this entry to allow more fixed IP addresses to bypass authentication.
 
 ### Custom build and startup scripts
 

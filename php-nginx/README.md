@@ -128,6 +128,14 @@ To use this functionality:
   export AUTH_HTTP_REALM=Protected System
   export AUTH_HTTP_FILE=/etc/nginx/custom-htpasswd-path
   ```
+7. Localhost is allowed to bypass the authentication requirement due to the following config:
+  ```
+  export AUTH_HTTP_WHITELIST_IPS=${AUTH_HTTP_WHITELIST_IPS:-
+    127.0.0.1,
+    ::1
+  }
+  ```
+You can add IPs to this entry to allow more fixed IP addresses to bypass authentication.
 
 We also support using the basic auth delegate feature of NGINX, by providing: `AUTH_HTTP_REMOTE_URL`.
 Pretty please make this a HTTPS URL!

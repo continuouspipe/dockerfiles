@@ -1,8 +1,13 @@
-{{if getenv "AUTH_HTTP_ENABLED"}}
+{{ if getenv "AUTH_HTTP_ENABLED" }}
 <LocationMatch "^/.*">
   AuthUserFile {{ getenv "AUTH_HTTP_FILE" }}
   AuthType {{ getenv "AUTH_HTTP_TYPE" }}
   AuthName "{{ getenv "AUTH_HTTP_REALM" }}"
   Require valid-user
+  
+  {{ $ips := split "AUTH_HTTP_WHITELIST_IPS" "," }}
+  {{ range $ips }}
+  Require ip {{ . }};
+  {{ end }}
 </LocationMatch>
-{{end}}
+{{ end }}
