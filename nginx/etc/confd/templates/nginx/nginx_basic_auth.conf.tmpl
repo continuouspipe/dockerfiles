@@ -1,0 +1,10 @@
+{{if getenv "AUTH_HTTP_ENABLED"}}
+satisfy any;
+
+{{if getenv "AUTH_HTTP_REMOTE_URL"}}
+auth_request "{{ getenv "AUTH_HTTP_REMOTE_URL" }}";
+{{else}}
+auth_basic "{{ getenv "AUTH_HTTP_REALM" }}";
+auth_basic_user_file "{{ getenv "AUTH_HTTP_FILE" }}";
+{{end}}
+{{end}}

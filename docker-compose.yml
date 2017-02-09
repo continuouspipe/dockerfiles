@@ -103,6 +103,12 @@ services:
     depends_on:
       - external_mysql56
 
+  nginx:
+    build: ./nginx/
+    image: quay.io/continuouspipe/nginx:latest
+    depends_on:
+      - ubuntu
+
   nodejs6:
     build:
       context: ./nodejs/

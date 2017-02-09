@@ -1,0 +1,6 @@
+#!/bin/bash
+
+# Relative WEB_DIRECTORY converted to absolute path
+if ! [[ "$WEB_DIRECTORY" =~ ^/ ]]; then
+  export WEB_DIRECTORY=${WORK_DIRECTORY}/${WEB_DIRECTORY}
+fi
