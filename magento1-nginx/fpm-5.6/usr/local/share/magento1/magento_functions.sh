@@ -116,7 +116,11 @@ function do_replace_core_config_values() {
   set -x
 }
 
-function do_magento_cache_clean() {
+function do_magento_config_cache_enable() {
+  as_code_owner "php /app/bin/n98-magerun.phar cache:enable config" /app/public
+}
+
+function do_magento_config_cache_clean() {
   as_code_owner "php /app/bin/n98-magerun.phar cache:clean config" /app/public
 }
 
@@ -170,7 +174,8 @@ function do_magento_development_build() {
 function do_magento_setup() {
   do_magento_database_install
   do_replace_core_config_values
-  do_magento_cache_clean
+  do_magento_config_cache_enable
+  do_magento_config_cache_clean
   do_magento_system_setup
   do_magento_create_admin_user
   do_magento_reindex
