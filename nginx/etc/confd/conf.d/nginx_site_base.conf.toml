@@ -1,0 +1,6 @@
+[template]
+src   = "nginx/site_base.conf.tmpl"
+dest  = "/etc/nginx/sites-available/default-10-base.conf"
+mode  = "0644"
+keys = [ 
+]
