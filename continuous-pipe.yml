@@ -118,12 +118,28 @@ tasks:
           environment:
             - name: NODE_VERSION
               value: "6.x"
+        nodejs6_small:
+          image: quay.io/continuouspipe/nodejs6-small
+          tag: latest
+          environment:
+            - name: NODE_VERSION
+              value: "6.x"
+            - name: INSTALL_COMMON_PACKAGES
+              value: "false"
         nodejs7:
           image: quay.io/continuouspipe/nodejs7
           tag: latest
           environment:
             - name: NODE_VERSION
               value: "7.x"
+        nodejs7_small:
+          image: quay.io/continuouspipe/nodejs7-small
+          tag: latest
+          environment:
+            - name: NODE_VERSION
+              value: "7.x"
+            - name: INSTALL_COMMON_PACKAGES
+              value: "false"
         phantomjs2:
           image: quay.io/continuouspipe/phantomjs2
           tag: latest

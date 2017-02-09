@@ -5,6 +5,8 @@ MAINTAINER Kieren Evans <kieren.evans+cp-dockerfiles@inviqa.com>
 # Install node
 ARG NODE_VERSION
 ENV NODE_VERSION ${NODE_VERSION:-7.x}
+ARG INSTALL_COMMON_PACKAGES
+ENV INSTALL_COMMON_PACKAGES ${INSTALL_COMMON_PACKAGES:-true}
 RUN curl -sL "https://deb.nodesource.com/setup_$NODE_VERSION" > /tmp/install-node.sh \
  && bash /tmp/install-node.sh \
  && apt-get update -qq \
@@ -12,13 +14,16 @@ RUN curl -sL "https://deb.nodesource.com/setup_$NODE_VERSION" > /tmp/install-nod
     nodejs \
  \
  # Set up common NPM packages \
- && npm config set --global loglevel warn \
- && npm install --global marked \
- && npm install --global node-gyp \
- && npm install --global gulp \
- \
- # Install node-sass's linux bindings \
- && npm rebuild node-sass \
+ && if [ "$INSTALL_COMMON_PACKAGES" = "true" ]; then \
+      npm config set --global loglevel warn \
+   && npm install --global \
+      marked \
+      node-gyp \
+      gulp \
+      \
+      # Install node-sass's linux bindings \
+   && npm rebuild node-sass; \
+    fi \
  \
  # Clean the image \
  && apt-get auto-remove -qq -y \

@@ -112,12 +112,32 @@ services:
     depends_on:
       - ubuntu
 
+  nodejs6_small:
+    build:
+      context: ./nodejs/
+      args:
+        NODE_VERSION: "6.x"
+        INSTALL_COMMON_PACKAGES: "false"
+    image: quay.io/continuouspipe/nodejs6-small:latest
+    depends_on:
+      - ubuntu
+
   nodejs7:
     build:
       context: ./nodejs/
       args:
         NODE_VERSION: "7.x"
     image: quay.io/continuouspipe/nodejs7:latest
+    depends_on:
+      - ubuntu
+
+  nodejs7_small:
+    build:
+      context: ./nodejs/
+      args:
+        NODE_VERSION: "7.x"
+        INSTALL_COMMON_PACKAGES: "false"
+    image: quay.io/continuouspipe/nodejs7-small:latest
     depends_on:
       - ubuntu
 
