@@ -143,12 +143,14 @@ function do_magento_create_admin_user() {
   fi
 
   # Create magento admin user
-  as_code_owner "php bin/n98-magerun.phar admin:user:list | grep -q '$MAGENTO_ADMIN_USERNAME'"
+  set +e
+  as_code_owner "php /app/bin/n98-magerun.phar admin:user:list | grep -q '$MAGENTO_ADMIN_USERNAME'" /app/public
   local HAS_ADMIN_USER=$?
-  if [ "$HAS_ADMIN_USER" -ne 0 ]; then
+  set -e
+  if [ "$HAS_ADMIN_USER" != 0 ]; then
     set +x
     echo "Creating admin user '$MAGENTO_ADMIN_USERNAME'"
-    as_code_owner "php bin/n98-magerun.phar admin:user:create '$MAGENTO_ADMIN_USERNAME' '$MAGENTO_ADMIN_EMAIL' '$MAGENTO_ADMIN_PASSWORD' '$MAGENTO_ADMIN_FORENAME' '$MAGENTO_ADMIN_SURNAME' Administrators"
+    as_code_owner "php /app/bin/n98-magerun.phar admin:user:create '$MAGENTO_ADMIN_USERNAME' '$MAGENTO_ADMIN_EMAIL' '$MAGENTO_ADMIN_PASSWORD' '$MAGENTO_ADMIN_FORENAME' '$MAGENTO_ADMIN_SURNAME' Administrators" /app/public
     set -x
   fi
 }
