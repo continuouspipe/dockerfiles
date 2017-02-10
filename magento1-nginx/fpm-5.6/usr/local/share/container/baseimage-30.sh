@@ -26,5 +26,6 @@ do_magento_development_start() {
 }
 
 do_setup() {
+  do_templating
   do_magento_setup
 }
