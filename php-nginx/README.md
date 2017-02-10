@@ -132,6 +132,29 @@ To use this functionality:
 We also support using the basic auth delegate feature of NGINX, by providing: `AUTH_HTTP_REMOTE_URL`.
 Pretty please make this a HTTPS URL!
 
+### IP Whitelist
+
+This image has support for protecting websites with IP whitelisting.
+
+To use this functionality:
+
+1. Provide the following variables with some values either through docker-compose environment or in
+   `/usr/local/share/env/`:
+  ```
+  export AUTH_IP_WHITELIST_ENABLED=true
+  ```
+
+2. By default when enabled, the loopback ips are whitelisted
+  ```
+  export AUTH_IP_WHITELIST=${AUTH_IP_WHITELIST:-
+    127.0.0.0/8,
+    ::1
+  }
+  ```
+You can add IPs to this entry to allow more fixed IP addresses be whitelisted.
+
+When used in conjunction with basic authentication, the IP whitelist will bypass the basic authentication
+
 ### Custom build and startup scripts
 
 To run commands during the build and startup sequences that the base images add,
