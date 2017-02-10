@@ -40,6 +40,7 @@ do_magento2_development_start()
 }
 
 do_setup() {
+  do_templating
   do_magento2_setup
 }
 
