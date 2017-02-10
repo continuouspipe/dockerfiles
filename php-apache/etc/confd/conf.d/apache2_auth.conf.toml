@@ -1,0 +1,6 @@
+[template]
+src   = "apache/apache2_auth.conf.tmpl"
+dest  = "/etc/apache2/conf-enabled/apache2_auth.conf"
+mode  = "0644"
+keys = [
+]

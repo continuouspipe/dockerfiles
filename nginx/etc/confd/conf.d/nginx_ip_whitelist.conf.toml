@@ -1,0 +1,6 @@
+[template]
+src   = "nginx/nginx_ip_whitelist.conf.tmpl"
+dest  = "/etc/nginx/conf.d/nginx_ip_whitelist.conf"
+mode  = "0644"
+keys = [
+]

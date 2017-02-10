@@ -8,9 +8,4 @@ auth_basic "{{ getenv "AUTH_HTTP_REALM" }}";
 auth_basic_user_file "{{ getenv "AUTH_HTTP_FILE" }}";
 {{ end }}
 
-{{ $ips := split getenv "AUTH_HTTP_WHITELIST_IPS" "," }}
-{{ range $ips }}
-allow from {{ . }};
-{{ end }}
-
 {{ end }}
