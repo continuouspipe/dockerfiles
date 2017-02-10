@@ -1,5 +1,6 @@
 set $MAGE_ROOT /app;
 set $MAGE_MODE {{ getenv "MAGENTO_MODE" }};
+set $MAGE_RUN_TYPE {{ getenv "MAGENTO_RUN_TYPE" }};
 
 root $MAGE_ROOT/pub;
 

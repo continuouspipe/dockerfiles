@@ -17,6 +17,6 @@ location ~ (index|get|static|report|404|503)\.php$ {
     include        fastcgi_params;
 
     # Set Mage run Type and Code dynamically
-    fastcgi_param  MAGE_RUN_TYPE store;
+    fastcgi_param  MAGE_RUN_TYPE $MAGE_RUN_TYPE;
     fastcgi_param  MAGE_RUN_CODE $MAGE_RUN_CODE;
 }
