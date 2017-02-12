@@ -13,6 +13,7 @@ location ~ (index|get|static|report|404|503)\.php$ {
 
     fastcgi_index  index.php;
     fastcgi_param  SCRIPT_FILENAME  $document_root$fastcgi_script_name;
+    fastcgi_param  HTTPS $custom_https if_not_empty;
     include        fastcgi_params;
 
     # Set Mage run Type and Code dynamically
