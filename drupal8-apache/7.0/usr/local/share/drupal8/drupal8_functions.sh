@@ -13,7 +13,7 @@ do_drupal8_build() {
 # Create any directories that aren't given by default.
 #####
 do_drupal8_create_directories() {
-  mkdir -p /app/sites/default/files
+  mkdir -p /app/docroot/sites/default/files
 }
 
 #####
@@ -25,11 +25,11 @@ do_drupal8_permissions() {
     chown -R "${APP_USER}":"${APP_GROUP}" /app/docroot
 
     # Ensure the files directory is writable.
-    chmod g+w /app/sites/default/files
+    chmod g+w /app/docroot/sites/default/files
 
     # Setting.php needs to be writable during installation, but Drupal will fix
     # this later.
-    chmod go+w /app/sites/default/settings.php
+    chmod go+w /app/docroot/sites/default/settings.php
   fi
 }
 
@@ -42,6 +42,7 @@ do_drupal8_permissions() {
 do_drupal8_deck_build() {
   # If the Deck tools exist, then run them.
   if [ -f /app/gulp/gulpfile.js ]; then
+    cd /app/gulp
     as_code_owner "npm install"
     as_code_owner "node_modules/.bin/gulp build"
   fi
