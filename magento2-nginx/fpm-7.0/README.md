@@ -73,8 +73,9 @@ FRONTEND_INSTALL_DIRECTORY | NPM modules will be installed within this directory
 FRONTEND_BUILD_DIRECTORY | Gulp command will be executed within this directory (if it exists) | absolute path (normally we mount the source at /app) | /app/tools/inviqa
 FRONTEND_BUILD_ACTION | Gulp command to run | gulp command name | build
 GULP_BUILD_THEME_NAME | If specified, will be passed to gulp command as "--theme=<theme name>" | - | - 
-MAGENTO_MODE | Used to set Magento mode. If set to "production", static contents will be deployed | default/developer/production | production
+MAGENTO_MODE | Used to set Magento mode. If set to "production", static content will be deployed | default/developer/production | production
 MAGENTO_RUN_CODE_MAPPING | Mapped to http_host and default store name. First part of the value is the host name and second part is magento's store code (separated by space). Don't forget to add ";" at the end. | - | magento_web.docker default; 
+MAGENTO_RUN_TYPE | Used to set Magento store type. | store/website | store
 FRONTEND_COMPILE_LANGUAGES | Used during static content deployment. It can be multiple language codes. | language code(s) separated by space | en_GB
 MAGENTO_DEPENDENCY_INJECTION_COMPILE_COMMAND | Magento DI compile command | - | bin/magento setup:di:compile 
 MAGENTO_CRYPT_KEY | Magneto crypt key | - | -
