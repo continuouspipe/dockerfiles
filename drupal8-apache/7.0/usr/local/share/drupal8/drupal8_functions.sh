@@ -4,9 +4,9 @@
 # Perform the Drupal 8 build.
 #####
 do_drupal8_build() {
-  do_drupal8_create_directories()
-  do_drupal8_deck_build()
-  do_drupal8_permissions()
+  do_drupal8_create_directories
+  do_drupal8_deck_build
+  do_drupal8_permissions
 }
 
 #####
@@ -22,7 +22,7 @@ do_drupal8_create_directories() {
 do_drupal8_permissions() {
   if [ "$IS_CHOWN_FORBIDDEN" -ne 0 ]; then
     # Give the docroot to the web user.
-    chown -R ${APP_USER}:${APP_GROUP} /app/docroot
+    chown -R "${APP_USER}":"${APP_GROUP}" /app/docroot
 
     # Ensure the files directory is writable.
     chmod g+w /app/sites/default/files
