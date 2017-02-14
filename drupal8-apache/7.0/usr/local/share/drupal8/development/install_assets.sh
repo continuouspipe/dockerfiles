@@ -1,8 +1,10 @@
 #!/bin/bash
 
-set -xe
+set -e
 
 source /usr/local/share/bootstrap/common_functions.sh
+
+set -x
 
 # install assets
 if [ -f tools/assets/development/media.files.tgz ]; then

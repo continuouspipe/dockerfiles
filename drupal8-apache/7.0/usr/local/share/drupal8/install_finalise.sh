@@ -1,6 +1,6 @@
 #!/bin/bash
 
-set -xe
+set -e
 
 # Download and install the assets when running the image
 # (sad that we have to do that tho...)
@@ -13,6 +13,8 @@ fi ;
 source /usr/local/share/bootstrap/common_functions.sh
 
 load_env
+
+set -x
 
 cd /app || exit 1;
 

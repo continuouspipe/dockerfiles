@@ -1,8 +1,10 @@
 #!/bin/bash
 
-set -xe
+set -e
 
 source /usr/local/share/bootstrap/common_functions.sh
+
+set -x
 
 if [ -L "$0" ] ; then
     DIR="$(dirname "$(readlink -f "$0")")" ;
