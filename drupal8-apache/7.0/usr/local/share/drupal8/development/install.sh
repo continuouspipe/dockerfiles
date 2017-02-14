@@ -1,5 +1,5 @@
 #!/bin/bash
-set -xe
+set -e
 
 # Ensure confd can create the hem config in the build user's home directory
 mkdir -p /home/build/.hem/gems/ && chown -R build:build /home/build/.hem/
@@ -20,6 +20,8 @@ bash "$DIR/../install.sh";
 bash "$DIR/../install_finalise.sh";
 
 source /usr/local/share/bootstrap/common_functions.sh
+
+set -x
 
 set +e
 is_hem_project

@@ -1,5 +1,5 @@
 #!/bin/bash
-set -xe
+set -e
 
 TASK=$1
 
@@ -17,6 +17,8 @@ if [ "$#" -gt 0 ]; then
 fi
 
 source /usr/local/share/container/plan.sh
+
+set -x
 
 if [ "$TASK" == "start" ]; then
   source /usr/local/bin/supervisor_custom_start

@@ -1,5 +1,5 @@
 #!/bin/bash
-set -xe
+set -e
 
 if [ -L "$0" ] ; then
     DIR="$(dirname "$(readlink -f "$0")")" ;
@@ -11,6 +11,8 @@ source /usr/local/share/bootstrap/common_functions.sh
 source /usr/local/share/php/common_functions.sh
 
 load_env
+
+set -x
 
 cd /app || exit 1;
 

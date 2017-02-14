@@ -1,5 +1,5 @@
 #!/bin/bash
-set -xe
+set -e
 
 mkdir -p /home/build/.hem/gems/ && chown -R build:build /home/build/.hem/
 
@@ -21,6 +21,8 @@ source "$DIR/replace_core_config_values.sh"
 # Install composer and npm dependencies
 # shellcheck source=../install_magento.sh
 bash "$DIR/../install_magento.sh";
+
+set -x
 
 set +e
 is_hem_project
