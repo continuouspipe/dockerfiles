@@ -17,7 +17,7 @@ server {
     ssl_certificate {{ getenv "WEB_SSL_FULLCHAIN" }};
     ssl_certificate_key {{ getenv "WEB_SSL_PRIVKEY" }};{{ end }}{{ end }}
 
-    set $access_log_enabled = 1;
+    set $access_log_enabled 1;
 
     include /etc/nginx/sites-available/default-*.conf;
 
