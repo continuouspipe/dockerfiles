@@ -22,5 +22,5 @@ server {
     include /etc/nginx/sites-available/default-*.conf;
 
     error_log /dev/stderr notice;
-    access_log /dev/stdout if=$access_log_enabled;
+    access_log /dev/stdout combined if=$access_log_enabled;
 }
