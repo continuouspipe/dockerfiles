@@ -116,6 +116,12 @@ services:
     depends_on:
       - ubuntu
 
+  nginx_reverse_proxy:
+    build: ./nginx-reverse-proxy/
+    image: quay.io/continuouspipe/nginx-reverse-proxy:latest
+    depends_on:
+      - nginx
+
   nodejs6:
     build:
       context: ./nodejs/
