@@ -2,6 +2,7 @@
 set -xe
 
 TASK=$1
+ARGS=$@
 
 # Initialisation - Declare variables and run pre-templating steps.
 source /usr/local/share/bootstrap/setup.sh
@@ -22,4 +23,7 @@ if [ "$TASK" == "start" ]; then
   source /usr/local/bin/supervisor_custom_start
 fi
 
-"do_$TASK"
+set -- $ARGS
+shift 1
+
+"do_$TASK" $@
