@@ -20,7 +20,7 @@ do_drupal8_start() {
 # Create any directories that aren't given by default.
 #####
 do_drupal8_create_directories() {
-  mkdir -p ${WEB_DIRECTORY}/sites/default/files
+  mkdir -p "${WEB_DIRECTORY}/sites/default/files"
 }
 
 #####
@@ -29,18 +29,18 @@ do_drupal8_create_directories() {
 do_drupal8_permissions() {
   if [ "$IS_CHOWN_FORBIDDEN" -ne 0 ]; then
     # Give the docroot and config directories to the web user.
-    chown -R "${APP_USER}":"${APP_GROUP}" ${WEB_DIRECTORY}
-    chown -R "${APP_USER}":"${APP_GROUP}" /app/config
+    chown -R "${APP_USER}:${APP_GROUP} ${WEB_DIRECTORY}"
+    chown -R "${APP_USER}:${APP_GROUP} /app/config"
 
     # Ensure the files directory is writable.
-    chmod -R g+w ${WEB_DIRECTORY}/sites/default/files
+    chmod -R g+w "${WEB_DIRECTORY}/sites/default/files"
 
     # Ensure the config directory is writeable by the group
     chmod -R g+w /app/config
 
     # Setting.php needs to be writable during installation, but Drupal will fix
     # this later.
-    chmod go+w ${WEB_DIRECTORY}/sites/default/settings.php
+    chmod go+w "${WEB_DIRECTORY}/sites/default/settings.php"
   fi
 }
 
@@ -53,7 +53,7 @@ do_drupal8_permissions() {
 do_drupal8_deck_build() {
   # If the Deck tools exist, then run them.
   if [ -f /app/gulp/gulpfile.js ]; then
-    cd /app/gulp
+    cd /app/gulp || return
     as_code_owner "npm install"
     as_code_owner "node_modules/.bin/gulp build"
   fi
