@@ -10,7 +10,6 @@ load_env() {
       source "${file}"
     done
   fi
-  set -x
 }
 
 get_user_home_directory() {
