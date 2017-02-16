@@ -10,6 +10,13 @@ do_drupal8_build() {
 }
 
 #####
+# Perform tasks on container start
+#####
+do_drupal8_start() {
+  do_drupal8_permissions
+}
+
+#####
 # Create any directories that aren't given by default.
 #####
 do_drupal8_create_directories() {
@@ -21,11 +28,15 @@ do_drupal8_create_directories() {
 #####
 do_drupal8_permissions() {
   if [ "$IS_CHOWN_FORBIDDEN" -ne 0 ]; then
-    # Give the docroot to the web user.
+    # Give the docroot and config directories to the web user.
     chown -R "${APP_USER}":"${APP_GROUP}" /app/docroot
+    chown -R "${APP_USER}":"${APP_GROUP}" /app/config
 
     # Ensure the files directory is writable.
-    chmod g+w /app/docroot/sites/default/files
+    chmod -R g+w /app/docroot/sites/default/files
+
+    # Ensure the config directory is writeable by the group
+    chmod -R g+w /app/config
 
     # Setting.php needs to be writable during installation, but Drupal will fix
     # this later.
