@@ -25,7 +25,8 @@ do_build() {
 # Tasks here are run when the container is started, and all services should be
 # available.
 ####
-# alias_function do_start do_drupal8_start_inner
-# do_start() {
-#   do_drupal8_start_inner
-# }
+alias_function do_start do_drupal8_start_inner
+do_start() {
+  do_drupal8_start_inner
+  do_drupal8_start
+}
