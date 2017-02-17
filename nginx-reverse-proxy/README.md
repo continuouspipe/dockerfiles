@@ -16,7 +16,7 @@ This is a Docker image for using Nginx as a reverse proxy
 ## How to use
 
 Define an environment variable which is a JSON array such as:
-
+```bash
 export PROXY_LOCATIONS='[
   {
     "location": "/",
@@ -27,6 +27,7 @@ export PROXY_LOCATIONS='[
     }
   }
 ]'
+```
 
 Multiple locations can be specified. The only required keys per location are
 location and backend.
