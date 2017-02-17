@@ -1,0 +1,12 @@
+{{ $locations := jsonArray (getenv "PROXY_LOCATIONS")}}
+{{ range $locations }}
+location {{ .location }} {
+  proxy_pass {{ .backend }};
+  proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+  proxy_set_header X-Forwarded-Proto $custom_scheme;
+{{ if (.preserve_host) }}
+  proxy_set_header Host $host;{{ end }}
+{{ range $key, $value := .server_params }}
+  {{ $key }} {{ $value }};{{ end }}
+}
+{{ end }}

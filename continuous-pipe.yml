@@ -118,6 +118,9 @@ tasks:
         mysql56:
           image: quay.io/continuouspipe/mysql5.6
           tag: latest
+        nginx_reverse_proxy:
+          image: quay.io/continuouspipe/nginx-reverse-proxy
+          tag: latest
         nodejs6:
           image: quay.io/continuouspipe/nodejs6
           tag: latest
