@@ -7,6 +7,12 @@ do_drupal8_build() {
   do_drupal8_create_directories
   do_drupal8_deck_build
   do_drupal8_permissions
+  do_drupal8_legacy_install_script
+}
+
+do_drupal8_development_build() {
+  do_drupal8_build
+  do_drupal8_legacy_development_install_script
 }
 
 #####
@@ -14,6 +20,12 @@ do_drupal8_build() {
 #####
 do_drupal8_start() {
   do_drupal8_permissions
+  do_drupal8_legacy_install_finalise_script
+}
+
+do_drupal8_development_start() {
+  do_drupal8_start
+  do_drupal8_legacy_development_install_script
 }
 
 #####
@@ -56,5 +68,36 @@ do_drupal8_deck_build() {
     cd /app/gulp || return
     as_code_owner "npm install"
     as_code_owner "node_modules/.bin/gulp build"
+  fi
+}
+
+####
+# Support the legacy install_custom.sh scripts.
+####
+do_drupal8_legacy_install_script() {
+  if [ -f /usr/local/share/drupal8/install_custom.sh ]; then
+    bash /usr/local/share/drupal8/install_custom.sh
+  fi
+}
+
+do_drupal8_legacy_development_install_script() {
+  if [ -f /usr/local/share/drupal8/development/install_custom.sh ]; then
+    bash /usr/local/share/drupal8/development/install_custom.sh
+  fi
+}
+
+
+####
+# Support the legacy install_custom_finalise.sh scripts.
+####
+do_drupal8_legacy_install_finalise_script() {
+  if [ -f /usr/local/share/drupal8/install_finalise.sh ]; then
+    bash /usr/local/share/drupal8/install_finalise.sh
+  fi
+}
+
+do_drupal8_legacy_development_install_finalise_script() {
+  if [ -f /usr/local/share/drupal8/development/install_finalise.sh ]; then
+    bash /usr/local/share/drupal8/development/install_finalise.sh
   fi
 }

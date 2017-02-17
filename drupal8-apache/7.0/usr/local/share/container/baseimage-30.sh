@@ -12,6 +12,12 @@ do_build() {
   do_drupal8_build
 }
 
+alias_function do_build do_drupal8_development_build_inner
+do_development_build() {
+  do_drupal8_development_build_inner
+  do_drupal8_development_build
+}
+
 #####
 # Tasks here are executed once all other services are available, so it should
 # be safe to to any tasks requiring databases, SOLR, etc.
@@ -29,4 +35,10 @@ alias_function do_start do_drupal8_start_inner
 do_start() {
   do_drupal8_start_inner
   do_drupal8_start
+}
+
+alias_function do_development_start do_drupal8_development_start_inner
+do_development_start() {
+  do_drupal8_development_start_inner
+  do_drupal8_development_start
 }
