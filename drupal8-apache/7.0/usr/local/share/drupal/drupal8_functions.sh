@@ -5,7 +5,6 @@
 #####
 do_drupal_build() {
   do_drupal_create_directories
-  do_drupal_deck_build
   do_drupal_permissions
   do_drupal_legacy_install_script
 }
@@ -56,21 +55,6 @@ do_drupal_permissions() {
     # Setting.php needs to be writable during installation, but Drupal will fix
     # this later.
     chmod go+w "${WEB_DIRECTORY}/sites/default/settings.php"
-  fi
-}
-
-#####
-# Build the front end assets, but only if the Deck tools exist.
-#
-# Todo: Make this a little more customisable for users who aren't using the
-# Deck theme tools.
-#####
-do_drupal_deck_build() {
-  # If the Deck tools exist, then run them.
-  if [ -f /app/gulp/gulpfile.js ]; then
-    cd /app/gulp || return
-    as_code_owner "npm install"
-    as_code_owner "node_modules/.bin/gulp build"
   fi
 }
 
