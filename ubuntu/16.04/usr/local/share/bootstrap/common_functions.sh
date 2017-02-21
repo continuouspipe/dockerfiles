@@ -21,6 +21,7 @@ get_user_home_directory() {
 }
 
 as_user() {
+  set +x
   local COMMAND="$1"
   local WORKING_DIR="$2"
   local USER="$3"
@@ -33,20 +34,26 @@ as_user() {
   if [ -z "$USER" ]; then
     USER='build';
   fi
-
+  set -x
   sudo -u "$USER" -E HOME="$(get_user_home_directory "$USER")" /bin/bash -c "cd '$WORKING_DIR'; $COMMAND"
 }
 
 as_build() {
+  set +x
   as_user "$1" "$2" 'build'
+  set -x
 }
 
 as_code_owner() {
+  set +x
   as_user "$1" "$2" "$CODE_OWNER"
+  set -x
 }
 
 as_app_user() {
+  set +x
   as_user "$1" "$2" "$APP_USER"
+  set -x
 }
 
 is_hem_project() {
