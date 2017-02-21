@@ -18,7 +18,6 @@ do_drupal_development_build() {
 # Perform tasks on container start
 #####
 do_drupal_start() {
-  do_drupal_permissions
   do_drupal_legacy_install_finalise_script
 }
 
