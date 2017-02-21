@@ -29,10 +29,11 @@ do_development_build() {
 # Tasks here are executed once all other services are available, so it should
 # be safe to to any tasks requiring databases, SOLR, etc.
 #####
-# alias_function do_setup do_drupal_setup_inner
-# do_setup() {
-#   do_drupal_setup_inner
-# }
+alias_function do_setup do_drupal_setup_inner
+do_setup() {
+  do_drupal_setup_inner
+  do_drupal_setup
+}
 
 #####
 # Tasks here are run when the container is started, and all services should be

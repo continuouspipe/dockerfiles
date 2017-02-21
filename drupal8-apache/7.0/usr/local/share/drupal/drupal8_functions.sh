@@ -15,6 +15,14 @@ do_drupal_development_build() {
 }
 
 #####
+# Perform setup tasks.
+#####
+
+do_drupal_setup() {
+  do_drupal_install
+}
+
+#####
 # Perform tasks on container start
 #####
 do_drupal_start() {
@@ -22,7 +30,6 @@ do_drupal_start() {
 }
 
 do_drupal_development_start() {
-  do_drupal_development_install
   do_drupal_legacy_development_install_script
 }
 
@@ -90,7 +97,7 @@ do_drupal_legacy_development_install_finalise_script() {
 #####
 # Install Drupal if required.
 #####
-do_drupal_development_install() {
+do_drupal_install() {
 
   if [ "$INSTALL_DRUPAL" == 'false' ]; then
     return
