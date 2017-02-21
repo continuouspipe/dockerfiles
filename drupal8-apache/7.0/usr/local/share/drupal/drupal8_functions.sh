@@ -99,13 +99,13 @@ do_drupal_development_install() {
   # Drop the database if we need to force the install every time.
   if [ "$FORCE_DATABASE_DROP" == 'true' ]; then
     echo 'Dropping the Drupal DB if it exists'
-    drush sql-drop -y -r "${WEB_DIRECTORY}"
+    as_code_owner "drush sql-drop -y -r ${WEB_DIRECTORY}"
   fi
 
   # If we're supposed to install Drupal, and it's not currently installed - then install it.
   if ! drush status bootstrap | grep -q Successful ; then
     echo 'Installing Drupal'
-    drush site-install "${DRUPAL_INSTALL_PROFILE}" -y -r "${WEB_DIRECTORY}"
+    as_code_owner "drush site-install ${DRUPAL_INSTALL_PROFILE} -y -r ${WEB_DIRECTORY}"
   fi
 
 }
