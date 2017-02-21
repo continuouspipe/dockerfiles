@@ -1,7 +1,7 @@
 # MAGENTO 2 VARNISH
 
 ```Dockerfile
-FROM quay.io/continuouspipe/magento2-varnish:4.0_v1
+FROM quay.io/continuouspipe/magento2-varnish4:stable
 ```
 
 ## How to build
