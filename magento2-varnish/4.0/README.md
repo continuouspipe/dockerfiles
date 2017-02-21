@@ -1,12 +1,12 @@
 # MAGENTO 2 VARNISH
 
 ```Dockerfile
-FROM quay.io/continuouspipe/magento2-varnish:4.0
+FROM quay.io/continuouspipe/magento2-varnish4:stable
 ```
 
 ## How to build
 ```bash
-docker build --pull --tag quay.io/continuouspipe/magento2-varnish:4.0 --rm .
+docker build --pull --tag quay.io/continuouspipe/magento2-varnish4:stable --rm .
 docker push
 ```
 
