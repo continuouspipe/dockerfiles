@@ -105,7 +105,7 @@ do_drupal_development_install() {
   fi
 
   # If we're supposed to install Drupal, and it's not currently installed - then install it.
-  if [ ! drush status bootstrap | grep -q Successful ] ; then
+  if ! drush status bootstrap | grep -q Successful ; then
     echo 'Installing Drupal'
     "drush site-install ${DRUPAL_INSTALL_PROFILE} -y -r ${WEB_DIRECTORY}"
   fi
