@@ -1,7 +1,23 @@
-# DRUPAL 8 APACHE/PHP
+# DRUPAL APACHE/PHP
 
 ```Dockerfile
-FROM quay.io/continuouspipe/drupal8-apache-php7:stable
+FROM quay.io/continuouspipe/drupal-php7.1-apache:stable
+ARG GITHUB_TOKEN=
+
+COPY . /app
+RUN container build
+```
+
+```Dockerfile
+FROM quay.io/continuouspipe/drupal-php7-apache:stable
+ARG GITHUB_TOKEN=
+
+COPY . /app
+RUN container build
+```
+
+```Dockerfile
+FROM quay.io/continuouspipe/drupal-php5.6-apache:stable
 ARG GITHUB_TOKEN=
 
 COPY . /app
@@ -10,8 +26,8 @@ RUN container build
 
 ## How to build
 ```bash
-docker build --pull --tag quay.io/continuouspipe/drupal8-apache:7.0 --rm .
-docker push
+docker-compose build drupal_php71_apache drupal_php70_apache drupal_php56_apache
+docker-compose push drupal_php71_apache drupal_php70_apache drupal_php56_apache
 ```
 
 ## How to use
