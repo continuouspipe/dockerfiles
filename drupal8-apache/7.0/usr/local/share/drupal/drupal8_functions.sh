@@ -22,7 +22,6 @@ do_drupal_start() {
 }
 
 do_drupal_development_start() {
-  do_drupal_start
   do_drupal_development_install
   do_drupal_legacy_development_install_script
 }
