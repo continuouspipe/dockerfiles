@@ -1,7 +1,7 @@
 # REDIS 3.2
 
 ```Dockerfile
-FROM quay.io/continuouspipe/redis:3.2
+FROM quay.io/continuouspipe/redis:3.2_v1
 ```
 
 ## How to build
