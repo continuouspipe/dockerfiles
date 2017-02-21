@@ -19,7 +19,7 @@ do_build() {
   do_drupal_build
 }
 
-alias_function do_build do_drupal_development_build_inner
+alias_function do_development_build do_drupal_development_build_inner
 do_development_build() {
   do_drupal_development_build_inner
   do_drupal_development_build
