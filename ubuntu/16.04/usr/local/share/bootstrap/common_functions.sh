@@ -34,8 +34,9 @@ as_user() {
   if [ -z "$USER" ]; then
     USER='build';
   fi
+  USER_HOME="$(get_user_home_directory "$USER")"
   set -x
-  sudo -u "$USER" -E HOME="$(get_user_home_directory "$USER")" /bin/bash -c "cd '$WORKING_DIR'; $COMMAND"
+  sudo -u "$USER" -E HOME="$USER_HOME" /bin/bash -c "cd '$WORKING_DIR'; $COMMAND"
 }
 
 as_build() {
