@@ -42,19 +42,16 @@ as_user() {
 as_build() {
   set +x
   as_user "$1" "$2" 'build'
-  set -x
 }
 
 as_code_owner() {
   set +x
   as_user "$1" "$2" "$CODE_OWNER"
-  set -x
 }
 
 as_app_user() {
   set +x
   as_user "$1" "$2" "$APP_USER"
-  set -x
 }
 
 is_hem_project() {
