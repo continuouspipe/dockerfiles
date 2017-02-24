@@ -11,7 +11,6 @@ do_drupal_build() {
 
 do_drupal_development_build() {
   do_drupal_build
-  do_drupal_development_permissions
   do_drupal_legacy_development_install_script
 }
 
@@ -45,36 +44,17 @@ do_drupal_create_directories() {
 #####
 do_drupal_permissions() {
   if [ "$IS_CHOWN_FORBIDDEN" -ne 0 ]; then
+    # Give the docroot and config directories to the web user.
+    # Ensure the files directory is writable.
+    chown -R "${CODE_OWNER}":"${APP_GROUP}" "${WEB_DIRECTORY}/modules" "${WEB_DIRECTORY}/profiles" "${WEB_DIRECTORY}/sites/default/files"
+    chmod -R ug+rw,o-w "${WEB_DIRECTORY}/modules" "${WEB_DIRECTORY}/profiles" "${WEB_DIRECTORY}/sites/default/files"
+
     # Ensure the config directory is writeable by the group
     if [ -d /app/config ]; then
-      chmod -R g+w /app/config
-      chown -R "${APP_USER}":"${APP_GROUP}" /app/config
+      chown -R "${CODE_OWNER}":"${APP_GROUP}" /app/config
+      chmod -R ug+rw,o-w /app/config
     fi
-
-    # Ensure the files directory is writable.
-    chmod -R g+w "${WEB_DIRECTORY}/sites/default/files"
   fi
-}
-
-#####
-# Fix directory permissions for development.
-#####
-do_drupal_development_permissions() {
-    # If we're telling the system that we don't want to install Drupal, then
-    # chances are we want to install it through the UI. If that's the case,
-    # then the settings file needs to be writeable. This should be restricted
-    # to development mode, though.
-    if [ "$INSTALL_DRUPAL" == 'false' ]; then
-      chmod go+w "${WEB_DIRECTORY}/sites/default/settings.php"
-    fi
-
-    # We need to be able to write to the module directory for Feature
-    # generation.
-    chmod go+w "${WEB_DIRECTORY}/modules"
-
-    # We may need to be able to write to the profiles directory as well if
-    # we're creating an installation profile with Features.
-    chmod go+w "${WEB_DIRECTORY}/profiles"
 }
 
 #####
