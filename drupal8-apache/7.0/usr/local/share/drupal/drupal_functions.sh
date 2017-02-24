@@ -6,30 +6,23 @@
 do_drupal_build() {
   do_drupal_create_directories
   do_drupal_permissions
-  do_drupal_legacy_install_script
-}
-
-do_drupal_development_build() {
-  do_drupal_build
-  do_drupal_legacy_development_install_script
-}
-
-#####
-# Perform setup tasks.
-#####
-do_drupal_setup() {
-  do_drupal_install
 }
 
 #####
 # Perform tasks on container start
 #####
 do_drupal_start() {
+  # If you've got a mounted volume, sometimes the permissions won't have been
+  # reset, so we should try again now.
+  do_drupal_permissions
+  do_drupal_install
+  do_drupal_legacy_install_script
   do_drupal_legacy_install_finalise_script
 }
 
 do_drupal_development_start() {
   do_drupal_legacy_development_install_script
+  do_drupal_legacy_development_install_finalise_script
 }
 
 #####
@@ -93,12 +86,12 @@ do_drupal_legacy_development_install_finalise_script() {
 do_drupal_install() {
 
   # If we don't want Drupal installed, then return.
-  if [ "$INSTALL_DRUPAL" == 'false' ]; then
+  if [ "${INSTALL_DRUPAL}" == 'false' ]; then
     return
   fi
 
   # Drop the database if we need to force the install every time.
-  if [ "$FORCE_DATABASE_DROP" == 'true' ]; then
+  if [ "${FORCE_DATABASE_DROP}" == 'true' ]; then
     echo 'Dropping the Drupal DB if it exists'
     as_code_owner "drush sql-drop -y -r ${WEB_DIRECTORY}"
   fi
@@ -107,10 +100,13 @@ do_drupal_install() {
   # then install it.
   if ! drush status bootstrap | grep -q Successful ; then
     echo 'Installing Drupal'
+
+    INSTALL_OPTS="${DRUPAL_INSTALL_PROFILE} --account-name=\"${DRUPAL_ADMIN_USERNAME}\" --account-pass=\"${DRUPAL_ADMIN_PASSWORD}\""
     # We should make sure this is writeable, but only do it directly before an
     # install. Drupal will lock it back down on install completion.
+    chmod -R ug+rw,o-w "${WEB_DIRECTORY}/sites/default/files"
     chmod go+w "${WEB_DIRECTORY}/sites/default/settings.php"
-    as_code_owner "drush site-install ${DRUPAL_INSTALL_PROFILE} -y -r ${WEB_DIRECTORY}"
+    as_code_owner "drush site-install ${INSTALL_OPTS} -y -r ${WEB_DIRECTORY}"
   fi
 
 }
