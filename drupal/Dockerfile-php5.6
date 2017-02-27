@@ -2,13 +2,10 @@ FROM quay.io/continuouspipe/php5.6-apache:latest
 
 MAINTAINER "Kieren Evans <kieren.evans+cp-dockerfiles@inviqa.com>"
 
-RUN curl -q https://dx6pc3giz7k1r.cloudfront.net/GPG-KEY-inviqa-tools | apt-key add - \
- && echo "deb https://dx6pc3giz7k1r.cloudfront.net/repos/debian jessie main" | tee /etc/apt/sources.list.d/inviqa-tools.list \
- && curl -sL https://deb.nodesource.com/setup_6.x > /tmp/install-node.sh \
+RUN curl -sL https://deb.nodesource.com/setup_7.x > /tmp/install-node.sh \
  && bash /tmp/install-node.sh \
  && apt-get update -qq -y \
  && DEBIAN_FRONTEND=noninteractive apt-get -qq -y --no-install-recommends install \
-    hem \
     mysql-client \
     nodejs \
  \
@@ -19,11 +16,7 @@ RUN curl -q https://dx6pc3giz7k1r.cloudfront.net/GPG-KEY-inviqa-tools | apt-key 
  \
  # Install Drupal's CLI tool \
  && curl https://drupalconsole.com/installer -L -o /usr/local/bin/drupal \
- && chmod a+x /usr/local/bin/drupal \
- \
- # Set up hem directories \
- && mkdir -p /home/build/.hem/gems/ \
- && chown -R build:build /home/build/.hem/
+ && chmod a+x /usr/local/bin/drupal
 
 USER build
 
