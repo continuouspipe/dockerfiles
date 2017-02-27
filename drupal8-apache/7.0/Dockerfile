@@ -2,7 +2,7 @@ FROM quay.io/continuouspipe/php7-apache:latest
 
 MAINTAINER "Kieren Evans <kieren.evans+cp-dockerfiles@inviqa.com>"
 
-RUN curl -sL https://deb.nodesource.com/setup_6.x > /tmp/install-node.sh \
+RUN curl -sL https://deb.nodesource.com/setup_7.x > /tmp/install-node.sh \
  && bash /tmp/install-node.sh \
  && apt-get update -qq -y \
  && DEBIAN_FRONTEND=noninteractive apt-get -qq -y --no-install-recommends install \
@@ -16,7 +16,7 @@ RUN curl -sL https://deb.nodesource.com/setup_6.x > /tmp/install-node.sh \
  \
  # Install Drupal's CLI tool \
  && curl https://drupalconsole.com/installer -L -o /usr/local/bin/drupal \
- && chmod a+x /usr/local/bin/drupal \
+ && chmod a+x /usr/local/bin/drupal
 
 USER build
 
