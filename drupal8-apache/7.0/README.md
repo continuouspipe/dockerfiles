@@ -31,6 +31,14 @@ You can also influence the installation process by placing commands in `/usr/loc
 These will get run at the end of the respective scripts, `/usr/local/share/drupal8/install.sh` and
 `/usr/local/share/drupal8/install_finalise.sh` or `/usr/local/share/drupal8/development/install.sh`.
 
+### Environment variables
+
+The following environment variables are supported
+
+Variable | Description | Expected values | Default
+---|---|---|---
+WEB_DIRECTORY | The directory in which Drupal lives | Directory name in repository root | docroot
+
 ### Custom build and startup scripts
 
 To run commands during the build and startup sequences that the base images add,
@@ -53,4 +61,5 @@ function | description | executed on
 These functions can be triggered via the /usr/local/bin/container command, dropping off the "do_" part. e.g:
 
 /usr/local/bin/container build # runs do_build
+
 /usr/local/bin/container start_supervisord # runs do_start_supervisord
