@@ -98,7 +98,7 @@ do_drupal_install() {
 
   # If we're supposed to install Drupal, and it's not currently installed,
   # then install it.
-  if ! drush status bootstrap | grep -q Successful ; then
+  if ! drush status bootstrap -r "${WEB_DIRECTORY}" | grep -q Successful ; then
     echo 'Installing Drupal'
 
     INSTALL_OPTS="${DRUPAL_INSTALL_PROFILE} --account-name=\"${DRUPAL_ADMIN_USERNAME}\" --account-pass=\"${DRUPAL_ADMIN_PASSWORD}\""
