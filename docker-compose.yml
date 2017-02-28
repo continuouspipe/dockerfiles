@@ -17,6 +17,14 @@ services:
     depends_on:
       - php70_apache
 
+  drupal8_apache_php7:
+    build:
+      context: ./drupal/
+      dockerfile: Dockerfile-php7
+    image: quay.io/continuouspipe/drupal8-apache-php7:latest
+    depends_on:
+      - php70_apache
+
   drupal_php56_apache:
     build:
       context: ./drupal/
