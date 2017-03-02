@@ -15,9 +15,6 @@ do_drupal_start() {
   # If you've got a mounted volume, sometimes the permissions won't have been
   # reset, so we should try again now.
   do_drupal_permissions
-  do_drupal_install
-  do_drupal_legacy_install_script
-  do_drupal_legacy_install_finalise_script
 }
 
 do_drupal_development_start() {
