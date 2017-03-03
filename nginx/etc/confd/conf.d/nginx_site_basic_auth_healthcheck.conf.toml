@@ -1,0 +1,6 @@
+[template]
+src   = "nginx/site_basic_auth_healtcheck.conf.tmpl"
+dest  = "/etc/nginx/sites-available/default-15-site_basic_auth_healtcheck.conf"
+mode  = "0644"
+keys = [
+]
