@@ -1,6 +1,6 @@
 [template]
 src   = "nginx/site_redirect_to_https.conf.tmpl"
-dest  = "/etc/nginx/sites-available/default-10-site_redirect_to_https.conf"
+dest  = "/etc/nginx/sites-available/default-20-site_redirect_to_https.conf"
 mode  = "0644"
 keys = [
 ]
