@@ -4,7 +4,8 @@ export WORK_DIRECTORY=${WORK_DIRECTORY:-/app}
 export CODE_OWNER=${CODE_OWNER:-build}
 export CODE_GROUP=${CODE_GROUP:-build}
 
-export START_CRON=${START_CRON:-false}
+START_CRON=${START_CRON:-false}
+export START_CRON="$(convert_to_boolean_string "$START_CRON")"
 
 set +e
 IS_CHOWN_FORBIDDEN="$(is_chown_forbidden)"
@@ -17,14 +18,14 @@ IS_APP_MOUNTPOINT="$(is_app_mountpoint)"
 export IS_APP_MOUNTPOINT
 set -e
 
-export DEVELOPMENT_MODE=${DEVELOPMENT_MODE:-${IS_APP_MOUNTPOINT}}
+DEVELOPMENT_MODE=${DEVELOPMENT_MODE:-${IS_APP_MOUNTPOINT}}
+export DEVELOPMENT_MODE="$(convert_to_boolean_string "$DEVELOPMENT_MODE")"
 
-if [ "$IS_VBOXSF_MOUNTPOINT" == 'true' ]; then
-  export APP_USER_LOCAL=${APP_USER_LOCAL:-true}
-else
-  export APP_USER_LOCAL=${APP_USER_LOCAL:-false}
-fi
-export APP_USER_LOCAL_RANDOM=${APP_USER_LOCAL_RANDOM:-false}
+APP_USER_LOCAL=${APP_USER_LOCAL:-${IS_VBOXSF_MOUNTPOINT}}
+export APP_USER_LOCAL="$(convert_to_boolean_string "$APP_USER_LOCAL")"
+
+APP_USER_LOCAL_RANDOM=${APP_USER_LOCAL_RANDOM:-false}
+export APP_USER_LOCAL_RANDOM="$(convert_to_boolean_string "$APP_USER_LOCAL_RANDOM")"
 
 export BUILD_USER_SSH_PRIVATE_KEY=${BUILD_USER_SSH_PRIVATE_KEY:-}
 export BUILD_USER_SSH_PUBLIC_KEY=${BUILD_USER_SSH_PUBLIC_KEY:-}
