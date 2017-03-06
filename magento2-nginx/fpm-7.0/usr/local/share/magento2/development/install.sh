@@ -23,8 +23,9 @@ source "$DIR/replace_core_config_values.sh"
 bash "$DIR/../install_magento.sh";
 
 set -x
-
+set +e
 IS_HEM="$(is_hem_project)"
+set -e
 if [ "$IS_HEM" == 'true' ]; then
   # Run HEM
   export HEM_RUN_ENV="${HEM_RUN_ENV:-local}"
