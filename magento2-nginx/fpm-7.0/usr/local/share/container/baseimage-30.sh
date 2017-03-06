@@ -33,8 +33,7 @@ do_composer() {
   do_composer_post_install
 }
 
-do_magento2_development_start()
-{
+do_magento2_development_start() {
   do_magento2_build
   do_magento2_development_build
 }

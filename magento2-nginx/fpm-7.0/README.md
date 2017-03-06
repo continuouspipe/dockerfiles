@@ -72,8 +72,8 @@ DATABASE_ARCHIVE_PATH | Database dump's archive path | relative path | tools/ass
 DATABASE_NAME | Magento database name | - | magentodb
 DATABASE_USER | Magento database user | - | magento
 DATABASE_PASSWORD | Magento database password | - | magento
-DATABASE_ROOT_PASSWORD | MySql root password (Used to create magento database and user) | - | magento
-DATABASE_HOST | Magneto database host | - | database
+DATABASE_ROOT_PASSWORD | MySQL root password (Used to create magento database and user) | - | magento
+DATABASE_HOST | Magento database host | - | database
 ADDITIONAL_SETUP_SQL | Any additional SQL query which should be executed after database import (changing base URLs and setting varnish host/port is added by default) | SQL Query | - 
 ASSET_ARCHIVE_PATH | Asset files archive path | relative path | tools/assets/development/media.files.tgz 
 ASSET_DOWNLOAD_ENVIRONMENTS | Assets will be downloaded for this environment name | - | development
@@ -86,7 +86,7 @@ MAGENTO_RUN_CODE_MAPPING | Mapped to http_host and default store name. First par
 MAGENTO_RUN_TYPE | Used to set Magento store type. | store/website | store
 FRONTEND_COMPILE_LANGUAGES | Used during static content deployment. It can be multiple language codes. | language code(s) separated by space | en_GB
 MAGENTO_DEPENDENCY_INJECTION_COMPILE_COMMAND | Magento DI compile command | - | bin/magento setup:di:compile 
-MAGENTO_CRYPT_KEY | Magneto crypt key | - | -
+MAGENTO_CRYPT_KEY | Magento crypt key | - | -
 COMPOSER_CUSTOM_CONFIG_COMMAND | Used to set any custom composer configuration, will be executed before composer install | composer config .. | -
 REDIS_HOST | Redis host name (to store cache and sessions) | - | redis 
 REDIS_HOST_PORT | Redis port | port number | 6379

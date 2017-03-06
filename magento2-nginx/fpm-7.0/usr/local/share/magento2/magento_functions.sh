@@ -18,7 +18,7 @@ function do_composer_post_install() {
 function do_magento_create_web_writable_directories() {
   mkdir -p pub/media pub/static var
 
-  if [ "$IS_CHOWN_FORBIDDEN" -ne 0 ]; then
+  if [ "$IS_CHOWN_FORBIDDEN" != 'true' ]; then
     chown -R "${APP_USER}:${CODE_GROUP}" pub/media pub/static var
     chmod -R ug+rw,o-w pub/media pub/static var
   else
@@ -30,7 +30,7 @@ function do_magento_frontend_build() {
   if [ -d "$FRONTEND_INSTALL_DIRECTORY" ]; then
     mkdir -p pub/static/frontend/
 
-  if [ -d "pub/static/frontend/" ] && [ "$IS_CHOWN_FORBIDDEN" -ne 0 ]; then
+  if [ -d "pub/static/frontend/" ] && [ "$IS_CHOWN_FORBIDDEN" != 'true' ]; then
       chown -R "${CODE_OWNER}:${CODE_GROUP}" pub/static/frontend/
     fi
 
@@ -43,7 +43,7 @@ function do_magento_frontend_build() {
       as_code_owner "gulp $FRONTEND_BUILD_ACTION --theme='$GULP_BUILD_THEME_NAME'" "$FRONTEND_BUILD_DIRECTORY"
     fi
 
-  if [ -d "pub/static/frontend/" ] && [ "$IS_CHOWN_FORBIDDEN" -ne 0 ]; then
+  if [ -d "pub/static/frontend/" ] && [ "$IS_CHOWN_FORBIDDEN" != 'true' ]; then
       chown -R "${APP_USER}:${APP_GROUP}" pub/static/frontend/
     fi
   fi
@@ -57,7 +57,7 @@ function do_magento_install_custom() {
 }
 
 function do_magento_switch_web_writable_directories_to_code_owner() {
-  if [ "$IS_CHOWN_FORBIDDEN" -ne 0 ]; then
+  if [ "$IS_CHOWN_FORBIDDEN" != 'true' ]; then
     chown -R "${CODE_OWNER}":"${CODE_GROUP}" pub/media pub/static var
   else
     chmod a+rw pub/media pub/static var
@@ -103,7 +103,7 @@ function do_magento_reindex() {
 }
 
 function do_magento_assets_download() {
-  if [ "$IS_HEM" -eq 0 ]; then
+  if [ "$IS_HEM" == 'true' ]; then
     export HEM_RUN_ENV="${HEM_RUN_ENV:-local}"
     for asset_env in $ASSET_DOWNLOAD_ENVIRONMENTS; do
       as_build "hem --non-interactive --skip-host-checks assets download -e $asset_env"
@@ -118,7 +118,7 @@ function do_magento_cache_flush() {
 
 function do_magento_create_web_writable_directories() {
   # Ensure the permissions are web writable for the assets and var folders, but only on filesystems that allow chown.
-  if [ "$IS_CHOWN_FORBIDDEN" -ne 0 ]; then
+  if [ "$IS_CHOWN_FORBIDDEN" != 'true' ]; then
     chown -R "${APP_USER}:${APP_GROUP}" pub/media pub/static var
   fi
 }
@@ -157,7 +157,7 @@ function do_magento_database_install() {
 
 function do_magento_assets_install() {
   if [ -f "$ASSET_ARCHIVE_PATH" ]; then
-    if [ "$IS_CHOWN_FORBIDDEN" -ne 0 ]; then
+    if [ "$IS_CHOWN_FORBIDDEN" != 'true' ]; then
       chown -R "${CODE_OWNER}:${CODE_GROUP}" pub/media
     else
       chmod -R a+rw pub/media
@@ -166,7 +166,7 @@ function do_magento_assets_install() {
     echo 'extracting media files'
     as_code_owner "tar --no-same-owner --extract --strip-components=2 --touch --overwrite --gzip --file=$ASSET_ARCHIVE_PATH || exit 1" pub/media
     
-    if [ "$IS_CHOWN_FORBIDDEN" -ne 0 ]; then
+    if [ "$IS_CHOWN_FORBIDDEN" != 'true' ]; then
       chown -R "${APP_USER}:${APP_GROUP}" pub/media
       chmod -R u+rw,o-rw pub/media
     else
