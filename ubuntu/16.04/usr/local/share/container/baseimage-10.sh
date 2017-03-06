@@ -23,7 +23,7 @@ do_build() {
 }
 
 check_development_start() {
-  if [ "$DEVELOPMENT_MODE" -eq 0 ]; then
+  if [ "$DEVELOPMENT_MODE" == 'true' ]; then
     do_development_start
   fi
 }

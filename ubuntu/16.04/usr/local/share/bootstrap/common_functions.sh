@@ -54,34 +54,49 @@ as_app_user() {
   as_user "$1" "$2" "$APP_USER"
 }
 
+convert_exit_code_to_string() {
+  if [ "$1" -eq 0 ]; then
+    echo 'true';
+  else
+    echo 'false';
+  fi
+}
+
 is_hem_project() {
   if [ -f /app/tools/hem/config.yaml ] || [ -f /app/tools/hobo/config.yaml ]; then
+    echo "$(convert_exit_code_to_string 0)"
     return 0
   fi
-
+  echo "$(convert_exit_code_to_string 1)"
   return 1
 }
 
 is_app_mountpoint() {
   grep -q -E "/app (nfs|vboxsf|fuse\.osxfs)" /proc/mounts
-  return $?
+  local RESULT="$?"
+  echo "$(convert_exit_code_to_string "$RESULT")"
+  return "$RESULT"
 }
 
 is_chown_forbidden() {
   # Determine if the app directory is an NFS mountpoint, which doesn't allow chowning.
   grep -q -E "/app (nfs|vboxsf)" /proc/mounts
-  return $?
+  local RESULT="$?"
+  echo "$(convert_exit_code_to_string "$RESULT")"
+  return "$RESULT"
 }
 
 is_vboxsf_mountpoint() {
   grep -q "/app vboxsf" /proc/mounts
-  return $?
+  local RESULT="$?"
+  echo "$(convert_exit_code_to_string "$RESULT")"
+  return "$RESULT"
 }
 
 alias_function() {
-    local -r ORIG_FUNC=$(declare -f "$1")
-    local -r NEWNAME_FUNC="$2${ORIG_FUNC#$1}"
-    eval "$NEWNAME_FUNC"
+  local -r ORIG_FUNC=$(declare -f "$1")
+  local -r NEWNAME_FUNC="$2${ORIG_FUNC#$1}"
+  eval "$NEWNAME_FUNC"
 }
 
 do_build() {
