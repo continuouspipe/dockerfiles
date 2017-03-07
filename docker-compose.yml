@@ -255,6 +255,15 @@ services:
     depends_on:
       - external_solr_6_2
 
+  ssh_forward:
+    build:
+      context: ./ssh-forward/
+    image: quay.io/continuouspipe/ssh-forward:latest
+    ports:
+      - '2222:22'
+    depends_on:
+      - ubuntu
+
   symfony_php71_nginx:
     build:
       context: ./symfony/

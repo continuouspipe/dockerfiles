@@ -158,6 +158,9 @@ tasks:
         scala_sbt:
           image: quay.io/continuouspipe/scala-base
           tag: latest
+        ssh_forward:
+          image: quay.io/continuouspipe/ssh-forward
+          tag: latest
         symfony_php71_nginx:
           image: quay.io/continuouspipe/symfony-php7.1-nginx
           tag: latest
