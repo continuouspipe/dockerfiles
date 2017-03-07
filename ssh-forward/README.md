@@ -22,6 +22,10 @@ This is a Docker image to use for ssh port forwarding. For instance in order to
 run Selenium Webdriver locally while running Behat on the docker container, or
 for PHP XDebug remote debugging
 
+Note: it's not recommended to expose this container's ssh port to the public
+internet. Local docker development it's ok to expose it to the host's localhost.
+Kubernetes has local port forwarding that can expose the SSH port from a cluster to localhost.
+
 ## How to use
 
 ### Environment variables
