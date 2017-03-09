@@ -125,11 +125,16 @@ do_drupal_setup_sync_ssh_keys() {
 # Ability to sync a database dump from a remote server that is accessible via SSH.
 ####
 do_drupal_sync_database_backup_via_ssh() {
+  if [ -z "${DRUPAL_SYNC_SSH_KEY_NAME}" ] || [ -z "${DRUPAL_SYNC_SSH_SERVER_PORT}" ] || [ -z "${DRUPAL_SYNC_SSH_USERNAME}" ] || [ -z "${DRUPAL_SYNC_SSH_SERVER_HOST}" ] || [ -z "${DRUPAL_SYNC_DATABASE_FILENAME_GLOB}" ] || [ -z "${DATABASE_ARCHIVE_PATH}" ]; then
+    return 1
+  fi
+
   echo 'Work out which file is the latest backup'
   local DATABASE_BACKUP_REMOTE_PATH
   DATABASE_BACKUP_REMOTE_PATH="$(as_build_user "ssh -i '/home/build/.ssh/${DRUPAL_SYNC_SSH_KEY_NAME}' -p '${DRUPAL_SYNC_SSH_SERVER_PORT}' '${DRUPAL_SYNC_SSH_USERNAME}@${DRUPAL_SYNC_SSH_SERVER_HOST}' 'ls -t ${DRUPAL_SYNC_DATABASE_FILENAME_GLOB} | head -1'")"
+
   echo 'Copy the database from the remote server to the container'
-  as_build_user "scp -i '/home/build/.ssh/${DRUPAL_SYNC_SSH_KEY_NAME}' -P '${DRUPAL_SYNC_SSH_SERVER_PORT}' '${DRUPAL_SYNC_SSH_USERNAME}:${DATABASE_BACKUP_REMOTE_PATH}' '${DATABASE_ARCHIVE_PATH}'"
+  as_build_user "scp -i '/home/build/.ssh/${DRUPAL_SYNC_SSH_KEY_NAME}' -P '${DRUPAL_SYNC_SSH_SERVER_PORT}' '${DRUPAL_SYNC_SSH_USERNAME}:${DRUPAL_SYNC_DATABASE_FILENAME_GLOB}' '${DATABASE_ARCHIVE_PATH}'"
 }
 
 #####
@@ -141,7 +146,7 @@ do_drupal_database_install() {
   if [ -f "$DATABASE_ARCHIVE_PATH" ]; then
     if [ "$FORCE_DATABASE_DROP" == 'true' ]; then
       echo 'Dropping the Drupal DB if it exists'
-      mysql -h"$DATABASE_HOST" -uroot -p"$DATABASE_ROOT_PASSWORD" -e "DROP DATABASE IF EXISTS $DATABASE_NAME" || exit 1
+      mysql -h"$DATABASE_HOST" -uroot -p"$DATABASE_ROOT_PASSWORD" -e "DROP DATABASE IF EXISTS $DATABASE_NAME" || return 1
     fi
 
     set +e
@@ -154,7 +159,7 @@ do_drupal_database_install() {
       echo "CREATE DATABASE IF NOT EXISTS $DATABASE_NAME ; GRANT ALL ON $DATABASE_NAME.* TO $DATABASE_USER@'%' IDENTIFIED BY '$DATABASE_PASSWORD' ; FLUSH PRIVILEGES" |  mysql -uroot -p"$DATABASE_ROOT_PASSWORD" -h"$DATABASE_HOST"
 
       echo 'zcating the drupal database dump into the database'
-      zcat "$DATABASE_ARCHIVE_PATH" | mysql -h"$DATABASE_HOST" -uroot -p"$DATABASE_ROOT_PASSWORD" "$DATABASE_NAME" || exit 1
+      zcat "$DATABASE_ARCHIVE_PATH" | mysql -h"$DATABASE_HOST" -uroot -p"$DATABASE_ROOT_PASSWORD" "$DATABASE_NAME" || return 1
     fi
   fi
   set -x
