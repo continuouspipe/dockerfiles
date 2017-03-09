@@ -131,10 +131,10 @@ do_drupal_sync_database_backup_via_ssh() {
 
   echo 'Work out which file is the latest backup'
   local DATABASE_BACKUP_REMOTE_PATH
-  DATABASE_BACKUP_REMOTE_PATH="$(as_build_user "ssh -i '/home/build/.ssh/${DRUPAL_SYNC_SSH_KEY_NAME}' -p '${DRUPAL_SYNC_SSH_SERVER_PORT}' '${DRUPAL_SYNC_SSH_USERNAME}@${DRUPAL_SYNC_SSH_SERVER_HOST}' 'ls -t ${DRUPAL_SYNC_DATABASE_FILENAME_GLOB} | head -1'")"
+  DATABASE_BACKUP_REMOTE_PATH="$(as_build "ssh -i '/home/build/.ssh/${DRUPAL_SYNC_SSH_KEY_NAME}' -p '${DRUPAL_SYNC_SSH_SERVER_PORT}' '${DRUPAL_SYNC_SSH_USERNAME}@${DRUPAL_SYNC_SSH_SERVER_HOST}' 'ls -t ${DRUPAL_SYNC_DATABASE_FILENAME_GLOB} | head -1'")"
 
   echo 'Copy the database from the remote server to the container'
-  as_build_user "scp -i '/home/build/.ssh/${DRUPAL_SYNC_SSH_KEY_NAME}' -P '${DRUPAL_SYNC_SSH_SERVER_PORT}' '${DRUPAL_SYNC_SSH_USERNAME}:${DRUPAL_SYNC_DATABASE_FILENAME_GLOB}' '${DATABASE_ARCHIVE_PATH}'"
+  as_build "scp -i '/home/build/.ssh/${DRUPAL_SYNC_SSH_KEY_NAME}' -P '${DRUPAL_SYNC_SSH_SERVER_PORT}' '${DRUPAL_SYNC_SSH_USERNAME}@${DRUPAL_SYNC_SSH_SERVER_HOST}:${DATABASE_BACKUP_REMOTE_PATH}' '${DATABASE_ARCHIVE_PATH}'"
 }
 
 #####
@@ -166,5 +166,5 @@ do_drupal_database_install() {
 }
 
 do_drupal_database_sanitise() {
-  as_code_user "drush sql-sanitize --yes -r ${WEB_DIRECTORY}"
+  as_code_owner "drush sql-sanitize --yes -r ${WEB_DIRECTORY}"
 }
