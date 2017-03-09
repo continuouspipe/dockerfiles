@@ -97,13 +97,14 @@ do_drupal_install() {
   # then install it.
   if ! drush status bootstrap -r "${WEB_DIRECTORY}" | grep -q Successful ; then
     echo 'Installing Drupal'
-
+    set +x
     INSTALL_OPTS="${DRUPAL_INSTALL_PROFILE} --account-name=\"${DRUPAL_ADMIN_USERNAME}\"  --account-pass=\"${DRUPAL_ADMIN_PASSWORD}\" install_configure_form.update_status_module='array(FALSE,FALSE)'"
     # We should make sure this is writeable, but only do it directly before an
     # install. Drupal will lock it back down on install completion.
     chmod -R ug+rw,o-w "${WEB_DIRECTORY}/sites/default/files"
     chmod go+w "${WEB_DIRECTORY}/sites/default/settings.php"
     as_code_owner "drush site-install ${INSTALL_OPTS} -y -r ${WEB_DIRECTORY}"
+    set -x
   fi
 
 }
