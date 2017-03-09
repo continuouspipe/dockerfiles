@@ -108,6 +108,30 @@ do_drupal_install() {
 
 }
 
+####
+# Provide SSH keys so that do_drupal_sync_database_backup_via_ssh can function
+####
+do_drupal_setup_sync_ssh_keys() {
+  set +x
+  do_user_ssh_keys "build" "${DRUPAL_SYNC_SSH_KEY_NAME}" "${DRUPAL_SYNC_SSH_PRIVATE_KEY}" "${DRUPAL_SYNC_SSH_PUBLIC_KEY}" "${DRUPAL_SYNC_SSH_KNOWN_HOSTS}"
+  set +x
+  unset DRUPAL_SYNC_SSH_PRIVATE_KEY
+  unset DRUPAL_SYNC_SSH_PRIVATE_KEY
+  unset DRUPAL_SYNC_SSH_KNOWN_HOSTS
+  set -x
+}
+
+####
+# Ability to sync a database dump from a remote server that is accessible via SSH.
+####
+do_drupal_sync_database_backup_via_ssh() {
+  echo 'Work out which file is the latest backup'
+  local DATABASE_BACKUP_REMOTE_PATH
+  DATABASE_BACKUP_REMOTE_PATH="$(as_build_user "ssh -i '/home/build/.ssh/${DRUPAL_SYNC_SSH_KEY_NAME}' -p '${DRUPAL_SYNC_SSH_SERVER_PORT}' '${DRUPAL_SYNC_SSH_USERNAME}@${DRUPAL_SYNC_SSH_SERVER_HOST}' 'ls -t ${DRUPAL_SYNC_DATABASE_FILENAME_GLOB} | head -1'")"
+  echo 'Copy the database from the remote server to the container'
+  as_build_user "scp -i '/home/build/.ssh/${DRUPAL_SYNC_SSH_KEY_NAME}' -P '${DRUPAL_SYNC_SSH_SERVER_PORT}' '${DRUPAL_SYNC_SSH_USERNAME}:${DATABASE_BACKUP_REMOTE_PATH}' '${DATABASE_ARCHIVE_PATH}'"
+}
+
 #####
 # Restore a database if required.
 # Not triggered by default, please call from a function in your plan.sh to use.
@@ -134,4 +158,8 @@ do_drupal_database_install() {
     fi
   fi
   set -x
+}
+
+do_drupal_database_sanitise() {
+  as_code_user "drush sql-sanitize --yes -r ${WEB_DIRECTORY}"
 }
