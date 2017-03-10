@@ -180,3 +180,14 @@ do_drupal_database_install() {
 do_drupal_database_sanitise() {
   as_code_owner "drush sql-sanitize --yes -r ${WEB_DIRECTORY}"
 }
+
+do_drupal_composer_install() {
+  echo "Ensuring Drupal Composer extension is up-to-date..."
+  as_code_owner "drush dl composer-8.x-1.x -y" /app/docroot
+
+  echo "Running Composer..."
+  as_code_owner "drush cc drush" /app/docroot
+  as_code_owner "drush composer-json-rebuild" /app/docroot
+  as_code_owner "drush composer-execute install --no-dev" /app/docroot
+  as_code_owner "drush composer-execute dump-autoload -o" /app/docroot
+}
