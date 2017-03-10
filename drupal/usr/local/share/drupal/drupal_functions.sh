@@ -110,6 +110,17 @@ do_drupal_install() {
 }
 
 ####
+# Ability to sync a database dump from a remote server that is accessible via SSH.
+# Plus apply the database dump and sanitise it.
+####
+do_drupal_sync_database() {
+  do_drupal_setup_sync_ssh_keys
+  do_drupal_sync_database_backup_via_ssh
+  do_drupal_database_install
+  do_drupal_database_sanitise
+}
+
+####
 # Provide SSH keys so that do_drupal_sync_database_backup_via_ssh can function
 ####
 do_drupal_setup_sync_ssh_keys() {
