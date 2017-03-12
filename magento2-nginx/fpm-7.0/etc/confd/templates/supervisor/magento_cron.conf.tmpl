@@ -1,5 +1,5 @@
 [program:magento-cron]
-command = cd /app/ && php bin/magento cron:run
+command = /bin/bash -c "cd /app/ && php bin/magento cron:run"
 startsecs = 0
 startretries = 0
 stdout_logfile=/dev/stdout
