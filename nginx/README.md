@@ -107,9 +107,27 @@ To use this functionality:
   export AUTH_HTTP_REALM=Protected System
   export AUTH_HTTP_FILE=/etc/nginx/custom-htpasswd-path
   ```
+7. If basic authentication is enabled but a certain user agent needs to be able to bypass the basic authentication
+   for a healthcheck, `AUTH_HTTP_HEALTHCHECK_USER_AGENT` can be configured and a 200 will be returned.
+8. If basic authentication is enabled but a certain location needs to be able to bypass the basic authentication
+   for a healthcheck, `AUTH_HTTP_HEALTHCHECK_LOCATION` can be configured and a 200 will be returned.
 
 We also support using the basic auth delegate feature of NGINX, by providing: `AUTH_HTTP_REMOTE_URL`.
 Pretty please make this a HTTPS URL!
+
+### IP Whitelisting
+
+Entering basic authentication credentials each time can be tiresome. IP addresses separated by "," in `AUTH_IP_WHITELIST`
+will be allowed to bypass the basic authentication section.
+
+When basic authentication is turned off, the IP addresses whitelisted will be the only addresses allowed to access the
+environment.
+
+If there is another reverse proxy or load balancer in front of this container, set the IP via `EXTERNAL_LOAD_BALANCER_IP`
+to get nginx to use it's realip functionality to work out from the client IP form the X-Forwarded-For header.
+
+If there is more than reverse proxy in between the client IP and this container, add the IPs of the proxies to
+`TRUSTED_REVERSE_PROXIES`, separated by ",", for them to also be removed from the X-Forwarded-For header.
 
 ### Custom build and startup scripts
 
