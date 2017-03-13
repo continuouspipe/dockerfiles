@@ -90,7 +90,7 @@ do_drupal_install() {
   # Drop the database if we need to force the install every time.
   if [ "${FORCE_DATABASE_DROP}" == 'true' ]; then
     echo 'Dropping the Drupal DB if it exists'
-    as_code_owner "drush sql-drop -y -r ${WEB_DIRECTORY}"
+    as_code_owner "drush ${DRUPAL_DRUSH_ALIAS} sql-drop -y -r ${WEB_DIRECTORY}"
   fi
 
   # If we're supposed to install Drupal, and it's not currently installed,
@@ -103,7 +103,7 @@ do_drupal_install() {
     # install. Drupal will lock it back down on install completion.
     chmod -R ug+rw,o-w "${WEB_DIRECTORY}/sites/default/files"
     chmod go+w "${WEB_DIRECTORY}/sites/default/settings.php"
-    as_code_owner "drush site-install ${INSTALL_OPTS} -y -r ${WEB_DIRECTORY}"
+    as_code_owner "drush ${DRUPAL_DRUSH_ALIAS} site-install ${INSTALL_OPTS} -y -r ${WEB_DIRECTORY}"
     set -x
   fi
 
@@ -178,16 +178,16 @@ do_drupal_database_install() {
 }
 
 do_drupal_database_sanitise() {
-  as_code_owner "drush sql-sanitize --yes -r ${WEB_DIRECTORY}"
+  as_code_owner "drush ${DRUPAL_DRUSH_ALIAS} sql-sanitize --yes -r ${WEB_DIRECTORY}"
 }
 
 do_drupal_composer_install() {
   echo "Ensuring Drupal Composer extension is up-to-date..."
-  as_code_owner "drush dl composer-8.x-1.x -y" /app/docroot
+  as_code_owner "drush ${DRUPAL_DRUSH_ALIAS} dl composer-8.x-1.x -y" /app/docroot
 
   echo "Running Composer..."
-  as_code_owner "drush cc drush" /app/docroot
-  as_code_owner "drush composer-json-rebuild" /app/docroot
-  as_code_owner "drush composer-execute install --no-dev" /app/docroot
-  as_code_owner "drush composer-execute dump-autoload -o" /app/docroot
+  as_code_owner "drush ${DRUPAL_DRUSH_ALIAS} cc drush" /app/docroot
+  as_code_owner "drush ${DRUPAL_DRUSH_ALIAS} composer-json-rebuild" /app/docroot
+  as_code_owner "drush ${DRUPAL_DRUSH_ALIAS} composer-execute install --no-dev" /app/docroot
+  as_code_owner "drush ${DRUPAL_DRUSH_ALIAS} composer-execute dump-autoload -o" /app/docroot
 }
