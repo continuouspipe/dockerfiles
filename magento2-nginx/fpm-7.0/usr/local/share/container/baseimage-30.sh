@@ -40,3 +40,13 @@ do_magento2_development_start()
   bash /usr/local/share/magento2/development/install.sh
   do_magento2_setup
 }
+
+do_magento()
+{
+  set +x
+  if [ "$#" -gt 0 ]; then
+    as_app_user "./bin/magento $(printf "%q " "$@")"
+  else
+    as_app_user "./bin/magento"
+  fi
+}
