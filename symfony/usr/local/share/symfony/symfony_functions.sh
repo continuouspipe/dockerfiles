@@ -33,20 +33,20 @@ do_symfony_app_permissions() {
 }
 
 do_database_rebuild() {
-  as_app_user "'$SYMFONY_CONSOLE' doctrine:database:drop --force >/dev/null || true"
+  do_symfony_console doctrine:database:drop --force >/dev/null || true
   do_database_build
 }
 
 do_database_build() {
   # load the database if it doesn't exist
   set +e
-  as_app_user "'$SYMFONY_CONSOLE' doctrine:database:create >/dev/null"
+  do_symfony_console doctrine:database:create >/dev/null
   local DATABASE_EXISTED=$?
   set -e
 
   local QUERY_LINE_COUNT=0
   if [ "$DATABASE_EXISTED" -eq 1 ]; then
-    QUERY_LINE_COUNT="$(as_app_user "'$SYMFONY_CONSOLE' doctrine:query:sql 'SELECT TABLE_NAME FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = database()' | wc -l")"
+    QUERY_LINE_COUNT="$(do_symfony_console doctrine:query:sql 'SELECT TABLE_NAME FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = database()' | wc -l)"
   fi
 
   if [ "$DATABASE_EXISTED" -ne 1 ] || [ "$QUERY_LINE_COUNT" -lt 3 ]; then
@@ -67,30 +67,39 @@ do_database_update() {
 }
 
 do_database_schema_create() {
-  as_app_user "'$SYMFONY_CONSOLE' doctrine:schema:create"
+  do_symfony_console doctrine:schema:create
 }
 
 do_database_schema_update() {
-  as_app_user "'$SYMFONY_CONSOLE' doctrine:schema:update --force"
+  do_symfony_console doctrine:schema:update --force
 }
 
 do_database_migrations_mark_done() {
-  as_app_user "'$SYMFONY_CONSOLE' doctrine:migrations:version --add --all --no-interaction"
+  do_symfony_console doctrine:migrations:version --add --all --no-interaction
 }
 
 do_database_migrate() {
-  as_app_user "'$SYMFONY_CONSOLE' doctrine:migrations:migrate --no-interaction"
+  do_symfony_console doctrine:migrations:migrate --no-interaction
 }
 
 do_cache_clear() {
-  as_app_user "'$SYMFONY_CONSOLE' cache:clear"
+  do_symfony_console cache:clear
 }
 
 do_database_fixtures() {
-  as_app_user "'$SYMFONY_CONSOLE' doctrine:fixtures:load -n"
+  do_symfony_console doctrine:fixtures:load -n
 }
 
 do_symfony_build() {
   do_symfony_directory_create
   do_symfony_config_create
+}
+
+do_symfony_console() {
+  set +x
+  if [ "$#" -gt 0 ]; then
+    as_app_user "'$SYMFONY_CONSOLE' $(printf "%q " "$@")"
+  else
+    as_app_user "'$SYMFONY_CONSOLE'"
+  fi
 }
