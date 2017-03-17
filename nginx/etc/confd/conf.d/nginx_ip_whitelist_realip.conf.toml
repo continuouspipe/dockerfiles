@@ -1,6 +1,0 @@
-[template]
-src   = "nginx/nginx_ip_whitelist_realip.conf.tmpl"
-dest  = "/etc/nginx/conf.d/nginx_ip_whitelist_realip.conf"
-mode  = "0644"
-keys = [
-]

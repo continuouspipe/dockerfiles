@@ -1,0 +1,6 @@
+[template]
+src   = "nginx/nginx_realip.conf.tmpl"
+dest  = "/etc/nginx/conf.d/nginx_realip.conf"
+mode  = "0644"
+keys = [
+]
