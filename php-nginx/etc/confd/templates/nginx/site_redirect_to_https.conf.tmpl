@@ -1,0 +1,9 @@
+{{ if eq "true" (getenv "WEB_REVERSE_PROXIED") }}
+  if ($custom_scheme = 'https') {
+    set $do_https_redirect 0;
+  }
+
+  if ($do_https_redirect != 0) {
+    rewrite ^ https://$host$request_uri? permanent;
+  }
+{{ end }}

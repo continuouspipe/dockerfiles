@@ -1,0 +1,16 @@
+{{ if getenv "AUTH_HTTP_ENABLED" }}
+{{ if getenv "AUTH_HTTP_HEALTHCHECK_USER_AGENT" }}
+if ($http_user_agent ~ {{ getenv "AUTH_HTTP_HEALTHCHECK_USER_AGENT" }}) {
+  set $do_https_redirect 0;
+  set $access_log_enabled 0;
+  return 200;
+}
+{{ end }}
+{{ if getenv "AUTH_HTTP_HEALTHCHECK_LOCATION" }}
+location = {{ getenv "AUTH_HTTP_HEALTHCHECK_LOCATION" }} {
+  set $do_https_redirect 0;
+  set $access_log_enabled 0;
+  return 200;
+}
+{{ end }}
+{{ end }}
