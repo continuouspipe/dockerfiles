@@ -127,8 +127,12 @@ If there is another reverse proxy or load balancer in front of this container, s
 to get nginx to use it's realip functionality to work out from the client IP form the X-Forwarded-For header.
 If a hostname is provided, the container will look up the IP address of `EXTERNAL_LOAD_BALANCER_HOST` to then pass to realip.
 
-If there is more than reverse proxy in between the client IP and this container, add the IPs of the proxies to
-`TRUSTED_REVERSE_PROXIES`, separated by ",", for them to also be removed from the X-Forwarded-For header.
+If there are more reverse proxies in between the client IP and this container, then follow [Real IP detection for logging and application fraud checks](#real-ip-detection-for-logging-and-application-fraud-checks).
+
+### Real IP detection for logging and application fraud checks
+
+If there are reverse proxies in between the client IP and this container, add the IPs of the proxies to
+`TRUSTED_REVERSE_PROXIES`, separated by ",", for them to be removed from the X-Forwarded-For header.
 
 ### Custom build and startup scripts
 
