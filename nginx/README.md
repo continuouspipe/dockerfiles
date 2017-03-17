@@ -123,8 +123,9 @@ will be allowed to bypass the basic authentication section.
 When basic authentication is turned off, the IP addresses whitelisted will be the only addresses allowed to access the
 environment.
 
-If there is another reverse proxy or load balancer in front of this container, set the IP via `EXTERNAL_LOAD_BALANCER_IP`
+If there is another reverse proxy or load balancer in front of this container, set the IP or Hostname via `EXTERNAL_LOAD_BALANCER_HOST`
 to get nginx to use it's realip functionality to work out from the client IP form the X-Forwarded-For header.
+If a hostname is provided, the container will look up the IP address of `EXTERNAL_LOAD_BALANCER_HOST` to then pass to realip.
 
 If there is more than reverse proxy in between the client IP and this container, add the IPs of the proxies to
 `TRUSTED_REVERSE_PROXIES`, separated by ",", for them to also be removed from the X-Forwarded-For header.
