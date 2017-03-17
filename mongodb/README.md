@@ -13,4 +13,74 @@ docker-compose push mongodb34
 
 ## How to use
 
-As this is based on the library MySQL image, see their README on [The Docker Hub](https://hub.docker.com/_/mysql/).
+As this is based on the library MySQL image, see their README on
+[The Docker Hub](https://hub.docker.com/_/mysql/).
+
+### Authentication
+
+Authentication can be enabled by setting the environment variable MONGODB_AUTH_ENABLED=1
+
+In order for authentication to work, you will need to define an admin user or a
+set of users:
+
+#### Admin user
+
+You can create an admin user that has a userAdminAnyDatabase role via setting
+the environment variables:
+
+* MONGODB_ADMIN_USER=<admin user name>
+* MONGODB_ADMIN_PWD=<admin user password>
+
+Note this Admin user with it's roll can only add other users to databases, not
+operate on the db collections.
+
+If you need the admin user to have further roles like `root`, then create it
+using the [Set of users](#set-of-users) method instead.
+
+#### Set of users
+
+You can create one or more users with additional roles, and in specific
+databases using JSON set in the environment variable MONGODB_USERS.
+
+The JSON takes the form of an array of user objects, with the user objects following
+the specification that MongoDB's [db.createUser()](https://docs.mongodb.com/manual/reference/method/db.createUser/)
+takes, with a minor addition of a `database` field, which defines what database
+the user is created in. If not supplied, the user will be added to the `admin`
+database.
+
+e.g.
+
+```bash
+MONGODB_USERS='[
+  {
+    "user": "fred"
+    "pwd": "123"
+    "roles": [
+      "readWrite",
+      {
+          "role": "read",
+          "db": "janesdb"
+      }
+    ],
+    "database": "fredsdb"
+  },
+]'
+```
+
+```bash
+MONGODB_USERS='[
+  {
+    "user": "admin"
+    "pwd": "123"
+    "roles": [
+      "root",
+    ]
+  },
+]'
+```
+
+
+The reason for the additional database field is that MongoDB authentication is
+run against the db that the connection authenticates with, which for applications
+needn't be the admin db. A role's db however applies on operations in a db after
+authentication.
