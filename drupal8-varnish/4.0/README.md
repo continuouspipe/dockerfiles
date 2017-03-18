@@ -1,19 +1,35 @@
-# MAGENTO 2 VARNISH
+# Drupal 8: Varnish
 
+In a docker-compose.yml:
+```yml
+version: '3'
+services:
+  varnish:
+    image: quay.io/continuouspipe/drupal8-varnish4:stable
+    environment:
+      VARNISH_SECRET: "A secret that should remain secret!"
+```
+
+In a Dockerfile:
 ```Dockerfile
-FROM quay.io/continuouspipe/drupal8-varnish:4.0_v1
+FROM quay.io/continuouspipe/drupal8-varnish4:stable
 ```
 
 ## How to build
 ```bash
-docker build --pull --tag quay.io/continuouspipe/drupal8-varnish:4.0_v1 --rm .
-docker push
+docker-compose build drupal8_varnish
+docker-compose push drupal8_varnish
 ```
+
+## About
+
+This is a Docker image that provides a Varnish HTTP Cache service customised for Drupal 8.
+It may work for Drupal 7 too!
 
 ## How to use
 
-As for all images based on the ubuntu base image, see
-[the base image README](../../ubuntu/16.04/README.md)
-
 We configure the varnish config file, `/etc/varnish/default.vcl` to be one from
 [geerlingguy's Drupal VM](https://raw.githubusercontent.com/geerlingguy/drupal-vm/3.5.2/provisioning/templates/drupalvm.vcl.j2)
+
+As for all images based on the ubuntu base image, see
+[the base image README](../../ubuntu/16.04/README.md)

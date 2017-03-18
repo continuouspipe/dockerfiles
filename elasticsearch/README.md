@@ -1,14 +1,27 @@
-# ELASTICSEARCH 2.4
+# Elasticsearch 2.4
 
+In a docker-compose.yml:
+```yml
+version: '3'
+services:
+  elasticsearch:
+    image: quay.io/continuouspipe/elasticsearch2.4:stable
+```
+
+In a Dockerfile:
 ```Dockerfile
 FROM quay.io/continuouspipe/elasticsearch2.4:stable
 ```
 
 ## How to build
 ```bash
-docker build --pull --tag quay.io/continuouspipe/elasticsearch2.4:latest --rm .
-docker push
+docker-compose build --pull elasticsearch
+docker-compose push elasticsearch
 ```
+
+## About
+
+This is a Docker image that provides an Elasticsearch service that tracks the upstream Elasticsearch image.
 
 ## How to use
 
