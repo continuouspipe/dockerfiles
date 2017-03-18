@@ -223,7 +223,7 @@ services:
   scala_sbt:
     build:
       context: ./scala-base/1.0/
-    image: quay.io/continuouspipe/scala-base:1.0
+    image: quay.io/continuouspipe/scala-base:latest
     depends_on:
       - ubuntu
 
