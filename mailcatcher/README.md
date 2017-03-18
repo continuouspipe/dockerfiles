@@ -26,6 +26,11 @@ docker-compose build mailcatcher
 docker-compose push mailcatcher
 ```
 
+## About
+
+This is a Docker image that provides the Mailcatcher service, which can catch outgoing mail before
+it hits the external network. It also provides a useful web interface for reviewing caught mail.
+
 ## How to use
 
 - Port 1025 is where mail should be relayed to (SMTP).

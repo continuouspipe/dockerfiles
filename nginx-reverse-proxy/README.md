@@ -26,7 +26,7 @@ docker-compose push nginx_reverse_proxy
 
 ## About
 
-This is a Docker image for using Nginx as a reverse proxy
+This is a Docker image for using Nginx as a reverse proxy.
 
 ## How to use
 

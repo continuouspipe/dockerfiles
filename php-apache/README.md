@@ -42,6 +42,7 @@ docker-compose push php70_apache
 docker-compose build php56_apache
 docker-compose push php56_apache
 ```
+
 ## About
 
 This is a Docker image for PHP (using the mod_php SAPI) and Apache HTTPd. It uses,

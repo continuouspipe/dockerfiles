@@ -65,7 +65,7 @@ docker-compose push mysql56 mysql57 mysql80
 
 ## About
 
-This is a Docker image for MySQL which tracks the upstream official MySQL images.
+This is set of Docker images for MySQL which track the upstream official MySQL images.
 
 ## How to use
 
