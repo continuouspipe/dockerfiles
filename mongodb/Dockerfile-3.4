@@ -1,3 +1,7 @@
 FROM mongo:3.4
 
 MAINTAINER "Kieren Evans <kieren.evans+cp-dockerfiles@inviqa.com>"
+
+COPY ./usr/ /usr
+
+CMD ["/usr/local/bin/mongo-init.sh"]
