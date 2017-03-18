@@ -90,7 +90,7 @@ do_drupal_install() {
   # Drop the database if we need to force the install every time.
   if [ "${FORCE_DATABASE_DROP}" == 'true' ]; then
     echo 'Dropping the Drupal DB if it exists'
-    as_code_owner "drush ${DRUPAL_DRUSH_ALIAS} sql-drop -y -r ${WEB_DIRECTORY}"
+    as_code_owner "drush sql-drop -y -r ${WEB_DIRECTORY}"
   fi
 
   # If we're supposed to install Drupal, and it's not currently installed,
@@ -103,7 +103,7 @@ do_drupal_install() {
     # install. Drupal will lock it back down on install completion.
     chmod -R ug+rw,o-w "${WEB_DIRECTORY}/sites/default/files"
     chmod go+w "${WEB_DIRECTORY}/sites/default/settings.php"
-    as_code_owner "drush ${DRUPAL_DRUSH_ALIAS} site-install ${INSTALL_OPTS} -y -r ${WEB_DIRECTORY}"
+    as_code_owner "drush site-install ${INSTALL_OPTS} -y -r ${WEB_DIRECTORY}"
     set -x
   fi
 
@@ -116,7 +116,7 @@ do_drupal_install() {
 do_drupal_sync_database() {
   do_drupal_setup_sync_ssh_keys
   do_drupal_sync_database_backup_via_ssh
-  do_drupal_database_install
+  do_drupal_database_restore
   do_drupal_database_sanitise
 }
 
@@ -153,7 +153,7 @@ do_drupal_sync_database_backup_via_ssh() {
 # Restore a database if required.
 # Not triggered by default, please call from a function in your plan.sh to use.
 #####
-do_drupal_database_install() {
+do_drupal_database_restore() {
   set +x
   if [ -f "$DATABASE_ARCHIVE_PATH" ]; then
     if [ "$FORCE_DATABASE_DROP" == 'true' ]; then
@@ -181,6 +181,10 @@ do_drupal_database_sanitise() {
   as_code_owner "drush ${DRUPAL_DRUSH_ALIAS} sql-sanitize --yes -r ${WEB_DIRECTORY}"
 }
 
+###
+# Run the drupal composer extension installer.
+# Not triggered by default.
+###
 do_drupal_composer_install() {
   echo "Ensuring Drupal Composer extension is up-to-date..."
   as_code_owner "drush ${DRUPAL_DRUSH_ALIAS} dl composer-8.x-1.x -y" /app/docroot
