@@ -1,8 +1,19 @@
+# NGINX
+
+In a Dockerfile:
 ```Dockerfile
 FROM quay.io/continuouspipe/nginx:stable
 
 COPY . /app
 RUN container build
+```
+
+In a docker-compose.yml:
+```yml
+version: '3'
+services:
+  web:
+    image: quay.io/continuouspipe/nginx:stable
 ```
 
 ## How to build

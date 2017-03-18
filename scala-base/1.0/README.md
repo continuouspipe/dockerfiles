@@ -1,13 +1,22 @@
 # Scala base
 
+In a docker-compose.yml:
+```yml
+version: '3'
+services:
+  scala:
+    image: quay.io/continuouspipe/scala-base:stable
+```
+
+In a Dockerfile:
 ```Dockerfile
-FROM quay.io/continuouspipe/scala-base:1.0
+FROM quay.io/continuouspipe/scala-base:stable
 ```
 
 ## How to build
 ```bash
-docker build --pull --tag quay.io/continuouspipe/scala-base:1.0 --rm .
-docker push
+docker-compose build --pull scala_sbt
+docker-compose push scala_sbt
 ```
 
 ## How to use

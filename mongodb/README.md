@@ -1,5 +1,17 @@
 # MongoDB 3.4
 
+In a docker-compose.yml:
+```yml
+version: '3'
+services:
+  database:
+    image: quay.io/continuouspipe/mongodb3.4:stable
+    environment:
+      MONGODB_ADMIN_USER: "myAdminUser"
+      MONGODB_ADMIN_PWD: "A secret password for myAdminUser"
+```
+
+In a Dockerfile:
 ```Dockerfile
 FROM quay.io/continuouspipe/mongodb3.4:stable
 ```
@@ -7,14 +19,18 @@ FROM quay.io/continuouspipe/mongodb3.4:stable
 ## How to build
 ```bash
 ./build.sh
-docker-compose build mongodb34
+docker-compose build --pull mongodb34
 docker-compose push mongodb34
 ```
 
+## About
+
+This is a Docker image for MongoDB which tracks the upstream official image.
+
 ## How to use
 
-As this is based on the library MySQL image, see their README on
-[The Docker Hub](https://hub.docker.com/_/mysql/).
+As this is based on the library MongoDB image, see their README on
+[The Docker Hub](https://hub.docker.com/_/mongo/).
 
 ### Authentication
 

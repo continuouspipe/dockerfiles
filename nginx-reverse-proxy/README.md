@@ -1,6 +1,21 @@
+# NGINX Reverse Proxy
+
+In a docker-compose.yml:
+```yml
+version: '3'
+services:
+  proxy:
+    image: quay.io/continuouspipe/nginx-reverse-proxy:stable
+    depends_on:
+     - web
+    environment:
+      PROXY_LOCATIONS: '[{"location": "/", backend: "https://web", "preserve_host": true}, {"location": "~ /foo(/|$)", backend: "https://web/bar", "preserve_host": true}]'
+  web:
+    image: ...
+```
+
 ```Dockerfile
 FROM quay.io/continuouspipe/nginx-reverse-proxy:stable
-
 ```
 
 ## How to build

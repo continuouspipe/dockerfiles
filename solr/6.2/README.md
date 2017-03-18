@@ -1,13 +1,22 @@
-# SOLR
+# Solr 6
 
+In a docker-compose.yml:
+```yml
+version: '3'
+services:
+  solr:
+    image: quay.io/continuouspipe/solr6:stable
+```
+
+In a Dockerfile:
 ```Dockerfile
-FROM quay.io/continuouspipe/solr:6.2
+FROM quay.io/continuouspipe/solr6:stable
 ```
 
 ## How to build
 ```bash
-docker build --pull --tag quay.io/continuouspipe/solr:6.2 --rm .
-docker push
+docker-compose build --pull solr_6_2
+docker-compose push solr_6_2
 ```
 
 ## How to use

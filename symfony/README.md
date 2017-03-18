@@ -1,6 +1,7 @@
 # Symfony with Nginx
 
-```
+In a Dockerfile:
+```Dockerfile
 FROM quay.io/continuouspipe/symfony-php7.1-nginx:stable
 ARG GITHUB_TOKEN=
 ARG SYMFONY_ENV=prod
@@ -9,7 +10,7 @@ COPY . /app/
 RUN container build
 ```
 
-```
+```Dockerfile
 FROM quay.io/continuouspipe/symfony-php7-nginx:stable
 ARG GITHUB_TOKEN=
 ARG SYMFONY_ENV=prod
@@ -18,7 +19,7 @@ COPY . /app/
 RUN container build
 ```
 
-```
+```Dockerfile
 FROM quay.io/continuouspipe/symfony-php5.6-nginx:stable
 ARG GITHUB_TOKEN=
 ARG SYMFONY_ENV=prod
@@ -29,7 +30,8 @@ RUN container build
 
 # Symfony with Apache
 
-```
+In a Dockerfile:
+```Dockerfile
 FROM quay.io/continuouspipe/symfony-php7.1-apache:stable
 ARG GITHUB_TOKEN=
 ARG SYMFONY_ENV=prod
@@ -38,7 +40,7 @@ COPY . /app/
 RUN container build
 ```
 
-```
+```Dockerfile
 FROM quay.io/continuouspipe/symfony-php7-apache:stable
 ARG GITHUB_TOKEN=
 ARG SYMFONY_ENV=prod
@@ -47,7 +49,7 @@ COPY . /app/
 RUN container build
 ```
 
-```
+```Dockerfile
 FROM quay.io/continuouspipe/symfony-php5.6-apache:stable
 ARG GITHUB_TOKEN=
 ARG SYMFONY_ENV=prod
@@ -55,6 +57,12 @@ ARG SYMFONY_ENV=prod
 COPY . /app/
 RUN container build
 ```
+
+## About
+
+This is a series of images that let you run a Symfony application under different PHP and web server environments (NGINX or Apache).
+
+## How to use
 
 ### Environment variables
 
