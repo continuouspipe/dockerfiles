@@ -155,6 +155,23 @@ The naming convention for environment files that is used in these base images is
 * "30-framework" for images that provide framework-specific functionality like the PHP frameworks Symfony, Magento or Drupal
 * "40-stack" for images that provide infrastructure like web servers such as NGINX or Apache
 
+#### Variables defined by this image
+
+The following variables are supported
+
+Variable | Description | Expected values | Default
+--- | --- | --- | ----
+WORK_DIRECTORY | The directory that most commands should run in, ideally the location of the codebase being deployed. | string | /app
+CODE_OWNER | The user who should own the code located in WORK_DIRECTORY. | username (string) | build
+CODE_GROUP | The group who should own the code located in WORK_DIRECTORY | group name (string) | build
+START_CRON | Should the cron daemon be started when starting the container up? | true/false | false
+DEVELOPMENT_MODE | Control whether do_development_start() is triggered, which will repeat actions. | true/false | Defaults to true if WORK_DIRECTORY is detected as a mountpoint.
+APP_USER_LOCAL | Control if [Volume Permission Fixes](#Volume Permission Fixes) is performed, which will set up APP_USER, APP_GROUP, CODE_OWNER and CODE_GROUP as usernames/group names that match the permissions of the WORK_DIRECTORY mountpoint | true/false | Defaults to true if WORK_DIRECTORY is detected as a mountpoint that doesn't allow "chown" or permission operations
+APP_USER_LOCAL_RANDOM | If [Volume Permission Fixes](#Volume Permission Fixes) is performed, generate a random username and group name. | true/false | false
+BUILD_USER_SSH_PRIVATE_KEY | The base64 encoded private key that should be set up on the build user. | base64 encoded string | empty
+BUILD_USER_SSH_PUBLIC_KEY | The base64 encoded public key that should be set up on the build user. | base64 encoded string | empty
+BUILD_USER_SSH_KNOWN_HOSTS | The base64 encoded known hosts file that should be set up on the build user. | base64 encoded string | empty
+
 ### Volume Permission Fixes
 
 Using the function `do_update_permissions()`, we can create a user and group that matches up with
@@ -198,10 +215,3 @@ These functions can be triggered via the /usr/local/bin/container command, dropp
 /usr/local/bin/container build # runs do_build
 /usr/local/bin/container start_supervisord # runs do_start_supervisord
 
-
-## Known child images
-
-- [php7-apache](../../php-apache/)
-- [php7-nginx](../../php-nginx/)
-- [hem:latest](../../hem)
-- [nodejs:6.0](../../nodejs/6.0)
