@@ -112,6 +112,11 @@ keys = [
 ]
 ```
 
+### Build user
+
+The Docker image creates a utility user named "build". Images that base themselves on this image
+can use the "build" user for installation processes that should not be run as root.
+
 ### Default Environment Variables
 
 To define default environment variables for confd to use when rendering templates, place an export line in
