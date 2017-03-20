@@ -1,12 +1,15 @@
-{{ if eq "false" (getenv "WEB_REVERSE_PROXIED") }}
-set $custom_https $https;
-set $custom_scheme $scheme;{{ else }}
-set $custom_https '';
-set $custom_scheme http;
+set $custom_https on;
+set $custom_scheme https;
+
+if ($http_x_forwarded_proto = '') {
+  set $custom_scheme $scheme;
+  set $custom_https $https;
+}
+
 if ($http_x_forwarded_proto) {
     set $custom_scheme $http_x_forwarded_proto;
 }
 
-if ($http_x_forwarded_proto = https) {
-    set $custom_https on;
-}{{ end }}
+if ($http_x_forwarded_proto = http) {
+    set $custom_https off;
+}
