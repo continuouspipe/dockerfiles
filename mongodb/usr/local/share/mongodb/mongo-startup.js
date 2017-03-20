@@ -1,14 +1,15 @@
 var conn;
-try {
-    conn = new Mongo("localhost:27017");
-} catch(Error) {
-    
-}
-while (conn===undefined) {
-    try {
-        conn = new Mongo("localhost:27017");
-    } catch(Error) {
+var attempts = 0;
 
+do {
+    try {
+        attempts++;
+        conn = new Mongo("localhost:27017");
+    } catch (e) {
+        sleep(100);
+
+        if (attempts > 100) {
+            throw e;
+        }
     }
-    sleep(100);
-}
+} while (conn === undefined)
