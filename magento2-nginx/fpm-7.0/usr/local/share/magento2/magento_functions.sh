@@ -50,9 +50,9 @@ function do_magento_frontend_build() {
 }
 
 function do_magento_install_custom() {
-  if [ -f "$DIR/install_magento_custom.sh" ]; then
+  if [ -f "/usr/local/share/magento2/install_magento_custom.sh" ]; then
     # shellcheck source=./install_magento_custom.sh
-    source "$DIR/install_magento_custom.sh"
+    source "/usr/local/share/magento2/install_magento_custom.sh"
   fi
 }
 
@@ -127,9 +127,9 @@ function do_magento_create_web_writable_directories() {
 }
 
 function do_magento_install_finalise_custom() {
-  if [ -f "$DIR/install_magento_finalise_custom.sh" ]; then
+  if [ -f "/usr/local/share/magento2/install_magento_finalise_custom.sh" ]; then
     # shellcheck source=./install_magento_finalise_custom.sh
-    source "$DIR/install_magento_finalise_custom.sh"
+    source "/usr/local/share/magento2/install_magento_finalise_custom.sh"
   fi
 }
 
@@ -179,9 +179,9 @@ function do_magento_assets_install() {
 }
 
 function do_magento_install_development_custom() {
-  if [ -f "$DIR/install_custom.sh" ]; then
+  if [ -f "/usr/local/share/magento2/development/install_custom.sh" ]; then
     # shellcheck source=./install_custom.sh
-    source "$DIR/install_custom.sh"
+    source "/usr/local/share/magento2/development/install_custom.sh"
   fi
 }
 
