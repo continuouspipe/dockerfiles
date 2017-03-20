@@ -1,8 +1,12 @@
-# MAGENTO 2 NGINX/FPM
+# Magento 2 NGINX/PHP-FPM
 
+In a Dockerfile:
 ```Dockerfile
 FROM quay.io/continuouspipe/magento2-nginx-php7:stable
+
 ARG GITHUB_TOKEN=
+ARG MAGENTO_USERNAME=
+ARG MAGENTO_PASSWORD=
 
 COPY . /app
 RUN container build
@@ -10,9 +14,13 @@ RUN container build
 
 ## How to build
 ```bash
-docker build --pull --tag quay.io/continuouspipe/magento2-nginx:fpm-7.0 --rm .
-docker push
+docker-compose build magento2_nginx
+docker-compose push magento2_nginx
 ```
+
+## About
+
+This is a Docker image that can install and serve a Magento 2 installation via NGINX and PHP 7.
 
 ## How to use
 

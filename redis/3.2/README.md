@@ -1,5 +1,14 @@
-# REDIS 3.2
+# Redis 3.2
 
+In a docker-compose.yml:
+```yml
+version: '3'
+services:
+  redis:
+    image: quay.io/continuouspipe/redis3:stable
+```
+
+In a Dockerfile:
 ```Dockerfile
 FROM quay.io/continuouspipe/redis3:stable
 ```

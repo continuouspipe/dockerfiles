@@ -1,14 +1,27 @@
-# Hem, for Ruby and Existing Helper Tasks
+# Memcached
 
+In a docker-compose.yml:
+```yml
+version: '3'
+services:
+  memcached:
+    image: quay.io/continuouspipe/memcached1.4:stable
+```
+
+In a Dockerfile
 ```Dockerfile
-FROM quay.io/continuouspipe/hem:latest
+FROM quay.io/continuouspipe/memcached1.4:stable
 ```
 
 ## How to build
 ```bash
-docker build --pull --tag quay.io/continuouspipe/hem:latest --rm .
-docker push
+docker-compose build memcached
+docker-compose push memcached
 ```
+
+## About
+
+This is a Docker image to provide the Memcached daemon for volatile but fast storage and retrieval of data.
 
 ## How to use
 

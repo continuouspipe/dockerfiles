@@ -1,5 +1,6 @@
 # SSH forward
 
+In a docker-compose.yml:
 ```yml
 version: '3'
 services:
@@ -8,6 +9,11 @@ services:
     environment:
       SSH_FORWARD_PASSWORD: forward
       SSH_AUTHORIZED_KEYS: "ssh-rsa AAA..."
+```
+
+In a Dockerfile:
+```Dockerfile
+FROM quay.io/continuouspipe/ssh-forward:stable
 ```
 
 ## How to build

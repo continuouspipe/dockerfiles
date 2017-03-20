@@ -1,27 +1,71 @@
 # MySQL 8.0
 
+In a docker-compose.yml:
+```yml
+version: '3'
+services:
+  database:
+    image: quay.io/continuouspipe/mysql8.0:stable
+    environment:
+      MYSQL_ROOT_PASSWORD: "a secret mysql root password"
+      MYSQL_DATABASE: my_database
+      MYSQL_USER: my_user
+      MYSQL_PASSWORD: "a secret password for my_user"
+```
+
+In a Dockerfile:
 ```Dockerfile
 FROM quay.io/continuouspipe/mysql8.0:stable
 ```
 
 # MySQL 5.7
 
+In a Dockerfile:
 ```Dockerfile
 FROM quay.io/continuouspipe/mysql5.7:stable
+```
+In docker-compose.yml:
+```yml
+version: '3'
+services:
+  database:
+    image: quay.io/continuouspipe/mysql5.7:stable
+    environment:
+      MYSQL_ROOT_PASSWORD: "a secret mysql root password"
+      MYSQL_DATABASE: my_database
+      MYSQL_USER: my_user
+      MYSQL_PASSWORD: "a secret password for my_user"
 ```
 
 # MySQL 5.6
 
+In a Dockerfile:
 ```Dockerfile
 FROM quay.io/continuouspipe/mysql5.6:stable
+```
+In docker-compose.yml:
+```yml
+version: '3'
+services:
+  database:
+    image: quay.io/continuouspipe/mysql5.6:stable
+    environment:
+      MYSQL_ROOT_PASSWORD: "a secret mysql root password"
+      MYSQL_DATABASE: my_database
+      MYSQL_USER: my_user
+      MYSQL_PASSWORD: "a secret password for my_user"
 ```
 
 ## How to build
 ```bash
 ./build.sh
-docker-compose build mysql56 mysql57 mysql80
+docker-compose build --pull mysql56 mysql57 mysql80
 docker-compose push mysql56 mysql57 mysql80
 ```
+
+## About
+
+This is set of Docker images for MySQL which track the upstream official MySQL images.
 
 ## How to use
 

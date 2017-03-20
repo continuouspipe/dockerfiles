@@ -1,6 +1,6 @@
-# PHP 7.0 base
+# PHP Apache
 
-For PHP 7.0
+For PHP 7.0 in a Dockerfile:
 ```Dockerfile
 FROM quay.io/continuouspipe/php7-apache:stable
 ARG GITHUB_TOKEN=
@@ -8,14 +8,28 @@ ARG GITHUB_TOKEN=
 COPY . /app
 RUN container build
 ```
+or in a docker-compose.yml:
+```yml
+version: '3'
+services:
+  web:
+    image: quay.io/continuouspipe/php7-apache:stable
+```
 
-For PHP 5.6
+For PHP 5.6 in a Dockerfile:
 ```Dockerfile
 FROM quay.io/continuouspipe/php5.6-apache:stable
 ARG GITHUB_TOKEN=
 
 COPY . /app
 RUN container build
+```
+or in a docker-compose.yml:
+```yml
+version: '3'
+services:
+  web:
+    image: quay.io/continuouspipe/php5.6-apache:stable
 ```
 
 ## How to build
@@ -28,6 +42,7 @@ docker-compose push php70_apache
 docker-compose build php56_apache
 docker-compose push php56_apache
 ```
+
 ## About
 
 This is a Docker image for PHP (using the mod_php SAPI) and Apache HTTPd. It uses,

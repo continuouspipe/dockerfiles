@@ -1,5 +1,6 @@
-# MAGENTO 1 NGINX/FPM
+# Magento 1 NGINX/PHP-FPM
 
+In a Dockerfile:
 ```Dockerfile
 FROM quay.io/continuouspipe/magento1-nginx-php5.6:stable
 
@@ -14,6 +15,10 @@ RUN container build
 docker-compose build magento1_nginx
 docker-compose push magento1_nginx
 ```
+
+## About
+
+This is a Docker image that can install and serve a Magento 1 installation via NGINX and PHP 7.
 
 ## How to use
 

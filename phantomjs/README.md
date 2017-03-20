@@ -1,8 +1,27 @@
 # PhantomJS 2
 
+In a docker-compose.yml:
+```yml
+version: '3'
+services:
+  phantomjs:
+    image: quay.io/continuouspipe/phantomjs2:stable
+```
+
+In a Dockerfile:
 ```Dockerfile
 FROM quay.io/continuouspipe/phantomjs2:stable
 ```
+
+## How to build
+```bash
+docker-compose build phantomjs2
+docker-compose push phantomjs2
+```
+
+## About
+
+This is a Docker image that provides the PhantomJS headless browser.
 
 ## How to use
 

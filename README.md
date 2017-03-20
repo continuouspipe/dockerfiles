@@ -5,25 +5,60 @@ internal services and for the application templates.
 
 ## Images
 
-### Application-centric
+### Compiled Applications
 
-- [Magento2 (nginx & php-fpm 7.0)](magento2-nginx/fpm-7.0)
-- [eZ Platform 6.x](ez/6.x/)
-- *Drupal 8*
-    - [Apache w/ PHP 7.0](drupal8-apache/7.0)
-    - [Varnish 4.0](drupal8-varnish/4.0/)
+- [Scala](scala-base/1.0/)
+
+### Javascript Applications
+
+- [NodeJS](nodejs/)
+
+### PHP Applications
+
+- *Drupal 7 or 8*
+    - [Apache w/ PHP 5.6/7.0/7.1](drupal/)
     - [Solr 4.10](drupal8-solr/4.10/)
     - [Solr 6.2](drupal8-solr/6.2/)
+    - [Varnish 4.0](drupal8-varnish/4.0/)
+- [eZ Platform 6.x](ez/6.x/)
+- *General PHP*
+    - [Apache w/ PHP (5.6, 7.0, 7.1)](php-apache/)
+    - [NGINX w/ PHP-FPM (5.6, 7.0, 7.1)](php-nginx/)
+- [Magento 1](magento1-nginx/fpm-5.6/)
+- *Magento 2*
+    - [NGINX w/ PHP-FPM 7.0](magento2-nginx/fpm-7.0/)
+    - [Varnish](magento2-varnish/4.0/)
+- [Symfony - NGINX or Apache with PHP 5.6, 7.0 or 7.1)](symfony/)
+
+### Web Applications
+
+- [NGINX](nginx/)
+
+### Supporting Services
+
+Caches:
+- [Memcached](memcached/)
+- [Redis 3.2](redis/3.2/)
+- [Varnish](varnish/)
+
+Databases:
+- [MongoDB](mongodb/)
+- [MySQL 5.6, 5.7, 8.0](mysql/)
+
+Search:
+- [Elasticsearch](elasticsearch/)
+- [Solr 4.10](solr/4.10/)
+- [Solr 6.2](solr/6.2/)
+
+Other:
+- [Hem](hem/)
+- [Mailcatcher](mailcatcher/)
+- [NGINX Reverse Proxy](nginx-reverse-proxy/)
+- [SSH Forwarding](ssh-forward/)
 
 ### Bases
 
 - [Ubuntu 16.04](ubuntu/16.04/)
-- [Solr 4.10](solr/4.10/)
-- [Solr 6.2](solr/6.2/)
-- [Redis 3.2](redis/3.2/)
-- [MySQL 5.6](mysql/5.6/)
-- [Apache w/ PHP](php-apache/)
-- [NGINX w/ PHP-FPM](php-nginx/)
 
 ## Testing
 
