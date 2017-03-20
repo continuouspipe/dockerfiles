@@ -1,0 +1,6 @@
+[template]
+src   = "apache/site_ssl.conf.tmpl"
+dest  = "/etc/apache2/sites-available/000-default-01-ssl.conf"
+mode  = "0644"
+keys = [ 
+]

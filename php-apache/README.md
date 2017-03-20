@@ -94,6 +94,8 @@ WEB_HTTPS_ONLY      | Whether to redirect all HTTP traffic to HTTPS | true/false
 WEB_REVERSE_PROXIED | Whether to interpret X-Forwarded-Proto as the $custom_scheme and $custom_https emulation. | true/false | true
 WEB_SSL_FULLCHAIN | The location of the SSL certificate and intermediate chain file | absolute filename | /etc/ssl/certs/fullchain.pem
 WEB_SSL_PRIVKEY | The location of the SSL private key file | absolute filename | /etc/ssl/private/privkey.pem
+WEB_SSL_PROTOCOLS | The SSL protocols to use | [see Httpd docs](https://httpd.apache.org/docs/2.4/mod/mod_ssl.html#sslprotocol) | all -SSLv2 -SSLv3
+WEB_SSL_CIPHERS | The SSL ciphers to use | [see Httpd docs](https://httpd.apache.org/docs/2.4/mod/mod_ssl.html#sslciphersuite) | ECDH+AESGCM:DH+AESGCM:ECDH+AES256:DH+AES256:ECDH+AES128:DH+AES:ECDH+3DES:DH+3DES:RSA+AESGCM:RSA+AES:RSA+3DES:!aNULL:!MD5:!DSS;
 
 The project using the image can define these environment variables to control
 what is rendered in the Apache HTTPd configuration

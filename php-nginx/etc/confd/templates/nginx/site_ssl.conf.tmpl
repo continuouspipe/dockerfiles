@@ -1,0 +1,7 @@
+{{ if and (eq "true" (getenv "WEB_HTTPS")) (neq "true" (getenv "WEB_HTTPS_OFFLOADED")) }}
+ssl_certificate {{ getenv "WEB_SSL_FULLCHAIN" }};
+ssl_certificate_key {{ getenv "WEB_SSL_PRIVKEY" }};
+{{ end }}
+{{ if getenv "WEB_SSL_PROTOCOLS" }}ssl_protocols {{ getenv "WEB_SSL_PROTOCOLS" }};{{ end }}
+ssl_ciphers {{ getenv "WEB_SSL_CIPHERS" }};
+ssl_prefer_server_ciphers on;
