@@ -79,7 +79,7 @@ is_vboxsf_mountpoint() {
 }
 
 alias_function() {
-    local -r ORIG_FUNC=$(declare -f $1)
+    local -r ORIG_FUNC=$(declare -f "$1")
     local -r NEWNAME_FUNC="$2${ORIG_FUNC#$1}"
     eval "$NEWNAME_FUNC"
 }
