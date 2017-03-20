@@ -13,7 +13,7 @@ if [ -n "$MONGODB_ADMIN_USER" ] || [ -n "$MONGODB_USERS" ]; then
         mongo --nodb mongo-startup.js
 
         echo 'var env = {};' > env.js
-        export | sed 's/declare -x /env./' >> env.js
+        export | sed -e 's/declare -x /env./;' | grep '^env.MONGODB' >> env.js
 
         mongo mongo-set-auth.js
 
