@@ -1,0 +1,5 @@
+#!/bin/bash
+
+export DATABASE_HOST=${DATABASE_HOST:-postgres}
+export DATABASE_USER=${DATABASE_USER:-spryker_user}
+export DATABASE_PASSWORD=${DATABASE_PASSWORD:-spryker_password}
