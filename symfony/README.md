@@ -75,6 +75,11 @@ SYMFONY_MAJOR_VERSION | The major version of Symfony that will be used | 2, 3 | 
 SYMFONY_CONSOLE | The location of the Symfony console script | file path | auto-detected
 SYMFONY_WEB_APP_ENV_REWRITE | Whether to use web/app_*.php when SYMFONY_ENV != prod | true, false | false
 SYMFONY_APP_ENDPOINT | The uri of the web application php endpoint | domain relative uri | auto-detected based on SYMFONY_ENV and SYMFONY_WEB_APP_ENV_REWRITE
+SYMFONY_APP_ENDPOINT_REGEX | Not able to be influenced directly, but the SYMFONY_APP_ENDPOINT variable with regular expression characters quoted | string | auto-detected
+PHP_MEMORY_LIMIT | The memory limit for PHP. | string | 256M
+PHP_OPCACHE_MAX_ACCELERATED_FILES | How many files PHP can cache into Opcache | integer | 20000
+PHP_REALPATH_CACHE_SIZE | How many resolved file locations PHP can cache into the realpath cache. | string | 4096K
+PHP_REALPATH_CACHE_TTL | How many seconds can PHP cache the resolved file locations in it's realpath cache | integer | 600
 
 ### Custom build and startup scripts
 
