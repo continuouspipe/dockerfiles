@@ -2,10 +2,17 @@ FROM quay.io/continuouspipe/symfony-php7.1-nginx:latest
 
 MAINTAINER Hardik Gajjar <hardik.gajjar@inviqa.com>
 
-RUN apt-get update \
- && apt-get install -y php7.1-pgsql php7.1-gmp postgresql-client graphviz redis-tools \
- && curl -sL https://deb.nodesource.com/setup_6.x | bash -\
- && apt-get install -y nodejs build-essential \
+RUN curl -sL https://deb.nodesource.com/setup_6.x > /tmp/install-node.sh \
+ && bash /tmp/install-node.sh \
+ && apt-get update -qq -y \
+ && DEBIAN_FRONTEND=noninteractive apt-get -qq -y --no-install-recommends install \
+    build-essential \
+    graphviz \
+    nodejs \
+    php7.1-pgsql \
+    php7.1-gmp \
+    postgresql-client \
+    redis-tools \
  && npm install -g antelope \
  \
  # Clean the image \
