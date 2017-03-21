@@ -64,6 +64,16 @@ tasks:
           image: quay.io/continuouspipe/varnish4
           tag: latest
 
+  ##################################
+  # Second level dependency images #
+  ##################################
+  second_level_dependency_images:
+    build:
+      services:
+        symfony_php71_nginx:
+          image: quay.io/continuouspipe/symfony-php7.1-nginx
+          tag: latest
+
   ###########################
   # No dependency images    #
   ###########################
@@ -161,8 +171,8 @@ tasks:
         ssh_forward:
           image: quay.io/continuouspipe/ssh-forward
           tag: latest
-        symfony_php71_nginx:
-          image: quay.io/continuouspipe/symfony-php7.1-nginx
+        spryker_php71_nginx:
+          image: quay.io/continuouspipe/spryker-php7.1-nginx
           tag: latest
         symfony_php70_nginx:
           image: quay.io/continuouspipe/symfony-php7-nginx
