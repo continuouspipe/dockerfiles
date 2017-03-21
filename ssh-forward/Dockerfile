@@ -12,7 +12,8 @@ RUN apt-get update -qq \
  && rm -rf /var/lib/apt/lists/* \
  && mkdir /var/run/sshd \
  && useradd --create-home forward \
- && echo "ForceCommand echo 'This account can only be used for ssh port forwarding'" >> /etc/ssh/sshd_config
+ && echo "ForceCommand echo 'This account can only be used for ssh port forwarding'" >> /etc/ssh/sshd_config \
+ && echo "GatewayPorts yes" >> /etc/ssh/sshd_config
 
 COPY ./etc/ /etc
 COPY ./usr/ /usr
