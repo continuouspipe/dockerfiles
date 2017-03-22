@@ -76,6 +76,11 @@ SYMFONY_CONSOLE | The location of the Symfony console script | file path | auto-
 SYMFONY_WEB_APP_ENV_REWRITE | Whether to use web/app_*.php when SYMFONY_ENV != prod | true, false | false
 SYMFONY_APP_ENDPOINT | The uri of the web application php endpoint | domain relative uri | auto-detected based on SYMFONY_ENV and SYMFONY_WEB_APP_ENV_REWRITE
 SYMFONY_APP_ENDPOINT_REGEX | Not able to be influenced directly, but the SYMFONY_APP_ENDPOINT variable with regular expression characters quoted. Used by the nginx configuration in [site_phpfpm.conf.tmpl](https://github.com/continuouspipe/dockerfiles/blob/master/symfony/nginx/etc/confd/templates/nginx/site_phpfpm.conf.tmpl#L1) | string | auto-detected
+
+The following variables have had their defaults changed from the php-nginx image so that Symfony runs better:
+
+Variable | Description | Expected values | Default
+--- | --- | --- | ----
 PHP_MEMORY_LIMIT | The memory limit for PHP. | string | 256M
 PHP_OPCACHE_MAX_ACCELERATED_FILES | How many files PHP can cache into Opcache | integer | 20000
 PHP_REALPATH_CACHE_SIZE | How many resolved file locations PHP can cache into the realpath cache. | string | 4096K
