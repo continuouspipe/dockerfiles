@@ -4,3 +4,9 @@
 if ! [[ "$WEB_DIRECTORY" =~ ^/ ]]; then
   export WEB_DIRECTORY=${WORK_DIRECTORY}/${WEB_DIRECTORY}
 fi
+
+if [ "${WEB_HTTP}" == "true" ]; then
+  export WEB_HTTPS_ONLY=false
+else
+  export WEB_HTTPS_ONLY=${WEB_HTTPS_ONLY:-$WEB_HTTPS}
+fi
