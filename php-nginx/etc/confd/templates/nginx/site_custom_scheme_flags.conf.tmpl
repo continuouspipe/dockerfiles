@@ -8,8 +8,6 @@ if ($server_port = {{ getenv "WEB_HTTPS_PORT" }} ) {
 }{{ end }}
 
 {{ if eq "true" (getenv "WEB_REVERSE_PROXIED") }}
-set $custom_https '';
-set $custom_scheme http;
 if ($http_x_forwarded_proto) {
     set $custom_scheme $http_x_forwarded_proto;
 }
