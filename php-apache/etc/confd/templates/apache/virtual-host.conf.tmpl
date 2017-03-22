@@ -1,11 +1,13 @@
+{{ if ne "false" (getenv "WEB_HTTP") }}
 <VirtualHost *:{{ getenv "WEB_HTTP_PORT" }}>
-{{ if or (eq "true" (getenv "WEB_HTTP")) ( and (eq "auto" (getenv "WEB_HTTP")) (eq "false" (getenv "WEB_HTTPS")) ) }}
+{{ if or (ne "true" (getenv "WEB_HTTPS_ONLY")) (eq "true" (getenv "WEB_REVERSE_PROXIED")) }}
     IncludeOptional /etc/apache2/sites-available/000-default-*.conf
 {{ else }}
     RewriteEngine on
     RewriteRule ^.* https://%{HTTP_HOST}$0 [L,R=301]
 {{ end }}
 </VirtualHost>
+{{ end }}
 
 {{ if eq "true" (getenv "WEB_HTTPS") }}
 <VirtualHost *:{{ getenv "WEB_HTTPS_PORT" }}>
