@@ -1,0 +1,6 @@
+[template]
+src   = "apache/site_redirect_to_https.conf.tmpl"
+dest  = "/etc/apache2/sites-available/000-default-05-redirect_to_https.conf"
+mode  = "0644"
+keys = [
+]
