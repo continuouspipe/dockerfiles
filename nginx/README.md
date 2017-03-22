@@ -29,6 +29,9 @@ default, our recommended default configuration, including:
 
 * A default HTTPS only website, with HTTP redirecting to HTTPS
 * A self signed SSL certificate auto-generated on container start
+* X-Forwarded-Proto being used as the request scheme if present
+
+Most of these settings can be changed with [environment variables](#environment-variables)
 
 ## How to use
 
@@ -64,9 +67,9 @@ WEB_HTTP | Whether to support HTTP traffic on the WEB_HTTP_PORT. | true/false/(d
 WEB_HTTP_PORT | The port to serve the HTTP traffic or redirect from | 0-65535 | 80
 WEB_HTTPS | Whether to support HTTPS traffic on the WEB_HTTPS_PORT | true/false | true
 WEB_HTTPS_PORT | The port to serve the HTTPS traffic from | 0-65535 | 443
-WEB_HTTPS_OFFLOADED | Whether the HTTPS traffic has been forwarded without SSL | true/false | false
+WEB_HTTPS_OFFLOADED | Whether the HTTPS traffic has been forwarded without SSL to the HTTPS port | true/false | false
 WEB_HTTPS_ONLY      | Whether to redirect all HTTP traffic to HTTPS | true/false | $WEB_HTTPS (deprecated: if $WEB_HTTPS=true then false)
-WEB_REVERSE_PROXIED | Whether to interpret X-Forwarded-Proto as the $custom_scheme and $custom_https emulation. | true/false | $WEB_HTTPS_OFFLOADED
+WEB_REVERSE_PROXIED | Whether to interpret X-Forwarded-Proto as the $custom_scheme and $custom_https emulation. | true/false | true
 WEB_SSL_FULLCHAIN | The location of the SSL certificate and intermediate chain file | absolute filename | /etc/ssl/certs/fullchain.pem
 WEB_SSL_PRIVKEY | The location of the SSL private key file | absolute filename | /etc/ssl/private/privkey.pem
 
