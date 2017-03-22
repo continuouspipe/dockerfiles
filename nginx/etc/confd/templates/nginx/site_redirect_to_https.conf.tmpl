@@ -1,4 +1,4 @@
-{{ if eq "true" (getenv "WEB_REVERSE_PROXIED") }}
+{{ if eq "true" (getenv "WEB_HTTPS_ONLY") }}
   if ($custom_scheme = 'https') {
     set $do_https_redirect 0;
   }
