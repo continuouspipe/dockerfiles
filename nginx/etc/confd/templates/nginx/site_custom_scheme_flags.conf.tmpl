@@ -1,4 +1,3 @@
-{{ if eq "false" (getenv "WEB_REVERSE_PROXIED") }}
 set $custom_https $https;
 set $custom_scheme $scheme;
 
@@ -6,9 +5,9 @@ set $custom_scheme $scheme;
 if ($server_port = {{ getenv "WEB_HTTPS_PORT" }} ) {
    set $custom_https on;
    set $custom_scheme https;
-}
-{{ end }}
-{{ else }}
+}{{ end }}
+
+{{ if eq "true" (getenv "WEB_REVERSE_PROXIED") }}
 set $custom_https '';
 set $custom_scheme http;
 if ($http_x_forwarded_proto) {
