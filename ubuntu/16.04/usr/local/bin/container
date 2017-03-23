@@ -1,5 +1,5 @@
 #!/bin/bash
-set -e
+set -e -u
 
 TASK=$1
 ARGS=( "$@" )
