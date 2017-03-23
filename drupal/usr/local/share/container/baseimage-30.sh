@@ -27,3 +27,9 @@ do_development_start() {
   do_drupal_development_start_inner
   do_drupal_development_start
 }
+
+do_setup() {
+  do_drupal_install
+  do_drupal_legacy_install_script
+  do_drupal_legacy_install_finalise_script
+}

@@ -1,12 +1,37 @@
 version: '2'
 
 services:
-  drupal8_apache:
+  drupal_php71_apache:
     build:
-      context: ./drupal8-apache/7.0/
+      context: ./drupal/
+      dockerfile: Dockerfile-php7.1
+    image: quay.io/continuouspipe/drupal-php7.1-apache:latest
+    depends_on:
+      - php71_apache
+
+  drupal_php70_apache:
+    build:
+      context: ./drupal/
+      dockerfile: Dockerfile-php7
+    image: quay.io/continuouspipe/drupal-php7-apache:latest
+    depends_on:
+      - php70_apache
+
+  drupal8_apache_php7:
+    build:
+      context: ./drupal/
+      dockerfile: Dockerfile-php7
     image: quay.io/continuouspipe/drupal8-apache-php7:latest
     depends_on:
       - php70_apache
+
+  drupal_php56_apache:
+    build:
+      context: ./drupal/
+      dockerfile: Dockerfile-php5.6
+    image: quay.io/continuouspipe/drupal-php5.6-apache:latest
+    depends_on:
+      - php56_apache
 
   drupal8_solr_4_10:
     build:

@@ -80,8 +80,17 @@ tasks:
   no_dependency_images:
     build:
       services:
-        drupal8_apache:
+        drupal_php71_apache:
+          image: quay.io/continuouspipe/drupal-php7.1-apache
+          tag: latest
+        drupal_php7_apache:
+          image: quay.io/continuouspipe/drupal-php7-apache
+          tag: latest
+        drupal8_apache_php7:
           image: quay.io/continuouspipe/drupal8-apache-php7
+          tag: latest
+        drupal_php56_apache:
+          image: quay.io/continuouspipe/drupal-php5.6-apache
           tag: latest
         drupal8_solr_4_10:
           image: quay.io/continuouspipe/drupal8-solr4
