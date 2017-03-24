@@ -119,20 +119,12 @@ function do_magento_cache_flush() {
   as_code_owner "bin/magento cache:flush"
 }
 
-function do_magento_create_web_writable_directories() {
-  # Ensure the permissions are web writable for the assets and var folders, but only on filesystems that allow chown.
-  if [ "$IS_CHOWN_FORBIDDEN" != 'true' ]; then
-    chown -R "${APP_USER}:${APP_GROUP}" pub/media pub/static var
-  fi
-}
-
 function do_magento_install_finalise_custom() {
   if [ -f "/usr/local/share/magento2/install_magento_finalise_custom.sh" ]; then
     # shellcheck source=./install_magento_finalise_custom.sh
     source "/usr/local/share/magento2/install_magento_finalise_custom.sh"
   fi
 }
-
 
 function do_magento_database_install() {
   set +x
@@ -219,17 +211,13 @@ function do_magento2_build() {
 }
 
 function do_magento2_start() {
-  # do_magento_switch_web_writable_directories_to_code_owner
   do_magento_dependency_injection_compilation
   do_magento_deploy_static_content
-  # do_magento_create_web_writable_directories
   do_magento_install_finalise_custom
 }
 
 function do_magento2_development_build() {
-  # do_magento_assets_download
   do_magento2_setup
-  # do_magento_assets_install
   do_magento_install_development_custom
 }
 
