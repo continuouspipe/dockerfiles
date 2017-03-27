@@ -162,7 +162,7 @@ function do_magento_assets_install() {
     as_code_owner "tar --no-same-owner --extract --strip-components=2 --touch --overwrite --gzip --file=$ASSET_ARCHIVE_PATH || exit 1" pub/media
     
     if [ "$IS_CHOWN_FORBIDDEN" != 'true' ]; then
-      chown -R "${APP_USER}:${APP_GROUP}" pub/media
+      chown -R "${APP_USER}:${CODE_GROUP}" pub/media
       chmod -R u+rw,o-rw pub/media
     else
       chmod -R a+rw pub/media
