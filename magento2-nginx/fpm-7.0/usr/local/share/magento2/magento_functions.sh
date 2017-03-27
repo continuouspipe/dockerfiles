@@ -163,7 +163,7 @@ function do_magento_assets_install() {
     
     if [ "$IS_CHOWN_FORBIDDEN" != 'true' ]; then
       chown -R "${APP_USER}:${CODE_GROUP}" pub/media
-      chmod -R u+rw,o-rw pub/media
+      chmod -R ug+rw,o-rw pub/media
     else
       chmod -R a+rw pub/media
     fi
