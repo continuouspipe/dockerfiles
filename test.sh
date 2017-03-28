@@ -11,7 +11,7 @@ fi
 docker pull koalaman/shellcheck
 docker pull lukasmartinelli/hadolint
 
-find "$DIR" -type f ! -path "*.git/*" \( \
+find "$DIR" -type f ! -path "*.git/*" ! -name "*.py" \( \
   -perm +111 -or -name "*.sh" -or -wholename "*usr/local/share/env/*" -or -wholename "*usr/local/share/container/*" \
 \) | while read -r script; do
   echo "Linting '$script':";
