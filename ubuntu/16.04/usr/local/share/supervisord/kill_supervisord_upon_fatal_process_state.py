@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 
 import sys
+from subprocess import call
 
 def write_stdout(s):
     # only eventlistener protocol messages may be sent to stdout
@@ -24,6 +25,8 @@ def main():
         headers = dict([ x.split(':') for x in line.split() ])
         data = sys.stdin.read(int(headers['len']))
         write_stderr(data)
+
+        call(["pkill", "--signal", "SIGTERM", "supervisord"])
 
         # transition from READY to ACKNOWLEDGED
         write_stdout('RESULT 2\nOK')
