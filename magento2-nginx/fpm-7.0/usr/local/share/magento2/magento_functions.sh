@@ -89,7 +89,7 @@ function do_magento_move_compiled_assets_back_to_codebase() {
 
 function do_magento_dependency_injection_compilation() {
   # Compile the DIC if to be productionized
-  if [ "$PRODUCTION_ENVIRONMENT" = "1" ]; then
+  if [ "$PRODUCTION_ENVIRONMENT" = "true" ]; then
     as_code_owner "$MAGENTO_DEPENDENCY_INJECTION_COMPILE_COMMAND"
   fi
 }
