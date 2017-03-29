@@ -228,6 +228,11 @@ function do_magento_build_stop_mysql() {
   pkill mysqld
 }
 
+function do_magento_remove_config_template() {
+  # Now that setup:upgrade has run and made us a config.php that contains the right modules, don't override the config.php again at runtime.
+  rm /etc/confd/conf.d/magento_config.php.toml
+}
+
 function do_magento2_templating() {
   mkdir -p /app/app/etc/
   mkdir -p /home/build/.hem/gems/
@@ -243,11 +248,11 @@ function do_magento2_build() {
   do_magento_install_custom
 
   DATABASE_HOST=localhost DATABASE_USER=root DATABASE_PASSWORD="" DATABASE_ROOT_PASSWORD="" MAGENTO_ENABLE_CACHE="" do_templating
-  rm /etc/confd/conf.d/magento_config.php.toml
   DATABASE_HOST=localhost DATABASE_USER=root DATABASE_PASSWORD=""  DATABASE_ROOT_PASSWORD="" do_magento_database_install
 
   do_magento_move_compiled_assets_away_from_codebase
   MAGENTO_USE_REDIS="false" do_magento_setup_upgrade
+  do_magento_remove_config_template
   do_magento_move_compiled_assets_back_to_codebase
 
   do_magento_dependency_injection_compilation
