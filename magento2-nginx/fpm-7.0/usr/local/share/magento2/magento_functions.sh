@@ -214,6 +214,20 @@ function do_replace_core_config_values() {
   set -x
 }
 
+function do_magento_build_start_mysql() {
+  mkdir -p /var/run/mysqld/
+  chown -R "mysql:mysql" /var/run/mysqld/
+  {
+    echo "[mysqld]";
+    echo "bind_address = 127.0.0.1"
+  } > /etc/my.cnf
+  mysqld_safe &
+}
+
+function do_magento_build_stop_mysql() {
+  pkill mysqld
+}
+
 function do_magento2_templating() {
   mkdir -p /app/app/etc/
   mkdir -p /home/build/.hem/gems/
@@ -221,17 +235,28 @@ function do_magento2_templating() {
 }
 
 function do_magento2_build() {
+  do_magento_build_start_mysql
   do_magento_create_web_writable_directories
   do_magento_frontend_build
   do_magento_assets_download
   do_magento_assets_install
   do_magento_install_custom
-}
 
-function do_magento2_start() {
+  DATABASE_HOST=localhost DATABASE_USER=root DATABASE_PASSWORD="" DATABASE_ROOT_PASSWORD="" MAGENTO_ENABLE_CACHE="" do_templating
+  rm /etc/confd/conf.d/magento_config.php.toml
+  DATABASE_HOST=localhost DATABASE_USER=root DATABASE_PASSWORD=""  DATABASE_ROOT_PASSWORD="" do_magento_database_install
+
+  do_magento_move_compiled_assets_away_from_codebase
+  MAGENTO_USE_REDIS="false" do_magento_setup_upgrade
+  do_magento_move_compiled_assets_back_to_codebase
+
   do_magento_dependency_injection_compilation
   do_magento_deploy_static_content
   do_magento_install_finalise_custom
+  do_magento_build_stop_mysql
+
+  # Reset permissions to www-data:build for the var/log folder, which is owned by build:build after running bin/magento tasks as the build user!
+  do_magento_create_web_writable_directories
 }
 
 function do_magento2_development_build() {
@@ -243,9 +268,6 @@ function do_magento2_setup() {
   do_magento_database_install
   do_replace_core_config_values
   do_magento_cache_flush
-  do_magento_move_compiled_assets_away_from_codebase
   do_magento_setup_upgrade
-  do_magento_move_compiled_assets_back_to_codebase
   do_magento_reindex
-  do_magento_cache_flush
 }

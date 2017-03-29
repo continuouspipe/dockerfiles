@@ -8,12 +8,6 @@ do_build() {
   do_magento2_build
 }
 
-alias_function do_start do_magento2_start_inner
-do_start() {
-  do_magento2_start_inner
-  do_magento2_start
-}
-
 alias_function do_development_start do_magento2_development_start_inner
 do_development_start() {
   do_magento2_development_start_inner
