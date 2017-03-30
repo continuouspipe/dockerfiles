@@ -27,9 +27,8 @@ do_spryker_build() {
 }
 
 do_build_assets() {
-  as_code_owner "cd /app && antelope install"
-  as_code_owner "cd /app && antelope build zed"
-  as_code_owner "cd /app && antelope build yves"
+  as_code_owner "cd /app && npm run zed"
+  as_code_owner "cd /app && npm run yves"
 }
 
 do_database_update() {
