@@ -1,10 +1,10 @@
 #!/bin/bash
 
 do_spryker_directory_create() {
-  mkdir -p /app/data/DE/cache/Yves/twig
-  mkdir -p /app/data/DE/cache/Zed/twig
-  mkdir -p /app/data/DE/logs
-  mkdir -p /app/data/common
+  as_code_owner "mkdir -p /app/data/DE/cache/Yves/twig"
+  as_code_owner "mkdir -p /app/data/DE/cache/Zed/twig"
+  as_code_owner "mkdir -p /app/data/DE/logs"
+  as_code_owner "mkdir -p /app/data/common"
 }
 
 do_spryker_app_permissions() {
@@ -17,8 +17,8 @@ do_spryker_app_permissions() {
 
 do_spryker_config_create() {
   # create .pgpass in home directory for postgres client
-  as_code_owner "echo \"$DATABASE_HOST:*:*:$DATABASE_USER:$DATABASE_PASSWORD\" > ~/.pgpass"
-  as_code_owner "chmod 0600 ~/.pgpass"
+  echo \"$DATABASE_HOST:*:*:$DATABASE_USER:$DATABASE_PASSWORD\" > /root/.pgpass
+  chmod 0600 /root/.pgpass
 }
 
 do_spryker_build() {
