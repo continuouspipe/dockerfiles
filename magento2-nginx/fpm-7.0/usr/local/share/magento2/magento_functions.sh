@@ -225,6 +225,9 @@ function do_magento_build_start_mysql() {
 
 function do_magento_build_stop_mysql() {
   pkill mysqld
+  apt-get purge -y -q mysql-server
+  apt-get -y auto-remove
+  rm -rf /var/lib/mysql
 }
 
 function do_magento_remove_config_template() {
