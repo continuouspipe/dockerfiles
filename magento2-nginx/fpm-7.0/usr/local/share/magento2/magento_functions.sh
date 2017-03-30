@@ -73,7 +73,6 @@ function do_magento_move_compiled_assets_away_from_codebase() {
 }
 
 function do_magento_setup_upgrade() {
-  rm -rf var/generation/*
   if [ "$MAGENTO_USE_REDIS" = "true" ]; then
     redis-cli -h "$REDIS_HOST" -p "$REDIS_HOST_PORT" -n "$MAGENTO_REDIS_CACHE_DATABASE" "FLUSHDB"
     redis-cli -h "$REDIS_HOST" -p "$REDIS_HOST_PORT" -n "$MAGENTO_REDIS_FULL_PAGE_CACHE_DATABASE" "FLUSHDB"
