@@ -21,3 +21,8 @@ do_start_supervisord() {
   do_start
   do_supervisord
 }
+
+do_start_exec() {
+  do_start
+  exec "$@"
+}
