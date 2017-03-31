@@ -13,7 +13,6 @@ RUN curl -sL https://deb.nodesource.com/setup_6.x > /tmp/install-node.sh \
     php7.1-gmp \
     postgresql-client \
     redis-tools \
- && npm install -g antelope \
  \
  # Clean the image \
  && apt-get auto-remove -qq -y \
