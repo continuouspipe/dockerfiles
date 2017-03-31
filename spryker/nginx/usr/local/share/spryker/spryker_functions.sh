@@ -27,15 +27,15 @@ do_spryker_build() {
 }
 
 do_build_assets() {
-  as_code_owner "cd /app && npm run zed"
-  as_code_owner "cd /app && npm run yves"
+  as_code_owner "npm run zed"
+  as_code_owner "npm run yves"
 }
 
 do_database_update() {
-  as_code_owner "/app/vendor/bin/console setup:deploy:prepare-propel"
-  as_code_owner "/app/vendor/bin/console transfer:generate"
-  as_code_owner "/app/vendor/bin/console setup:search:index-map"
-  as_code_owner "/app/vendor/bin/console application:build-navigation-cache"
+  as_code_owner "vendor/bin/console setup:deploy:prepare-propel"
+  as_code_owner "vendor/bin/console transfer:generate"
+  as_code_owner "vendor/bin/console setup:search:index-map"
+  as_code_owner "vendor/bin/console application:build-navigation-cache"
 }
 
 do_setup() {
@@ -44,9 +44,9 @@ do_setup() {
 }
 
 do_spryker_install() {
-  as_code_owner "/app/vendor/bin/console setup:install"
-  as_code_owner "/app/vendor/bin/console import:demo-data"
-  as_code_owner "/app/vendor/bin/console collector:search:export"
-  as_code_owner "/app/vendor/bin/console collector:storage:export"
-  as_code_owner "/app/vendor/bin/console setup:search"
+  as_code_owner "vendor/bin/console setup:install"
+  as_code_owner "vendor/bin/console import:demo-data"
+  as_code_owner "vendor/bin/console collector:search:export"
+  as_code_owner "vendor/bin/console collector:storage:export"
+  as_code_owner "vendor/bin/console setup:search"
 }
