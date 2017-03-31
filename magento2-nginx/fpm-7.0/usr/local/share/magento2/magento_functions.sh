@@ -267,7 +267,6 @@ function do_magento2_build() {
 }
 
 function do_magento2_development_build() {
-  do_magento2_setup
   do_magento_install_development_custom
 }
 
