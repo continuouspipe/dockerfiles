@@ -27,6 +27,7 @@ do_spryker_build() {
 }
 
 do_build_assets() {
+  as_code_owner "npm install"
   as_code_owner "npm run zed"
   as_code_owner "npm run yves"
 }
