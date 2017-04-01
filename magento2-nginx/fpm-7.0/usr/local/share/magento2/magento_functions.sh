@@ -253,10 +253,10 @@ function do_magento2_build() {
   do_magento_assets_download
   do_magento_assets_install
   do_magento_install_custom
-  do_magento_assets_cleanup
 
   DATABASE_HOST=localhost DATABASE_USER=root DATABASE_PASSWORD="" DATABASE_ROOT_PASSWORD="" MAGENTO_ENABLE_CACHE="" do_templating
   DATABASE_HOST=localhost DATABASE_USER=root DATABASE_PASSWORD="" DATABASE_ROOT_PASSWORD="" DATABASE_USER_HOST="localhost" do_magento_database_install
+  do_magento_assets_cleanup
 
   do_magento_move_compiled_assets_away_from_codebase
   MAGENTO_USE_REDIS="false" do_magento_setup_upgrade
