@@ -214,6 +214,8 @@ function do_replace_core_config_values() {
 }
 
 function do_magento_build_start_mysql() {
+  apt-get update -qq -y
+  DEBIAN_FRONTEND=noninteractive apt-get -qq -y --no-install-recommends install mysql-server
   mkdir -p /var/run/mysqld/
   chown -R "mysql:mysql" /var/run/mysqld/
   {
@@ -225,9 +227,11 @@ function do_magento_build_start_mysql() {
 
 function do_magento_build_stop_mysql() {
   pkill mysqld
-  apt-get purge -y -q mysql-server
-  apt-get -y auto-remove
+  apt-get purge -qq -y mysql-server
   rm -rf /var/lib/mysql
+  apt-get auto-remove -qq -y
+  apt-get clean
+  rm -rf /var/lib/apt/lists/* /var/tmp/*
 }
 
 function do_magento_remove_config_template() {
