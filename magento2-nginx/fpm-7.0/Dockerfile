@@ -18,12 +18,15 @@ RUN curl -q https://dx6pc3giz7k1r.cloudfront.net/GPG-KEY-inviqa-tools | apt-key 
  \
  # Configure Node dependencies \
  && npm config set --global loglevel warn \
- && npm install --global marked \
- && npm install --global node-gyp \
- && npm install --global gulp \
+ && npm install --global \
+    gulp \
+    marked \
+    node-gyp \
+    node-sass \
  \
  # Install node-sass's linux bindings \
  && npm rebuild node-sass \
+ && npm cache clean \
  \
  # Clean the image \
  && apt-get remove -qq -y php7.0-dev pkg-config libmagickwand-dev build-essential \
