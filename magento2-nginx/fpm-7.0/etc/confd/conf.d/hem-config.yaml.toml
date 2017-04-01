@@ -1,6 +1,0 @@
-[template]
-src   = "hem/config.yaml.tmpl"
-dest  = "/home/build/.hem/config.yaml"
-mode  = "0644"
-keys = [
-]

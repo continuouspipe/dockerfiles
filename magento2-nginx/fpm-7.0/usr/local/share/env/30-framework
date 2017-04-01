@@ -21,12 +21,9 @@ export DATABASE_ROOT_PASSWORD=${DATABASE_ROOT_PASSWORD:-magento}
 export DATABASE_HOST=${DATABASE_HOST:-database}
 export ADDITIONAL_SETUP_SQL=${ADDITIONAL_SETUP_SQL:-}
 
-set +e
-IS_HEM="$(is_hem_project)"
-export IS_HEM
-set -e
-export HEM_RUN_ENV="${HEM_RUN_ENV:-local}"
-
+export AWS_S3_BUCKET=${AWS_S3_BUCKET:-}
+export AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID:-}
+export AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY:-}
 export ASSET_ARCHIVE_PATH=${ASSET_ARCHIVE_PATH:-tools/assets/development/media.files.tgz}
 export ASSET_DOWNLOAD_ENVIRONMENTS=${ASSET_DOWNLOAD_ENVIRONMENTS:-development}
 

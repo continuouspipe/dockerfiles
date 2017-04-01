@@ -107,10 +107,9 @@ function do_magento_reindex() {
 }
 
 function do_magento_assets_download() {
-  if [ "$IS_HEM" == 'true' ]; then
-    export HEM_RUN_ENV="${HEM_RUN_ENV:-local}"
+  if [ -n "$AWS_S3_BUCKET" ]; then
     for asset_env in $ASSET_DOWNLOAD_ENVIRONMENTS; do
-      as_build "hem --non-interactive --skip-host-checks assets download -e $asset_env"
+      as_build "aws s3 cp 's3://${AWS_S3_BUCKET}/${asset_env}' 'tools/assets/${asset_env}' --recursive"
     done
   fi
 }
@@ -187,6 +186,10 @@ function do_magento_assets_install() {
   fi
 }
 
+function do_magento_assets_cleanup() {
+  find /app/tools/assets/ -type f ! -path "*${DATABASE_ARCHIVE_PATH}" -delete
+}
+
 function do_magento_install_development_custom() {
   if [ -f "/usr/local/share/magento2/development/install_custom.sh" ]; then
     # shellcheck source=./install_custom.sh
@@ -241,8 +244,6 @@ function do_magento_remove_config_template() {
 
 function do_magento2_templating() {
   mkdir -p /app/app/etc/
-  mkdir -p /home/build/.hem/gems/
-  chown -R build:build /home/build/.hem/
 }
 
 function do_magento2_build() {
@@ -252,6 +253,7 @@ function do_magento2_build() {
   do_magento_assets_download
   do_magento_assets_install
   do_magento_install_custom
+  do_magento_assets_cleanup
 
   DATABASE_HOST=localhost DATABASE_USER=root DATABASE_PASSWORD="" DATABASE_ROOT_PASSWORD="" MAGENTO_ENABLE_CACHE="" do_templating
   DATABASE_HOST=localhost DATABASE_USER=root DATABASE_PASSWORD=""  DATABASE_ROOT_PASSWORD="" do_magento_database_install
