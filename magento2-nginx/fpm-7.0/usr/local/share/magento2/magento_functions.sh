@@ -150,9 +150,9 @@ function do_magento_database_install() {
     if [ "$DATABASE_EXISTS" -ne 0 ]; then
       echo 'Create Magento database'
       if [ -n "$DATABASE_ROOT_PASSWORD" ]; then
-        echo "CREATE DATABASE IF NOT EXISTS $DATABASE_NAME ; GRANT ALL ON $DATABASE_NAME.* TO $DATABASE_USER@'%' IDENTIFIED BY '$DATABASE_PASSWORD' ; FLUSH PRIVILEGES" |  mysql -uroot -p"$DATABASE_ROOT_PASSWORD" -h"$DATABASE_HOST"
+        echo "CREATE DATABASE IF NOT EXISTS $DATABASE_NAME ; GRANT ALL ON $DATABASE_NAME.* TO $DATABASE_USER@'$DATABASE_USER_HOST' IDENTIFIED BY '$DATABASE_PASSWORD' ; FLUSH PRIVILEGES" |  mysql -uroot -p"$DATABASE_ROOT_PASSWORD" -h"$DATABASE_HOST"
       else
-        echo "CREATE DATABASE IF NOT EXISTS $DATABASE_NAME ; GRANT ALL ON $DATABASE_NAME.* TO $DATABASE_USER@'%' IDENTIFIED BY '$DATABASE_PASSWORD' ; FLUSH PRIVILEGES" |  mysql -uroot -h"$DATABASE_HOST"
+        echo "CREATE DATABASE IF NOT EXISTS $DATABASE_NAME ; GRANT ALL ON $DATABASE_NAME.* TO $DATABASE_USER@'$DATABASE_USER_HOST' IDENTIFIED BY '$DATABASE_PASSWORD' ; FLUSH PRIVILEGES" |  mysql -uroot -h"$DATABASE_HOST"
       fi
   
       echo 'zcating the magento database dump into the database'
@@ -256,7 +256,7 @@ function do_magento2_build() {
   do_magento_assets_cleanup
 
   DATABASE_HOST=localhost DATABASE_USER=root DATABASE_PASSWORD="" DATABASE_ROOT_PASSWORD="" MAGENTO_ENABLE_CACHE="" do_templating
-  DATABASE_HOST=localhost DATABASE_USER=root DATABASE_PASSWORD=""  DATABASE_ROOT_PASSWORD="" do_magento_database_install
+  DATABASE_HOST=localhost DATABASE_USER=root DATABASE_PASSWORD="" DATABASE_ROOT_PASSWORD="" DATABASE_USER_HOST="localhost" do_magento_database_install
 
   do_magento_move_compiled_assets_away_from_codebase
   MAGENTO_USE_REDIS="false" do_magento_setup_upgrade
