@@ -109,7 +109,11 @@ function do_magento_reindex() {
 function do_magento_assets_download() {
   if [ -n "$AWS_S3_BUCKET" ]; then
     for asset_env in $ASSET_DOWNLOAD_ENVIRONMENTS; do
-      as_build "aws s3 cp 's3://${AWS_S3_BUCKET}/${asset_env}' 'tools/assets/${asset_env}' --recursive"
+      if [ -n "$ASSET_DOWNLOAD_EXCLUDE_PATTERN" ]; then
+        as_build "aws s3 cp 's3://${AWS_S3_BUCKET}/${asset_env}' 'tools/assets/${asset_env}' --exclude='${ASSET_DOWNLOAD_EXCLUDE_PATTERN}' --recursive"
+      else
+        as_build "aws s3 cp 's3://${AWS_S3_BUCKET}/${asset_env}' 'tools/assets/${asset_env}' --recursive"
+      fi
     done
   fi
 }
