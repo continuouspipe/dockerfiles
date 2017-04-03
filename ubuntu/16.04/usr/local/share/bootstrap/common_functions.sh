@@ -63,12 +63,10 @@ convert_exit_code_to_string() {
 }
 
 convert_to_boolean_string() {
-  if [ "$1" == '1' ]; then
+  if [ "$1" == '1' ] || [ "$1" == "true" ]; then
     echo 'true';
-  elif [ "$1" == '0' ]; then
-    echo 'false';
   else
-    echo "$1"
+    echo 'false';
   fi
 }
 
