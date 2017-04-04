@@ -41,13 +41,45 @@ do_database_update() {
 
 do_setup() {
   do_build_assets
+  do_spryker_install
   do_database_update
 }
 
 do_spryker_install() {
-  as_code_owner "vendor/bin/console setup:install"
-  as_code_owner "vendor/bin/console import:demo-data"
+  # check if database exists (it is supposed to be created by postgres container)
+  set +e
+    psql -U "$DATABASE_USER" -h "$DATABASE_HOST" -lqt | cut -d \| -f 1 | grep -q "$DATABASE_NAME"
+    DATABASE_EXISTS=$?
+  set -e
+
+  if [ "$DATABASE_EXISTS" -eq 0 ]; then
+    # database exists
+    # check if spryker is installed
+    set +e
+      psql -U spryker_user -h postgres spryker -c "SELECT EXISTS (SELECT * FROM   information_schema.tables WHERE table_catalog = '$DATABASE_NAME' AND table_name = 'spy_locale');" | grep -q f
+      SPRYKER_INSTALLED=$?
+    set -e
+
+    if [ "$SPRYKER_INSTALLED" -ne 1 ]; then
+      as_code_owner "vendor/bin/console setup:install"
+      do_import_demodata
+      do_run_collectors
+      do_setup_search
+    fi
+  else
+    echo "Database does not exist"
+  fi
+}
+
+do_run_collectors() {
   as_code_owner "vendor/bin/console collector:search:export"
   as_code_owner "vendor/bin/console collector:storage:export"
+}
+
+do_import_demodata() {
+  as_code_owner "vendor/bin/console import:demo-data"
+}
+
+do_setup_search() {
   as_code_owner "vendor/bin/console setup:search"
 }
