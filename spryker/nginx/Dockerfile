@@ -14,6 +14,7 @@ RUN curl -sL https://deb.nodesource.com/setup_6.x > /tmp/install-node.sh \
     postgresql-client \
     redis-tools \
  \
+ && npm install -g antelope \
  # Clean the image \
  && apt-get auto-remove -qq -y \
  && apt-get clean \

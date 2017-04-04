@@ -28,9 +28,14 @@ do_spryker_build() {
 }
 
 do_build_assets() {
-  as_code_owner "npm install"
-  as_code_owner "npm run zed"
-  as_code_owner "npm run yves"
+  # use Spryker scripts to install static assets
+  TERM=linux
+  export TERM
+  source /app/deploy/setup/util/print.sh
+  source /app/deploy/setup/frontend/params.sh
+  source /app/deploy/setup/frontend/functions.sh
+  setupYvesFrontend
+  setupZedFrontend
 }
 
 do_database_update() {
