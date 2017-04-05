@@ -83,7 +83,7 @@ tasks:
         drupal_php71_apache:
           image: quay.io/continuouspipe/drupal-php7.1-apache
           tag: latest
-        drupal_php7_apache:
+        drupal_php70_apache:
           image: quay.io/continuouspipe/drupal-php7-apache
           tag: latest
         drupal8_apache_php7:
