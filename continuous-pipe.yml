@@ -199,4 +199,11 @@ tasks:
           image: quay.io/continuouspipe/symfony-php5.6-apache
           tag: latest
 
+notifications:
+  slack_failure_notification:
+    slack:
+      webhook_url: ${SLACK_WEBHOOK_URL}
+    when:
+      - failure
+
 filter: code_reference.branch in ["master"]
