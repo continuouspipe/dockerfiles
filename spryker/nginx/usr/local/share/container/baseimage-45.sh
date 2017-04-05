@@ -11,4 +11,5 @@ alias_function do_composer do_spryker_composer_inner
 do_composer() {
   do_spryker_composer_inner
   do_spryker_app_permissions
+  do_build_assets
 }

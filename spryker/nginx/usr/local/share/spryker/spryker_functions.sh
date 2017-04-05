@@ -24,7 +24,6 @@ do_spryker_config_create() {
 do_spryker_build() {
   do_spryker_directory_create
   do_spryker_config_create
-  do_build_assets
 }
 
 do_build_assets() {
