@@ -24,12 +24,18 @@ do_spryker_config_create() {
 do_spryker_build() {
   do_spryker_directory_create
   do_spryker_config_create
+  do_build_assets
 }
 
 do_build_assets() {
-  as_code_owner "npm install"
-  as_code_owner "npm run zed"
-  as_code_owner "npm run yves"
+  # use Spryker scripts to install static assets
+  TERM=linux
+  export TERM
+  source /app/deploy/setup/util/print.sh
+  source /app/deploy/setup/frontend/params.sh
+  source /app/deploy/setup/frontend/functions.sh
+  setupYvesFrontend
+  setupZedFrontend
 }
 
 do_database_update() {
@@ -40,7 +46,6 @@ do_database_update() {
 }
 
 do_setup() {
-  do_build_assets
   do_spryker_install
   do_database_update
 }
