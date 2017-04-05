@@ -37,7 +37,7 @@ do_build_assets() {
   setupZedFrontend
 }
 
-do_database_update() {
+do_generate_files() {
   as_code_owner "vendor/bin/console setup:deploy:prepare-propel"
   as_code_owner "vendor/bin/console transfer:generate"
   as_code_owner "vendor/bin/console setup:search:index-map"
@@ -46,7 +46,6 @@ do_database_update() {
 
 do_setup() {
   do_spryker_install
-  do_database_update
 }
 
 do_spryker_install() {
