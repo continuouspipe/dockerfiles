@@ -12,4 +12,5 @@ do_composer() {
   do_spryker_composer_inner
   do_spryker_app_permissions
   do_build_assets
+  do_generate_files
 }
