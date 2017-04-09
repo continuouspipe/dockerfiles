@@ -1,0 +1,4 @@
+#!/bin/bash
+
+export MAGENTO_MODE=${MAGENTO_MODE:-production}
+export PURGE_IPS=${PURGE_IPS:-\"172.17.0.0\"/16,\"172.20.0.0\"/16,\"10.0.0.0\"/8}
