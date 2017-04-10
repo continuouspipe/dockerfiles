@@ -1,0 +1,6 @@
+[template]
+src   = "apache/site_caching.conf.tmpl"
+dest  = "/etc/apache2/sites-available/000-default-30-site_caching.conf"
+mode  = "0644"
+keys = [
+]

@@ -1,0 +1,27 @@
+RewriteEngine On
+
+# For FastCGI mode or when using PHP-FPM, to get basic auth working.
+RewriteRule .* - [E=HTTP_AUTHORIZATION:%{HTTP:Authorization}]
+
+# Cluster/streamed files rewrite rules. Enable on cluster with DFS as a binary data handler
+#RewriteRule ^/var/([^/]+/)?storage/images(-versioned)?/.* /app.php [L]
+RewriteRule ^/var/([^/]+/)?storage/images(-versioned)?/.* - [L]
+
+# Makes it possible to place your favicon at the root of your eZ Platform instance.
+# It will then be served directly.
+RewriteRule ^/favicon\.ico - [L]
+
+# Give direct access to robots.txt for use by crawlers (Google, Bing, etc...)
+RewriteRule ^/robots\.txt - [L]
+
+# Platform for Privacy Preferences Project ( P3P ) related files for Internet Explorer
+# More info here : http://en.wikipedia.org/wiki/P3p
+RewriteRule ^/w3c/p3p\.xml - [L]
+
+# The following rule is needed to correctly display assets from eZ Platform / Symfony bundles
+RewriteRule ^/bundles/ - [L]
+
+# Additional assets rules, stops 404s for assets hitting PHP
+RewriteRule ^/style-guide/ - [L]
+RewriteRule ^/images/ - [L]
+RewriteRule ^/(css|js|font)/.*\.(css|js|otf|eot|ttf|svg|woff) - [L]
