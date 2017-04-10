@@ -10,12 +10,10 @@ backend default {
 acl purge {
     "localhost";
 
-    # Local development docker network
-    "172.17.0.0"/16;
-
-    # Cluster IPs
-    "172.20.0.0"/16;
-    "10.0.0.0"/8;
+{{ $ips := split (replace (replace (getenv "PURGE_IPS") "," " " -1) "\n" " " -1) " " }}
+{{ range $ips }}{{ if . }}
+    {{ . }};
+{{ end }}{{ end }}
 }
 
 sub vcl_recv {
@@ -63,10 +61,12 @@ sub vcl_recv {
         return (pass);
     }
 
+{{ if eq "developer" (getenv "MAGENTO_MODE") }}
     # We are not caching the frontend files on the development environment
     if (req.url ~ "^/(pub/)?static/frontend/.*") {
         return (pass);
     }
+{{ end }}
 
     # normalize url in case of leading HTTP scheme and domain
     set req.url = regsub(req.url, "^http[s]?://", "");
