@@ -86,7 +86,7 @@ priority = 10
 [ConfD](https://github.com/kelseyhightower/confd) is in use to provide templating support for configuration files.
 
 ConfD is automatically run when an image starts, and crucially, it is run before anything else. That means you can
-have an optional SupervisorD service like so, in `etc/confd/templates/supervisor/nginx.conf:
+have an optional SupervisorD service like so, in `etc/confd/templates/supervisor/nginx.conf.tmpl`:
 
 ```
 [program:nginx]
@@ -101,7 +101,7 @@ autorestart = true
 priority = 10
 ```
 
-This is backed up by the confd configuration file: `etc/confd/conf.d/supervisor_nginx.conf`:
+This is backed up by the confd configuration file: `etc/confd/conf.d/supervisor_nginx.conf.toml`:
 
 ```
 [template]
