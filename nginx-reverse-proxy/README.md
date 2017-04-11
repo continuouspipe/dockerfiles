@@ -47,6 +47,8 @@ export PROXY_LOCATIONS='[
 Multiple locations can be specified. The only required keys per location are
 location and backend.
 
+As this is using NGINX's proxy module, check out the documentation here: https://nginx.org/en/docs/http/ngx_http_proxy_module.html#proxy_pass
+
 ### SSL Certificates/key
 
 By default the image will generate a self-signed certificate if the SSL certificate
