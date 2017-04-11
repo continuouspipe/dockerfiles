@@ -97,13 +97,101 @@ do_drupal_install() {
   # then install it.
   if ! drush status bootstrap -r "${WEB_DIRECTORY}" | grep -q Successful ; then
     echo 'Installing Drupal'
-
+    set +x
     INSTALL_OPTS="${DRUPAL_INSTALL_PROFILE} --account-name=\"${DRUPAL_ADMIN_USERNAME}\"  --account-pass=\"${DRUPAL_ADMIN_PASSWORD}\" install_configure_form.update_status_module='array(FALSE,FALSE)'"
     # We should make sure this is writeable, but only do it directly before an
     # install. Drupal will lock it back down on install completion.
     chmod -R ug+rw,o-w "${WEB_DIRECTORY}/sites/default/files"
     chmod go+w "${WEB_DIRECTORY}/sites/default/settings.php"
     as_code_owner "drush site-install ${INSTALL_OPTS} -y -r ${WEB_DIRECTORY}"
+    set -x
   fi
 
+}
+
+####
+# Ability to sync a database dump from a remote server that is accessible via SSH.
+# Plus apply the database dump and sanitise it.
+####
+do_drupal_sync_database() {
+  do_drupal_setup_sync_ssh_keys
+  do_drupal_sync_database_backup_via_ssh
+  do_drupal_database_restore
+  do_drupal_database_sanitise
+}
+
+####
+# Provide SSH keys so that do_drupal_sync_database_backup_via_ssh can function
+####
+do_drupal_setup_sync_ssh_keys() {
+  set +x
+  do_user_ssh_keys "build" "${DRUPAL_SYNC_SSH_KEY_NAME}" "${DRUPAL_SYNC_SSH_PRIVATE_KEY}" "${DRUPAL_SYNC_SSH_PUBLIC_KEY}" "${DRUPAL_SYNC_SSH_KNOWN_HOSTS}"
+  set +x
+  unset DRUPAL_SYNC_SSH_PRIVATE_KEY
+  unset DRUPAL_SYNC_SSH_PRIVATE_KEY
+  unset DRUPAL_SYNC_SSH_KNOWN_HOSTS
+  set -x
+}
+
+####
+# Ability to sync a database dump from a remote server that is accessible via SSH.
+####
+do_drupal_sync_database_backup_via_ssh() {
+  if [ -z "${DRUPAL_SYNC_SSH_KEY_NAME}" ] || [ -z "${DRUPAL_SYNC_SSH_SERVER_PORT}" ] || [ -z "${DRUPAL_SYNC_SSH_USERNAME}" ] || [ -z "${DRUPAL_SYNC_SSH_SERVER_HOST}" ] || [ -z "${DRUPAL_SYNC_DATABASE_FILENAME_GLOB}" ] || [ -z "${DATABASE_ARCHIVE_PATH}" ]; then
+    return 1
+  fi
+
+  echo 'Work out which file is the latest backup'
+  local DATABASE_BACKUP_REMOTE_PATH
+  DATABASE_BACKUP_REMOTE_PATH="$(as_build "ssh -i '/home/build/.ssh/${DRUPAL_SYNC_SSH_KEY_NAME}' -p '${DRUPAL_SYNC_SSH_SERVER_PORT}' '${DRUPAL_SYNC_SSH_USERNAME}@${DRUPAL_SYNC_SSH_SERVER_HOST}' 'ls -t ${DRUPAL_SYNC_DATABASE_FILENAME_GLOB} | head -1'")"
+
+  echo 'Copy the database from the remote server to the container'
+  as_build "scp -i '/home/build/.ssh/${DRUPAL_SYNC_SSH_KEY_NAME}' -P '${DRUPAL_SYNC_SSH_SERVER_PORT}' '${DRUPAL_SYNC_SSH_USERNAME}@${DRUPAL_SYNC_SSH_SERVER_HOST}:${DATABASE_BACKUP_REMOTE_PATH}' '${DATABASE_ARCHIVE_PATH}'"
+}
+
+#####
+# Restore a database if required.
+# Not triggered by default, please call from a function in your plan.sh to use.
+#####
+do_drupal_database_restore() {
+  set +x
+  if [ -f "$DATABASE_ARCHIVE_PATH" ]; then
+    if [ "$FORCE_DATABASE_DROP" == 'true' ]; then
+      echo 'Dropping the Drupal DB if it exists'
+      mysql -h"$DATABASE_HOST" -uroot -p"$DATABASE_ROOT_PASSWORD" -e "DROP DATABASE IF EXISTS $DATABASE_NAME" || return 1
+    fi
+
+    set +e
+    mysql -h"$DATABASE_HOST" -u"$DATABASE_USER" -p"$DATABASE_PASSWORD" "$DATABASE_NAME" -e "SHOW TABLES; SELECT FOUND_ROWS() > 0;" | grep -q 1
+    DATABASE_EXISTS=$?
+    set -e
+
+    if [ "$DATABASE_EXISTS" -ne 0 ]; then
+      echo 'Create Drupal database'
+      echo "CREATE DATABASE IF NOT EXISTS $DATABASE_NAME ; GRANT ALL ON $DATABASE_NAME.* TO $DATABASE_USER@'%' IDENTIFIED BY '$DATABASE_PASSWORD' ; FLUSH PRIVILEGES" |  mysql -uroot -p"$DATABASE_ROOT_PASSWORD" -h"$DATABASE_HOST"
+
+      echo 'zcating the drupal database dump into the database'
+      zcat "$DATABASE_ARCHIVE_PATH" | mysql -h"$DATABASE_HOST" -uroot -p"$DATABASE_ROOT_PASSWORD" "$DATABASE_NAME" || return 1
+    fi
+  fi
+  set -x
+}
+
+do_drupal_database_sanitise() {
+  as_code_owner "drush ${DRUPAL_DRUSH_ALIAS} sql-sanitize --yes -r ${WEB_DIRECTORY}"
+}
+
+###
+# Run the drupal composer extension installer.
+# Not triggered by default.
+###
+do_drupal_composer_install() {
+  echo "Ensuring Drupal Composer extension is up-to-date..."
+  as_code_owner "drush ${DRUPAL_DRUSH_ALIAS} dl composer-8.x-1.x -y" /app/docroot
+
+  echo "Running Composer..."
+  as_code_owner "drush ${DRUPAL_DRUSH_ALIAS} cc drush" /app/docroot
+  as_code_owner "drush ${DRUPAL_DRUSH_ALIAS} composer-json-rebuild" /app/docroot
+  as_code_owner "drush ${DRUPAL_DRUSH_ALIAS} composer-execute install --no-dev" /app/docroot
+  as_code_owner "drush ${DRUPAL_DRUSH_ALIAS} composer-execute dump-autoload -o" /app/docroot
 }

@@ -1,5 +1,6 @@
-# DRUPAL APACHE/PHP
+# Drupal with Apache and PHP
 
+In a Dockerfile:
 ```Dockerfile
 FROM quay.io/continuouspipe/drupal-php7.1-apache:stable
 ARG GITHUB_TOKEN=
@@ -30,6 +31,11 @@ docker-compose build drupal_php71_apache drupal_php70_apache drupal_php56_apache
 docker-compose push drupal_php71_apache drupal_php70_apache drupal_php56_apache
 ```
 
+## About
+
+This is a Docker image that can support a Drupal 7 or 8 installation, running on Apache with PHP 5.6/7.0/7.1, depending 
+on the image chosen.
+
 ## How to use
 
 As for all images based on the ubuntu base image, see
@@ -38,18 +44,55 @@ As for all images based on the ubuntu base image, see
 To finish the installation after basing your image off of this one, assuming you are using docker compose, please run:
 ```bash
 docker-compose up -d database
-GITHUB_TOKEN="<your github token>" docker-compose run web /bin/bash /usr/local/share/drupal8/development/install.sh
+GITHUB_TOKEN="<your github token>" docker-compose run web container setup
 ```
 
-You can also influence the installation process by placing commands in `/usr/local/share/drupal8/install_custom.sh`,
-`/usr/local/share/drupal8/install_finalise_custom.sh` or `/usr/local/share/drupal8/development/install_custom.sh`.
-
-These will get run at the end of the respective scripts, `/usr/local/share/drupal8/install.sh` and
-`/usr/local/share/drupal8/install_finalise.sh` or `/usr/local/share/drupal8/development/install.sh`.
+You can influence the installation process by placing functions in `/usr/local/share/container/plan.sh`
+that extend or replace the functions found in `/usr/local/share/drupal/drupal_functions.sh`
 
 ### Environment variables
 
 The following environment variables are supported
+
+Variable | Description | Expected values | Default
+---|---|---|---
+DATABASE_NAME | The name of the database to connect to in the drupal installation | string | drupaldb
+DATABASE_USER | The username to connect to the database with | string | drupal
+DATABASE_PASSWORD | The password to connect to the database with | string | drupal
+DATABASE_ROOT_PASSWORD | The root password to connect to the database with for creating the database | string | drupal
+DATABASE_PREFIX | A prefix to apply to the tables in the database, if the database is being shared with other technology | string | empty
+DATABASE_HOST | The database hostname to connect to | string | database
+DATABASE_HOST_PORT | The port to connect to on the database host | 1-65535 | 3306
+DRUPAL_DATABASE_NAME | Deprecated - set to DATABASE_NAME automatically | string | The value of DATABASE_NAME
+DRUPAL_DATABASE_USERNAME | Deprecated - set to DRUPAL_DATABASE_USERNAME automatically | string | The value of DATABASE_USER
+DRUPAL_DATABASE_PASSWORD | Deprecated - set to DRUPAL_DATABASE_PASSWORD automatically | string | The value of DATABASE_PASSWORD
+DRUPAL_DATABASE_ROOT_PASSWORD | Deprecated - set to DRUPAL_DATABASE_ROOT_PASSWORD automatically | string | The value of DATABASE_ROOT_PASSWORD
+DRUPAL_DATABASE_PREFIX | Deprecated - set to DRUPAL_DATABASE_PREFIX automatically | string | The value of DATABASE_PREFIX
+DRUPAL_DATABASE_HOST | Deprecated - set to DRUPAL_DATABASE_HOST automatically | string | The value of DATABASE_HOST
+DRUPAL_DATABASE_PORT | Deprecated - set to DRUPAL_DATABASE_PORT automatically | 1-65535 | The value of DATABASE_HOST_PORT
+DRUPAL_DRUSH_ALIAS | The alias to apply to most drush commands, see /usr/local/share/drupal/drupal_functions.sh | string | empty
+INSTALL_DRUPAL | Should Drupal be installed as part of the "setup" step? | true/false | true
+DRUPAL_INSTALL_PROFILE | Profile to install drupal with, if INSTALL_DRUPAL is true | string | standard
+FORCE_DATABASE_DROP | Should the database be wiped every time the "setup" step runs? | true/false | false
+DRUPAL_ADMIN_USERNAME | A username fo the Drupal admin site | string | drupal-continuous-pipe-admin
+DRUPAL_ADMIN_PASSWORD | A secure password for the Drupal admin site | string | backdrop
+
+If you wish to download and restore a database dump from an existing installation via SSH, provide the following variables:
+
+Variable | Description | Expected values | Default
+---|---|---|---
+DRUPAL_SYNC_SSH_KEY_NAME | The name of the SSH key to write out | a valid filename (string) | empty
+DRUPAL_SYNC_SSH_PRIVATE_KEY | The private key of the user allowed to SSH to the remote location. | base64 encoded private key (string) | empty
+DRUPAL_SYNC_SSH_PUBLIC_KEY | The public key of the user allowed to SSH to the remote location. | base64 encoded public key (string)  | empty
+DRUPAL_SYNC_SSH_USERNAME | The username to connect to the remote SSH server as | string | empty
+DRUPAL_SYNC_SSH_SERVER_HOST | The remote SSH server hostname to connect to | string | empty
+DRUPAL_SYNC_SSH_SERVER_PORT | The remote SSH server port to connect to | 1-65535 | 22
+DRUPAL_SYNC_SSH_KNOWN_HOSTS | The SSH known hosts file that contains the results of `ssh-keyscan -t rsa,ecdsa $DRUPAL_SYNC_SSH_SERVER_HOST` | base64 encoded known hosts file (string) | empty
+DRUPAL_SYNC_DATABASE_FILENAME_GLOB | A glob to match files with, e.g. "/mnt/files/foo/backups/env-foo-bar*.sql.gz" . The file that has the latest date will be downloaded. | glob (string) | empty
+DATABASE_ARCHIVE_PATH | The location in the container to download the database dump to, and then install from. | string | /tmp/database-backup.tar.gz
+
+
+The following environment variables from parent images are overridden:
 
 Variable | Description | Expected values | Default
 ---|---|---|---

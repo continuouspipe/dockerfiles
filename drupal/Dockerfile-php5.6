@@ -21,7 +21,7 @@ RUN curl -sL https://deb.nodesource.com/setup_7.x > /tmp/install-node.sh \
 USER build
 
 # Install Drupal's Drush tool
-RUN composer global require drush/drush \
+RUN composer global require drush/drush:~8.1.10 \
  && composer global clear-cache \
  \
  # Initialise Drupal CLI tool \
