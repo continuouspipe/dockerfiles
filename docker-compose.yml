@@ -191,6 +191,14 @@ services:
     depends_on:
       - ubuntu
 
+  piwik_php71_apache:
+    build:
+      context: ./piwik/
+      dockerfile: Dockerfile-php7.1
+    image: quay.io/continuouspipe/piwik-php7.1-apache:latest
+    depends_on:
+      - php71_apache
+
   php71_apache:
     build:
       context: ./php-apache/

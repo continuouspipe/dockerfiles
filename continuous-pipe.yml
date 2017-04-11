@@ -171,6 +171,9 @@ tasks:
         phantomjs2:
           image: quay.io/continuouspipe/phantomjs2
           tag: latest
+        piwik_php71_apache:
+          image: quay.io/continuouspipe/piwik-php7.1-apache
+          tag: latest
         redis:
           image: quay.io/continuouspipe/redis3
           tag: latest
