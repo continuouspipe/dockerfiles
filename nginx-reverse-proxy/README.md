@@ -9,7 +9,7 @@ services:
     depends_on:
      - web
     environment:
-      PROXY_LOCATIONS: '[{"location": "/", backend: "https://web", "preserve_host": true}, {"location": "~ /foo(/|$)", backend: "https://web/bar", "preserve_host": true}]'
+      PROXY_LOCATIONS: '[{"location": "/", "backend": "https://web", "preserve_host": true}, {"location": "~ /foo(/|$)", "backend": "https://web/bar", "preserve_host": true}]'
   web:
     image: ...
 ```
