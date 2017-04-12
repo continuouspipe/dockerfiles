@@ -1,4 +1,4 @@
-{{ if getenv "AUTH_IP_WHITELIST_ENABLED" }}
+{{ if eq "true" (getenv "AUTH_IP_WHITELIST_ENABLED") }}
 {{ $ips := split (replace (replace (getenv "AUTH_IP_WHITELIST") "," " " -1) "\n" " " -1) " " }}
 {{ range $ips }}{{ if . }}
 allow {{ . }};

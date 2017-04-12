@@ -1,4 +1,4 @@
-{{ if getenv "AUTH_HTTP_ENABLED" }}
+{{ if eq "true" (getenv "AUTH_HTTP_ENABLED") }}
 {{ if getenv "AUTH_HTTP_HEALTHCHECK_USER_AGENT" }}
 if ($http_user_agent ~ {{ getenv "AUTH_HTTP_HEALTHCHECK_USER_AGENT" }}) {
   set $do_https_redirect 0;
