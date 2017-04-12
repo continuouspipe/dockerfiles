@@ -2,6 +2,7 @@ DocumentRoot {{ getenv "WEB_DIRECTORY" }}
 
 <Directory {{ getenv "WEB_DIRECTORY" }}>
     Options FollowSymLinks
+    # Use the .htaccess provided by Drupal (for now)
     AllowOverride All
     Require all granted
 </Directory>
