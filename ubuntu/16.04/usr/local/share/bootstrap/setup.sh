@@ -6,7 +6,7 @@ load_env
 
 do_confd() {
   # Initialisation - Templating
-  confd -onetime -backend env
+  bash -c "$(transform_env_variables_for_confd) confd -onetime -backend env"
 }
 
 do_templating() {

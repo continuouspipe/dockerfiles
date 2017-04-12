@@ -70,6 +70,12 @@ convert_to_boolean_string() {
   fi
 }
 
+transform_env_variables_for_confd() {
+  local VARIABLES
+  VARIABLES="$(env | grep -v "^START_" | egrep '=false$')"
+  echo "${VARIABLES//=false/=}"
+}
+
 is_hem_project() {
   local RESULT=1
   if [ -f /app/tools/hem/config.yaml ] || [ -f /app/tools/hobo/config.yaml ]; then
