@@ -72,7 +72,7 @@ convert_to_boolean_string() {
 
 transform_env_variables_for_confd() {
   local VARIABLES
-  VARIABLES="$(env | grep -v "^START_" | egrep '=false$')"
+  VARIABLES="$(env | grep -v "^START_" | grep '=false$')"
   echo "${VARIABLES//=false/=}"
 }
 
