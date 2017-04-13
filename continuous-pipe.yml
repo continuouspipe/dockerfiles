@@ -358,7 +358,7 @@ tasks:
           image: quay.io/continuouspipe/spryker-php7.1-nginx
           tag: latest
     filter:
-      expression: 'has_changes_for_files(["ubuntu/**", "php-apache/**", "symfony/**", "spryker/**"]])'
+      expression: 'has_changes_for_files(["ubuntu/**", "php-nginx/**", "symfony/**", "spryker/**"]])'
 
 notifications:
   slack_failure_notification:
