@@ -123,7 +123,7 @@ tasks:
           image: quay.io/continuouspipe/symfony-php5.6-apache
           tag: latest
     filter:
-      expression: 'has_changes_for_files(["ubuntu/**", "php-apache/**", "symfony/**"]])'
+      expression: 'has_changes_for_files(["ubuntu/**", "php-apache/**", "symfony/**"])'
 
   ###########################
   # No dependency images    #
@@ -144,7 +144,7 @@ tasks:
           image: quay.io/continuouspipe/drupal-php5.6-apache
           tag: latest
     filter:
-      expression: 'has_changes_for_files(["ubuntu/**", "php-apache/**", "drupal/**"]])'
+      expression: 'has_changes_for_files(["ubuntu/**", "php-apache/**", "drupal/**"])'
 
   drupal_solr:
     build:
@@ -156,7 +156,7 @@ tasks:
           image: quay.io/continuouspipe/drupal8-solr6
           tag: latest
     filter:
-      expression: 'has_changes_for_files(["solr/**", "drupal8-solr/**"]])'
+      expression: 'has_changes_for_files(["solr/**", "drupal8-solr/**"])'
 
   drupal_varnish:
     build:
@@ -165,7 +165,7 @@ tasks:
           image: quay.io/continuouspipe/drupal8-varnish4
           tag: latest
     filter:
-      expression: 'has_changes_for_files(["ubuntu/**", "varnish/**", "drupal8-varnish/**"]])'
+      expression: 'has_changes_for_files(["ubuntu/**", "varnish/**", "drupal8-varnish/**"])'
 
   elasticsearch:
     build:
@@ -174,7 +174,7 @@ tasks:
           image: quay.io/continuouspipe/elasticsearch2.4
           tag: latest
     filter:
-      expression: 'has_changes_for_files(["elasticsearch/**"]])'
+      expression: 'has_changes_for_files(["elasticsearch/**"])'
 
   ez:
     build:
@@ -183,7 +183,7 @@ tasks:
           image: quay.io/continuouspipe/ez6-apache-php7
           tag: latest
     filter:
-      expression: 'has_changes_for_files(["ubuntu/**", "php-apache/**", "ez/**"]])'
+      expression: 'has_changes_for_files(["ubuntu/**", "php-apache/**", "ez/**"])'
 
   hem:
     build:
@@ -192,7 +192,7 @@ tasks:
           image: quay.io/continuouspipe/hem1
           tag: latest
     filter:
-      expression: 'has_changes_for_files(["ubuntu/**", "hem/**"]])'
+      expression: 'has_changes_for_files(["ubuntu/**", "hem/**"])'
 
   magento1:
     build:
@@ -201,7 +201,7 @@ tasks:
           image: quay.io/continuouspipe/magento1-nginx-php5.6
           tag: latest
     filter:
-      expression: 'has_changes_for_files(["ubuntu/**", "php-nginx/**", "magento1-nginx/**"]])'
+      expression: 'has_changes_for_files(["ubuntu/**", "php-nginx/**", "magento1-nginx/**"])'
 
   magento2:
     build:
@@ -210,7 +210,7 @@ tasks:
           image: quay.io/continuouspipe/magento2-nginx-php7
           tag: latest
     filter:
-      expression: 'has_changes_for_files(["ubuntu/**", "php-nginx/**", "magento2-nginx/**"]])'
+      expression: 'has_changes_for_files(["ubuntu/**", "php-nginx/**", "magento2-nginx/**"])'
 
   magento2_varnish:
     build:
@@ -219,7 +219,7 @@ tasks:
           image: quay.io/continuouspipe/magento2-varnish4
           tag: latest
     filter:
-      expression: 'has_changes_for_files(["ubuntu/**", "varnish/**", "magento2-varnish/**"]])'
+      expression: 'has_changes_for_files(["ubuntu/**", "varnish/**", "magento2-varnish/**"])'
 
   mailcatcher:
     build:
@@ -228,7 +228,7 @@ tasks:
           image: quay.io/continuouspipe/mailcatcher
           tag: latest
     filter:
-      expression: 'has_changes_for_files(["ubuntu/**", "mailcatcher/**"]])'
+      expression: 'has_changes_for_files(["ubuntu/**", "mailcatcher/**"])'
 
   memcached:
     build:
@@ -237,7 +237,7 @@ tasks:
           image: quay.io/continuouspipe/memcached1.4
           tag: latest
     filter:
-      expression: 'has_changes_for_files(["ubuntu/**", "memcached/**"]])'
+      expression: 'has_changes_for_files(["ubuntu/**", "memcached/**"])'
 
   mongodb:
     build:
@@ -246,7 +246,7 @@ tasks:
           image: quay.io/continuouspipe/mongodb3.4
           tag: latest
     filter:
-      expression: 'has_changes_for_files(["mongodb/**"]])'
+      expression: 'has_changes_for_files(["mongodb/**"])'
 
   mysql:
     build:
@@ -261,7 +261,7 @@ tasks:
           image: quay.io/continuouspipe/mysql5.6
           tag: latest
     filter:
-      expression: 'has_changes_for_files(["mysql/**"]])'
+      expression: 'has_changes_for_files(["mysql/**"])'
 
   nginx_reverse_proxy:
     build:
@@ -270,7 +270,7 @@ tasks:
           image: quay.io/continuouspipe/nginx-reverse-proxy
           tag: latest
     filter:
-      expression: 'has_changes_for_files(["ubuntu/**", "nginx/**", "nginx-reverse-proxy/**"]])'
+      expression: 'has_changes_for_files(["ubuntu/**", "nginx/**", "nginx-reverse-proxy/**"])'
 
   nodejs:
     build:
@@ -304,7 +304,7 @@ tasks:
             - name: INSTALL_COMMON_PACKAGES
               value: "false"
     filter:
-      expression: 'has_changes_for_files(["ubuntu/**", "nodejs/**"]])'
+      expression: 'has_changes_for_files(["ubuntu/**", "nodejs/**"])'
 
   phantomjs:
     build:
@@ -313,7 +313,7 @@ tasks:
           image: quay.io/continuouspipe/phantomjs2
           tag: latest
     filter:
-      expression: 'has_changes_for_files(["ubuntu/**", "phantomjs/**"]])'
+      expression: 'has_changes_for_files(["ubuntu/**", "phantomjs/**"])'
 
   piwik:
     build:
@@ -322,7 +322,7 @@ tasks:
           image: quay.io/continuouspipe/piwik-php7.1-apache
           tag: latest
     filter:
-      expression: 'has_changes_for_files(["ubuntu/**", "php-apache/**", "piwik/**"]])'
+      expression: 'has_changes_for_files(["ubuntu/**", "php-apache/**", "piwik/**"])'
 
   redis:
     build:
@@ -331,7 +331,7 @@ tasks:
           image: quay.io/continuouspipe/redis3
           tag: latest
     filter:
-      expression: 'has_changes_for_files(["redis/**"]])'
+      expression: 'has_changes_for_files(["redis/**"])'
 
   scala:
     build:
@@ -340,7 +340,7 @@ tasks:
           image: quay.io/continuouspipe/scala-base
           tag: latest
     filter:
-      expression: 'has_changes_for_files(["ubuntu/**", "scala-base/**"]])'
+      expression: 'has_changes_for_files(["ubuntu/**", "scala-base/**"])'
 
   ssh_forward:
     build:
@@ -349,7 +349,7 @@ tasks:
           image: quay.io/continuouspipe/ssh-forward
           tag: latest
     filter:
-      expression: 'has_changes_for_files(["ubuntu/**", "ssh-forward/**"]])'
+      expression: 'has_changes_for_files(["ubuntu/**", "ssh-forward/**"])'
 
   spryker:
     build:
@@ -358,7 +358,7 @@ tasks:
           image: quay.io/continuouspipe/spryker-php7.1-nginx
           tag: latest
     filter:
-      expression: 'has_changes_for_files(["ubuntu/**", "php-nginx/**", "symfony/**", "spryker/**"]])'
+      expression: 'has_changes_for_files(["ubuntu/**", "php-nginx/**", "symfony/**", "spryker/**"])'
 
 notifications:
   slack_failure_notification:
@@ -366,5 +366,6 @@ notifications:
       webhook_url: ${SLACK_WEBHOOK_URL}
     when:
       - failure
+  filter: 'code_reference.branch in ["master"]'
 
 filter: code_reference.branch in ["master", "feature/build-on-changes"]
