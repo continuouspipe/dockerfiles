@@ -366,6 +366,5 @@ notifications:
       webhook_url: ${SLACK_WEBHOOK_URL}
     when:
       - failure
-  filter: 'code_reference.branch in ["master"]'
 
 filter: code_reference.branch in ["master", "feature/build-on-changes"]
