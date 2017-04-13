@@ -2,22 +2,30 @@ tasks:
   ##################################
   # Second level dependency images #
   ##################################
-  second_level_dependency_images:
+  ubuntu:
     build:
       services:
         ubuntu:
           image: quay.io/continuouspipe/ubuntu16.04
           tag: latest
+      filter:
+        expression: 'has_changes_for_files(["ubuntu/**"])'
 
   #################################
   # First level dependency images #
   #################################
-  first_level_dependency_images:
+  nginx:
     build:
       services:
         nginx:
           image: quay.io/continuouspipe/nginx
           tag: latest
+      filter:
+        expression: 'has_changes_for_files(["ubuntu/**", "nginx/**"])'
+
+  php_apache:
+    build:
+      services:
         php71_apache:
           image: quay.io/continuouspipe/php7.1-apache
           tag: latest
@@ -36,6 +44,12 @@ tasks:
           environment:
             - name: PHP_VERSION
               value: '5.6'
+      filter:
+        expression: 'has_changes_for_files(["ubuntu/**", "php-apache/**"])'
+
+  php_nginx:
+    build:
+      services:
         php71_nginx:
           image: quay.io/continuouspipe/php7.1-nginx
           tag: latest
@@ -54,30 +68,67 @@ tasks:
           environment:
             - name: PHP_VERSION
               value: '5.6'
+      filter:
+        expression: 'has_changes_for_files(["ubuntu/**", "php-nginx/**"])'
+
+  solr:
+    build:
+      services:
         solr_4_10:
           image: quay.io/continuouspipe/solr4
           tag: latest
         solr_6_2:
           image: quay.io/continuouspipe/solr6
           tag: latest
+      filter:
+        expression: 'has_changes_for_files(["solr/**"])'
+
+  varnish:
+    build:
+      services:
         varnish:
           image: quay.io/continuouspipe/varnish4
           tag: latest
+      filter:
+        expression: 'has_changes_for_files(["ubuntu/**", "varnish/**"])'
 
   ##################################
   # Second level dependency images #
   ##################################
-  second_level_dependency_images:
+  symfony_nginx:
     build:
       services:
         symfony_php71_nginx:
           image: quay.io/continuouspipe/symfony-php7.1-nginx
           tag: latest
+        symfony_php70_nginx:
+          image: quay.io/continuouspipe/symfony-php7-nginx
+          tag: latest
+        symfony_php56_nginx:
+          image: quay.io/continuouspipe/symfony-php5.6-nginx
+          tag: latest
+      filter:
+        expression: 'has_changes_for_files(["ubuntu/**", "php-nginx/**", "symfony/**"])'
+
+  symfony_apache:
+    build:
+      services:
+        symfony_php71_apache:
+          image: quay.io/continuouspipe/symfony-php7.1-apache
+          tag: latest
+        symfony_php70_apache:
+          image: quay.io/continuouspipe/symfony-php7-apache
+          tag: latest
+        symfony_php56_apache:
+          image: quay.io/continuouspipe/symfony-php5.6-apache
+          tag: latest
+      filter:
+        expression: 'has_changes_for_files(["ubuntu/**", "php-apache/**", "symfony/**"]])'
 
   ###########################
   # No dependency images    #
   ###########################
-  no_dependency_images:
+  drupal:
     build:
       services:
         drupal_php71_apache:
@@ -92,42 +143,114 @@ tasks:
         drupal_php56_apache:
           image: quay.io/continuouspipe/drupal-php5.6-apache
           tag: latest
+      filter:
+        expression: 'has_changes_for_files(["ubuntu/**", "php-apache/**", "drupal/**"]])'
+
+  drupal_solr:
+    build:
+      services:
         drupal8_solr_4_10:
           image: quay.io/continuouspipe/drupal8-solr4
           tag: latest
         drupal8_solr_6_2:
           image: quay.io/continuouspipe/drupal8-solr6
           tag: latest
+      filter:
+        expression: 'has_changes_for_files(["solr/**", "drupal8-solr/**"]])'
+
+  drupal_varnish:
+    build:
+      services:
         drupal8_varnish:
           image: quay.io/continuouspipe/drupal8-varnish4
           tag: latest
+      filter:
+        expression: 'has_changes_for_files(["ubuntu/**", "varnish/**", "drupal8-varnish/**"]])'
+
+  elasticsearch:
+    build:
+      services:
         elasticsearch:
           image: quay.io/continuouspipe/elasticsearch2.4
           tag: latest
+      filter:
+        expression: 'has_changes_for_files(["elasticsearch/**"]])'
+
+  ez:
+    build:
+      services:
         ez:
           image: quay.io/continuouspipe/ez6-apache-php7
           tag: latest
+      filter:
+        expression: 'has_changes_for_files(["ubuntu/**", "php-apache/**", "ez/**"]])'
+
+  hem:
+    build:
+      services:
         hem:
           image: quay.io/continuouspipe/hem1
           tag: latest
+      filter:
+        expression: 'has_changes_for_files(["ubuntu/**", "hem/**"]])'
+
+  magento1:
+    build:
+      services:
         magento1_nginx:
           image: quay.io/continuouspipe/magento1-nginx-php5.6
           tag: latest
+      filter:
+        expression: 'has_changes_for_files(["ubuntu/**", "php-nginx/**", "magento1-nginx/**"]])'
+
+  magento2:
+    build:
+      services:
         magento2_nginx:
           image: quay.io/continuouspipe/magento2-nginx-php7
           tag: latest
+      filter:
+        expression: 'has_changes_for_files(["ubuntu/**", "php-nginx/**", "magento2-nginx/**"]])'
+
+  magento2_varnish:
+    build:
+      services:
         magento2_varnish:
           image: quay.io/continuouspipe/magento2-varnish4
           tag: latest
+      filter:
+        expression: 'has_changes_for_files(["ubuntu/**", "varnish/**", "magento2-varnish/**"]])'
+
+  mailcatcher:
+    build:
+      services:
         mailcatcher:
           image: quay.io/continuouspipe/mailcatcher
           tag: latest
+      filter:
+        expression: 'has_changes_for_files(["ubuntu/**", "mailcatcher/**"]])'
+
+  memcached:
+    build:
+      services:
         memcached:
           image: quay.io/continuouspipe/memcached1.4
           tag: latest
+      filter:
+        expression: 'has_changes_for_files(["ubuntu/**", "memcached/**"]])'
+
+  mongodb:
+    build:
+      services:
         mongodb34:
           image: quay.io/continuouspipe/mongodb3.4
           tag: latest
+      filter:
+        expression: 'has_changes_for_files(["mongodb/**"]])'
+
+  mysql:
+    build:
+      services:
         mysql80:
           image: quay.io/continuouspipe/mysql8.0
           tag: latest
@@ -137,9 +260,21 @@ tasks:
         mysql56:
           image: quay.io/continuouspipe/mysql5.6
           tag: latest
+      filter:
+        expression: 'has_changes_for_files(["mysql/**"]])'
+
+  nginx_reverse_proxy:
+    build:
+      services:
         nginx_reverse_proxy:
           image: quay.io/continuouspipe/nginx-reverse-proxy
           tag: latest
+      filter:
+        expression: 'has_changes_for_files(["ubuntu/**", "nginx/**", "nginx-reverse-proxy/**"]])'
+
+  nodejs:
+    build:
+      services:
         nodejs6:
           image: quay.io/continuouspipe/nodejs6
           tag: latest
@@ -168,39 +303,62 @@ tasks:
               value: "7.x"
             - name: INSTALL_COMMON_PACKAGES
               value: "false"
+      filter:
+        expression: 'has_changes_for_files(["ubuntu/**", "nodejs/**"]])'
+
+  phantomjs:
+    build:
+      services:
         phantomjs2:
           image: quay.io/continuouspipe/phantomjs2
           tag: latest
+      filter:
+        expression: 'has_changes_for_files(["ubuntu/**", "phantomjs/**"]])'
+
+  piwik:
+    build:
+      services:
         piwik_php71_apache:
           image: quay.io/continuouspipe/piwik-php7.1-apache
           tag: latest
+      filter:
+        expression: 'has_changes_for_files(["ubuntu/**", "php-apache/**", "piwik/**"]])'
+
+  redis:
+    build:
+      services:
         redis:
           image: quay.io/continuouspipe/redis3
           tag: latest
+      filter:
+        expression: 'has_changes_for_files(["redis/**"]])'
+
+  scala:
+    build:
+      services:
         scala_sbt:
           image: quay.io/continuouspipe/scala-base
           tag: latest
+      filter:
+        expression: 'has_changes_for_files(["ubuntu/**", "scala-base/**"]])'
+
+  ssh_forward:
+    build:
+      services:
         ssh_forward:
           image: quay.io/continuouspipe/ssh-forward
           tag: latest
+      filter:
+        expression: 'has_changes_for_files(["ubuntu/**", "ssh-forward/**"]])'
+
+  spryker:
+    build:
+      services:
         spryker_php71_nginx:
           image: quay.io/continuouspipe/spryker-php7.1-nginx
           tag: latest
-        symfony_php70_nginx:
-          image: quay.io/continuouspipe/symfony-php7-nginx
-          tag: latest
-        symfony_php56_nginx:
-          image: quay.io/continuouspipe/symfony-php5.6-nginx
-          tag: latest
-        symfony_php71_apache:
-          image: quay.io/continuouspipe/symfony-php7.1-apache
-          tag: latest
-        symfony_php70_apache:
-          image: quay.io/continuouspipe/symfony-php7-apache
-          tag: latest
-        symfony_php56_apache:
-          image: quay.io/continuouspipe/symfony-php5.6-apache
-          tag: latest
+      filter:
+        expression: 'has_changes_for_files(["ubuntu/**", "php-apache/**", "symfony/**", "spryker/**"]])'
 
 notifications:
   slack_failure_notification:
@@ -209,4 +367,4 @@ notifications:
     when:
       - failure
 
-filter: code_reference.branch in ["master"]
+filter: code_reference.branch in ["master", "feature/build-on-changes"]
