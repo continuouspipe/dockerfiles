@@ -86,14 +86,12 @@ is_hem_project() {
     RESULT=0
   fi
   convert_exit_code_to_string "$RESULT"
-  return $RESULT
 }
 
 is_app_mountpoint() {
   grep -q -E "/app (nfs|vboxsf|fuse\.osxfs)" /proc/mounts
   local RESULT="$?"
   convert_exit_code_to_string "$RESULT"
-  return "$RESULT"
 }
 
 is_chown_forbidden() {
@@ -101,14 +99,12 @@ is_chown_forbidden() {
   grep -q -E "/app (nfs|vboxsf)" /proc/mounts
   local RESULT="$?"
   convert_exit_code_to_string "$RESULT"
-  return "$RESULT"
 }
 
 is_vboxsf_mountpoint() {
   grep -q "/app vboxsf" /proc/mounts
   local RESULT="$?"
   convert_exit_code_to_string "$RESULT"
-  return "$RESULT"
 }
 
 alias_function() {
