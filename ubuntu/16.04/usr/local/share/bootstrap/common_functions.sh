@@ -70,6 +70,16 @@ convert_to_boolean_string() {
   fi
 }
 
+convert_to_boolean_string_zero_is_true() {
+  if [ "$1" == '0' ]; then
+    echo 'true';
+  elif [ "$1" == '1' ]; then
+    echo 'false';
+  else
+    convert_to_boolean_string "$1"
+  fi
+}
+
 is_hem_project() {
   local RESULT=1
   if [ -f /app/tools/hem/config.yaml ] || [ -f /app/tools/hobo/config.yaml ]; then
