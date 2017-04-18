@@ -28,6 +28,14 @@ It may work for Drupal 7 too!
 
 ## How to use
 
+### Environment variables
+
+The following environment variables are supported
+
+Variable | Description | Expected values | Default
+---|---|---|---
+DRUPAL_CACHE_ERRORS | If "true", varnish will cache responses with HTTP Codes 404, 301 or 500 for 10 minutes to protect the web server. | true/false | true
+
 We configure the varnish config file, `/etc/varnish/default.vcl` to be one from
 [geerlingguy's Drupal VM](https://raw.githubusercontent.com/geerlingguy/drupal-vm/3.5.2/provisioning/templates/drupalvm.vcl.j2)
 
