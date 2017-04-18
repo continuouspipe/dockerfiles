@@ -137,10 +137,12 @@ sub vcl_backend_response {
     set beresp.http.X-Url = bereq.url;
     set beresp.http.X-Host = bereq.http.host;
 
+{{ if eq "true" (getenv "DRUPAL_CACHE_ERRORS") }}
     # Cache 404s, 301s, at 500s with a short lifetime to protect the backend.
     if (beresp.status == 404 || beresp.status == 301 || beresp.status == 500) {
         set beresp.ttl = 10m;
     }
+{{ end }}
 
     # Enable streaming directly to backend for BigPipe responses.
     if (beresp.http.Surrogate-Control ~ "BigPipe/1.0") {
