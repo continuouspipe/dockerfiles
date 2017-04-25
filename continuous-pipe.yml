@@ -143,6 +143,9 @@ tasks:
         mysql55:
           image: quay.io/continuouspipe/mysql5.5
           tag: latest
+        nginx_ingress_controller:
+          image: quay.io/continuouspipe/nginx-ingress-controller
+          tag: latest
         nginx_reverse_proxy:
           image: quay.io/continuouspipe/nginx-reverse-proxy
           tag: latest
