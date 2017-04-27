@@ -110,6 +110,9 @@ tasks:
         hem:
           image: quay.io/continuouspipe/hem1
           tag: latest
+        magento1_apache:
+          image: quay.io/continuouspipe/magento1-apache-php5.6
+          tag: latest
         magento1_nginx:
           image: quay.io/continuouspipe/magento1-nginx-php5.6
           tag: latest

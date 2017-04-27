@@ -1,0 +1,3 @@
+{{ if eq "developer" (getenv "MAGENTO_MODE") }}
+SetEnv MAGE_IS_DEVELOPER_MODE 1
+{{ end }}

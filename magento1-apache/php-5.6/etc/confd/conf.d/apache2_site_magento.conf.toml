@@ -1,0 +1,6 @@
+[template]
+src   = "apache/site_magento.conf.tmpl"
+dest  = "/etc/apache2/sites-available/000-default-05-magento.conf"
+mode  = "0644"
+keys = [
+]

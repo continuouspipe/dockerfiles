@@ -1,0 +1,5 @@
+# don't send any mail
+MAILTO=""
+SUPERVISORCTL="supervisorctl -c /etc/supervisor/supervisord.conf -u supervisor -p supervisor"
+
+* * * * * root $SUPERVISORCTL start magento-cron

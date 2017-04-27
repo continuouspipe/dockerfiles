@@ -1,0 +1,6 @@
+[template]
+src   = "supervisor/magento_cron.conf.tmpl"
+dest  = "/etc/supervisor/conf.d/magento_cron.conf"
+mode  = "0644"
+keys = [
+]
