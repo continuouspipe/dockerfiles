@@ -226,6 +226,7 @@ http {
         listen 80{{ if $cfg.UseProxyProtocol }} proxy_protocol{{ end }}{{ if eq $server.Hostname "_"}} default_server reuseport backlog={{ $backlogSize }}{{end}};
         {{ if $IsIPV6Enabled }}listen [::]:80{{ if $cfg.UseProxyProtocol }} proxy_protocol{{ end }}{{ if eq $server.Hostname "_"}} default_server reuseport backlog={{ $backlogSize }}{{ end }};{{ end }}
 
+{{ if not (empty $server.SSLCertificate) }}
         {{/* Listen on 442 because port 443 is used in the TLS sni server */}}
         {{/* This listen on port 442 cannot contains proxy_protocol directive because port 443 is in charge of decoding the protocol */}}
         {{ if not (empty $server.SSLCertificate) }}listen 442{{ if eq $server.Hostname "_"}} default_server reuseport backlog={{ $backlogSize }}{{end}} ssl {{ if $cfg.UseHTTP2 }}http2{{ end }};
@@ -239,6 +240,20 @@ http {
         {{ if (and (not (empty $server.SSLCertificate)) $cfg.HSTS) }}
         more_set_headers                        "Strict-Transport-Security: max-age={{ $cfg.HSTSMaxAge }}{{ if $cfg.HSTSIncludeSubdomains }}; includeSubDomains{{ end }}; {{ if $cfg.HSTSPreload }}preload{{ end }}";
         {{ end }}
+{{ else }}
+        {{/* Listen on 442 because port 443 is used in the TLS sni server */}}
+        {{/* This listen on port 442 cannot contains proxy_protocol directive because port 443 is in charge of decoding the protocol */}}
+        listen 442{{ if eq $server.Hostname "_"}} default_server reuseport backlog={{ $backlogSize }}{{end}} ssl {{ if $cfg.UseHTTP2 }}http2{{ end }};
+        {{ if $IsIPV6Enabled }}listen [::]:442 {{ if eq $server.Hostname "_"}} default_server reuseport backlog={{ $backlogSize }}{{end}} ssl {{ if $cfg.UseHTTP2 }}http2{{ end }};{{ end }}
+        {{/* comment PEM sha is required to detect changes in the generated configuration and force a reload */}}
+        # PEM sha: PLEASE_RELOAD_CONTAINER_IF_THIS_CHANGES
+        ssl_certificate                         /etc/nginx/default-certificate.pem;
+        ssl_certificate_key                     /etc/nginx/default-certificate.pem;
+
+        {{ if $cfg.HSTS }}
+        more_set_headers                        "Strict-Transport-Security: max-age={{ $cfg.HSTSMaxAge }}{{ if $cfg.HSTSIncludeSubdomains }}; includeSubDomains{{ end }}; {{ if $cfg.HSTSPreload }}preload{{ end }}";
+        {{ end }}
+{{ end }}
 
         {{ if $cfg.EnableVtsStatus }}vhost_traffic_status_filter_by_set_key $geoip_country_code country::$server_name;{{ end }}
 
