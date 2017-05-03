@@ -22,10 +22,7 @@ USER build
 
 # Install Drupal's Drush tool
 RUN composer global require drush/drush:~8.1.10 \
- && composer global clear-cache \
- \
- # Initialise Drupal CLI tool \
- && /usr/local/bin/drupal init --no-interaction
+ && composer global clear-cache
 
 USER root
 
