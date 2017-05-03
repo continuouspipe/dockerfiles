@@ -1,7 +1,7 @@
 #!/bin/bash
 
 do_build_permissions() {
-  if [ "$IS_CHOWN_FORBIDDEN" -ne 0 ]; then
+  if [ "$IS_CHOWN_FORBIDDEN" != 'true' ]; then
     chown -R "$CODE_OWNER":"$CODE_GROUP" /app/
   else
     chmod -R a+rw /app/
@@ -14,8 +14,15 @@ run_composer() {
   fi
 
   as_code_owner "composer install ${COMPOSER_INSTALL_FLAGS}"
-  rm -rf /home/build/.composer/cache/
-  as_code_owner "composer clear-cache"
+
+  do_clear_composer_cache
+}
+
+do_clear_composer_cache() {
+  if [ "${COMPOSER_CLEAR_CACHE}" == "true" ]; then
+    rm -rf /home/build/.composer/cache/
+    as_code_owner "composer clear-cache"
+  fi
 }
 
 do_composer() {
