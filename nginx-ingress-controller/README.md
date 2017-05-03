@@ -4,9 +4,9 @@ For how to deploy this image, please see https://github.com/continuouspipe/nginx
 
 ## About
 
-This builds off of the 0.9.0.beta3 version of https://github.com/kubernetes/ingress/tree/master/controllers/nginx.
+This builds off of the 0.9.0.beta5 version of https://github.com/kubernetes/ingress/tree/master/controllers/nginx.
 
-The Beta3 NGINX ingress controller does not open up port 443 if the deployed ingress does not have a TLS section in it's spec, with a hostname and a reference to an SSL certificate that matches the hostname.
+The Beta5 NGINX ingress controller does not open up port 443 if the deployed ingress does not have a TLS section in it's spec, with a hostname and a reference to an SSL certificate that matches the hostname.
 
 This is a bit too restrictive for our purposes, as we wish to have 443 opened for most sites with a valid wildcard SSL certificate present.
 
