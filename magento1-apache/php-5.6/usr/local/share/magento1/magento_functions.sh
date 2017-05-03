@@ -62,7 +62,7 @@ function do_magento_assets_install() {
     fi
 
     echo 'extracting media files'
-    as_code_owner "tar --no-same-owner --extract --strip-components=2 --touch --overwrite --gzip --file=$ASSET_ARCHIVE_PATH || exit 1" public/media
+    as_code_owner "HEM_RUN_ENV=local hem assets apply --applicator=files"
 
     if [ "$IS_CHOWN_FORBIDDEN" -ne 0 ]; then
       chown -R "${APP_USER}:${APP_GROUP}" /app/public/media
