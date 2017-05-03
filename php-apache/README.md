@@ -100,7 +100,6 @@ SENDMAIL_RELAY_USER | The user to authenticate with the relay. Anonymous SMTP us
 SENDMAIL_RELAY_PASSWORD | The password to authenticate with the relay | relay's password
 SENDMAIL_RELAY_TLS_SECURITY_LEVEL | Controls whether to use TLS, and what authentication of TLS | http://www.postfix.org/postconf.5.html#smtp_tls_security_level | may
 
-
 The project using the image can define these environment variables to control
 what is rendered in the Apache HTTPd configuration
 
@@ -163,7 +162,6 @@ To use this functionality:
   ```
   export AUTH_IP_WHITELIST_ENABLED=true
   ```
-
 
 2. By default when enabled, the loopback ips are whitelisted
   ```
