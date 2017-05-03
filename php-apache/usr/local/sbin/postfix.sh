@@ -7,12 +7,15 @@ source /etc/sysconfig/network
 /usr/libexec/postfix/aliasesdb
 /usr/libexec/postfix/chroot-update
 
-if [ -n "${POSTFIX_RELAY_USER}" ]; then
+if [ -n "${SENDMAIL_RELAY_USER}" ]; then
   postmap /etc/postfix/sasl_passwd
 fi
 
+# fix postfix dns resolution
+cp /etc/resolv.conf /var/spool/postfix/etc/resolv.conf
+
 # start postfix
-/usr/sbin/postfix - c /etc/postfix start
+/usr/sbin/postfix -c /etc/postfix start
 
 # avoid exiting
 sleep infinity
