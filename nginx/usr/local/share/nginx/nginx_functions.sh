@@ -21,6 +21,7 @@ function do_https_certificates() {
             -days 365 \
             -newkey rsa:2048 \
             -keyout "${WEB_SSL_PRIVKEY}" \
+            -outform PEM \
             -out "${WEB_SSL_FULLCHAIN}" \
             -subj "/C=SS/ST=SS/L=SelfSignedCity/O=SelfSignedOrg/CN=${WEB_HOST}"
     elif [ -e "${WEB_SSL_PRIVKEY}" ] && [ -e "${WEB_SSL_FULLCHAIN}" ]; then
