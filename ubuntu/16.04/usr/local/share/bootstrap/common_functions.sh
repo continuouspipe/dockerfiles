@@ -55,11 +55,11 @@ as_app_user() {
 }
 
 is_hem_project() {
+  local RESULT=1
   if [ -f /app/tools/hem/config.yaml ] || [ -f /app/tools/hobo/config.yaml ]; then
-    return 0
+    RESULT=0
   fi
-
-  return 1
+  convert_exit_code_to_string "$RESULT"
 }
 
 is_app_mountpoint() {
