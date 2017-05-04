@@ -12,8 +12,8 @@ alias_function do_start do_ubuntu_start_inner
 do_start() {
     do_ubuntu_start_inner
     do_update_permissions
-    check_development_start
     do_templating
+    check_development_start
 }
 
 alias_function do_build do_ubuntu_build_inner
