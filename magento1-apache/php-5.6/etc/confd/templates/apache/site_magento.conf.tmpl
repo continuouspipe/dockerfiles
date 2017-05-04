@@ -1,3 +1,7 @@
 {{ if eq "developer" (getenv "MAGENTO_MODE") }}
 SetEnv MAGE_IS_DEVELOPER_MODE 1
 {{ end }}
+
+RewriteEngine On
+
+RewriteRule ^/api/rest /api.php?type=rest [QSA,L]
