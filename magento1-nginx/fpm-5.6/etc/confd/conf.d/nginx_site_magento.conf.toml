@@ -1,0 +1,6 @@
+[template]
+src   = "nginx/site_magento.conf.tmpl"
+dest  = "/etc/nginx/sites-available/default-05-site_magento.conf"
+mode  = "0644"
+keys = [
+]

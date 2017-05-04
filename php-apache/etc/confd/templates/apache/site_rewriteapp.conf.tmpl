@@ -1,1 +1,7 @@
-DirectoryIndex index.php index.html
+RewriteEngine On
+
+RewriteCond %{DOCUMENT_ROOT}%{REQUEST_FILENAME} !-f
+RewriteCond %{DOCUMENT_ROOT}%{REQUEST_FILENAME} !-d
+RewriteCond %{DOCUMENT_ROOT}%{REQUEST_FILENAME} !-l
+
+RewriteRule .* /index.php [L]

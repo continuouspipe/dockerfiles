@@ -11,6 +11,7 @@ RUN curl -q https://dx6pc3giz7k1r.cloudfront.net/GPG-KEY-inviqa-tools | apt-key 
  && DEBIAN_FRONTEND=noninteractive apt-get -qq -y --no-install-recommends install \
     hem \
     php-memcache \
+    mysql-client \
     nodejs \
     rsyslog \
     sudo \
