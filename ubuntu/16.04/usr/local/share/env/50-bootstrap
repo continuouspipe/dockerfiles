@@ -13,8 +13,8 @@ export IS_CHOWN_FORBIDDEN=$?
 is_vboxsf_mountpoint
 export IS_VBOXSF_MOUNTPOINT=$?
 
-is_app_mountpoint
-export IS_APP_MOUNTPOINT=$?
+IS_APP_MOUNTPOINT="$(is_app_mountpoint)"
+export IS_APP_MOUNTPOINT
 set -e
 
 DEVELOPMENT_MODE=${DEVELOPMENT_MODE:-${IS_APP_MOUNTPOINT}}

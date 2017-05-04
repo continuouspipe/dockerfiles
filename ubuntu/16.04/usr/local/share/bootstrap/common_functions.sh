@@ -64,7 +64,8 @@ is_hem_project() {
 
 is_app_mountpoint() {
   grep -q -E "/app (nfs|vboxsf|fuse\.osxfs)" /proc/mounts
-  return $?
+  local RESULT="$?"
+  convert_exit_code_to_string "$RESULT"
 }
 
 is_chown_forbidden() {
