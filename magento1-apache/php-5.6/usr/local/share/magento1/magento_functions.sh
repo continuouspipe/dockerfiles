@@ -45,7 +45,7 @@ function do_magento_frontend_build() {
 
 function do_magento_assets_download() {
   # Download the static assets
-  if [ "$IS_HEM" -eq 0 ]; then
+  if [ "$IS_HEM" == 'true' ]; then
     for asset_env in $ASSET_DOWNLOAD_ENVIRONMENTS; do
       as_build "hem --non-interactive --skip-host-checks assets download -e $asset_env"
     done

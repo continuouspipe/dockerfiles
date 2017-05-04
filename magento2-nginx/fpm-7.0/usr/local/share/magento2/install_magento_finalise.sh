@@ -59,10 +59,9 @@ fi
 
 # Download the static assets
 set +e
-is_hem_project
-IS_HEM=$?
+IS_HEM="$(is_hem_project)"
 set -e
-if [ "$IS_HEM" -eq 0 ]; then
+if [ "$IS_HEM" == 'true' ]; then
   export HEM_RUN_ENV="${HEM_RUN_ENV:-local}"
   for asset_env in $ASSET_DOWNLOAD_ENVIRONMENTS; do
     as_build "hem --non-interactive --skip-host-checks assets download -e $asset_env"

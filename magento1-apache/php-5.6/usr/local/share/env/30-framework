@@ -18,9 +18,9 @@ export DATABASE_HOST=${DATABASE_HOST:-database}
 export ADDITIONAL_SETUP_SQL=${ADDITIONAL_SETUP_SQL:-}
 
 set +e
-is_hem_project
+IS_HEM="$(is_hem_project)"
+export IS_HEM
 set -e
-export IS_HEM="$?"
 export HEM_RUN_ENV="${HEM_RUN_ENV:-local}"
 
 export ASSET_ARCHIVE_PATH=${ASSET_ARCHIVE_PATH:-tools/assets/development/media.files.tgz}
