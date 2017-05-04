@@ -17,7 +17,9 @@ is_app_mountpoint
 export IS_APP_MOUNTPOINT=$?
 set -e
 
-export DEVELOPMENT_MODE=${DEVELOPMENT_MODE:-${IS_APP_MOUNTPOINT}}
+DEVELOPMENT_MODE=${DEVELOPMENT_MODE:-${IS_APP_MOUNTPOINT}}
+DEVELOPMENT_MODE="$(convert_to_boolean_string_zero_is_true "$DEVELOPMENT_MODE")"
+export DEVELOPMENT_MODE
 
 if [ "$IS_VBOXSF_MOUNTPOINT" -eq 0 ]; then
   export APP_USER_LOCAL=${APP_USER_LOCAL:-true}
