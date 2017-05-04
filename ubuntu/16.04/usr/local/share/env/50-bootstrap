@@ -7,8 +7,8 @@ export CODE_GROUP=${CODE_GROUP:-build}
 export START_CRON=${START_CRON:-false}
 
 set +e
-is_chown_forbidden
-export IS_CHOWN_FORBIDDEN=$?
+IS_CHOWN_FORBIDDEN="$(is_chown_forbidden)"
+export IS_CHOWN_FORBIDDEN
 
 is_vboxsf_mountpoint
 export IS_VBOXSF_MOUNTPOINT=$?
