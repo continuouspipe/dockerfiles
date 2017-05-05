@@ -1,0 +1,9 @@
+#!/bin/bash
+
+export EZPLATFORM_INSTALL_PROFILE=${EZPLATFORM_INSTALL_PROFILE:-clean}
+
+export DATABASE_HOST=${DATABASE_HOST:-database}
+export DATABASE_NAME=${DATABASE_NAME:-ez}
+export DATABASE_USER=${DATABASE_USER:-ez}
+export DATABASE_PASSWORD=${DATABASE_PASSWORD:-PleaseChangeMeToBeASecurePassword}
+export SYMFONY_SECRET=${SYMFONY_SECRET:-PleaseChangeMeToBeASecureSecretString}
