@@ -1,5 +1,7 @@
 #!/bin/bash
 
+source /usr/local/share/ez/ez_functions.sh
+
 function do_setup() {
   do_ez_setup
 }
