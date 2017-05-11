@@ -96,6 +96,8 @@ WEB_HTTPS_ONLY      | Whether to redirect all HTTP traffic to HTTPS | true/false
 WEB_REVERSE_PROXIED | Whether to interpret X-Forwarded-Proto as the $custom_scheme and $custom_https emulation. | true/false | true
 WEB_SSL_FULLCHAIN | The location of the SSL certificate and intermediate chain file | absolute filename | /etc/ssl/certs/fullchain.pem
 WEB_SSL_PRIVKEY | The location of the SSL private key file | absolute filename | /etc/ssl/private/privkey.pem
+DEVELOPMENT_MODE | If set to "false", composer will run with the "--no-dev" flag to not bring in development dependencies. If set to "true", development dependencies will be brought in | true/false | false
+COMPOSER_INSTALL_FLAGS | Additional flags to pass to "composer install", such as "--no-plugins". If providing this variable, you should include the default composer flags if you wish to keep them. | valid composer install flags | --no-interaction --optimize-autoloader (plus --no-dev if DEVELOPMENT_MODE is false)
 
 The project using the image can define these environment variables to control
 what is rendered in the Nginx configuration
