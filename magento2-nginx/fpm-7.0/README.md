@@ -72,7 +72,8 @@ DATABASE_ARCHIVE_PATH | Database dump's archive path | relative path | tools/ass
 DATABASE_NAME | Magento database name | - | magentodb
 DATABASE_USER | Magento database user | - | magento
 DATABASE_PASSWORD | Magento database password | - | magento
-DATABASE_ROOT_PASSWORD | MySql root password (Used to create magento database and user) | - | magento
+DATABASE_ADMIN_USER | Optional MySQL database password to perform DBA operations, DATABASE_USER will be used if not specified | - | -
+DATABASE_ADMIN_PASSWORD | Optional MySQL database password to perform DBA operations, DATABASE_PASSWORD will be used if not specified | - | -
 DATABASE_HOST | Magneto database host | - | database
 ADDITIONAL_SETUP_SQL | Any additional SQL query which should be executed after database import (changing base URLs and setting varnish host/port is added by default) | SQL Query | - 
 ASSET_ARCHIVE_PATH | Asset files archive path | relative path | tools/assets/development/media.files.tgz 
