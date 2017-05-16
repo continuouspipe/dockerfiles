@@ -80,6 +80,9 @@ tasks:
   no_dependency_images:
     build:
       services:
+        couchdb16:
+          image: quay.io/continuouspipe/couchdb1.6
+          tag: latest
         drupal_php71_apache:
           image: quay.io/continuouspipe/drupal-php7.1-apache
           tag: latest
