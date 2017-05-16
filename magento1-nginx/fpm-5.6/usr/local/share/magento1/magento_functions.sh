@@ -12,12 +12,12 @@ function do_magento_create_directories() {
 
 function do_magento_directory_permissions() {
   if [ "$IS_CHOWN_FORBIDDEN" -ne 0 ]; then
-    chown -R "${CODE_OWNER}:${APP_GROUP}" /app/public/app/etc/local.xml
+    [ ! -x /app/public/app/etc/local.xml ] || chown -R "${CODE_OWNER}:${APP_GROUP}" /app/public/app/etc/local.xml
     chown -R "${APP_USER}:${CODE_GROUP}" /app/public/media /app/public/sitemaps /app/public/staging /app/public/var
     chmod -R ug+rw,o-w /app/public/media /app/public/sitemaps /app/public/staging /app/public/var
     chmod -R a+r /app/public/media /app/public/sitemaps /app/public/staging
   else
-    chmod a+r /app/public/app/etc/local.xml
+    [ ! -x /app/public/app/etc/local.xml ] || chmod a+r /app/public/app/etc/local.xml
     chmod -R a+rw /app/public/media /app/public/sitemaps /app/public/staging /app/public/var
   fi
 }
