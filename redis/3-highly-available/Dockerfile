@@ -11,7 +11,7 @@ RUN apt-get update -qq \
  # Clean the image \
  && apt-get autoremove -qq \
  && apt-get clean \
- && rm -rf /var/lib/apt/lists/* \
+ && rm -rf /var/lib/apt/lists/*
 
 ENV REDIS_MASTER_DOWN_AFTER_MILLISECONDS=5000
 RUN sed -i'' 's/sentinel down-after-milliseconds mymaster 60000/sentinel down-after-milliseconds mymaster ${REDIS_MASTER_DOWN_AFTER_MILLISECONDS}/' /run.sh
