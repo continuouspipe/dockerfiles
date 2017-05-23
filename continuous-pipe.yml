@@ -183,6 +183,9 @@ tasks:
         redis:
           image: quay.io/continuouspipe/redis3
           tag: latest
+        redis_highly_available:
+          image: quay.io/continuouspipe/redis3-highly-available
+          tag: latest
         scala_sbt:
           image: quay.io/continuouspipe/scala-base
           tag: latest
