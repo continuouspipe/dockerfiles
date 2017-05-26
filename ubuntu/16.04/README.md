@@ -191,7 +191,7 @@ As such, only set APP_USER_LOCAL in development when using volumes.
 ### Custom build and startup scripts
 
 To run commands during the build and startup sequences that the base images add,
-please add `usr/local/share/container/plan.sh` for a project, or
+please add `/app/plan.sh` for a project, or
 `usr/local/share/container/baseimage-{number}.sh` if creating another base image.
 
 This allows you to define and override bash functions that the base images add.
