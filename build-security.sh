@@ -60,7 +60,7 @@ fi
 DO_PUBLISH="$(echo $DO_PUBLISH | tr '[:upper:]' '[:lower:]')"
 if [ "$DO_PUBLISH" = 'y' ]; then
   echo "Pushing our images:"; echo
-  (cd "$DIR" && docker-compose push)
+  (cd "${DIR}/security/tmp/" && docker-compose push)
 else
   echo "Not Pushing our images."; echo
 fi
