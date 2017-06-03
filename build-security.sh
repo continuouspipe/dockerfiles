@@ -8,6 +8,22 @@ else
     DIR="$(dirname "$0")" ;
 fi
 
+function get_before_instructions() {
+  local IMAGE_NAME
+  IMAGE_NAME="$1"
+  if [[ "${IMAGE_NAME}" =~ solr6 ]]; then
+    echo "USER root"
+  fi
+}
+
+function get_after_instructions() {
+  local IMAGE_NAME
+  IMAGE_NAME="$1"
+  if [[ "${IMAGE_NAME}" =~ solr6 ]]; then
+    echo "USER solr"
+  fi
+}
+
 # Get list of images
 IMAGE_NAMES="$(grep "quay.io\/continuouspipe\/.*" "${DIR}/docker-compose.yml" | cut -d ":" -f2)"
 
@@ -22,6 +38,10 @@ mkdir -p "${DIR}/security/tmp/"
 image_counter=0
 for IMAGE_NAME in "${IMAGE_NAMES[@]}"; do
   sed "s/{{IMAGE_NAME}}/${IMAGE_NAME//\//\/}/g" "${DIR}/security/Dockerfile-security.tmpl" > "${DIR}/security/tmp/Dockerfile-${SHORT_IMAGE_NAMES[$image_counter]}"
+  BEFORE_INSTRUCTIONS="$(get_before_instructions "${IMAGE_NAME}")"
+  sed -i '' "s/{{BEFORE_INSTRUCTIONS}}/${BEFORE_INSTRUCTIONS}/" "${DIR}/security/tmp/Dockerfile-${SHORT_IMAGE_NAMES[$image_counter]}"
+  AFTER_INSTRUCTIONS="$(get_after_instructions "${IMAGE_NAME}")"
+  sed -i '' "s/{{AFTER_INSTRUCTIONS}}/${AFTER_INSTRUCTIONS}/" "${DIR}/security/tmp/Dockerfile-${SHORT_IMAGE_NAMES[$image_counter]}"
   ((image_counter=image_counter+1))
 done
 

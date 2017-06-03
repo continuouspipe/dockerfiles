@@ -1,5 +1,7 @@
 FROM {{IMAGE_NAME}}:stable
 
+{{BEFORE_INSTRUCTIONS}}
+
 RUN apt-get update -qq \
  && DEBIAN_FRONTEND=noninteractive apt-get -s dist-upgrade | grep "^Inst" | \
       grep -i securi | awk -F " " '{print $2}' | \
@@ -9,3 +11,5 @@ RUN apt-get update -qq \
  && apt-get autoremove -qq \
  && apt-get clean \
  && rm -rf /var/lib/apt/lists/*
+
+{{AFTER_INSTRUCTIONS}}
