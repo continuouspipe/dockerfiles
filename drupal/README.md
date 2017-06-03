@@ -59,14 +59,14 @@ Variable | Description | Expected values | Default
 DATABASE_NAME | The name of the database to connect to in the drupal installation | string | drupaldb
 DATABASE_USER | The username to connect to the database with | string | drupal
 DATABASE_PASSWORD | The password to connect to the database with | string | drupal
-DATABASE_ROOT_PASSWORD | The root password to connect to the database with for creating the database | string | drupal
+DATABASE_ADMIN_USER | Optional MySQL database password to perform DBA operations, DATABASE_USER will be used if not specified | - | -
+DATABASE_ADMIN_PASSWORD | Optional MySQL database password to perform DBA operations, DATABASE_PASSWORD will be used if not specified | - | -
 DATABASE_PREFIX | A prefix to apply to the tables in the database, if the database is being shared with other technology | string | empty
 DATABASE_HOST | The database hostname to connect to | string | database
 DATABASE_HOST_PORT | The port to connect to on the database host | 1-65535 | 3306
 DRUPAL_DATABASE_NAME | Deprecated - set to DATABASE_NAME automatically | string | The value of DATABASE_NAME
 DRUPAL_DATABASE_USERNAME | Deprecated - set to DRUPAL_DATABASE_USERNAME automatically | string | The value of DATABASE_USER
 DRUPAL_DATABASE_PASSWORD | Deprecated - set to DRUPAL_DATABASE_PASSWORD automatically | string | The value of DATABASE_PASSWORD
-DRUPAL_DATABASE_ROOT_PASSWORD | Deprecated - set to DRUPAL_DATABASE_ROOT_PASSWORD automatically | string | The value of DATABASE_ROOT_PASSWORD
 DRUPAL_DATABASE_PREFIX | Deprecated - set to DRUPAL_DATABASE_PREFIX automatically | string | The value of DATABASE_PREFIX
 DRUPAL_DATABASE_HOST | Deprecated - set to DRUPAL_DATABASE_HOST automatically | string | The value of DATABASE_HOST
 DRUPAL_DATABASE_PORT | Deprecated - set to DRUPAL_DATABASE_PORT automatically | 1-65535 | The value of DATABASE_HOST_PORT
