@@ -1,6 +1,6 @@
 #!/bin/bash
 
-do_drupal_database_restore() {
+do_magento_database_restore() {
   set +x
   if [ -f "$DATABASE_ARCHIVE_PATH" ]; then
     local DATABASE_ARGS=(-h"$DATABASE_HOST")
@@ -37,4 +37,4 @@ do_drupal_database_restore() {
   set -x
 }
 
-do_drupal_database_restore
+do_magento_database_restore
