@@ -29,7 +29,9 @@ IMAGE_NAMES="$(grep "quay.io\/continuouspipe\/.*" "${DIR}/docker-compose.yml" | 
 
 # Get list of image names without the organisation
 SHORT_IMAGE_NAMES="$(echo "$IMAGE_NAMES" | cut -d "/" -f3)"
+# shellcheck disable=SC2086
 read -r -a SHORT_IMAGE_NAMES <<<$SHORT_IMAGE_NAMES
+# shellcheck disable=SC2086
 read -r -a IMAGE_NAMES <<<$IMAGE_NAMES
 
 mkdir -p "${DIR}/security/tmp/"
