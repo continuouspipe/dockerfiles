@@ -370,10 +370,10 @@ function do_magento_catalog_image_resize() {
 }
 
 function do_magento2_build() {
-  local PRODUCTION_SETTINGS=(PRODUCTION_ENVIRONMENT="true" MAGENTO_MODE="production")
-  local DATABASE_SETTINGS=(DATABASE_HOST="localhost" DATABASE_USER="root" DATABASE_PASSWORD="" DATABASE_ROOT_PASSWORD="" DATABASE_USER_HOST="localhost")
-  local CACHE_SETTINGS=(MAGENTO_ENABLE_CACHE="false" MAGENTO_USE_REDIS="false" MAGENTO_HTTP_CACHE_HOSTS="")
-  local BUILD_ENV="${PRODUCTION_SETTINGS[@]} ${DATABASE_SETTINGS[@]} ${CACHE_SETTINGS[@]}"
+  local PRODUCTION_SETTINGS=('PRODUCTION_ENVIRONMENT="true"' 'MAGENTO_MODE="production"')
+  local DATABASE_SETTINGS=('DATABASE_HOST="localhost"' 'DATABASE_USER="root"' 'DATABASE_PASSWORD=""' 'DATABASE_ROOT_PASSWORD=""' 'DATABASE_USER_HOST="localhost"')
+  local CACHE_SETTINGS=('MAGENTO_ENABLE_CACHE="false"' 'MAGENTO_USE_REDIS="false"' 'MAGENTO_HTTP_CACHE_HOSTS=""')
+  local BUILD_ENV="${PRODUCTION_SETTINGS[*]} ${DATABASE_SETTINGS[*]} ${CACHE_SETTINGS[*]}"
 
   do_magento_build_start_mysql
   do_magento_create_web_writable_directories
