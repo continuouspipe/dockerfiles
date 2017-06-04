@@ -7,6 +7,13 @@ backend default {
     .port = "{{ getenv "VARNISH_BACKEND_PORT" }}";
 }
 
+{{ if eq "true" (getenv "MAGENTO_USE_SEPARATE_ADMIN_CONTAINER") }}
+backend default {
+    .host = "{{ getenv "MAGENTO_ADMIN_BACKEND_HOST" }}";
+    .port = "{{ getenv "MAGENTO_ADMIN_BACKEND_PORT" }}";
+}
+{{ end }}
+
 acl purge {
     "localhost";
 
@@ -17,6 +24,14 @@ acl purge {
 }
 
 sub vcl_recv {
+{{ if eq "true" (getenv "MAGENTO_USE_SEPARATE_ADMIN_CONTAINER") }}
+    if (req.url ~ "^/(index.php/)?{{ getenv "MAGENTO_ADMIN_FRONTNAME_REGEX_ESCAPED" }}/|/static/.*/adminhtml/Magento/backend/.*requirejs.*{{ if eq "true" (getenv "MAGENTO_USE_ADMIN_CONTAINER_FOR_MEDIA") }}|/media{{ end }}") {
+        set req.backend_hint = admin;
+    } else {
+        set req.backend_hint = default;
+    }
+{{ end }}
+
     if (req.method == "PURGE") {
         if (client.ip !~ purge) {
             return (synth(405, "Method not allowed"));
