@@ -365,6 +365,10 @@ function do_magento2_templating() {
   mkdir -p /app/app/etc/
 }
 
+function do_magento_catalog_image_resize() {
+  as_user "bin/magento catalog:images:resize -vvv" "/app" "www-data"
+}
+
 function do_magento2_build() {
   local PRODUCTION_SETTINGS=(PRODUCTION_ENVIRONMENT="true" MAGENTO_MODE="production")
   local DATABASE_SETTINGS=(DATABASE_HOST="localhost" DATABASE_USER="root" DATABASE_PASSWORD="" DATABASE_ROOT_PASSWORD="" DATABASE_USER_HOST="localhost")
