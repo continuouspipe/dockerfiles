@@ -13,6 +13,7 @@ error_page 404 403 = /errors/404.php;
 
 # PHP entry point for setup application
 location ~* ^/setup($|/) {
+{{ if eq "true" (getenv "MAGENTO_ALLOW_ACCESS_TO_SETUP") }}
     root $MAGE_ROOT;
     location ~ ^/setup/index.php {
         fastcgi_pass   php-fpm;
@@ -29,10 +30,14 @@ location ~* ^/setup($|/) {
     location ~ ^/setup/pub/ {
         add_header X-Frame-Options "SAMEORIGIN";
     }
+{{ else }}
+    deny all;
+{{ end }}
 }
 
 # PHP entry point for update application
 location ~* ^/update($|/) {
+{{ if eq "true" (getenv "MAGENTO_ALLOW_ACCESS_TO_UPDATE") }}
     root $MAGE_ROOT;
 
     location ~ ^/update/index.php {
@@ -53,6 +58,9 @@ location ~* ^/update($|/) {
     location ~ ^/update/pub/ {
         add_header X-Frame-Options "SAMEORIGIN";
     }
+{{ else }}
+    deny all;
+{{ end }}
 }
 
 location / {
