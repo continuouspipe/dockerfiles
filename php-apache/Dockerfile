@@ -2,6 +2,7 @@ FROM quay.io/continuouspipe/ubuntu16.04:latest
 
 MAINTAINER Kieren Evans <kieren.evans+cp-dockerfiles@inviqa.com>
 
+# Install PHP packages, including the Tideways extension
 ARG PHP_VERSION
 ENV PHP_VERSION ${PHP_VERSION:-7.0}
 RUN echo 'deb http://s3-eu-west-1.amazonaws.com/qafoo-profiler/packages debian main' > /etc/apt/sources.list.d/tideways.list \
@@ -33,6 +34,7 @@ RUN echo 'deb http://s3-eu-west-1.amazonaws.com/qafoo-profiler/packages debian m
     "php$PHP_VERSION-xsl" \
     "php$PHP_VERSION-zip" \
     postfix \
+    tideways-php \
  \
  # Clean the image \
  && apt-get auto-remove -qq -y \
