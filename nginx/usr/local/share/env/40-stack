@@ -3,7 +3,9 @@
 export APP_USER=${APP_USER:-www-data}
 export APP_GROUP=${APP_GROUP:-www-data}
 
-export START_NGINX=${START_NGINX:-true}
+START_NGINX=${START_NGINX:-true}
+START_NGINX="$(convert_to_boolean_string "$START_NGINX")"
+export START_NGINX
 
 export WORK_DIRECTORY=${WORK_DIRECTORY:-/app}
 export WEB_DIRECTORY=${WEB_DIRECTORY:-web}
