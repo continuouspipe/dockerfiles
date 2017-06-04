@@ -74,7 +74,7 @@ DATABASE_USER | Magento database user | - | magento
 DATABASE_PASSWORD | Magento database password | - | magento
 DATABASE_ADMIN_USER | Optional MySQL database password to perform DBA operations, DATABASE_USER will be used if not specified | - | -
 DATABASE_ADMIN_PASSWORD | Optional MySQL database password to perform DBA operations, DATABASE_PASSWORD will be used if not specified | - | -
-DATABASE_HOST | Magneto database host | - | database
+DATABASE_HOST | Magento database host | - | database
 ADDITIONAL_SETUP_SQL | Any additional SQL query which should be executed after database import (changing base URLs and setting varnish host/port is added by default) | SQL Query | - 
 ASSET_ARCHIVE_PATH | Asset files archive path | relative path | tools/assets/development/media.files.tgz 
 ASSET_DOWNLOAD_ENVIRONMENTS | Assets will be downloaded for this environment name | - | development
@@ -91,7 +91,9 @@ MAGENTO_CRYPT_KEY | Magneto crypt key | - | -
 COMPOSER_CUSTOM_CONFIG_COMMAND | Used to set any custom composer configuration, will be executed before composer install | composer config .. | -
 REDIS_HOST | Redis host name (to store cache and sessions) | - | redis 
 REDIS_HOST_PORT | Redis port | port number | 6379
-MAGENTO_REDIS_CACHE_DATABASE | Redis database number to store block cache | database number | 0 
+MAGENTO_ENABLE_CACHE | Should redis be used for cache? | true/false | true
+MAGENTO_USE_REDIS | Should redis be used for sessions? | true/false | true
+MAGENTO_REDIS_CACHE_DATABASE | Redis database number to store block cache | database number | 0
 MAGENTO_REDIS_FULL_PAGE_CACHE_DATABASE | Redis database number to store full page cache | database number | 1
 MAGENTO_REDIS_SESSION_DATABASE | Redis database number to store sessions | database number | 2
 MAGENTO_ADMIN_FRONTNAME | Magento backend frontname | - | admin
