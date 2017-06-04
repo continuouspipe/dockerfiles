@@ -207,6 +207,9 @@ tasks:
         symfony_php56_apache:
           image: quay.io/continuouspipe/symfony-php5.6-apache
           tag: latest
+        tideways:
+          image: quay.io/continuouspipe/tideways
+          tag: latest
 
 notifications:
   slack_failure_notification:

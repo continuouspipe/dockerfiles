@@ -367,6 +367,13 @@ services:
     depends_on:
       - php56_apache
 
+  tideways:
+    build:
+      context: ./tideways/
+    image: quay.io/continuouspipe/tideways:latest
+    depends_on:
+      - ubuntu
+
   ubuntu:
     build:
       context: ./ubuntu/16.04/

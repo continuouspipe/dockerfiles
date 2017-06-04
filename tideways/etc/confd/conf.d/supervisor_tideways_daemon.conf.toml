@@ -1,0 +1,6 @@
+[template]
+src   = "supervisor/tideways_daemon.conf.tmpl"
+dest  = "/etc/supervisor/conf.d/tideways_daemon.conf"
+mode  = "0644"
+keys = [
+]
