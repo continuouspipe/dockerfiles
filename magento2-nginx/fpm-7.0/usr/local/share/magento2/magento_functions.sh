@@ -370,11 +370,6 @@ function do_magento_catalog_image_resize() {
 }
 
 function do_magento2_build() {
-  local PRODUCTION_SETTINGS=('PRODUCTION_ENVIRONMENT="true"' 'MAGENTO_MODE="production"')
-  local DATABASE_SETTINGS=('DATABASE_HOST="localhost"' 'DATABASE_USER="root"' 'DATABASE_PASSWORD=""' 'DATABASE_ROOT_PASSWORD=""' 'DATABASE_USER_HOST="localhost"')
-  local CACHE_SETTINGS=('MAGENTO_ENABLE_CACHE="false"' 'MAGENTO_USE_REDIS="false"' 'MAGENTO_HTTP_CACHE_HOSTS=""')
-  local BUILD_ENV="${PRODUCTION_SETTINGS[*]} ${DATABASE_SETTINGS[*]} ${CACHE_SETTINGS[*]}"
-
   do_magento_build_start_mysql
   do_magento_create_web_writable_directories
   do_magento_frontend_build
@@ -382,14 +377,14 @@ function do_magento2_build() {
   do_magento_assets_install
   do_magento_install_custom
 
-  "${BUILD_ENV[@]}" do_templating
-  "${BUILD_ENV[@]}" do_magento_database_install
-  "${BUILD_ENV[@]}" do_magento_installer_install
-  "${BUILD_ENV[@]}" do_replace_core_config_values
+  PRODUCTION_ENVIRONMENT="true" MAGENTO_MODE="production" DATABASE_HOST="localhost" DATABASE_USER="root" DATABASE_PASSWORD="" DATABASE_ROOT_PASSWORD="" MAGENTO_ENABLE_CACHE="false" MAGENTO_USE_REDIS="false" MAGENTO_HTTP_CACHE_HOSTS="" do_templating
+  PRODUCTION_ENVIRONMENT="true" MAGENTO_MODE="production" DATABASE_HOST="localhost" DATABASE_USER="root" DATABASE_PASSWORD="" DATABASE_ROOT_PASSWORD="" DATABASE_USER_HOST="localhost" MAGENTO_ENABLE_CACHE="false" MAGENTO_USE_REDIS="false" MAGENTO_HTTP_CACHE_HOSTS="" do_magento_database_install
+  PRODUCTION_ENVIRONMENT="true" MAGENTO_MODE="production" DATABASE_HOST="localhost" DATABASE_USER="root" DATABASE_PASSWORD="" DATABASE_ROOT_PASSWORD="" DATABASE_USER_HOST="localhost" MAGENTO_ENABLE_CACHE="false" MAGENTO_USE_REDIS="false" MAGENTO_HTTP_CACHE_HOSTS="" do_magento_installer_install
+  PRODUCTION_ENVIRONMENT="true" MAGENTO_MODE="production" DATABASE_HOST="localhost" DATABASE_USER="root" DATABASE_PASSWORD="" DATABASE_ROOT_PASSWORD="" DATABASE_USER_HOST="localhost" MAGENTO_ENABLE_CACHE="false" MAGENTO_USE_REDIS="false" MAGENTO_HTTP_CACHE_HOSTS="" do_replace_core_config_values
   do_magento_assets_cleanup
 
   do_magento_move_compiled_assets_away_from_codebase
-  "${CACHE_SETTINGS[@]}" do_magento_setup_upgrade
+  PRODUCTION_ENVIRONMENT="true" MAGENTO_MODE="production" MAGENTO_ENABLE_CACHE="false" MAGENTO_USE_REDIS="false" MAGENTO_HTTP_CACHE_HOSTS="" do_magento_setup_upgrade
   do_magento_remove_config_template
   do_magento_move_compiled_assets_back_to_codebase
 
