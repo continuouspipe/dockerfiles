@@ -369,6 +369,17 @@ function do_magento_catalog_image_resize() {
   as_user "bin/magento catalog:images:resize -vvv" "/app" "www-data"
 }
 
+function do_magento_echo_last_minute_reports() {
+  find /app/var/report -type f -mmin -1 -print -exec cat {} \;
+}
+
+function do_magento_tail_logs() {
+  tail -f --retry \
+    /app/var/log/debug.log \
+    /app/var/log/exception.log \
+    /app/var/log/system.log
+}
+
 function do_magento2_build() {
   do_magento_build_start_mysql
   do_magento_create_web_writable_directories
