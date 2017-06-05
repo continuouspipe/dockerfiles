@@ -1,0 +1,6 @@
+[template]
+src   = "magento/echo_reports_cron.tmpl"
+dest  = "/etc/cron.d/echo_reports"
+mode  = "0644"
+keys = [
+]

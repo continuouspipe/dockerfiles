@@ -2,6 +2,4 @@
 MAILTO=""
 SUPERVISORCTL="supervisorctl -c /etc/supervisor/supervisord.conf -u supervisor -p supervisor"
 
-{{ if eq "true" (getenv "RUN_MAGENTO_CRON") }}
-* * * * * root $SUPERVISORCTL start magento-cron
-{{ end }}
+* * * * * root $SUPERVISORCTL start echo_magento_reports
