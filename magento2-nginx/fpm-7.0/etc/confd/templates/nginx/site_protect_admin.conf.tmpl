@@ -1,0 +1,23 @@
+{{ if eq "true" (getenv "MAGENTO_PROTECT_ADMIN") }}
+# Admin location
+location ~ ^/(index\.php/)?{{ getenv "MAGENTO_ADMIN_FRONTNAME_REGEX_ESCAPED" }}($|/) {
+
+{{ if getenv "MAGENTO_ADMIN_IP_WHITELIST" }}
+    {{ $ips := split (replace (replace (getenv "MAGENTO_ADMIN_IP_WHITELIST") "," " " -1) "\n" " " -1) " " }}
+    {{ range $ips }}{{ if . }}
+    allow {{ . }};
+    {{ end }}{{ end }}
+{{ end }}
+
+{{ if getenv "MAGENTO_ADMIN_HTPASSWD" }}
+    satisfy any;
+    auth_basic "Protected System";
+    auth_basic_user_file /etc/nginx/admin_htpasswd;
+{{ end }}
+
+    deny all;
+
+    # Rewrite to /index.php now that we are authenticated
+    try_files $uri $uri/ /index.php?$args;
+}
+{{ end }}
