@@ -1,0 +1,6 @@
+[template]
+src   = "supervisor/tail_magento_logs.conf.tmpl"
+dest  = "/etc/supervisor/conf.d/tail_magento_logs.conf"
+mode  = "0644"
+keys = [
+]
