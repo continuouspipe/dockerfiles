@@ -103,7 +103,8 @@ is_chown_forbidden() {
 
 is_vboxsf_mountpoint() {
   grep -q "/app vboxsf" /proc/mounts
-  return $?
+  local RESULT="$?"
+  convert_exit_code_to_string "$RESULT"
 }
 
 alias_function() {
