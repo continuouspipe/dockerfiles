@@ -4,7 +4,9 @@ export WORK_DIRECTORY=${WORK_DIRECTORY:-/app}
 export CODE_OWNER=${CODE_OWNER:-build}
 export CODE_GROUP=${CODE_GROUP:-build}
 
-export START_CRON=${START_CRON:-false}
+START_CRON=${START_CRON:-false}
+START_CRON="$(convert_to_boolean_string "$START_CRON")"
+export START_CRON
 
 set +e
 IS_CHOWN_FORBIDDEN="$(is_chown_forbidden)"

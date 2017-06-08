@@ -12,9 +12,15 @@ export APP_GROUP=${APP_GROUP:-www-data}
 export START_MODE=${START_MODE:-web}
 declare "START_MODE_${START_MODE^^}=true"
 
-export START_NGINX=${START_NGINX:-${START_MODE_WEB:-false}}
-export START_PHP_FPM=${START_PHP_FPM:-${START_MODE_WEB:-false}}
-export START_CRON=${START_CRON:-${START_MODE_CRON:-false}}
+START_NGINX=${START_NGINX:-${START_MODE_WEB:-false}}
+START_NGINX="$(convert_to_boolean_string "$START_NGINX")"
+export START_NGINX
+START_PHP_FPM=${START_PHP_FPM:-${START_MODE_WEB:-false}}
+START_PHP_FPM="$(convert_to_boolean_string "$START_PHP_FPM")"
+export START_PHP_FPM
+START_CRON=${START_CRON:-${START_MODE_CRON:-false}}
+START_CRON="$(convert_to_boolean_string "$START_CRON")"
+export START_CRON
 
 export WORK_DIRECTORY=${WORK_DIRECTORY:-/app}
 export WEB_DIRECTORY=${WEB_DIRECTORY:-web}
