@@ -200,6 +200,25 @@ services:
     depends_on:
       - ubuntu
 
+  nodejs8:
+    build:
+      context: ./nodejs/
+      args:
+        NODE_VERSION: "8.x"
+    image: quay.io/continuouspipe/nodejs8:latest
+    depends_on:
+      - ubuntu
+
+  nodejs8_small:
+    build:
+      context: ./nodejs/
+      args:
+        NODE_VERSION: "8.x"
+        INSTALL_COMMON_PACKAGES: "false"
+    image: quay.io/continuouspipe/nodejs8-small:latest
+    depends_on:
+      - ubuntu
+
   phantomjs2:
     build: ./phantomjs
     image: quay.io/continuouspipe/phantomjs2:latest
