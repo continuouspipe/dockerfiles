@@ -1,6 +1,14 @@
 version: '2'
 
 services:
+  couchdb16:
+    build:
+      context: ./couchdb/
+      dockerfile: Dockerfile-1.6
+    image: quay.io/continuouspipe/couchdb1.6:latest
+    depends_on:
+      - external_couchdb16
+
   drupal_php71_apache:
     build:
       context: ./drupal/
@@ -406,6 +414,9 @@ services:
     image: quay.io/continuouspipe/varnish4:latest
     depends_on:
       - ubuntu
+
+  external_couchdb16:
+    image: couchdb:1.6
 
   external_mongodb34:
     image: mongo:3.4
