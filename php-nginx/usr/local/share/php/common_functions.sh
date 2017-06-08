@@ -1,7 +1,7 @@
 #!/bin/bash
 
 do_build_permissions() {
-  if [ "$IS_CHOWN_FORBIDDEN" -ne 0 ]; then
+  if [ "$IS_CHOWN_FORBIDDEN" != 'true' ]; then
     chown -R "$CODE_OWNER":"$CODE_GROUP" /app/
   else
     chmod -R a+rw /app/

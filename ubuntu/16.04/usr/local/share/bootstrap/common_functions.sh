@@ -96,7 +96,8 @@ is_app_mountpoint() {
 is_chown_forbidden() {
   # Determine if the app directory is an NFS mountpoint, which doesn't allow chowning.
   grep -q -E "/app (nfs|vboxsf)" /proc/mounts
-  return $?
+  local RESULT="$?"
+  convert_exit_code_to_string "$RESULT"
 }
 
 is_vboxsf_mountpoint() {
