@@ -153,7 +153,7 @@ function do_magento_cache_flush() {
 }
 
 function do_magento_create_admin_user() {
-  if [ "$MAGENTO_CREATE_ADMIN_USER" -ne 0 ]; then
+  if [ "$MAGENTO_CREATE_ADMIN_USER" != 'true' ]; then
     return 0
   fi
 
