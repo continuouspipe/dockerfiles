@@ -1,0 +1,6 @@
+{{ if and (eq "true" (getenv "WEB_HTTPS")) (neq "true" (getenv "WEB_HTTPS_OFFLOADED")) }}
+SSLCertificateFile {{ getenv "WEB_SSL_FULLCHAIN" }}
+SSLCertificateKeyFile {{ getenv "WEB_SSL_PRIVKEY" }}
+{{ end }}
+SSLProtocol {{ getenv "WEB_SSL_PROTOCOLS" }}
+SSLCipherSuite {{ getenv "WEB_SSL_CIPHERS" }}

@@ -13,8 +13,6 @@
 <VirtualHost *:{{ getenv "WEB_HTTPS_PORT" }}>
     {{ if ne "true" (getenv "WEB_HTTPS_OFFLOADED") }}
     SSLEngine on
-    SSLCertificateFile {{ getenv "WEB_SSL_FULLCHAIN" }}
-    SSLCertificateKeyFile {{ getenv "WEB_SSL_PRIVKEY" }}
     {{ end }}
 
     IncludeOptional /etc/apache2/sites-available/000-default-*.conf

@@ -14,9 +14,7 @@ server {
 {{ if eq "true" (getenv "WEB_HTTPS") }}
 {{ if eq "true" (getenv "WEB_HTTPS_OFFLOADED") }}
     listen {{ getenv "WEB_HTTPS_PORT" }} default_server;{{ else }}
-    listen {{ getenv "WEB_HTTPS_PORT" }} default_server ssl http2;
-    ssl_certificate {{ getenv "WEB_SSL_FULLCHAIN" }};
-    ssl_certificate_key {{ getenv "WEB_SSL_PRIVKEY" }};{{ end }}{{ end }}
+    listen {{ getenv "WEB_HTTPS_PORT" }} default_server ssl http2;{{ end }}{{ end }}
 
     set $access_log_enabled 1;
 
