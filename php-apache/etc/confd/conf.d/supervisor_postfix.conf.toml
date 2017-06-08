@@ -1,0 +1,7 @@
+[template]
+src   = "supervisor/postfix.conf.tmpl"
+dest  = "/etc/supervisor/conf.d/postfix.conf"
+mode  = "0644"
+keys = [
+]
+
