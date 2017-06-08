@@ -21,6 +21,6 @@ done
 
 find "$DIR" -type f -name "Dockerfile*" ! -name "*.tmpl" | while read -r dockerfile; do
   echo "Linting '$dockerfile':";
-  docker run --rm -i lukasmartinelli/hadolint hadolint --ignore DL3008 --ignore DL3002 --ignore DL4001 --ignore DL3007 - < "$dockerfile"
+  docker run --rm -i lukasmartinelli/hadolint hadolint --ignore DL3008 --ignore DL3002 --ignore DL4001 --ignore DL3007 --ignore SC2016 - < "$dockerfile"
   echo
 done

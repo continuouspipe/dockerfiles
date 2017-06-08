@@ -286,7 +286,7 @@ services:
     image: quay.io/continuouspipe/php5.6-nginx:latest
     depends_on:
       - ubuntu
-      
+
   scala_sbt:
     build:
       context: ./scala-base/1.0/
@@ -300,6 +300,13 @@ services:
     image: quay.io/continuouspipe/redis3:latest
     depends_on:
       - external_redis
+
+  redis_highly_available:
+    build:
+      context: ./redis/3-highly-available/
+    image: quay.io/continuouspipe/redis3-highly-available:latest
+    depends_on:
+      - external_redis_highly_available
 
   elasticsearch:
     build:
@@ -417,6 +424,9 @@ services:
 
   external_redis:
     image: redis:3.2
+
+  external_redis_highly_available:
+    image: gcr.io/google_containers/redis:v1
 
   external_elasticsearch:
     image: elasticsearch:2.4
