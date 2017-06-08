@@ -89,7 +89,7 @@ is_hem_project() {
 }
 
 is_app_mountpoint() {
-  grep -q -E "/app (nfs|vboxsf|fuse\.osxfs)" /proc/mounts
+  findmnt $WORK_DIRECTORY
   return $?
 }
 
@@ -98,11 +98,6 @@ is_chown_forbidden() {
   grep -q -E "/app (nfs|vboxsf)" /proc/mounts
   local RESULT="$?"
   convert_exit_code_to_string "$RESULT"
-}
-
-is_vboxsf_mountpoint() {
-  grep -q "/app vboxsf" /proc/mounts
-  return $?
 }
 
 alias_function() {
