@@ -54,6 +54,32 @@ as_app_user() {
   as_user "$1" "$2" "$APP_USER"
 }
 
+convert_exit_code_to_string() {
+  if [ "$1" -eq 0 ]; then
+    echo 'true';
+  else
+    echo 'false';
+  fi
+}
+
+convert_to_boolean_string() {
+  if [ "$1" == '1' ] || [ "$1" == "true" ]; then
+    echo 'true';
+  else
+    echo 'false';
+  fi
+}
+
+convert_to_boolean_string_zero_is_true() {
+  if [ "$1" == '0' ]; then
+    echo 'true';
+  elif [ "$1" == '1' ]; then
+    echo 'false';
+  else
+    convert_to_boolean_string "$1"
+  fi
+}
+
 is_hem_project() {
   if [ -f /app/tools/hem/config.yaml ] || [ -f /app/tools/hobo/config.yaml ]; then
     return 0
