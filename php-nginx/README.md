@@ -101,6 +101,7 @@ SENDMAIL_RELAY_PORT | The MTA port to relay PHP's mail() to | 0-65535 | 25
 SENDMAIL_RELAY_USER | The user to authenticate with the relay. Anonymous SMTP used if not set | relay's username
 SENDMAIL_RELAY_PASSWORD | The password to authenticate with the relay | relay's password
 SENDMAIL_RELAY_TLS_SECURITY_LEVEL | Controls whether to use TLS, and what authentication of TLS | http://www.postfix.org/postconf.5.html#smtp_tls_security_level | may
+NGINX_LOG_FORMAT_NAME | Which log format to use for the access log. Two are currently available: combined (provided by NGINX) or combined_with_x_forwarded_for which logs the whole X-Forwarded-For header. | string | combined
 
 The project using the image can define these environment variables to control
 what is rendered in the Nginx configuration
