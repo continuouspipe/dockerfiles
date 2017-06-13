@@ -33,7 +33,7 @@ do_drupal_create_directories() {
 # Fix directory permissions.
 #####
 do_drupal_permissions() {
-  if [ "$IS_CHOWN_FORBIDDEN" -ne 0 ]; then
+  if [ "$IS_CHOWN_FORBIDDEN" != 'true' ]; then
     # Give the docroot and config directories to the web user.
     # Ensure the files directory is writable.
     chown -R "${CODE_OWNER}":"${APP_GROUP}" "${WEB_DIRECTORY}/modules" "${WEB_DIRECTORY}/profiles" "${WEB_DIRECTORY}/sites/default/files"

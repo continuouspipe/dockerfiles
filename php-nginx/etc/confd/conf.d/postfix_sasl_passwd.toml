@@ -1,0 +1,6 @@
+[template]
+src   = "postfix/sasl_passwd.tmpl"
+dest  = "/etc/postfix/sasl_passwd"
+mode  = "0600"
+keys = [
+]

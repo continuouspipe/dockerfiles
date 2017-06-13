@@ -17,8 +17,7 @@ fi
 cd /app || exit 1;
 
 set +e
-is_chown_forbidden
-IS_CHOWN_FORBIDDEN=$?
+IS_CHOWN_FORBIDDEN="$(is_chown_forbidden)"
 set -e
 
 if [ ! -d "vendor" ] || [ ! -f "vendor/autoload.php" ]; then
@@ -44,7 +43,7 @@ if [ ! -d "vendor" ] || [ ! -f "vendor/autoload.php" ]; then
 fi
 
 mkdir -p pub/media pub/static var
-if [ "$IS_CHOWN_FORBIDDEN" -ne 0 ]; then
+if [ "$IS_CHOWN_FORBIDDEN" != 'true' ]; then
   chown -R "${APP_USER}:${CODE_GROUP}" pub/media pub/static var
   chmod -R ug+rw,o-w pub/media pub/static var
 else
@@ -54,7 +53,7 @@ fi
 if [ -d "$FRONTEND_INSTALL_DIRECTORY" ]; then
   mkdir -p pub/static/frontend/
 
-  if [ -d "pub/static/frontend/" ] && [ "$IS_CHOWN_FORBIDDEN" -ne 0 ]; then
+  if [ -d "pub/static/frontend/" ] && [ "$IS_CHOWN_FORBIDDEN" != 'true' ]; then
     chown -R "${CODE_OWNER}:${CODE_GROUP}" pub/static/frontend/
   fi
 
@@ -67,7 +66,7 @@ if [ -d "$FRONTEND_INSTALL_DIRECTORY" ]; then
     as_code_owner "gulp $FRONTEND_BUILD_ACTION --theme='$GULP_BUILD_THEME_NAME'" "$FRONTEND_BUILD_DIRECTORY"
   fi
 
-  if [ -d "pub/static/frontend/" ] && [ "$IS_CHOWN_FORBIDDEN" -ne 0 ]; then
+  if [ -d "pub/static/frontend/" ] && [ "$IS_CHOWN_FORBIDDEN" != 'true' ]; then
     chown -R "${APP_USER}:${APP_GROUP}" pub/static/frontend/
   fi
 fi

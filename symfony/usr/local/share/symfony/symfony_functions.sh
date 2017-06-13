@@ -16,7 +16,7 @@ do_symfony_directory_create() {
 }
 
 do_symfony_app_permissions() {
-  if [ "$IS_CHOWN_FORBIDDEN" -ne 0 ]; then
+  if [ "$IS_CHOWN_FORBIDDEN" != 'true' ]; then
     # Fix permissions so the web server user can write to cache and logs folders
     if [ "$SYMFONY_MAJOR_VERSION" -eq 2 ]; then
       chown -R "$APP_USER:$CODE_GROUP" /app/app/{cache,logs}

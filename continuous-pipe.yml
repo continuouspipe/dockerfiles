@@ -80,6 +80,9 @@ tasks:
   no_dependency_images:
     build:
       services:
+        couchdb16:
+          image: quay.io/continuouspipe/couchdb1.6
+          tag: latest
         drupal_php71_apache:
           image: quay.io/continuouspipe/drupal-php7.1-apache
           tag: latest
@@ -174,6 +177,20 @@ tasks:
               value: "7.x"
             - name: INSTALL_COMMON_PACKAGES
               value: "false"
+        nodejs8:
+          image: quay.io/continuouspipe/nodejs8
+          tag: latest
+          environment:
+            - name: NODE_VERSION
+              value: "8.x"
+        nodejs8_small:
+          image: quay.io/continuouspipe/nodejs8-small
+          tag: latest
+          environment:
+            - name: NODE_VERSION
+              value: "8.x"
+            - name: INSTALL_COMMON_PACKAGES
+              value: "false"
         phantomjs2:
           image: quay.io/continuouspipe/phantomjs2
           tag: latest
@@ -182,6 +199,9 @@ tasks:
           tag: latest
         redis:
           image: quay.io/continuouspipe/redis3
+          tag: latest
+        redis_highly_available:
+          image: quay.io/continuouspipe/redis3-highly-available
           tag: latest
         scala_sbt:
           image: quay.io/continuouspipe/scala-base

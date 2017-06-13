@@ -15,11 +15,10 @@ fi
 cd /app || exit 1
 
 set +e
-is_chown_forbidden
-IS_CHOWN_FORBIDDEN=$?
+IS_CHOWN_FORBIDDEN="$(is_chown_forbidden)"
 set -e
 
-if [ "$IS_CHOWN_FORBIDDEN" -ne 0 ]; then
+if [ "$IS_CHOWN_FORBIDDEN" != 'true' ]; then
   chown -R "${CODE_OWNER}":"${CODE_GROUP}" pub/media pub/static var
 else
   chmod a+rw pub/media pub/static var
@@ -59,10 +58,9 @@ fi
 
 # Download the static assets
 set +e
-is_hem_project
-IS_HEM=$?
+IS_HEM="$(is_hem_project)"
 set -e
-if [ "$IS_HEM" -eq 0 ]; then
+if [ "$IS_HEM" == 'true' ]; then
   export HEM_RUN_ENV="${HEM_RUN_ENV:-local}"
   for asset_env in $ASSET_DOWNLOAD_ENVIRONMENTS; do
     as_build "hem --non-interactive --skip-host-checks assets download -e $asset_env"
@@ -74,7 +72,7 @@ fi
 as_code_owner "bin/magento cache:flush"
 
 # Ensure the permissions are web writable for the assets and var folders, but only on filesystems that allow chown.
-if [ "$IS_CHOWN_FORBIDDEN" -ne 0 ]; then
+if [ "$IS_CHOWN_FORBIDDEN" != 'true' ]; then
   chown -R "${APP_USER}:${APP_GROUP}" pub/media pub/static var
 fi
 
