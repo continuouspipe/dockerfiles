@@ -42,12 +42,12 @@ if [ -d /tmp/assets/ ]; then
 fi
 
 # Compile the DIC if to be productionized
-if [ "$PRODUCTION_ENVIRONMENT" = "1" ]; then
+if [ "$PRODUCTION_ENVIRONMENT" == 'true' ]; then
   as_code_owner "$MAGENTO_DEPENDENCY_INJECTION_COMPILE_COMMAND"
 fi
 
 # Compile static content if it's a production container.
-if [ "$MAGENTO_MODE" = "production" ]; then
+if [ "$MAGENTO_MODE" == "production" ]; then
   as_code_owner "bin/magento setup:static-content:deploy $FRONTEND_COMPILE_LANGUAGES"
 fi
 
