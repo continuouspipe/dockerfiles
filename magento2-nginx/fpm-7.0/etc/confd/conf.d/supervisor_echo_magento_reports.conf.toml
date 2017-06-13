@@ -1,0 +1,6 @@
+[template]
+src   = "supervisor/echo_magento_reports.conf.tmpl"
+dest  = "/etc/supervisor/conf.d/echo_magento_reports.conf"
+mode  = "0644"
+keys = [
+]
