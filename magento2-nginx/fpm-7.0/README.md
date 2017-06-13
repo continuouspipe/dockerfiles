@@ -98,3 +98,5 @@ MAGENTO_REDIS_FULL_PAGE_CACHE_DATABASE | Redis database number to store full pag
 MAGENTO_REDIS_SESSION_DATABASE | Redis database number to store sessions | database number | 2
 MAGENTO_ADMIN_FRONTNAME | Magento backend frontname | - | admin
 START_MODE | Start in "web" mode to serve a site, or "cron" mode to run the cron | (web|cron) | web
+MAGENTO_HTTP_CACHE_HOSTS | Comma separated list of upstream HTTP cache hosts (for example, varnish) that magento will PURGE when clearing full page cache | CSV of hostnames/IPs | empty
+MAGENTO_HTTP_CACHE_PORT | Port to talk to on the upstream HTTP cache hosts | 1-65535 | 80
