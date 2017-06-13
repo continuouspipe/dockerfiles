@@ -1,0 +1,6 @@
+[template]
+src   = "nginx/nginx_log_format.conf.tmpl"
+dest  = "/etc/nginx/conf.d/nginx_log_format.conf"
+mode  = "0644"
+keys = [
+]
