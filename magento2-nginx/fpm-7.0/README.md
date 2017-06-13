@@ -105,3 +105,5 @@ MAGENTO_ADMIN_FRONTNAME | Magento backend frontname | - | admin
 START_MODE | Start in "web" mode to serve a site, or "cron" mode to run the cron | (web|cron) | web
 MAGENTO_HTTP_CACHE_HOSTS | Comma separated list of upstream HTTP cache hosts (for example, varnish) that magento will PURGE when clearing full page cache | CSV of hostnames/IPs | empty
 MAGENTO_HTTP_CACHE_PORT | Port to talk to on the upstream HTTP cache hosts | 1-65535 | 80
+MAGENTO_ALLOW_ACCESS_TO_SETUP | Whether to allow access to the /setup URL or not | true/false | true
+MAGENTO_ALLOW_ACCESS_TO_UPDATE | Whether to allow access to the /update URL or not | true/false | true
