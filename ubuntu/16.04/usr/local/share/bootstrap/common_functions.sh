@@ -157,3 +157,25 @@ do_user_ssh_keys() {
   fi
   set -x
 }
+
+function do_enable_tracing() {
+  export PS4='$(date "+%s.%N ($LINENO) + ")'
+}
+
+function do_apt_get_update() {
+  apt-get update -qq
+}
+
+function do_install_security_updates() {
+  do_apt_get_update
+  DEBIAN_FRONTEND=noninteractive apt-get -s dist-upgrade | grep "^Inst" | \
+     grep -i securi | awk -F " " '{print $2}' | \
+     xargs apt-get -qq -y --no-install-recommends install
+  do_clear_apt_caches
+}
+
+function do_clear_apt_caches() {
+  apt-get auto-remove -qq -y
+  apt-get clean
+  rm -rf /var/lib/apt/lists/*
+}
