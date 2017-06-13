@@ -1,0 +1,6 @@
+[template]
+src   = "nginx/nginx_server_name_bucket_size.conf.tmpl"
+dest  = "/etc/nginx/conf.d/nginx_server_name_bucket_size.conf"
+mode  = "0644"
+keys = [
+]
