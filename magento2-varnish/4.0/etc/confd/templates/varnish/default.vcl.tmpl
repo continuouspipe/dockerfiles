@@ -8,7 +8,7 @@ backend default {
 }
 
 {{ if eq "true" (getenv "MAGENTO_USE_SEPARATE_ADMIN_CONTAINER") }}
-backend default {
+backend admin {
     .host = "{{ getenv "MAGENTO_ADMIN_BACKEND_HOST" }}";
     .port = "{{ getenv "MAGENTO_ADMIN_BACKEND_PORT" }}";
 }
