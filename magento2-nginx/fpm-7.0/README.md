@@ -93,6 +93,11 @@ REDIS_HOST | Redis host name (to store cache and sessions) | - | redis
 REDIS_HOST_PORT | Redis port | port number | 6379
 MAGENTO_ENABLE_CACHE | Should redis be used for cache? | true/false | true
 MAGENTO_USE_REDIS | Should redis be used for sessions? | true/false | true
+REDIS_USE_SENTINEL | If you are running a redis cluster watched by sentinels and have Cm_Cache_Redis_Backend v1.10.x, set this to true to avoid trying to write to the redis followers | boolean | true/false
+REDIS_SENTINEL_HOSTS | Comma seperated list of sentinel protocol/host/ports to talk to to find out which redis server is the leader | CSV of protocol/hostname/ports | tcp://redis-sentinel-0.redis-sentinel-headless:26379,tcp://redis-sentinel-1.redis-sentinel-headless:26379,tcp://redis-sentinel-2.redis-sentinel-headless:26379
+REDIS_SENTINEL_MASTER | The name of the leader to ask the redis sentinels regarding. | string | mymaster
+REDIS_SENTINEL_SERVICE_HOST | The hostname of the redis sentinel service. Used whilst magento_clear_redis_cache() function runs | hostname | redis-sentinel-headless
+REDIS_SENTINEL_SERVICE_PORT | The port of the redis sentinel service. Used whilst magento_clear_redis_cache() function runs | 1-65535 | 26379
 MAGENTO_REDIS_CACHE_DATABASE | Redis database number to store block cache | database number | 0
 MAGENTO_REDIS_FULL_PAGE_CACHE_DATABASE | Redis database number to store full page cache | database number | 1
 MAGENTO_REDIS_SESSION_DATABASE | Redis database number to store sessions | database number | 2
