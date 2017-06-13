@@ -25,7 +25,7 @@ acl purge {
 
 sub vcl_recv {
 {{ if eq "true" (getenv "MAGENTO_USE_SEPARATE_ADMIN_CONTAINER") }}
-    if (req.url ~ "^/(index.php/)?{{ getenv "MAGENTO_ADMIN_FRONTNAME_REGEX_ESCAPED" }}/|/static/.*/adminhtml/Magento/backend/.*requirejs.*{{ if eq "true" (getenv "MAGENTO_USE_ADMIN_CONTAINER_FOR_MEDIA") }}|/media{{ end }}") {
+    if (req.url ~ "^/(index\.php/)?{{ getenv "MAGENTO_ADMIN_FRONTNAME_REGEX_ESCAPED" }}/|^/static/.*/adminhtml/{{ if eq "true" (getenv "MAGENTO_USE_ADMIN_CONTAINER_FOR_MEDIA") }}|^/media/{{ end }}") {
         set req.backend_hint = admin;
     } else {
         set req.backend_hint = default;
@@ -188,8 +188,6 @@ sub vcl_deliver {
     } else {
         unset resp.http.Age;
     }
-
-    set resp.http.Access-Control-Allow-Origin = "*";
 
     unset resp.http.X-Magento-Debug;
     unset resp.http.X-Magento-Tags;
