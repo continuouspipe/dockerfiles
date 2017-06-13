@@ -1,0 +1,6 @@
+[template]
+src   = "tideways/tideways.ini.tmpl"
+dest  = "/etc/php/$PHP_VERSION/mods-available/tideways.ini"
+mode  = "0644"
+keys = [
+]
