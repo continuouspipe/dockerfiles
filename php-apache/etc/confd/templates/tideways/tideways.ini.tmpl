@@ -1,6 +1,8 @@
 ; Configuration for Tideways Profiler Extension
 ; priority=40
+{{if eq "true" (getenv "TIDEWAYS_ENABLED")}}
 extension=tideways.so
+{{end}}
 
 ; Tideways Application API-Key to configure when using just one application on
 ; this php installation.
