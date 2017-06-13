@@ -7,6 +7,7 @@ FROM quay.io/continuouspipe/magento2-nginx-php7:stable
 ARG GITHUB_TOKEN=
 ARG MAGENTO_USERNAME=
 ARG MAGENTO_PASSWORD=
+ARG IMAGE_VERSION=2
 
 COPY . /app
 RUN container build
