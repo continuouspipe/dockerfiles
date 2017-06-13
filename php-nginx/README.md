@@ -101,6 +101,13 @@ SENDMAIL_RELAY_PORT | The MTA port to relay PHP's mail() to | 0-65535 | 25
 SENDMAIL_RELAY_USER | The user to authenticate with the relay. Anonymous SMTP used if not set | relay's username
 SENDMAIL_RELAY_PASSWORD | The password to authenticate with the relay | relay's password
 SENDMAIL_RELAY_TLS_SECURITY_LEVEL | Controls whether to use TLS, and what authentication of TLS | http://www.postfix.org/postconf.5.html#smtp_tls_security_level | may
+PHP_MEMORY_LIMIT | The PHP Memory Limit, with unit suffix | Integer and a unit (K for Kilobytes/M for Megabytes/G for Gigabytes) | 256M
+PHP_MEMORY_LIMIT_CLI | The PHP Memoery Limit on the Command Line | Integers and a unit (K for Kilobytes/M for Megabytes/G for Gigabytes) | value of PHP_MEMORY_LIMIT
+PHP_OPCACHE_MAX_ACCELERATED_FILES | The amount of files to cache the opcodes for. | integer | 2000
+PHP_OPCACHE_MEMORY_CONSUMPTION | The amount of megabytes that the opcode cache is allowed to use | integer | 64
+PHP_OPCACHE_VALIDATE_TIMESTAMPS | If PHP should use the cache directly or first check if the file has been modified, where 0 means don't check files. | 0/1 | 1
+PHP_REALPATH_CACHE_SIZE | The amount of bytes used for the cache of fully resolved file paths | Integer and a unit (K for Kilobytes/M for Megabytes/G for Gigabytes) | 16K
+PHP_REALPATH_CACHE_TTL | The amount of seconds to cache the fully resolved file paths for | integer | 120
 
 The project using the image can define these environment variables to control
 what is rendered in the Nginx configuration
