@@ -44,4 +44,6 @@ RUN echo 'APT::Install-Recommends 0;' >> /etc/apt/apt.conf.d/01norecommends \
 COPY ./etc/ /etc/
 COPY ./usr/ /usr/
 
+USER build
+
 CMD ["/usr/local/bin/container", "start_supervisord"]
