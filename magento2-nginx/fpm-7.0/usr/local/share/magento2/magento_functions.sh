@@ -149,6 +149,50 @@ function do_magento_install_finalise_custom() {
   fi
 }
 
+function get_database_admin_query_args() {
+  local DATABASE_ARGS=(-h"$DATABASE_HOST")
+  if [ -n "$DATABASE_ADMIN_USER" ] && [ -n "$DATABASE_ADMIN_PASSWORD" ]; then
+    DATABASE_ARGS+=(-u"$DATABASE_ADMIN_USER" -p"$DATABASE_ADMIN_PASSWORD")
+  elif [ -n "$DATABASE_PASSWORD" ]; then
+    DATABASE_ARGS+=(-u"$DATABASE_USER" -p"$DATABASE_PASSWORD")
+  else
+    DATABASE_ARGS+=(-u"$DATABASE_USER")
+  fi
+  echo "${DATABASE_ARGS[@]}"
+}
+
+function get_database_query_args() {
+  local DATABASE_ARGS=(-h"$DATABASE_HOST")
+  if [ -n "$DATABASE_PASSWORD" ]; then
+    DATABASE_ARGS+=(-u"$DATABASE_USER" -p"$DATABASE_PASSWORD")
+  else
+    DATABASE_ARGS+=(-u"$DATABASE_USER")
+  fi
+  echo "${DATABASE_ARGS[@]}"
+}
+
+function do_database_admin_query() {
+  local QUERY="$1"
+  local DATABASE_ARGS
+  DATABASE_ARGS="$(get_database_admin_query_args)"
+  local RESULT
+  RESULT="$(mysql "${DATABASE_ARGS[@]}" -e "$QUERY")"
+  local SUCCESS="$?"
+  echo "$RESULT"
+  return $SUCCESS
+}
+
+function do_database_query() {
+  local QUERY="$1"
+  local DATABASE_ARGS
+  DATABASE_ARGS="$(get_database_query_args)"
+  local RESULT
+  RESULT="$(mysql "${DATABASE_ARGS[@]}" "$DATABASE_NAME" -e "$QUERY")"
+  local SUCCESS="$?"
+  echo "$RESULT"
+  return $SUCCESS
+}
+
 function do_magento_drop_database() {
   set +x
 
@@ -157,36 +201,22 @@ function do_magento_drop_database() {
   fi
 
   echo 'Dropping the Magento DB if exists'
-  if [ -n "$DATABASE_ROOT_PASSWORD" ]; then
-    mysql -h"$DATABASE_HOST" -uroot -p"$DATABASE_ROOT_PASSWORD" -e "DROP DATABASE IF EXISTS $DATABASE_NAME" || exit 1
-  else
-    mysql -h"$DATABASE_HOST" -uroot -e "DROP DATABASE IF EXISTS $DATABASE_NAME" || exit 1
-  fi
+  do_database_admin_query "DROP DATABASE IF EXISTS $DATABASE_NAME"
 }
 
 function check_magento_database_exists() {
   set +e
-  local DATABASE_EXISTS
-  if [ -n "$DATABASE_PASSWORD" ]; then
-    mysql -h"$DATABASE_HOST" -u"$DATABASE_USER" -p"$DATABASE_PASSWORD" "$DATABASE_NAME" -e "SHOW TABLES; SELECT FOUND_ROWS() > 0;" | grep -q 1
-    DATABASE_EXISTS=$?
-  else
-    mysql -h"$DATABASE_HOST" -u"$DATABASE_USER" "$DATABASE_NAME" -e "SHOW TABLES; SELECT FOUND_ROWS() > 0;" | grep -q 1
-    DATABASE_EXISTS=$?
-  fi
-  if [ "$DATABASE_EXISTS" -eq 0 ]; then
-    echo "true";
-  else
-    echo "false";
-  fi
+  do_database_query "SHOW TABLES; SELECT FOUND_ROWS() > 0;" | grep -q 1
+  echo "$(convert_to_boolean_string_zero_is_true "$?")"
 }
 
 function do_magento_database_create() {
   echo 'Create Magento database'
-  if [ -n "$DATABASE_ROOT_PASSWORD" ]; then
-    echo "CREATE DATABASE IF NOT EXISTS $DATABASE_NAME ; GRANT ALL ON $DATABASE_NAME.* TO $DATABASE_USER@'$DATABASE_USER_HOST' IDENTIFIED BY '$DATABASE_PASSWORD' ; FLUSH PRIVILEGES" |  mysql -uroot -p"$DATABASE_ROOT_PASSWORD" -h"$DATABASE_HOST"
-  else
-    echo "CREATE DATABASE IF NOT EXISTS $DATABASE_NAME ; GRANT ALL ON $DATABASE_NAME.* TO $DATABASE_USER@'$DATABASE_USER_HOST' IDENTIFIED BY '$DATABASE_PASSWORD' ; FLUSH PRIVILEGES" |  mysql -uroot -h"$DATABASE_HOST"
+  do_database_admin_query "CREATE DATABASE IF NOT EXISTS $DATABASE_NAME CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;"
+
+  if [ -n "${DATABASE_ROOT_PASSWORD:-}" ]; then
+    echo "deprecated: granting $DATABASE_USER mysql user access should be moved to mysql service's environment variables and DATABASE_ROOT_PASSWORD removed from this service"
+    do_database_admin_query "GRANT ALL ON $DATABASE_NAME.* TO $DATABASE_USER@'$DATABASE_USER_HOST' IDENTIFIED BY '$DATABASE_PASSWORD' ; FLUSH PRIVILEGES"
   fi
 }
 
@@ -203,11 +233,9 @@ function do_magento_database_install() {
       do_magento_database_create
 
       echo 'zcating the magento database dump into the database'
-      if [ -n "$DATABASE_ROOT_PASSWORD" ]; then
-        zcat "$DATABASE_ARCHIVE_PATH" | mysql -h"$DATABASE_HOST" -uroot -p"$DATABASE_ROOT_PASSWORD" "$DATABASE_NAME" || exit 1
-      else
-        zcat "$DATABASE_ARCHIVE_PATH" | mysql -h"$DATABASE_HOST" -uroot "$DATABASE_NAME" || exit 1
-      fi
+      local DATABASE_ARGS
+      DATABASE_ARGS="$(get_database_query_args)"
+      zcat "$DATABASE_ARCHIVE_PATH" | mysql "${DATABASE_ARGS[@]}" "$DATABASE_NAME" || exit 1
     fi
   fi
   set -x
@@ -306,11 +334,7 @@ function do_replace_core_config_values() {
   echo "Running the following SQL on $DATABASE_HOST.$DATABASE_NAME:"
   echo "$SQL"
 
-  if [ -n "$DATABASE_PASSWORD" ]; then
-    echo "$SQL" | mysql -h"$DATABASE_HOST" -u"$DATABASE_USER" -p"$DATABASE_PASSWORD" "$DATABASE_NAME"
-  else
-    echo "$SQL" | mysql -h"$DATABASE_HOST" -u"$DATABASE_USER" "$DATABASE_NAME"
-  fi
+  do_database_query "$SQL"
 
   set -x
 }
