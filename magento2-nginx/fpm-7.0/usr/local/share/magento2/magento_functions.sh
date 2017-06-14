@@ -363,14 +363,14 @@ function do_magento_tail_logs() {
 }
 
 function do_ownership() {
-  local PATH="$1"
+  local OWNERSHIP_PATH="$1"
   local USER="$2"
   local GROUP="$3"
   if [ "$IS_CHOWN_FORBIDDEN" != 'true' ]; then
-    find "${PATH[@]}" \( ! -user "${USER}" -or ! -group "${GROUP}" \) -exec chown "${USER}:${GROUP}" {} +
-    chmod -R ug+rw,o-w "${PATH[@]}"
+    find "${OWNERSHIP_PATH[@]}" \( ! -user "${USER}" -or ! -group "${GROUP}" \) -exec chown "${USER}:${GROUP}" {} +
+    chmod -R ug+rw,o-w "${OWNERSHIP_PATH[@]}"
   else
-    chmod -R a+rw "${PATH[@]}"
+    chmod -R a+rw "${OWNERSHIP_PATH[@]}"
   fi
 }
 
