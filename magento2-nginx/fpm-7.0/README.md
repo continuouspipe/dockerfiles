@@ -112,6 +112,9 @@ MAGENTO_PROTECT_ADMIN | Should IP whitelisting/Basic Auth be deployed for the MA
 MAGENTO_ADMIN_HTPASSWD | The htpasswd format `username:hashed_password` to protect admin with. Leave blank to just use IP Whitelisting. | htpasswd format username/passwords | empty
 MAGENTO_ADMIN_IP_WHITELIST | The comma separated list of whitelisted IP addresses that can visit the admin path. Leave blank to just use htpasswd | CSV of IP addresses | Value of $AUTH_IP_WHITELIST, which may be blank or "127.0.0.1/32, ::1, 10.0.0.0/14"
 START_MODE | Start in "web" mode to serve a site, or "cron" mode to run the cron | (web|cron) | web
+START_CRON | Start the cron if "true", regardless of START_MODE | true/false | false
+RUN_REPORTS_CRON | When cron is running, should the outputting of the last minute's reports to stderr happen? | true/false | true
+RUN_MAGENTO_CRON | When cron is running, should the magento cron run, or just the supporting web services that output logs? | true/false | true
 MAGENTO_HTTP_CACHE_HOSTS | Comma separated list of upstream HTTP cache hosts (for example, varnish) that magento will PURGE when clearing full page cache | CSV of hostnames/IPs | empty
 MAGENTO_HTTP_CACHE_PORT | Port to talk to on the upstream HTTP cache hosts | 1-65535 | 80
 MAGENTO_ALLOW_ACCESS_TO_SETUP | Whether to allow access to the /setup URL or not | true/false | true
