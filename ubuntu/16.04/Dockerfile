@@ -46,4 +46,4 @@ COPY ./usr/ /usr/
 
 USER build
 
-CMD ["/usr/local/bin/container", "start_supervisord"]
+CMD ["/usr/bin/sudo", "/usr/local/bin/container", "start_supervisord"]
