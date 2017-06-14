@@ -96,6 +96,15 @@ WEB_HTTPS_ONLY      | Whether to redirect all HTTP traffic to HTTPS | true/false
 WEB_REVERSE_PROXIED | Whether to interpret X-Forwarded-Proto as the $custom_scheme and $custom_https emulation. | true/false | true
 WEB_SSL_FULLCHAIN | The location of the SSL certificate and intermediate chain file | absolute filename | /etc/ssl/certs/fullchain.pem
 WEB_SSL_PRIVKEY | The location of the SSL private key file | absolute filename | /etc/ssl/private/privkey.pem
+ASSETS_ENV | The assets environment assets are downloaded/applied from. If unset no asset actions will happen | a asset environment | 
+ASSETS_PATH | The assets filesystem path assets are downloaded to /applied from. If unset and ASSETS_ENV unset no asset actions will happen | a asset filesystem path | tools/assets/${ASSETS_ENV} if ASSETS_ENV set
+ASSETS_S3_BUCKET | The AWS S3 bucket assets are downloaded from. If unset, no assets will be downloaded | a S3 bucket name |
+ASSETS_S3_BUCKET_PATH | The full bucket path to an environment's assets. If unset or ASSETS_S3_BUCKET unset, no assets will be downloaded | a S3 bucket path | s3://${ASSETS_S3_BUCKET}/${ASSETS_ENV}/ if ASSETS_S3_BUCKET and ASSETS_ENV set
+ASSETS_DATABASE_ENABLED | Whether to import matched assets into the database | true/false | true
+ASSETS_DATABASE_PATTERN | A regex pattern of database dump files in the ASSETS_PATH to apply to the database | a regex | /([^/\.]+)(\.[^/]*)?\.sql\.(gz|bz2)$
+ASSETS_DATABASE_NAME_CAPTURE_GROUP | The capture group to use as the database name the database dump will be applied to, set to 0 to use DATABASE_NAME instead | positive integer | 1
+ASSETS_FILES_ENABLED | Whether to extract matched assets into the filesystem | true/false | true
+ASSETS_FILES_PATTERN | A regex pattern of compressed file archives to extract into WORK_DIRECTORY | a regex | /([^/\.]+)(\.[^/]*)?\.sql(\.(gz|bz2))?$
 SENDMAIL_RELAY_HOST | The MTA host to relay PHP's mail() to. PHP mail() will return false if not set | a domain
 SENDMAIL_RELAY_PORT | The MTA port to relay PHP's mail() to | 0-65535 | 25
 SENDMAIL_RELAY_USER | The user to authenticate with the relay. Anonymous SMTP used if not set | relay's username
@@ -217,3 +226,57 @@ These functions can be triggered via the /usr/local/bin/container command, dropp
 
 /usr/local/bin/container build # runs do_build
 /usr/local/bin/container start_supervisord # runs do_start_supervisord
+
+
+### File and Database asset dump synchronisation from S3 and applying
+
+This base image supports downloading asset dumps from S3, and applying them to
+the filesystem and MySQL databases.
+
+It can be used by setting the following environment variables
+* ASSETS_ENV or ASSETS_PATH and ASSETS_S3_BUCKET_PATH
+* ASSETS_S3_BUCKET or ASSETS_S3_BUCKET_PATH
+* AWS_ACCESS_KEY_ID
+* AWS_SECRET_ACCESS_KEY
+
+By default, none of these are set, causing no action to be performed.
+
+If ASSETS_ENV and ASSETS_S3_BUCKET are set, then assets will be downloaded from
+s3://${ASSETS_S3_BUCKET}/${ASSETS_ENV} to /app/tools/assets/${ASSETS_ENV}.
+
+These paths can alternatively be overridden via setting ASSETS_S3_BUCKET_PATH and
+ASSETS_PATH environment variables respectively. You wouldn't need to specify
+ASSETS_ENV or ASSETS_S3_BUCKET then.
+
+#### Database
+
+Database dumps that match ASSETS_DATABASE_PATTERNS will be, on container start,
+extracted into a MySQL database named either by:
+
+* The capture group in the regex pattern identified by ASSETS_DATABASE_NAME_CAPTURE_GROUP if ASSETS_DATABASE_NAME_CAPTURE_GROUP > 0
+* DATABASE_NAME if ASSETS_DATABASE_NAME_CAPTURE_GROUP = 0
+
+By default a database file with name `mydatabase.20170101.sql.gz` will match `mydatabase` as the database name to import to.
+
+SQL files either plaintext or compressed by Gzip or Bzip2 are supported, with the following file extensions:
+
+* .sql
+* .sql.gz
+* .sql.bz2
+
+This can be individually disabled using ASSETS_DATABASE_ENABLED.
+
+#### Files
+
+Files that match the ASSETS_FILES_PATTERN will be, on container start, extracted
+into WORK_DIRECTORY, and therefore the archives must contain files with relative
+paths to that directory.
+
+Tar files either raw or compressed by Gzip or Bzip2 are supported, with the following file extensions:
+
+* .tar
+* .tgz
+* .tar.gz
+* .tar.bz2
+
+This can be individually disabled using ASSETS_FILES_ENABLED.

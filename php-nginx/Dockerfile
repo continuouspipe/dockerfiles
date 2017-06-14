@@ -13,6 +13,7 @@ RUN echo 'deb http://s3-eu-west-1.amazonaws.com/qafoo-profiler/packages debian m
  fi \
  && apt-get update -qq \
  && DEBIAN_FRONTEND=noninteractive apt-get -qq -y --no-install-recommends install \
+    awscli \
     nginx \
     mysql-client \
     php-apcu \

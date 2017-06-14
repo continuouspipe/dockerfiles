@@ -1,5 +1,6 @@
 #!/bin/bash
 
+source /usr/local/share/assets/assets_functions.sh
 source /usr/local/share/php/common_functions.sh
 source /usr/local/share/php/apache_functions.sh
 
@@ -12,6 +13,7 @@ do_build() {
 
 alias_function do_start do_php_apache_start_inner
 do_start() {
+  do_assets_all
   do_apache
   do_php_apache_start_inner
 }
