@@ -17,21 +17,15 @@ function do_composer_post_install() {
 
 function do_magento_create_web_writable_directories() {
   mkdir -p pub/media pub/static var/log var/report var/generation
-
-  if [ "$IS_CHOWN_FORBIDDEN" != 'true' ]; then
-    chown -R "${APP_USER}:${CODE_GROUP}" pub/media pub/static var
-    chmod -R ug+rw,o-w pub/media pub/static var
-  else
-    chmod -R a+rw pub/media pub/static var
-  fi
+  do_ownership "pub/media pub/static var" "${APP_USER}" "${CODE_GROUP}"
 }
 
 function do_magento_frontend_build() {
   if [ -d "$FRONTEND_INSTALL_DIRECTORY" ]; then
     mkdir -p pub/static/frontend/
 
-  if [ -d "pub/static/frontend/" ] && [ "$IS_CHOWN_FORBIDDEN" != 'true' ]; then
-      chown -R "${CODE_OWNER}:${CODE_GROUP}" pub/static/frontend/
+    if [ -d "pub/static/frontend/" ] && [ "$IS_CHOWN_FORBIDDEN" != 'true' ]; then
+      do_ownership pub/static/frontend/ "${CODE_OWNER}" "${CODE_GROUP}"
     fi
 
     if [ ! -d "$FRONTEND_INSTALL_DIRECTORY/node_modules" ]; then
@@ -43,8 +37,8 @@ function do_magento_frontend_build() {
       as_code_owner "gulp $FRONTEND_BUILD_ACTION --theme='$GULP_BUILD_THEME_NAME'" "$FRONTEND_BUILD_DIRECTORY"
     fi
 
-  if [ -d "pub/static/frontend/" ] && [ "$IS_CHOWN_FORBIDDEN" != 'true' ]; then
-      chown -R "${APP_USER}:${APP_GROUP}" pub/static/frontend/
+    if [ -d "pub/static/frontend/" ] && [ "$IS_CHOWN_FORBIDDEN" != 'true' ]; then
+      do_ownership pub/static/frontend/ "${APP_USER}" "${APP_GROUP}"
     fi
   fi
 }
@@ -57,11 +51,7 @@ function do_magento_install_custom() {
 }
 
 function do_magento_switch_web_writable_directories_to_code_owner() {
-  if [ "$IS_CHOWN_FORBIDDEN" != 'true' ]; then
-    chown -R "${CODE_OWNER}":"${CODE_GROUP}" pub/media pub/static var
-  else
-    chmod a+rw pub/media pub/static var
-  fi
+  do_ownership "pub/media pub/static var" "${CODE_OWNER}" "${CODE_GROUP}"
 }
 
 function do_magento_move_compiled_assets_away_from_codebase() {
@@ -260,21 +250,12 @@ function do_magento_wait_for_database() {
 
 function do_magento_assets_install() {
   if [ -f "$ASSET_ARCHIVE_PATH" ]; then
-    if [ "$IS_CHOWN_FORBIDDEN" != 'true' ]; then
-      chown -R "${CODE_OWNER}:${CODE_GROUP}" pub/media
-    else
-      chmod -R a+rw pub/media
-    fi
+    do_ownership "pub/media" "${CODE_OWNER}" "${CODE_GROUP}"
 
     echo 'extracting media files'
     as_code_owner "tar --no-same-owner --extract --strip-components=2 --touch --overwrite --gzip --file=$ASSET_ARCHIVE_PATH || exit 1" pub/media
 
-    if [ "$IS_CHOWN_FORBIDDEN" != 'true' ]; then
-      chown -R "${APP_USER}:${CODE_GROUP}" pub/media
-      chmod -R ug+rw,o-rw pub/media
-    else
-      chmod -R a+rw pub/media
-    fi
+    do_ownership "pub/media" "${APP_USER}" "${CODE_GROUP}"
   fi
 }
 
@@ -379,6 +360,18 @@ function do_magento_tail_logs() {
     /app/var/log/debug.log \
     /app/var/log/exception.log \
     /app/var/log/system.log
+}
+
+function do_ownership() {
+  local PATH="$1"
+  local USER="$2"
+  local GROUP="$3"
+  if [ "$IS_CHOWN_FORBIDDEN" != 'true' ]; then
+    find "${PATH[@]}" \( ! -user "${USER}" -or ! -group "${GROUP}" \) -exec chown "${USER}:${GROUP}" {} +
+    chmod -R ug+rw,o-w "${PATH[@]}"
+  else
+    chmod -R a+rw "${PATH[@]}"
+  fi
 }
 
 function do_magento2_build() {
