@@ -14,7 +14,9 @@ do_build() {
 
 alias_function do_start do_php_nginx_start_inner
 do_start() {
-  do_assets_all
+  if [ "${DEVELOPMENT_MODE}" == "false" ]; then
+    do_assets_all
+  fi
   do_nginx
   do_php_nginx_start_inner
 }
@@ -23,5 +25,6 @@ alias_function do_development_start do_php_nginx_development_start_inner
 do_development_start() {
   do_php_nginx_development_start_inner
   do_build_permissions
+  do_assets_all
   do_composer
 }
