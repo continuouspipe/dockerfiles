@@ -21,6 +21,10 @@ function do_assets_apply()
   if [ -n "${ASSETS_PATH:-}" ]; then
     do_assets_apply_database
     do_assets_apply_files
+
+    if [ "${ASSETS_CLEANUP}" == "true" ]; then
+      do_assets_cleanup
+    fi
   else
     echo 'Skipping assets apply due to ASSETS_PATH not being set'
   fi
@@ -30,7 +34,6 @@ function do_assets_all()
 {
   do_assets_download
   do_assets_apply
-  do_assets_cleanup
 }
 
 function assets_list()
