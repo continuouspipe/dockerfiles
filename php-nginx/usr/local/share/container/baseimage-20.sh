@@ -8,6 +8,7 @@ alias_function do_build do_php_nginx_build_inner
 do_build() {
   do_php_nginx_build_inner
   do_build_permissions
+  do_assets_all
   do_composer
 }
 
