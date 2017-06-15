@@ -1,0 +1,6 @@
+[template]
+src   = "xdebug/xdebug.ini.tmpl"
+dest  = "/etc/php/$PHP_VERSION/mods-available/xdebug.ini"
+mode  = "0644"
+keys = [
+]
