@@ -21,6 +21,7 @@ RUN echo 'deb http://s3-eu-west-1.amazonaws.com/qafoo-profiler/packages debian m
     php-apcu \
     php-imagick \
     php-redis \
+    php-xdebug \
     "php$PHP_VERSION-bcmath" \
     "php$PHP_VERSION-bz2" \
     "php$PHP_VERSION-curl" \

@@ -1,0 +1,9 @@
+{{ if eq "true" (getenv "XDEBUG_REMOTE_ENABLED") }}
+zend_extension=xdebug.so
+xdebug.remote_enable={{ getenv "XDEBUG_REMOTE_ENABLED" }}
+xdebug.remote_host={{ getenv "XDEBUG_REMOTE_HOST" }}
+xdebug.remote_port={{ getenv "XDEBUG_REMOTE_PORT" }}
+xdebug.remote_log=
+{{ else }}
+;zend_extension=xdebug.so
+{{ end }}
