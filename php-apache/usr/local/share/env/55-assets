@@ -1,0 +1,6 @@
+#!/bin/bash
+
+if [ -n "${ASSETS_PATH:-}" ]; then
+  ASSETS_PATH=$(resolve_path "${ASSETS_PATH}" "${WORK_DIRECTORY}")
+  export ASSETS_PATH
+fi

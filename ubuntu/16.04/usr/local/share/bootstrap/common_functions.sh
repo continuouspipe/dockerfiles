@@ -1,5 +1,23 @@
 #!/bin/bash
 
+escape_shell_args() {
+   printf "%q " "$@"
+}
+
+resolve_path() {
+  local -r PATH="$1"
+  local -r WORKING_PATH="$2"
+
+  case "${PATH}" in
+  /*)
+    echo "${PATH}"
+    ;;
+  *)
+    echo "${WORKING_PATH}/${PATH}"
+    ;;
+  esac
+}
+
 load_env() {
   set +x
   shopt -s nullglob
