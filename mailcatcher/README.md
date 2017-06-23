@@ -47,3 +47,10 @@ mailer_sender_mail: some@example.com
 mailer_port: 1025
 mailer_encryption: null
 ```
+
+The following variables are supported:
+
+Variable | Description | Expected values | Default
+--- | --- | --- | ----
+HTTP_HOST_PORT | The port to make the Mailcatcher UI available on | 1-65535 | 1080
+SMTP_HOST_PORT | The port to make the SMTP server available on. | 1-65535 | 1025
