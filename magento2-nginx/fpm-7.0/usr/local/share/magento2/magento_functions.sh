@@ -340,7 +340,9 @@ function do_magento_build_stop_mysql() {
 
 function do_magento_remove_config_template() {
   # Now that setup:upgrade has run and made us a config.php that contains the right modules, don't override the config.php again at runtime.
-  rm /etc/confd/conf.d/magento_config.php.toml
+  if [ -f /etc/confd/conf.d/magento_config.php.toml ]; then
+    rm /etc/confd/conf.d/magento_config.php.toml
+  fi
 }
 
 function do_magento_copy_build_auth_to_app() {
