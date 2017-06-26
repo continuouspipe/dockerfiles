@@ -113,6 +113,8 @@ MAGENTO_ADMIN_FRONTNAME_REGEX_ESCAPED | The admin URL "front name" that is confi
 MAGENTO_PROTECT_ADMIN | Should IP whitelisting/Basic Auth be deployed for the MAGENTO_ADMIN_FRONTNAME_REGEX_ESCAPED path? | true/false | false
 MAGENTO_ADMIN_HTPASSWD | The htpasswd format `username:hashed_password` to protect admin with. Leave blank to just use IP Whitelisting. | htpasswd format username/passwords | empty
 MAGENTO_ADMIN_IP_WHITELIST | The comma separated list of whitelisted IP addresses that can visit the admin path. Leave blank to just use htpasswd | CSV of IP addresses | Value of $AUTH_IP_WHITELIST, which may be blank or "127.0.0.1/32, ::1, 10.0.0.0/14"
+MAGENTO_ADMIN_USERNAME | If you would like to configure an admin user automatically (i.e. for development purposes), set this value to be the username for the admin user and MAGENTO_ADMIN_PASSWORD too. | string | empty
+MAGENTO_ADMIN_PASSWORD | If you would like to configure an admin user automatically (i.e. for development purposes), set this value to be the password for the admin user (please make it secure!) and MAGENTO_ADMIN_USERNAME too. | string | empty
 START_MODE | Start in "web" mode to serve a site, or "cron" mode to run the cron | (web|cron) | web
 START_CRON | Start the cron if "true", regardless of START_MODE | true/false | false
 RUN_REPORTS_CRON | When cron is running, should the outputting of the last minute's reports to stderr happen? | true/false | true
@@ -121,3 +123,4 @@ MAGENTO_HTTP_CACHE_HOSTS | Comma separated list of upstream HTTP cache hosts (fo
 MAGENTO_HTTP_CACHE_PORT | Port to talk to on the upstream HTTP cache hosts | 1-65535 | 80
 MAGENTO_ALLOW_ACCESS_TO_SETUP | Whether to allow access to the /setup URL or not | true/false | true
 MAGENTO_ALLOW_ACCESS_TO_UPDATE | Whether to allow access to the /update URL or not | true/false | true
+MAGENTO_RUN_BUILD | Whether to run the installer each time the container is started in development mode. Run once with true and then further builds can be stopped by setting to false. | true/false | true
