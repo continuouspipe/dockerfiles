@@ -363,7 +363,7 @@ function do_magento_tail_logs() {
 }
 
 function do_ownership() {
-  local OWNERSHIP_PATH="$1"
+  local OWNERSHIP_PATH=($1)
   local USER="$2"
   local GROUP="$3"
   if [ "$IS_CHOWN_FORBIDDEN" != 'true' ]; then
