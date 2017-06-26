@@ -250,7 +250,7 @@ function do_magento_wait_for_database() {
 
 function do_magento_assets_install() {
   if [ -f "$ASSET_ARCHIVE_PATH" ]; then
-    do_ownership "pub/media" "${CODE_OWNER}" "${CODE_GROUP}"
+    do_ownership "pub/media" "${APP_USER}" "${CODE_GROUP}"
 
     echo 'extracting media files'
     as_code_owner "tar --no-same-owner --extract --strip-components=2 --touch --overwrite --gzip --file=$ASSET_ARCHIVE_PATH || exit 1" pub/media
