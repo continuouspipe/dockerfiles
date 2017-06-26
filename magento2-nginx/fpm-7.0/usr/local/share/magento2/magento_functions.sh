@@ -1,7 +1,7 @@
 #!/bin/bash
 
 function do_composer_config() {
-  as_code_owner "composer config repositories.magento composer https://repo.magento.com/"
+  as_code_owner "composer global config repositories.magento composer https://repo.magento.com/"
 
   if [ -n "$MAGENTO_USERNAME" ] && [ -n "$MAGENTO_PASSWORD" ]; then
     as_code_owner "composer global config http-basic.repo.magento.com '$MAGENTO_USERNAME' '$MAGENTO_PASSWORD'"
