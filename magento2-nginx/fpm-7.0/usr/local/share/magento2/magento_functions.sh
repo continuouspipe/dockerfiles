@@ -416,6 +416,10 @@ function do_magento_create_admin_user() {
 }
 
 function do_magento2_build() {
+  if [ ! -f '/app/composer.json' ]; then
+    return
+  fi
+
   do_magento_build_start_mysql
   do_magento_create_web_writable_directories
   do_magento_frontend_build
