@@ -12,7 +12,9 @@ function do_composer_config() {
 }
 
 function do_composer_post_install() {
-  chmod +x bin/magento
+  if [ -f /app/bin/magento ]; then
+    chmod +x /app/bin/magento
+  fi
 }
 
 function do_magento_create_web_writable_directories() {
