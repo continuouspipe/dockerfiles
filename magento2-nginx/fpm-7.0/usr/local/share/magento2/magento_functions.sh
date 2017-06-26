@@ -385,6 +385,36 @@ function do_magento_tail_logs() {
     /app/var/log/system.log
 }
 
+function do_magento_create_admin_user() {
+  set +x
+  if [ -z "${MAGENTO_ADMIN_USERNAME}" ] || [ -z "${MAGENTO_ADMIN_PASSWORD}" ]; then
+    set -x
+    return 0
+  fi
+  local SQL="SELECT 1 FROM admin_user WHERE username='$MAGENTO_ADMIN_USERNAME'"
+  local HAS_ADMIN_USER=0
+  set +e
+  if [ -n "$DATABASE_PASSWORD" ]; then
+    echo "$SQL" | mysql -h"$DATABASE_HOST" -u"$DATABASE_USER" -p"$DATABASE_PASSWORD" "$DATABASE_NAME" | grep -q 1
+    HAS_ADMIN_USER="$?"
+  else
+    echo "$SQL" | mysql -h"$DATABASE_HOST" -u"$DATABASE_USER" "$DATABASE_NAME" | grep -q 1
+    HAS_ADMIN_USER="$?"
+  fi
+  set -e
+
+  if [ "$HAS_ADMIN_USER" != 0 ]; then
+    set +x
+    as_code_owner "bin/magento admin:user:create \
+      --admin-user='${MAGENTO_ADMIN_USERNAME}' \
+      --admin-password='${MAGENTO_ADMIN_PASSWORD}' \
+      --admin-email='admin@example.com' \
+      --admin-firstname='Development' \
+      --admin-lastname='Admin'"
+    set -x
+  fi
+}
+
 function do_magento2_build() {
   do_magento_build_start_mysql
   do_magento_create_web_writable_directories
