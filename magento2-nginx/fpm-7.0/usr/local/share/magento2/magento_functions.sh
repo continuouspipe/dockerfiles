@@ -448,6 +448,31 @@ function do_magento2_build() {
 }
 
 function do_magento2_development_build() {
+  if [[ "${IS_APP_MOUNTPOINT}" == "true" ]]; then
+    do_magento_create_web_writable_directories
+  fi
+  if [[ "${IS_APP_MOUNTPOINT}" == "true" && "${MAGENTO_RUN_BUILD}" != "true" ]]; then
+    # Ensure existing /app/app/etc/config.php isn't overwritten
+    do_magento_remove_config_template
+  fi
+  if [[ "${IS_APP_MOUNTPOINT}" == "true" && "${MAGENTO_RUN_BUILD}" == "true" ]]; then
+    do_magento_assets_download
+    do_magento_assets_install
+    do_templating
+    do_magento2_setup
+    do_magento_frontend_build
+    do_magento_install_custom
+    do_magento_dependency_injection_compilation
+    set +e
+    do_magento_deploy_static_content
+    set -e
+    do_magento_install_finalise_custom
+    do_magento_remove_config_template
+    do_magento_create_admin_user
+    # Reset permissions to www-data:build for the var/log folder, which is owned by build:build after running bin/magento tasks as the build user!
+    do_magento_create_web_writable_directories
+  fi
+
   do_magento_install_development_custom
 }
 
