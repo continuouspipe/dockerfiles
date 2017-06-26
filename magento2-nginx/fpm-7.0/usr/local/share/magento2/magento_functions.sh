@@ -368,9 +368,9 @@ function do_ownership() {
   local GROUP="$3"
   if [ "$IS_CHOWN_FORBIDDEN" != 'true' ]; then
     find "${OWNERSHIP_PATH[@]}" \( ! -user "${USER}" -or ! -group "${GROUP}" \) -exec chown "${USER}:${GROUP}" {} +
-    chmod -R ug+rw,o-w "${OWNERSHIP_PATH[@]}"
+    find "${OWNERSHIP_PATH[@]}" \( ! -perm /u=w -or ! -perm /g=w -or -perm /o=w \) -exec chmod ug+rw,o-w {} +
   else
-    chmod -R a+rw "${OWNERSHIP_PATH[@]}"
+    find "${OWNERSHIP_PATH[@]}" \( ! -perm /u=w -or ! -perm /g=w -or ! -perm /o=w \) -exec chmod a+rw {} +
   fi
 }
 
