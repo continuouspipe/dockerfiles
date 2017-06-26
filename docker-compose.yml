@@ -164,6 +164,12 @@ services:
     depends_on:
       - ubuntu
 
+  nginx_ingress_controller:
+    build: ./nginx-ingress-controller/
+    image: quay.io/continuouspipe/nginx-ingress-controller:latest
+    depends_on:
+      - external_nginx_ingress_controller
+
   nginx_reverse_proxy:
     build: ./nginx-reverse-proxy/
     image: quay.io/continuouspipe/nginx-reverse-proxy:latest
@@ -439,6 +445,9 @@ services:
 
   external_mysql55:
     image: mysql:5.5
+
+  external_nginx_ingress_controller:
+    image: gcr.io/google-containers/nginx-ingress-controller:0.9.0-beta.5
 
   external_redis:
     image: redis:3.2
