@@ -197,3 +197,15 @@ function do_clear_apt_caches() {
   apt-get clean
   rm -rf /var/lib/apt/lists/*
 }
+
+function do_ownership() {
+  local OWNERSHIP_PATH=($1)
+  local USER="$2"
+  local GROUP="$3"
+  if [ "$IS_CHOWN_FORBIDDEN" != 'true' ]; then
+    find "${OWNERSHIP_PATH[@]}" \( ! -user "${USER}" -or ! -group "${GROUP}" \) -exec chown "${USER}:${GROUP}" {} +
+    find "${OWNERSHIP_PATH[@]}" \( ! -perm /u=w -or ! -perm /g=w -or -perm /o=w \) -exec chmod ug+rw,o-w {} +
+  else
+    find "${OWNERSHIP_PATH[@]}" \( ! -perm /u=w -or ! -perm /g=w -or ! -perm /o=w \) -exec chmod a+rw {} +
+  fi
+}
