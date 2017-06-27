@@ -416,9 +416,6 @@ function do_magento_create_admin_user() {
 }
 
 function do_magento2_build() {
-  if [ ! -f '/app/composer.json' ]; then
-    return
-  fi
 
   do_magento_build_start_mysql
   do_magento_create_web_writable_directories
@@ -427,14 +424,14 @@ function do_magento2_build() {
   do_magento_assets_install
   do_magento_install_custom
 
-  PRODUCTION_ENVIRONMENT="true" MAGENTO_MODE="production" DATABASE_HOST="localhost" DATABASE_USER="root" DATABASE_PASSWORD="" DATABASE_ROOT_PASSWORD="" MAGENTO_ENABLE_CACHE="false" MAGENTO_USE_REDIS="false" MAGENTO_HTTP_CACHE_HOSTS="" do_templating
-  PRODUCTION_ENVIRONMENT="true" MAGENTO_MODE="production" DATABASE_HOST="localhost" DATABASE_USER="root" DATABASE_PASSWORD="" DATABASE_ROOT_PASSWORD="" DATABASE_USER_HOST="localhost" MAGENTO_ENABLE_CACHE="false" MAGENTO_USE_REDIS="false" MAGENTO_HTTP_CACHE_HOSTS="" do_magento_database_install
-  PRODUCTION_ENVIRONMENT="true" MAGENTO_MODE="production" DATABASE_HOST="localhost" DATABASE_USER="root" DATABASE_PASSWORD="" DATABASE_ROOT_PASSWORD="" DATABASE_USER_HOST="localhost" MAGENTO_ENABLE_CACHE="false" MAGENTO_USE_REDIS="false" MAGENTO_HTTP_CACHE_HOSTS="" do_magento_installer_install
-  PRODUCTION_ENVIRONMENT="true" MAGENTO_MODE="production" DATABASE_HOST="localhost" DATABASE_USER="root" DATABASE_PASSWORD="" DATABASE_ROOT_PASSWORD="" DATABASE_USER_HOST="localhost" MAGENTO_ENABLE_CACHE="false" MAGENTO_USE_REDIS="false" MAGENTO_HTTP_CACHE_HOSTS="" do_replace_core_config_values
+  DATABASE_HOST="localhost" DATABASE_USER="root" DATABASE_PASSWORD="" DATABASE_ROOT_PASSWORD="" MAGENTO_ENABLE_CACHE="false" MAGENTO_USE_REDIS="false" MAGENTO_HTTP_CACHE_HOSTS="" do_templating
+  DATABASE_HOST="localhost" DATABASE_USER="root" DATABASE_PASSWORD="" DATABASE_ROOT_PASSWORD="" DATABASE_USER_HOST="localhost" MAGENTO_ENABLE_CACHE="false" MAGENTO_USE_REDIS="false" MAGENTO_HTTP_CACHE_HOSTS="" do_magento_database_install
+  DATABASE_HOST="localhost" DATABASE_USER="root" DATABASE_PASSWORD="" DATABASE_ROOT_PASSWORD="" DATABASE_USER_HOST="localhost" MAGENTO_ENABLE_CACHE="false" MAGENTO_USE_REDIS="false" MAGENTO_HTTP_CACHE_HOSTS="" do_magento_installer_install
+  DATABASE_HOST="localhost" DATABASE_USER="root" DATABASE_PASSWORD="" DATABASE_ROOT_PASSWORD="" DATABASE_USER_HOST="localhost" MAGENTO_ENABLE_CACHE="false" MAGENTO_USE_REDIS="false" MAGENTO_HTTP_CACHE_HOSTS="" do_replace_core_config_values
   do_magento_assets_cleanup
 
   do_magento_move_compiled_assets_away_from_codebase
-  PRODUCTION_ENVIRONMENT="true" MAGENTO_MODE="production" MAGENTO_ENABLE_CACHE="false" MAGENTO_USE_REDIS="false" MAGENTO_HTTP_CACHE_HOSTS="" do_magento_setup_upgrade
+  MAGENTO_ENABLE_CACHE="false" MAGENTO_USE_REDIS="false" MAGENTO_HTTP_CACHE_HOSTS="" do_magento_setup_upgrade
   do_magento_remove_config_template
   do_magento_move_compiled_assets_back_to_codebase
 
@@ -451,11 +448,11 @@ function do_magento2_development_build() {
   if [[ "${IS_APP_MOUNTPOINT}" == "true" ]]; then
     do_magento_create_web_writable_directories
   fi
-  if [[ "${IS_APP_MOUNTPOINT}" == "true" && "${MAGENTO_RUN_BUILD}" != "true" ]]; then
+  if [[ "${MAGENTO_RUN_BUILD}" != "true" ]]; then
     # Ensure existing /app/app/etc/config.php isn't overwritten
     do_magento_remove_config_template
   fi
-  if [[ "${IS_APP_MOUNTPOINT}" == "true" && "${MAGENTO_RUN_BUILD}" == "true" ]]; then
+  if [[ "${MAGENTO_RUN_BUILD}" == "true" ]]; then
     do_magento_assets_download
     do_magento_assets_install
     do_templating
