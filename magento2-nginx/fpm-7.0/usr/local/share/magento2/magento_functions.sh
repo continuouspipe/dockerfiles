@@ -236,9 +236,9 @@ function do_magento_installer_install() {
       --db-password='$DATABASE_PASSWORD' \
       --admin-firstname=Admin \
       --admin-lastname=Demo \
-      --admin-email=admin@example.com \
-      --admin-user=admin \
-      --admin-password=admin123 \
+      --admin-user='${MAGENTO_ADMIN_USERNAME:-admin}' \
+      --admin-password='${MAGENTO_ADMIN_PASSWORD:-admin123}' \
+      --admin-email='${MAGENTO_ADMIN_EMAIL:-admin@example.com}' \
       --language=en_GB \
       --currency=GBP \
       --timezone=Europe/London \
@@ -408,7 +408,7 @@ function do_magento_create_admin_user() {
     as_code_owner "bin/magento admin:user:create \
       --admin-user='${MAGENTO_ADMIN_USERNAME}' \
       --admin-password='${MAGENTO_ADMIN_PASSWORD}' \
-      --admin-email='admin@example.com' \
+      --admin-email='${MAGENTO_ADMIN_EMAIL}' \
       --admin-firstname='Development' \
       --admin-lastname='Admin'"
     set -x
