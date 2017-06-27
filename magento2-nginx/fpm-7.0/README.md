@@ -67,6 +67,7 @@ Variable | Description | Expected values | Default
 IMAGE_VERSION | The docker image version to use. Version 1 uses the install_magento*.sh scripts which can be hard to customise. Version 2 uses magento_functions.sh and does a temporary database installation during the "build" phase. | 1/2 | 1
 PHP_MEMORY_LIMIT | PHP memory limit | - | 768M
 PRODUCTION_ENVIRONMENT | If true, magento DI will be compiled | true/false | false
+BUILD_PRODUCTION_ENVIRONMENT | If true, magento DI will be compiled during the build of the docker image | true/false | true
 APP_HOSTNAME | Web server's host name | \<projectname\>.docker | magento.docker
 PUBLIC_ADDRESS | Magento base URL. Note that an underscore should not be used due to magento admin login using PHP's filter_var to check for domain validity. "_" is not a valid character in a domain name. |  https://\<projectname\>.docker/ | https://magento.docker/
 FORCE_DATABASE_DROP | Drops the existing database before importing from assets | true/false | false
@@ -90,6 +91,7 @@ FRONTEND_BUILD_DIRECTORY | Gulp command will be executed within this directory (
 FRONTEND_BUILD_ACTION | Gulp command to run | gulp command name | build
 GULP_BUILD_THEME_NAME | If specified, will be passed to gulp command as "--theme=<theme name>" | - | - 
 MAGENTO_MODE | Used to set Magento mode. If set to "production", static content will be deployed | default/developer/production | production
+BUILD_MAGENTO_MODE | Used to set Magento mode during the build of the docker image. If set to "production", static content will be deployed | default/developer/production | production
 MAGENTO_RUN_CODE_MAPPING | Mapped to http_host and default store name. First part of the value is the host name and second part is magento's store code (separated by space). Don't forget to add ";" at the end. | - | magento_web.docker default; 
 MAGENTO_RUN_TYPE | Used to set Magento store type. | store/website | store
 FRONTEND_COMPILE_LANGUAGES | Used during static content deployment. It can be multiple language codes. | language code(s) separated by space | en_GB
@@ -124,3 +126,4 @@ MAGENTO_HTTP_CACHE_PORT | Port to talk to on the upstream HTTP cache hosts | 1-6
 MAGENTO_ALLOW_ACCESS_TO_SETUP | Whether to allow access to the /setup URL or not | true/false | true
 MAGENTO_ALLOW_ACCESS_TO_UPDATE | Whether to allow access to the /update URL or not | true/false | true
 MAGENTO_RUN_BUILD | Whether to run the installer each time the container is started in development mode. Run once with true and then further builds can be stopped by setting to false. | true/false | true
+BUILD_DEVELOPMENT_MODE | If true, development dependencies will be installed during the build of the docker image. | true/false | false
