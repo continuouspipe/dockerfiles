@@ -1,5 +1,5 @@
 [template]
-src   = "nginx/protect_admin.conf.tmpl"
+src   = "nginx/site_protect_admin.conf.tmpl"
 dest  = "/etc/nginx/sites-available/default-10-protect_admin.conf"
 mode  = "0644"
 keys = [
