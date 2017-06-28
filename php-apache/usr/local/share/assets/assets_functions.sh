@@ -66,7 +66,7 @@ function assets_apply_database()
     DECOMPRESS=(bunzip2 -c "${ASSET_FILE}")
     ;;
   *.sql)
-    DECOMPRESS=(cat "${ASSETS_FILE}")
+    DECOMPRESS=(cat "${ASSET_FILE}")
     ;;
   *)
     echo "Unknown database dump format for ${ASSET_FILE}, supported *.sql, *.sql.gz, *.sql.bz2"
