@@ -67,7 +67,6 @@ PRODUCTION_ENVIRONMENT | If true, magento DI will be compiled | true/false | fal
 APP_HOSTNAME | Web server's host name | \<projectname\>.docker | magento.docker
 PUBLIC_ADDRESS | Magento base URL. Note that an underscore should not be used due to magento admin login using PHP's filter_var to check for domain validity. "_" is not a valid character in a domain name. |  https://\<projectname\>.docker/ | https://magento.docker/
 FORCE_DATABASE_DROP | Drops the existing database before importing from assets | true/false | false
-DATABASE_ARCHIVE_PATH | Database dump's archive path | relative path | tools/assets/development/magentodb.sql.gz
 DATABASE_NAME | Magento database name | - | magentodb
 DATABASE_USER | Magento database user | - | magento
 DATABASE_PASSWORD | Magento database password | - | magento
@@ -75,8 +74,6 @@ DATABASE_ADMIN_USER | Optional MySQL database password to perform DBA operations
 DATABASE_ADMIN_PASSWORD | Optional MySQL database password to perform DBA operations, DATABASE_PASSWORD will be used if not specified | - | -
 DATABASE_HOST | Magneto database host | - | database
 ADDITIONAL_SETUP_SQL | Any additional SQL query which should be executed after database import (changing base URLs and setting varnish host/port is added by default) | SQL Query | -
-ASSET_ARCHIVE_PATH | Asset files archive path | relative path | tools/assets/development/media.files.tgz
-ASSET_DOWNLOAD_ENVIRONMENTS | Assets will be downloaded for this environment name | - | development
 FRONTEND_INSTALL_DIRECTORY | NPM modules will be installed within this directory (if it exists) | absolute path (normally we mount the source at /app) | /app/tools/inviqa
 FRONTEND_BUILD_DIRECTORY | Gulp command will be executed within this directory (if it exists) | absolute path (normally we mount the source at /app) | /app/tools/inviqa
 FRONTEND_BUILD_ACTION | Gulp command to run | gulp command name | build
