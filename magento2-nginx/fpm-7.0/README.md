@@ -108,7 +108,7 @@ REDIS_SENTINEL_SERVICE_PORT | The port of the redis sentinel service. Used whils
 MAGENTO_REDIS_CACHE_DATABASE | Redis database number to store block cache | database number | 0
 MAGENTO_REDIS_FULL_PAGE_CACHE_DATABASE | Redis database number to store full page cache | database number | 1
 MAGENTO_REDIS_SESSION_DATABASE | Redis database number to store sessions | database number | 2
-MAGENTO_REDIS_FORCE_STANDALONE | Should the extension phpredis be used, or should Credis be forced to use it's own standalone implementation of the redis protocol. Set to 1 (use the standalone implementation) as it is more able to handle connection problems than phpredis | 0/1 | 1
+MAGENTO_REDIS_FORCE_STANDALONE | Should the extension phpredis be used, or should Credis be forced to use it's own standalone implementation of the redis protocol. Set by default to true (use the standalone implementation) as it is more able to handle connection problems than phpredis. | true/false | true
 MAGENTO_ADMIN_FRONTNAME | Magento backend frontname | - | admin
 MAGENTO_ADMIN_FRONTNAME_REGEX_ESCAPED | The admin URL "front name" that is configured for the magento application. Please escape any regular expression special characters. | regex escaped string | value of MAGENTO_ADMIN_FRONTNAME
 MAGENTO_PROTECT_ADMIN | Should IP whitelisting/Basic Auth be deployed for the MAGENTO_ADMIN_FRONTNAME_REGEX_ESCAPED path? | true/false | false
