@@ -1,7 +1,7 @@
 #!/bin/bash
 
 function do_composer_config() {
-  as_code_owner "composer config repositories.magento composer https://repo.magento.com/"
+  as_code_owner "composer global config repositories.magento composer https://repo.magento.com/"
 
   if [ -n "$MAGENTO_USERNAME" ] && [ -n "$MAGENTO_PASSWORD" ]; then
     as_code_owner "composer global config http-basic.repo.magento.com '$MAGENTO_USERNAME' '$MAGENTO_PASSWORD'"
@@ -12,7 +12,9 @@ function do_composer_config() {
 }
 
 function do_composer_post_install() {
-  chmod +x bin/magento
+  if [ -f /app/bin/magento ]; then
+    chmod +x /app/bin/magento
+  fi
 }
 
 function do_magento_create_web_writable_directories() {
@@ -107,9 +109,9 @@ function do_magento_assets_download() {
   if [ -n "$AWS_S3_BUCKET" ]; then
     for asset_env in $ASSET_DOWNLOAD_ENVIRONMENTS; do
       if [ -n "$ASSET_DOWNLOAD_EXCLUDE_PATTERN" ]; then
-        as_build "aws s3 cp 's3://${AWS_S3_BUCKET}/${asset_env}' 'tools/assets/${asset_env}' --exclude='${ASSET_DOWNLOAD_EXCLUDE_PATTERN}' --recursive"
+        as_build "aws s3 sync 's3://${AWS_S3_BUCKET}/${asset_env}' 'tools/assets/${asset_env}' --exclude='${ASSET_DOWNLOAD_EXCLUDE_PATTERN}'"
       else
-        as_build "aws s3 cp 's3://${AWS_S3_BUCKET}/${asset_env}' 'tools/assets/${asset_env}' --recursive"
+        as_build "aws s3 sync 's3://${AWS_S3_BUCKET}/${asset_env}' 'tools/assets/${asset_env}'"
       fi
     done
   fi
@@ -234,9 +236,9 @@ function do_magento_installer_install() {
       --db-password='$DATABASE_PASSWORD' \
       --admin-firstname=Admin \
       --admin-lastname=Demo \
-      --admin-email=admin@example.com \
-      --admin-user=admin \
-      --admin-password=admin123 \
+      --admin-user='${MAGENTO_ADMIN_USERNAME:-admin}' \
+      --admin-password='${MAGENTO_ADMIN_PASSWORD:-admin123}' \
+      --admin-email='${MAGENTO_ADMIN_EMAIL:-admin@example.com}' \
       --language=en_GB \
       --currency=GBP \
       --timezone=Europe/London \
@@ -338,7 +340,9 @@ function do_magento_build_stop_mysql() {
 
 function do_magento_remove_config_template() {
   # Now that setup:upgrade has run and made us a config.php that contains the right modules, don't override the config.php again at runtime.
-  rm /etc/confd/conf.d/magento_config.php.toml
+  if [ -f /etc/confd/conf.d/magento_config.php.toml ]; then
+    rm /etc/confd/conf.d/magento_config.php.toml
+  fi
 }
 
 function do_magento_copy_build_auth_to_app() {
@@ -381,7 +385,38 @@ function do_magento_tail_logs() {
     /app/var/log/system.log
 }
 
+function do_magento_create_admin_user() {
+  set +x
+  if [ -z "${MAGENTO_ADMIN_USERNAME}" ] || [ -z "${MAGENTO_ADMIN_PASSWORD}" ]; then
+    set -x
+    return 0
+  fi
+  local SQL="SELECT 1 FROM admin_user WHERE username='$MAGENTO_ADMIN_USERNAME'"
+  local HAS_ADMIN_USER=0
+  set +e
+  if [ -n "$DATABASE_PASSWORD" ]; then
+    echo "$SQL" | mysql -h"$DATABASE_HOST" -u"$DATABASE_USER" -p"$DATABASE_PASSWORD" "$DATABASE_NAME" | grep -q 1
+    HAS_ADMIN_USER="$?"
+  else
+    echo "$SQL" | mysql -h"$DATABASE_HOST" -u"$DATABASE_USER" "$DATABASE_NAME" | grep -q 1
+    HAS_ADMIN_USER="$?"
+  fi
+  set -e
+
+  if [ "$HAS_ADMIN_USER" != 0 ]; then
+    set +x
+    as_code_owner "bin/magento admin:user:create \
+      --admin-user='${MAGENTO_ADMIN_USERNAME}' \
+      --admin-password='${MAGENTO_ADMIN_PASSWORD}' \
+      --admin-email='${MAGENTO_ADMIN_EMAIL}' \
+      --admin-firstname='Development' \
+      --admin-lastname='Admin'"
+    set -x
+  fi
+}
+
 function do_magento2_build() {
+
   do_magento_build_start_mysql
   do_magento_create_web_writable_directories
   do_magento_frontend_build
@@ -389,14 +424,14 @@ function do_magento2_build() {
   do_magento_assets_install
   do_magento_install_custom
 
-  PRODUCTION_ENVIRONMENT="true" MAGENTO_MODE="production" DATABASE_HOST="localhost" DATABASE_USER="root" DATABASE_PASSWORD="" DATABASE_ROOT_PASSWORD="" MAGENTO_ENABLE_CACHE="false" MAGENTO_USE_REDIS="false" MAGENTO_HTTP_CACHE_HOSTS="" do_templating
-  PRODUCTION_ENVIRONMENT="true" MAGENTO_MODE="production" DATABASE_HOST="localhost" DATABASE_USER="root" DATABASE_PASSWORD="" DATABASE_ROOT_PASSWORD="" DATABASE_USER_HOST="localhost" MAGENTO_ENABLE_CACHE="false" MAGENTO_USE_REDIS="false" MAGENTO_HTTP_CACHE_HOSTS="" do_magento_database_install
-  PRODUCTION_ENVIRONMENT="true" MAGENTO_MODE="production" DATABASE_HOST="localhost" DATABASE_USER="root" DATABASE_PASSWORD="" DATABASE_ROOT_PASSWORD="" DATABASE_USER_HOST="localhost" MAGENTO_ENABLE_CACHE="false" MAGENTO_USE_REDIS="false" MAGENTO_HTTP_CACHE_HOSTS="" do_magento_installer_install
-  PRODUCTION_ENVIRONMENT="true" MAGENTO_MODE="production" DATABASE_HOST="localhost" DATABASE_USER="root" DATABASE_PASSWORD="" DATABASE_ROOT_PASSWORD="" DATABASE_USER_HOST="localhost" MAGENTO_ENABLE_CACHE="false" MAGENTO_USE_REDIS="false" MAGENTO_HTTP_CACHE_HOSTS="" do_replace_core_config_values
+  DATABASE_HOST="localhost" DATABASE_USER="root" DATABASE_PASSWORD="" DATABASE_ROOT_PASSWORD="" MAGENTO_ENABLE_CACHE="false" MAGENTO_USE_REDIS="false" MAGENTO_HTTP_CACHE_HOSTS="" do_templating
+  DATABASE_HOST="localhost" DATABASE_USER="root" DATABASE_PASSWORD="" DATABASE_ROOT_PASSWORD="" DATABASE_USER_HOST="localhost" MAGENTO_ENABLE_CACHE="false" MAGENTO_USE_REDIS="false" MAGENTO_HTTP_CACHE_HOSTS="" do_magento_database_install
+  DATABASE_HOST="localhost" DATABASE_USER="root" DATABASE_PASSWORD="" DATABASE_ROOT_PASSWORD="" DATABASE_USER_HOST="localhost" MAGENTO_ENABLE_CACHE="false" MAGENTO_USE_REDIS="false" MAGENTO_HTTP_CACHE_HOSTS="" do_magento_installer_install
+  DATABASE_HOST="localhost" DATABASE_USER="root" DATABASE_PASSWORD="" DATABASE_ROOT_PASSWORD="" DATABASE_USER_HOST="localhost" MAGENTO_ENABLE_CACHE="false" MAGENTO_USE_REDIS="false" MAGENTO_HTTP_CACHE_HOSTS="" do_replace_core_config_values
   do_magento_assets_cleanup
 
   do_magento_move_compiled_assets_away_from_codebase
-  PRODUCTION_ENVIRONMENT="true" MAGENTO_MODE="production" MAGENTO_ENABLE_CACHE="false" MAGENTO_USE_REDIS="false" MAGENTO_HTTP_CACHE_HOSTS="" do_magento_setup_upgrade
+  MAGENTO_ENABLE_CACHE="false" MAGENTO_USE_REDIS="false" MAGENTO_HTTP_CACHE_HOSTS="" do_magento_setup_upgrade
   do_magento_remove_config_template
   do_magento_move_compiled_assets_back_to_codebase
 
@@ -410,6 +445,31 @@ function do_magento2_build() {
 }
 
 function do_magento2_development_build() {
+  if [[ "${IS_APP_MOUNTPOINT}" == "true" ]]; then
+    do_magento_create_web_writable_directories
+  fi
+  if [[ "${MAGENTO_RUN_BUILD}" != "true" ]]; then
+    # Ensure existing /app/app/etc/config.php isn't overwritten
+    do_magento_remove_config_template
+  fi
+  if [[ "${MAGENTO_RUN_BUILD}" == "true" ]]; then
+    do_magento_assets_download
+    do_magento_assets_install
+    do_templating
+    do_magento2_setup
+    do_magento_frontend_build
+    do_magento_install_custom
+    do_magento_dependency_injection_compilation
+    set +e
+    do_magento_deploy_static_content
+    set -e
+    do_magento_install_finalise_custom
+    do_magento_remove_config_template
+    do_magento_create_admin_user
+    # Reset permissions to www-data:build for the var/log folder, which is owned by build:build after running bin/magento tasks as the build user!
+    do_magento_create_web_writable_directories
+  fi
+
   do_magento_install_development_custom
 }
 

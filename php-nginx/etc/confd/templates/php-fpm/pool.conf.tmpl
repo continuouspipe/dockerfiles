@@ -12,10 +12,10 @@ listen.group = www-data
 
 pm = dynamic
 
-pm.max_children = 5
-pm.start_servers = 2
-pm.min_spare_servers = 1
-pm.max_spare_servers = 3
+pm.max_children = {{ getenv "PHPFPM_MAX_CHILDREN" }}
+pm.start_servers = {{ getenv "PHPFPM_START_SERVERS" }}
+pm.min_spare_servers = {{ getenv "PHPFPM_MIN_SPARE_SERVERS" }}
+pm.max_spare_servers = {{ getenv "PHPFPM_MAX_SPARE_SERVERS" }}
 
 php_value[date.timezone] = {{ getenv "PHP_TIMEZONE" }}
 php_value[memory_limit] = {{ getenv "PHP_MEMORY_LIMIT" }}

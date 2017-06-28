@@ -120,6 +120,10 @@ PHP_OPCACHE_VALIDATE_TIMESTAMPS | If PHP should use the cache directly or first 
 PHP_REALPATH_CACHE_SIZE | The amount of bytes used for the cache of fully resolved file paths | Integer and a unit (K for Kilobytes/M for Megabytes/G for Gigabytes) | 16K
 PHP_REALPATH_CACHE_TTL | The amount of seconds to cache the fully resolved file paths for | integer | 120
 DEVELOPMENT_MODE | If set to "false", composer will run with the "--no-dev" flag to not bring in development dependencies. If set to "true", development dependencies will be brought in | true/false | false
+PHPFPM_MAX_CHILDREN | The maximum number of PHP-FPM child processes. | integer | 5
+PHPFPM_START_SERVERS | The amount of PHP-FPM child processes to start up initially. | integer | 2
+PHPFPM_MIN_SPARE_SERVERS | The minimum number of spare PHP-FPM child processes. | integer | 1
+PHPFPM_MAX_SPARE_SERVERS | The maximum number of spare PHP-FPM child processes. | integer | 3
 COMPOSER_INSTALL_FLAGS | Additional flags to pass to "composer install", such as "--no-plugins". If providing this variable, you should include the default composer flags if you wish to keep them. | valid composer install flags | --no-interaction --optimize-autoloader (plus --no-dev if DEVELOPMENT_MODE is false)
 TIDEWAYS_ENABLED | Should Tideways be enabled? | true/false | false
 TIDEWAYS_FRAMEWORK | What framework (if any) is being used in the image? | string (one of https://tideways.io/profiler/docs/setup/installation#framework-configuration ) | empty
