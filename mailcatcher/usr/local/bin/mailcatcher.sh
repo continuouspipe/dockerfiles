@@ -27,4 +27,4 @@ check_valid_port "SMTP_HOST_PORT"
 export HTTP_HOST_PORT
 export SMTP_HOST_PORT
 
-exec mailcatcher --foreground --ip=0.0.0.0 "--smtp-port=$SMTP_PORT" "--http-port=$HTTP_PORT" --no-quit
+exec mailcatcher --foreground --ip=0.0.0.0 "--smtp-port=$SMTP_HOST_PORT" "--http-port=$HTTP_HOST_PORT" --no-quit
