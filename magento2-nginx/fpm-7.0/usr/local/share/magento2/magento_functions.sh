@@ -97,8 +97,16 @@ function do_magento_dependency_injection_compilation() {
 function do_magento_deploy_static_content() {
   # Compile static content if it's a production container.
   if [ "$MAGENTO_MODE" = "production" ]; then
-    as_code_owner "bin/magento setup:static-content:deploy $FRONTEND_COMPILE_LANGUAGES"
+    set +e
+    run_magento_deploy_static_content "" "--no-javascript $FRONTEND_COMPILE_LANGUAGES"
+    run_magento_deploy_static_content "on" "--no-css --no-less --no-images --no-fonts --no-html --no-misc --no-html-minify $FRONTEND_COMPILE_LANGUAGES"
+    set -e
   fi
+}
+
+function run_magento_deploy_static_content() {
+  local FLAGS="$2"
+  HTTPS="$1" as_code_owner "bin/magento setup:static-content:deploy $FLAGS"
 }
 
 function do_magento_reindex() {
