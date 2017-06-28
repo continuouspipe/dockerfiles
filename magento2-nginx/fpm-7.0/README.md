@@ -66,6 +66,7 @@ Variable | Description | Expected values | Default
 --- | --- | --- | ----
 IMAGE_VERSION | The docker image version to use. Version 1 uses the install_magento*.sh scripts which can be hard to customise. Version 2 uses magento_functions.sh and does a temporary database installation during the "build" phase. | 1/2 | 1
 PHP_MEMORY_LIMIT | PHP memory limit | - | 768M
+PHP_MAX_EXECUTION_TIME | Amount of time in seconds that PHP is allowed to execute for | integer | 600
 PRODUCTION_ENVIRONMENT | If true, magento DI will be compiled | true/false | false
 APP_HOSTNAME | Web server's host name | \<projectname\>.docker | magento.docker
 PUBLIC_ADDRESS | Magento base URL. Note that an underscore should not be used due to magento admin login using PHP's filter_var to check for domain validity. "_" is not a valid character in a domain name. |  https://\<projectname\>.docker/ | https://magento.docker/
