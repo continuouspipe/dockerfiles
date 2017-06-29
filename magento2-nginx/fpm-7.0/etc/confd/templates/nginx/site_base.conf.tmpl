@@ -76,7 +76,7 @@ location /pub/ {
 }
 
 location /static/ {
-    {{ if ne "developer" (getenv "MAGENTO_MODE") }}
+    {{ if eq "true" (getenv "MAGENTO_CACHE_STATIC_ASSETS") }}
     expires max;
     {{ end }}
 
