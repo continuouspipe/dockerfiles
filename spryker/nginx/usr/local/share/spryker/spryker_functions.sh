@@ -8,11 +8,8 @@ do_spryker_directory_create() {
 }
 
 do_spryker_app_permissions() {
-  if [ "$IS_CHOWN_FORBIDDEN" != 'true' ]; then
-    # Give the data directory access to the web user.
-    chown -R "${CODE_OWNER}":"${APP_GROUP}" /app/data
-    chmod -R ug+rw,o-w /app/data
-  fi
+  # Give the data directory access to the web user.
+  do_ownership "/app/data" "$CODE_OWNER" "$APP_GROUP"
 }
 
 do_spryker_config_create() {
