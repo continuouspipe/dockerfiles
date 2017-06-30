@@ -9,22 +9,12 @@ function do_ez_setup() {
 
 function do_ez_web_server_web_directory_writable() {
   mkdir -p /app/web/
-  if [ "${IS_CHOWN_FORBIDDEN}" != 'true' ]; then
-    chown -R "${CODE_OWNER}:${APP_GROUP}" /app/web/
-    chmod -R ug+rw,o-w /app/web/
-  else
-    chmod -R a+rw /app/web/
-  fi
+  do_ownership "/app/web/" "$CODE_OWNER" "$APP_GROUP"
 }
 
 function do_ez_web_server_web_directory_non_writable() {
   mkdir -p /app/web/
-  if [ "${IS_CHOWN_FORBIDDEN}" != 'true' ]; then
-    chown -R "${CODE_OWNER}:${APP_GROUP}" /app/web/
-    chmod -R u+rw,og-w /app/web/
-  else
-    chmod -R a+rw /app/web/
-  fi
+  do_ownership "/app/web/" "$CODE_OWNER" "$APP_GROUP" "false"
 }
 
 function do_ez_install() {
