@@ -235,3 +235,38 @@ function test_remote_ports() {
     timeout 1 bash -c "cat < /dev/null > /dev/tcp/${SERVICE_PARAMS[0]}/${SERVICE_PARAMS[1]}" 2>/dev/null || return 1
   done
 }
+
+function do_ownership() {
+  local OWNERSHIP_PATH=($1)
+  local USER="$2"
+  local GROUP="$3"
+  local ALLOW_GROUP_WRITE="${4:-true}"
+  if [ "$IS_CHOWN_FORBIDDEN" != 'true' ]; then
+    find "${OWNERSHIP_PATH[@]}" \( ! -user "${USER}" -or ! -group "${GROUP}" \) -exec chown "${USER}:${GROUP}" {} +
+  fi
+  do_read_write_permissions "${OWNERSHIP_PATH[@]}" "${ALLOW_GROUP_WRITE}"
+}
+
+function do_read_write_permissions() {
+  local OWNERSHIP_PATH=($1)
+  local ALLOW_GROUP_WRITE="${2:-true}"
+  if [ "$IS_CHOWN_FORBIDDEN" != 'true' ]; then
+    if [ "$ALLOW_GROUP_WRITE" == 'true' ]; then
+      find "${OWNERSHIP_PATH[@]}" \( ! -perm /u=w -or ! -perm /g=w -or -perm /o=w \) -exec chmod ug+rw,o-w {} +
+    else
+      find "${OWNERSHIP_PATH[@]}" \( ! -perm /u=w -or -perm /g=w -or -perm /o=w \) -exec chmod u+rw,go-w {} +
+    fi
+  else
+    find "${OWNERSHIP_PATH[@]}" \( ! -perm /u=w -or ! -perm /g=w -or ! -perm /o=w \) -exec chmod a+rw {} +
+  fi
+}
+
+function do_read_permissions() {
+  local OWNERSHIP_PATH=($1)
+  find "${OWNERSHIP_PATH[@]}" \( ! -perm /u=r -or ! -perm /g=r -or ! -perm /o=r \) -exec chmod a+r {} +
+}
+
+function do_remove_other_permissions() {
+  local OWNERSHIP_PATH=($1)
+  find "${OWNERSHIP_PATH[@]}" \( -perm /o=r -or -perm /o=w -or -perm /o=x \) -exec chmod o-rwx {} +
+}
