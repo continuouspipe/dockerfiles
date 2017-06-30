@@ -11,23 +11,17 @@ function do_magento_create_directories() {
 }
 
 function do_magento_directory_permissions() {
-  if [ "$IS_CHOWN_FORBIDDEN" != 'true' ]; then
-    [ ! -x /app/public/app/etc/local.xml ] || chown -R "${CODE_OWNER}:${APP_GROUP}" /app/public/app/etc/local.xml
-    chown -R "${APP_USER}:${CODE_GROUP}" /app/public/media /app/public/sitemaps /app/public/staging /app/public/var
-    chmod -R ug+rw,o-w /app/public/media /app/public/sitemaps /app/public/staging /app/public/var
-    chmod -R a+r /app/public/media /app/public/sitemaps /app/public/staging
-  else
-    [ ! -x /app/public/app/etc/local.xml ] || chmod a+r /app/public/app/etc/local.xml
-    chmod -R a+rw /app/public/media /app/public/sitemaps /app/public/staging /app/public/var
-  fi
+  [ ! -x /app/public/app/etc/local.xml ] || do_ownership "/app/public/app/etc/local.xml" "$CODE_OWNER" "$APP_GROUP" "false"
+  do_ownership "/app/public/media /app/public/sitemaps /app/public/staging /app/public/var" "$APP_USER" "$CODE_GROUP"
+  do_read_permissions "/app/public/media /app/public/sitemaps /app/public/staging"
 }
 
 function do_magento_frontend_build() {
   if [ -d "$FRONTEND_INSTALL_DIRECTORY" ]; then
     mkdir -p pub/static/frontend/
 
-    if [ -d "pub/static/frontend/" ] && [ "$IS_CHOWN_FORBIDDEN" != 'true' ]; then
-      chown -R "${CODE_OWNER}:${CODE_GROUP}" pub/static/frontend/
+    if [ -d "pub/static/frontend/" ]; then
+      do_ownership "/app/pub/static/frontend/" "$CODE_OWNER" "$CODE_GROUP"
     fi
 
     if [ ! -d "$FRONTEND_INSTALL_DIRECTORY/node_modules" ]; then
@@ -39,8 +33,8 @@ function do_magento_frontend_build() {
       as_code_owner "gulp $FRONTEND_BUILD_ACTION --theme='$GULP_BUILD_THEME_NAME'" "$FRONTEND_BUILD_DIRECTORY"
     fi
 
-    if [ -d "pub/static/frontend/" ] && [ "$IS_CHOWN_FORBIDDEN" != 'true' ]; then
-      chown -R "${APP_USER}:${APP_GROUP}" pub/static/frontend/
+    if [ -d "pub/static/frontend/" ]; then
+      do_ownership "/app/pub/static/frontend/" "$APP_USER" "$APP_GROUP"
     fi
   fi
 }
