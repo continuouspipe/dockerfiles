@@ -16,20 +16,13 @@ do_symfony_directory_create() {
 }
 
 do_symfony_app_permissions() {
-  if [ "$IS_CHOWN_FORBIDDEN" != 'true' ]; then
-    # Fix permissions so the web server user can write to cache and logs folders
-    if [ "$SYMFONY_MAJOR_VERSION" -eq 2 ]; then
-      chown -R "$APP_USER:$CODE_GROUP" /app/app/{cache,logs}
-      chmod -R ug+rw,o-rwx /app/app/{cache,logs}
-    fi
-    chown -R "$APP_USER:$CODE_GROUP" /app/var
-    chmod -R ug+rw,o-rwx /app/var
-  else
-    if [ "$SYMFONY_MAJOR_VERSION" -eq 2 ]; then
-      chmod -R a+rw /app/app/{cache,logs}
-    fi
-    chmod -R a+rw /app/var
+  # Fix permissions so the web server user can write to cache and logs folders
+  if [ "$SYMFONY_MAJOR_VERSION" -eq 2 ]; then
+    do_ownership "/app/app/cache /app/app/logs" "$APP_USER" "$CODE_GROUP"
+    do_remove_other_permissions "/app/app/cache /app/app/logs"
   fi
+  do_ownership "/app/var" "$APP_USER" "$CODE_GROUP"
+  do_remove_other_permissions "/app/var"
 }
 
 do_database_rebuild() {
