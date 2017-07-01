@@ -75,6 +75,10 @@ location /pub/ {
     add_header X-Frame-Options "SAMEORIGIN";
 }
 
+location /pub/static/ {
+  rewrite ^/pub/static/(.*)$ /static/$1 last;
+}
+
 location /static/ {
     # Uncomment the following line in production mode
     # expires max;
