@@ -70,8 +70,14 @@ WEB_HTTPS_PORT | The port to serve the HTTPS traffic from | 0-65535 | 443
 WEB_HTTPS_OFFLOADED | Whether the HTTPS traffic has been forwarded without SSL to the HTTPS port | true/false | false
 WEB_HTTPS_ONLY      | Whether to redirect all HTTP traffic to HTTPS | true/false | $WEB_HTTPS (deprecated: if $WEB_HTTPS=true then false)
 WEB_REVERSE_PROXIED | Whether to interpret X-Forwarded-Proto as the $custom_scheme and $custom_https emulation. | true/false | true
+WEB_SSL_CIPHERS | The enabled SSL/TLS server ciphers | the format understood by the OpenSSL library | ECDH+AESGCM:DH+AESGCM:ECDH+AES256:DH+AES256:ECDH+AES128:DH+AES:ECDH+3DES:DH+3DES:RSA+AESGCM:RSA+AES:RSA+3DES:!aNULL:!MD5:!DSS
 WEB_SSL_FULLCHAIN | The location of the SSL certificate and intermediate chain file | absolute filename | /etc/ssl/certs/fullchain.pem
+WEB_SSL_OCSP_STAPLING | Whether to enable TLS OCSP stapling | true/false | false
 WEB_SSL_PRIVKEY | The location of the SSL private key file | absolute filename | /etc/ssl/private/privkey.pem
+WEB_SSL_PROTOCOLS | The SSL/TLS protocols to enable | [SSLv2] [SSLv3] [TLSv1] [TLSv1.1] [TLSv1.2] [TLSv1.3] | TLSv1 TLSv1.1 TLSv1.2
+WEB_SSL_SESSION_CACHE | Sets the types and sizes of caches that store session parameters. See nginx ssl_session_cache documentation for more info | off/none/builtin[:size]/shared:name:size | none
+WEB_SSL_SESSION_TIMEOUT | Specifies a time during which a client may reuse the session parameters. | time | 5m
+WEB_SSL_TRUSTED_CERTIFICATES | The trusted certificates to use for OSCP stapling verification and/or SSL client certificate authentication | absolute filename | 
 NGINX_LOG_FORMAT_NAME | Which log format to use for the access log. Two are currently available: combined (provided by NGINX) or combined_with_x_forwarded_for which logs the whole X-Forwarded-For header. | string | combined
 
 The project using the image can define these environment variables to control
