@@ -107,7 +107,7 @@ is_hem_project() {
 }
 
 is_app_mountpoint() {
-  grep -q -E "/app (nfs|vboxsf|fuse\.osxfs)" /proc/mounts
+  grep -q -E "/app (nfs|vboxsf|fuse\\.osxfs)" /proc/mounts
   local RESULT="$?"
   convert_exit_code_to_string "$RESULT"
 }
@@ -196,4 +196,42 @@ function do_clear_apt_caches() {
   apt-get auto-remove -qq -y
   apt-get clean
   rm -rf /var/lib/apt/lists/*
+}
+
+function wait_for_remote_ports() {
+  set +x
+
+  local -r TIMEOUT=$1
+  local -r INTERVAL=0.5
+  local -r CHECK_TOTAL=$((TIMEOUT*2))
+  local COUNT
+  shift
+
+  COUNT=0
+  until (test_remote_ports "$@")
+  do
+    ((COUNT++)) || true
+    if [ "${COUNT}" -gt "${CHECK_TOTAL}" ]
+    then
+      echo "One of the services [$*] didn't become ready in time"
+      exit 1
+    fi
+    sleep "${INTERVAL}"
+  done
+
+  set -x
+}
+
+function test_remote_ports() {
+  local SERVICE
+  local SERVICE_PARAMS
+
+  for SERVICE in "$@"; do
+    IFS=':'
+    # shellcheck disable=SC2206
+    SERVICE_PARAMS=($SERVICE)
+    unset IFS
+
+    timeout 1 bash -c "cat < /dev/null > /dev/tcp/${SERVICE_PARAMS[0]}/${SERVICE_PARAMS[1]}" 2>/dev/null || return 1
+  done
 }
