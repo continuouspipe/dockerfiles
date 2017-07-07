@@ -73,19 +73,21 @@ function assets_apply_database()
     return 1
   esac
 
-  local DATABASE_ARGS=(-h"${DATABASE_HOST}")
+  local DATABASE_ARGS=("--host=${DATABASE_HOST}" "--port=${DATABASE_PORT}")
 
   if [ -n "${DATABASE_ADMIN_USER}" ]; then
-    DATABASE_ARGS+=(-u"${DATABASE_ADMIN_USER}" -p"${DATABASE_ADMIN_PASSWORD}")
+    DATABASE_ARGS+=("--user=${DATABASE_ADMIN_USER}" "--password=${DATABASE_ADMIN_PASSWORD}")
   else
-    DATABASE_ARGS+=(-u"${DATABASE_USER}" -p"${DATABASE_PASSWORD}")
+    DATABASE_ARGS+=("--user=${DATABASE_USER}" "--password=${DATABASE_PASSWORD}")
   fi
+
+  wait_for_remote_ports "${ASSETS_DATABASE_WAIT_TIMEOUT}" "${DATABASE_HOST}:${DATABASE_PORT}"
 
   local DATABASES
   mapfile -t DATABASES < <(mysql "${DATABASE_ARGS[@]}" --execute="SHOW DATABASES" | tail --lines=+2)
 
   set +e
-  ! printf "%s\n" "${DATABASES[@]}" | grep --quiet --fixed-strings --line-regexp "${APPLY_DATABASE_NAME}"
+  ! printf "%s\\n" "${DATABASES[@]}" | grep --quiet --fixed-strings --line-regexp "${APPLY_DATABASE_NAME}"
   local DATABASE_EXISTS=$?
   set -e
 

@@ -104,6 +104,7 @@ ASSETS_S3_BUCKET_PATH | The full bucket path to an environment's assets. If unse
 ASSETS_DATABASE_ENABLED | Whether to import matched assets into the database | true/false | true
 ASSETS_DATABASE_PATTERN | A regex pattern of database dump files in the ASSETS_PATH to apply to the database | a regex | /([^/\.]+)(\.[^/]*)?\.sql\.(gz|bz2)$
 ASSETS_DATABASE_NAME_CAPTURE_GROUP | The capture group to use as the database name the database dump will be applied to, set to 0 to use DATABASE_NAME instead | positive integer | 1
+ASSETS_DATABASE_WAIT_TIMEOUT | The maximum time to wait for the database to become available during the database import | time in seconds | 10
 ASSETS_FILES_ENABLED | Whether to extract matched assets into the filesystem | true/false | true
 ASSETS_FILES_PATTERN | A regex pattern of compressed file archives to extract into WORK_DIRECTORY | a regex | /([^/\.]+)(\.[^/]*)?\.sql(\.(gz|bz2))?$
 SENDMAIL_RELAY_HOST | The MTA host to relay PHP's mail() to. PHP mail() will return false if not set | a domain
