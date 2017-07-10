@@ -168,9 +168,9 @@ START_CRON | Should the cron daemon be started when starting the container up? |
 DEVELOPMENT_MODE | Control whether do_development_start() is triggered, which will repeat actions. | true/false | Defaults to true if WORK_DIRECTORY is detected as a mountpoint.
 APP_USER_LOCAL | Control if [Volume Permission Fixes](#Volume Permission Fixes) is performed, which will set up APP_USER, APP_GROUP, CODE_OWNER and CODE_GROUP as usernames/group names that match the permissions of the WORK_DIRECTORY mountpoint | true/false | Defaults to true if WORK_DIRECTORY is detected as a mountpoint that doesn't allow "chown" or permission operations
 APP_USER_LOCAL_RANDOM | If [Volume Permission Fixes](#Volume Permission Fixes) is performed, generate a random username and group name. | true/false | false
-BUILD_USER_SSH_PRIVATE_KEY | The base64 encoded private key that should be set up on the build user. | base64 encoded string | empty
-BUILD_USER_SSH_PUBLIC_KEY | The base64 encoded public key that should be set up on the build user. | base64 encoded string | empty
-BUILD_USER_SSH_KNOWN_HOSTS | The base64 encoded known hosts file that should be set up on the build user. | base64 encoded string | empty
+BUILD_USER_SSH_PRIVATE_KEY | The base64 encoded private key that should be set up on the build user. See [SSH Keys](#SSH Key) for more details. | base64 encoded string | empty
+BUILD_USER_SSH_PUBLIC_KEY | The base64 encoded public key that should be set up on the build user. See [SSH Keys](#SSH Key) for more details. | base64 encoded string | empty
+BUILD_USER_SSH_KNOWN_HOSTS | The base64 encoded known hosts file that should be set up on the build user. See [SSH Keys](#SSH Key) for more details. | base64 encoded string | empty
 
 ### Volume Permission Fixes
 
@@ -187,6 +187,16 @@ case of a web server, running the web server process with the same user or group
 alter any file in the codebase.
 
 As such, only set APP_USER_LOCAL in development when using volumes.
+
+### SSH Keys
+
+The docker images support configuring an SSH key for the "build" user, which is the user that should be running installation tools.
+
+Assuming you have generated a passwordless SSH keypair on your machine (ideally this would be a keypair especially for use in the docker setup, rather than your own), you can do the following to provide the keypair to this docker image:
+
+* `BUILD_USER_SSH_PRIVATE_KEY` is the output of `base64 <PRIVATE_KEY_FILEPATH>`
+* `BUILD_USER_SSH_PUBLIC_KEY` is the output of `base64 <PUBLIC_KEY_FILEPATH>`
+* `BUILD_USER_SSH_KNOWN_HOSTS` is the output of `ssh-keyscan -H -t rsa,ecdsa <HOSTNAME_TO_CONNECT_TO> | base64`, where HOSTNAME_TO_CONNECT_TO is for example github.com or bitbucket.org or any other server.
 
 ### Custom build and startup scripts
 
