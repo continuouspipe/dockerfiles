@@ -188,7 +188,7 @@ alter any file in the codebase.
 
 As such, only set APP_USER_LOCAL in development when using volumes.
 
-### SSH Keys
+### SSH Key
 
 The docker images support configuring an SSH key for the "build" user, which is the user that should be running installation tools.
 
