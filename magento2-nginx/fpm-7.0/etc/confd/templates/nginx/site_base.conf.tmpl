@@ -76,8 +76,9 @@ location /pub/ {
 }
 
 location /static/ {
-    # Uncomment the following line in production mode
-    # expires max;
+    {{ if eq "true" (getenv "MAGENTO_CACHE_STATIC_ASSETS") }}
+    expires max;
+    {{ end }}
 
     # Remove signature of the static files that is used to overcome the browser cache
     location ~ ^/static/version {
