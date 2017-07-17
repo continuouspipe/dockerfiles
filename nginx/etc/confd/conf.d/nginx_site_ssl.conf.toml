@@ -1,0 +1,6 @@
+[template]
+src   = "nginx/site_ssl.conf.tmpl"
+dest  = "/etc/nginx/sites-available/default-01-site_ssl.conf"
+mode  = "0644"
+keys = [
+]

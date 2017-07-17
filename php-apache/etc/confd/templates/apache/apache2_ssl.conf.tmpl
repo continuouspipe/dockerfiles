@@ -1,0 +1,4 @@
+SSLSessionCache {{ getenv "WEB_SSL_SESSION_CACHE" }}
+{{ if getenv "WEB_SSL_OSCP_STAPLING_CACHE" }}
+SSLStaplingCache {{ getenv "WEB_SSL_OSCP_STAPLING_CACHE" }}
+{{ end }}

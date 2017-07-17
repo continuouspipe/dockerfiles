@@ -1,0 +1,16 @@
+ssl_ciphers {{ getenv "WEB_SSL_CIPHERS" }};
+ssl_protocols {{ getenv "WEB_SSL_PROTOCOLS" }};
+ssl_prefer_server_ciphers on;
+ssl_session_cache {{ getenv "WEB_SSL_SESSION_CACHE" }};
+ssl_session_timeout {{ getenv "WEB_SSL_SESSION_TIMEOUT" }};
+
+{{ if getenv "WEB_SSL_TRUSTED_CERTIFICATES" }}
+ssl_trusted_certificates {{ getenv "WEB_SSL_TRUSTED_CERTIFICATES" }};
+{{ end }}
+
+{{ if eq (getenv "WEB_SSL_OCSP_STAPLING") "true" }}
+ssl_stapling on;
+{{ if getenv "WEB_SSL_TRUSTED_CERTIFICATES" }}
+ssl_stapling_verify on
+{{ end }}
+{{ end }}
