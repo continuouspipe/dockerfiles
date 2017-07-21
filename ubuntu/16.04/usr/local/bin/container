@@ -29,6 +29,10 @@ if [ "$TASK" == "start" ]; then
   source /usr/local/bin/supervisor_custom_start
 fi
 
+if [ "$TASK" == "build" ] && [ "$RUN_BUILD" == "false" ]; then
+  exit 0
+fi
+
 set -- "${ARGS[@]}"
 shift 1
 

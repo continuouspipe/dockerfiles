@@ -171,6 +171,7 @@ APP_USER_LOCAL_RANDOM | If [Volume Permission Fixes](#Volume Permission Fixes) i
 BUILD_USER_SSH_PRIVATE_KEY | The base64 encoded private key that should be set up on the build user. See [SSH Keys](#SSH Key) for more details. | base64 encoded string | empty
 BUILD_USER_SSH_PUBLIC_KEY | The base64 encoded public key that should be set up on the build user. See [SSH Keys](#SSH Key) for more details. | base64 encoded string | empty
 BUILD_USER_SSH_KNOWN_HOSTS | The base64 encoded known hosts file that should be set up on the build user. See [SSH Keys](#SSH Key) for more details. | base64 encoded string | empty
+RUN_BUILD | Whether to run build tasks. This includes whether do_development_start is called | true/false | true
 
 ### Volume Permission Fixes
 
