@@ -19,16 +19,16 @@ IS_APP_MOUNTPOINT="$(is_app_mountpoint)"
 export IS_APP_MOUNTPOINT
 set -e
 
-DEVELOPMENT_MODE=${DEVELOPMENT_MODE:-${IS_APP_MOUNTPOINT}}
-DEVELOPMENT_MODE="$(convert_to_boolean_string_zero_is_true "$DEVELOPMENT_MODE")"
+DEVELOPMENT_MODE="$(convert_to_boolean_string_zero_is_true "${DEVELOPMENT_MODE:-${IS_APP_MOUNTPOINT}}")"
 export DEVELOPMENT_MODE
 
-APP_USER_LOCAL=${APP_USER_LOCAL:-${IS_VBOXSF_MOUNTPOINT}}
-APP_USER_LOCAL="$(convert_to_boolean_string "$APP_USER_LOCAL")"
+RUN_BUILD="$(convert_to_boolean_string "${RUN_BUILD:-true}")"
+export RUN_BUILD
+
+APP_USER_LOCAL="$(convert_to_boolean_string "${APP_USER_LOCAL:-${IS_VBOXSF_MOUNTPOINT}}")"
 export APP_USER_LOCAL
 
-APP_USER_LOCAL_RANDOM=${APP_USER_LOCAL_RANDOM:-false}
-APP_USER_LOCAL_RANDOM="$(convert_to_boolean_string "$APP_USER_LOCAL_RANDOM")"
+APP_USER_LOCAL_RANDOM="$(convert_to_boolean_string "${APP_USER_LOCAL_RANDOM:-false}")"
 export APP_USER_LOCAL_RANDOM
 
 export BUILD_USER_SSH_PRIVATE_KEY=${BUILD_USER_SSH_PRIVATE_KEY:-}
