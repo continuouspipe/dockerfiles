@@ -1,0 +1,4 @@
+#!/bin/bash
+
+export WEB_DIRECTORY=${WEB_DIRECTORY:-public}
+export SYMFONY_APP_ENDPOINT=${SYMFONY_APP_ENDPOINT:-/index.php}

@@ -233,5 +233,8 @@ tasks:
         tideways:
           image: quay.io/continuouspipe/tideways
           tag: latest
+        symfony_flex:
+          image: quay.io/continuouspipe/symfony-flex
+          tag: latest
 
 filter: code_reference.branch in ["master"]
