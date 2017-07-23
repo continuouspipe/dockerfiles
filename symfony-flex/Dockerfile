@@ -1,5 +1,7 @@
 FROM quay.io/continuouspipe/symfony-php7.1-nginx:latest
 
+MAINTAINER Samuel Roze <samuel+dockerfiles@continuouspipe.io>
+
 # Install node
 ARG NODE_VERSION=7.x
 ARG INSTALL_COMMON_PACKAGES=true
