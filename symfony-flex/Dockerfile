@@ -31,3 +31,4 @@ RUN curl -sL "https://deb.nodesource.com/setup_$NODE_VERSION" > /tmp/install-nod
  && rm -rf /var/lib/apt/lists/*
 
 COPY ./usr/ /usr
+WORKDIR /app
