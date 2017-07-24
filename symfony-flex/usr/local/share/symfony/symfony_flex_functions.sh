@@ -22,12 +22,12 @@ do_migrate() {
     return
   fi
 
-  HAS_DOCTRINE_MIGRATIONS=`has_package doctrine/doctrine-migrations-bundle`
+  HAS_DOCTRINE_MIGRATIONS=$(has_package doctrine/doctrine-migrations-bundle)
   if [ "$HAS_DOCTRINE_MIGRATIONS" = "true" ]; then
     do_symfony_console doctrine:migrations:migrate
   fi
 
-  HAS_DOCTRINE_ORM=`has_package doctrine/orm`
+  HAS_DOCTRINE_ORM=$(has_package doctrine/orm)
   if [ "$HAS_DOCTRINE_ORM" = "true" ]; then
     do_symfony_console doctrine:schema:update --force
   fi 
@@ -38,5 +38,5 @@ has_package() {
     return
   fi
 
-  jq -c '.packages[] | select(.name == "'$1'") | has("name")' composer.lock
+  jq -c '.packages[] | select(.name == "'"$1"'") | has("name")' composer.lock
 }
