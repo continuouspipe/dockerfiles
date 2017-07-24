@@ -17,3 +17,7 @@ Based on [our Symfony with nginx and PHP 7.1 image](../symfony/), this Docker im
 
 1. *Assets managment*
    Run [Encore](http://symfony.com/doc/current/frontend.html) when building the Docker image. 
+
+2. *Database migrations*
+   Run `container migrate` and it will run the Doctrine ORM migrations. With MigrationsBundle if you have it, with the `schema:update` command if not.
+
