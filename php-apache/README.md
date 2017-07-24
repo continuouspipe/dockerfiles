@@ -112,6 +112,7 @@ ASSETS_DATABASE_NAME_CAPTURE_GROUP | The capture group to use as the database na
 ASSETS_DATABASE_WAIT_TIMEOUT | The maximum time to wait for the database to become available during the database import | time in seconds | 10
 ASSETS_FILES_ENABLED | Whether to extract matched assets into the filesystem | true/false | true
 ASSETS_FILES_PATTERN | A regex pattern of compressed file archives to extract into WORK_DIRECTORY | a regex | /([^/\.]+)(\.[^/]*)?\.sql(\.(gz|bz2))?$
+DATABASE_PLATFORM | The platform of the database, e.g. mysql, postgres | mysql/postgres | mysql
 SENDMAIL_RELAY_HOST | The MTA host to relay PHP's mail() to. PHP mail() will return false if not set | a domain
 SENDMAIL_RELAY_PORT | The MTA port to relay PHP's mail() to | 0-65535 | 25
 SENDMAIL_RELAY_USER | The user to authenticate with the relay. Anonymous SMTP used if not set | relay's username
@@ -261,9 +262,14 @@ extracted into a MySQL database named either by:
 * The capture group in the regex pattern identified by ASSETS_DATABASE_NAME_CAPTURE_GROUP if ASSETS_DATABASE_NAME_CAPTURE_GROUP > 0
 * DATABASE_NAME if ASSETS_DATABASE_NAME_CAPTURE_GROUP = 0
 
-By default a database file with name `mydatabase.20170101.sql.gz` will match `mydatabase` as the database name to import to.
+By default a database file with name `mydatabase.20170101.sql.gz` will match
+`mydatabase` as the database name to import to.
 
-SQL files either plaintext or compressed by Gzip or Bzip2 are supported, with the following file extensions:
+The DATABASE_PLATFORM environment variable can be set to mysql or postgres,
+allowing database import to either using mysql client or psql/createdb.
+
+SQL files either plaintext or compressed by Gzip or Bzip2 are supported, with
+the following file extensions:
 
 * .sql
 * .sql.gz

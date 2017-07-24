@@ -4,7 +4,7 @@ MAINTAINER Kieren Evans <kieren.evans+cp-dockerfiles@inviqa.com>
 
 # Install PHP packages, including the Tideways extension
 ARG PHP_VERSION
-ENV PHP_VERSION ${PHP_VERSION:-7.0}
+ENV PHP_VERSION=${PHP_VERSION:-7.0}
 RUN echo 'deb http://s3-eu-west-1.amazonaws.com/qafoo-profiler/packages debian main' > /etc/apt/sources.list.d/tideways.list \
  && curl -sS https://s3-eu-west-1.amazonaws.com/qafoo-profiler/packages/EEB5E8F4.gpg | apt-key add - \
  && if [ "$PHP_VERSION" != "7.0" ]; then \
@@ -15,7 +15,6 @@ RUN echo 'deb http://s3-eu-west-1.amazonaws.com/qafoo-profiler/packages debian m
  && DEBIAN_FRONTEND=noninteractive apt-get -qq -y --no-install-recommends install \
     awscli \
     nginx \
-    mysql-client \
     php-apcu \
     php-imagick \
     php-redis \
@@ -28,12 +27,13 @@ RUN echo 'deb http://s3-eu-west-1.amazonaws.com/qafoo-profiler/packages debian m
     "php$PHP_VERSION-intl" \
     "php$PHP_VERSION-mbstring" \
     "php$PHP_VERSION-mcrypt" \
-    "php$PHP_VERSION-mysql" \
     "php$PHP_VERSION-opcache" \
     "php$PHP_VERSION-pgsql" \
     "php$PHP_VERSION-soap" \
     "php$PHP_VERSION-xsl" \
     "php$PHP_VERSION-zip" \
+    "php$PHP_VERSION-mysql" mysql-client \
+    "php$PHP_VERSION-pgsql" postgresql-client \
     postfix \
     tideways-php \
  \

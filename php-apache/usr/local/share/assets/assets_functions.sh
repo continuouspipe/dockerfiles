@@ -52,6 +52,11 @@ function assets_list()
 
 function assets_apply_database()
 {
+  "assets_apply_database_${DATABASE_PLATFORM}" "$@"
+}
+
+function assets_apply_database_mysql()
+{
   set +x
   local DECOMPRESS
   local -r ASSET_FILE="$1"
@@ -112,6 +117,75 @@ function assets_apply_database()
   if [ "${#DATABASE_TABLES[@]}" -eq 0 ]; then
     echo "Importing ${ASSET_FILE} into ${APPLY_DATABASE_NAME} MySql database"
     "${DECOMPRESS[@]}" | mysql "${DATABASE_ARGS[@]}" "${APPLY_DATABASE_NAME}"
+  fi
+  set -x
+}
+
+function assets_apply_database_postgres()
+{
+  set +x
+  local DECOMPRESS
+  local -r ASSET_FILE="$1"
+  local -r APPLY_DATABASE_NAME="$2"
+  local -r APPLY_FORCE_DATABASE_DROP="$(convert_to_boolean_string "${3:-0}")"
+
+  case "${ASSET_FILE}" in
+  *.sql.gz)
+    DECOMPRESS=(gunzip -c "${ASSET_FILE}")
+    ;;
+  *.sql.bz2)
+    DECOMPRESS=(bunzip2 -c "${ASSET_FILE}")
+    ;;
+  *.sql)
+    DECOMPRESS=(cat "${ASSET_FILE}")
+    ;;
+  *)
+    echo "Unknown database dump format for ${ASSET_FILE}, supported *.sql, *.sql.gz, *.sql.bz2"
+    return 1
+  esac
+
+  local DATABASE_ARGS=("--host=${DATABASE_HOST}" "--port=${DATABASE_PORT}")
+
+  if [ -n "${DATABASE_ADMIN_USER}" ]; then
+    PGPASSWORD="$DATABASE_ADMIN_PASSWORD"
+    DATABASE_ARGS+=("--username=${DATABASE_ADMIN_USER}")
+  else
+    PGPASSWORD="$DATABASE_PASSWORD"
+    DATABASE_ARGS+=("--username=${DATABASE_USER}")
+  fi
+
+  wait_for_remote_ports "${ASSETS_DATABASE_WAIT_TIMEOUT}" "${DATABASE_HOST}:${DATABASE_PORT}"
+
+  local DATABASES
+  mapfile -t DATABASES < <(PGPASSWORD="$PGPASSWORD" psql "${DATABASE_ARGS[@]}" -lqt | cut -d \| -f 1 | sed "s/ //g")
+
+  set +e
+  ! printf "%s\\n" "${DATABASES[@]}" | grep --quiet --fixed-strings --line-regexp "${APPLY_DATABASE_NAME}"
+  local DATABASE_EXISTS=$?
+  set -e
+
+  local DATABASE_TABLES=()
+  if [ "${DATABASE_EXISTS}" -ne 0 ]; then
+    mapfile -t DATABASE_TABLES < <(PGPASSWORD="$PGPASSWORD" psql "${DATABASE_ARGS[@]}" -c '\dt' -qt "${APPLY_DATABASE_NAME}" | cut -d \| -f 1 | sed "s/ //g")
+  fi
+  if [ "${#DATABASE_TABLES[@]}" -eq 1 ] && [ "${DATABASE_TABLES[0]}" == "" ]; then
+    DATABASE_TABLES=()
+  fi
+
+  if [ "${DATABASE_EXISTS}" -ne 0 ] && [ "${APPLY_FORCE_DATABASE_DROP}" == 'true' ]; then
+    echo "Dropping and recreating the public ${APPLY_DATABASE_NAME} Postgress schema"
+    PGPASSWORD="$PGPASSWORD" psql "${DATABASE_ARGS[@]}" "--command=DROP SCHEMA public CASCADE;CREATE SCHEMA public;" "${APPLY_DATABASE_NAME}"
+    DATABASE_TABLES=()
+  fi
+
+  if [ "$DATABASE_EXISTS" -eq 0 ]; then
+    echo "Creating ${APPLY_DATABASE_NAME} MySql database"
+    PGPASSWORD="$PGPASSWORD" createdb "${DATABASE_ARGS[@]}" "${APPLY_DATABASE_NAME}"
+  fi
+
+  if [ "${#DATABASE_TABLES[@]}" -eq 0 ]; then
+    echo "Importing ${ASSET_FILE} into ${APPLY_DATABASE_NAME} MySql database"
+    "${DECOMPRESS[@]}" | PGPASSWORD="$PGPASSWORD" psql "${DATABASE_ARGS[@]}" "${APPLY_DATABASE_NAME}"
   fi
   set -x
 }
