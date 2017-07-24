@@ -2,7 +2,7 @@ FROM quay.io/continuouspipe/symfony-php7.1-nginx:latest
 
 MAINTAINER Samuel Roze <samuel+dockerfiles@continuouspipe.io>
 
-# Install node
+# Install node & jq
 ARG NODE_VERSION=7.x
 ARG INSTALL_COMMON_PACKAGES=true
 RUN curl -sL "https://deb.nodesource.com/setup_$NODE_VERSION" > /tmp/install-node.sh \
@@ -10,6 +10,7 @@ RUN curl -sL "https://deb.nodesource.com/setup_$NODE_VERSION" > /tmp/install-nod
  && apt-get update -qq \
  && DEBIAN_FRONTEND=noninteractive apt-get -qq -y --no-install-recommends install \
     nodejs \
+    jq \
  \
  # Set up common NPM packages \
  && if [ "$INSTALL_COMMON_PACKAGES" = "true" ]; then \
