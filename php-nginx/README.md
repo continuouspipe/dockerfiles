@@ -1,5 +1,21 @@
 # PHP NGINX
 
+For PHP 7.1 in a Dockerfile:
+```Dockerfile
+FROM quay.io/continuouspipe/php7.1-nginx:stable
+ARG GITHUB_TOKEN=
+
+COPY . /app
+RUN container build
+```
+or in a docker-compose.yml:
+```yml
+version: '3'
+services:
+  web:
+    image: quay.io/continuouspipe/php7.1-nginx:stable
+```
+
 For PHP 7.0 in a Dockerfile:
 ```Dockerfile
 FROM quay.io/continuouspipe/php7-nginx:stable
@@ -37,6 +53,10 @@ services:
 # For PHP 7.0
 docker-compose build php70_nginx
 docker-compose push php70_nginx
+
+# For PHP 7.0
+docker-compose build php71_nginx
+docker-compose push php71_nginx
 
 # For PHP 5.6
 docker-compose build php56_nginx

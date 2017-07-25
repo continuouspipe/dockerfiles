@@ -4,12 +4,18 @@ MAINTAINER Kieren Evans <kieren.evans+cp-dockerfiles@inviqa.com>
 
 # Install PHP packages, including the Tideways extension
 ARG PHP_VERSION
-ENV PHP_VERSION=${PHP_VERSION:-7.0}
+ENV PHP_VERSION=${PHP_VERSION:-7.1}
 RUN echo 'deb http://s3-eu-west-1.amazonaws.com/qafoo-profiler/packages debian main' > /etc/apt/sources.list.d/tideways.list \
  && curl -sS https://s3-eu-west-1.amazonaws.com/qafoo-profiler/packages/EEB5E8F4.gpg | apt-key add - \
  && if [ "$PHP_VERSION" != "7.0" ]; then \
    echo 'deb http://ppa.launchpad.net/ondrej/php/ubuntu xenial main' > /etc/apt/sources.list.d/php-ppa.list; \
    apt-key adv --keyserver keyserver.ubuntu.com --recv-keys E5267A6C; \
+ fi \
+ && if [ "$PHP_VERSION" == "7.1" ]; then \
+    export LANG=C.UTF-8 \
+    && apt-get update \
+    && apt-get install -y software-properties-common python-software-properties \
+    && add-apt-repository ppa:ondrej/php; \
  fi \
  && apt-get update -qq \
  && DEBIAN_FRONTEND=noninteractive apt-get -qq -y --no-install-recommends install \
