@@ -50,13 +50,13 @@ services:
 
 ## How to build
 ```bash
+# For PHP 7.1
+docker-compose build php71_nginx
+docker-compose push php71_nginx
+
 # For PHP 7.0
 docker-compose build php70_nginx
 docker-compose push php70_nginx
-
-# For PHP 7.0
-docker-compose build php71_nginx
-docker-compose push php71_nginx
 
 # For PHP 5.6
 docker-compose build php56_nginx
