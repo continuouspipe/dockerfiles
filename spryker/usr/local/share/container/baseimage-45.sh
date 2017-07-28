@@ -14,3 +14,9 @@ do_composer() {
   do_build_assets
   do_generate_files
 }
+
+alias_function do_templating do_spryker_templating_inner
+do_templating() {
+  do_spryker_templating
+  do_spryker_templating_inner
+}

@@ -1,0 +1,6 @@
+[template]
+src   = "nginx/site_zed_webroot.conf.tmpl"
+dest  = "/etc/nginx/sites-available/zed-01-webroot.conf"
+mode  = "0644"
+keys = [
+]
