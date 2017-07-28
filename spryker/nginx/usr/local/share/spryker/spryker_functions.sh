@@ -1,5 +1,10 @@
 #!/bin/bash
 
+do_spryker_templating() {
+  sed 's/"WEB_ADDITIONAL_INCLUDES_NAME/"YVES_WEB_ADDITIONAL_INCLUDES_NAME/' /etc/confd/templates/nginx/site.conf.tmpl > /etc/confd/templates/nginx/site_yves.conf.tmpl
+  sed -i'' 's/"WEB_SERVER_NAME/"YVES_WEB_SERVER_NAME/' /etc/confd/templates/nginx/site_yves.conf.tmpl
+}
+
 do_spryker_directory_create() {
   as_code_owner "mkdir -p /app/data/DE/cache/Yves/twig"
   as_code_owner "mkdir -p /app/data/DE/cache/Zed/twig"

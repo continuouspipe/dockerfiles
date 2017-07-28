@@ -19,4 +19,5 @@ RUN curl -sL https://deb.nodesource.com/setup_6.x > /tmp/install-node.sh \
  && apt-get clean \
  && rm -rf /var/lib/apt/lists/*
 
+COPY ./etc/ /etc/
 COPY ./usr/ /usr/
