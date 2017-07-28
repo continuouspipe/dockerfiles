@@ -19,4 +19,5 @@ alias_function do_templating do_spryker_templating_inner
 do_templating() {
   do_spryker_templating
   do_spryker_templating_inner
+  do_spryker_vhosts
 }
