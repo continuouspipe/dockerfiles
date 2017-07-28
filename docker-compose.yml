@@ -62,6 +62,13 @@ services:
     depends_on:
       - varnish
 
+  elasticsearch:
+    build:
+      context: ./elasticsearch/
+    image: quay.io/continuouspipe/elasticsearch2.4:latest
+    depends_on:
+      - external_elasticsearch
+
   ez:
     build:
       context: ./ez/6.x/
@@ -301,6 +308,22 @@ services:
     depends_on:
       - ubuntu
 
+  postgres94:
+    build:
+      context: ./postgres/
+      dockerfile: Dockerfile-9.4
+    image: quay.io/continuouspipe/postgres9.4:latest
+    depends_on:
+      - external_postgres94
+
+  postgres96:
+    build:
+      context: ./postgres/
+      dockerfile: Dockerfile-9.6
+    image: quay.io/continuouspipe/postgres9.6:latest
+    depends_on:
+      - external_postgres96
+
   scala_sbt:
     build:
       context: ./scala-base/1.0/
@@ -321,13 +344,6 @@ services:
     image: quay.io/continuouspipe/redis3-highly-available:latest
     depends_on:
       - external_redis_highly_available
-
-  elasticsearch:
-    build:
-      context: ./elasticsearch/
-    image: quay.io/continuouspipe/elasticsearch2.4:latest
-    depends_on:
-      - external_elasticsearch
 
   solr_4_10:
     build:
@@ -457,6 +473,12 @@ services:
 
   external_elasticsearch:
     image: elasticsearch:2.4
+
+  external_postgres94:
+    image: postgres:9.4
+
+  external_postgres96:
+    image: postgres:9.6
 
   external_solr_4_10:
     image: makuk66/docker-solr:4.10.4
