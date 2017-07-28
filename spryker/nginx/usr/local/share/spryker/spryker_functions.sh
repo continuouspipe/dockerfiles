@@ -1,8 +1,9 @@
 #!/bin/bash
 
 do_spryker_templating() {
-  sed 's/"WEB_ADDITIONAL_INCLUDES_NAME/"YVES_WEB_ADDITIONAL_INCLUDES_NAME/' /etc/confd/templates/nginx/site.conf.tmpl > /etc/confd/templates/nginx/site_yves.conf.tmpl
-  sed -i'' 's/"WEB_SERVER_NAME/"YVES_WEB_SERVER_NAME/' /etc/confd/templates/nginx/site_yves.conf.tmpl
+  sed 's/"WEB_ADDITIONAL_INCLUDES_NAME/"ZED_WEB_ADDITIONAL_INCLUDES_NAME/' /etc/confd/templates/nginx/site.conf.tmpl > /etc/confd/templates/nginx/site_zed.conf.tmpl
+  sed -i'' 's/"WEB_SERVER_NAME/"ZED_WEB_SERVER_NAME/' /etc/confd/templates/nginx/site_zed.conf.tmpl
+  sed -i'' 's/ default_server//' /etc/confd/templates/nginx/site_zed.conf.tmpl
 }
 
 do_spryker_vhosts() {

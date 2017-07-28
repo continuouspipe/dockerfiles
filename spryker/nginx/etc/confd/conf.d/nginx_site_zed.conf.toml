@@ -1,5 +1,5 @@
 [template]
-src   = "nginx/site.conf.tmpl"
+src   = "nginx/site_zed.conf.tmpl"
 dest  = "/etc/nginx/sites-available/zed"
 mode  = "0644"
 keys = [

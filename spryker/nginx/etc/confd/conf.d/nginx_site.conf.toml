@@ -1,5 +1,5 @@
 [template]
-src   = "nginx/site_yves.conf.tmpl"
+src   = "nginx/site.conf.tmpl"
 dest  = "/etc/nginx/sites-available/yves"
 mode  = "0644"
 keys = [
