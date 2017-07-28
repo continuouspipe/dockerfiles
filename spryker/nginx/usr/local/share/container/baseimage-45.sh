@@ -9,6 +9,8 @@ do_build_permissions() {
 
 alias_function do_build do_spryker_nginx_build_inner
 do_build() {
+  export DEVELOPMENT_MODE="${BUILD_DEVELOPMENT_MODE}"
+  export APPLICATION_ENV="${BUILD_APPLICATION_ENV}"
   do_spryker_nginx_build_inner
   do_templating
   do_generate_files
