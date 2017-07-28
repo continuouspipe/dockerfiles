@@ -50,14 +50,15 @@ do_spryker_build() {
 
 do_build_assets() {
   set +e
-  # use Spryker scripts to install static assets
-  TERM=linux
-  export TERM
-  source /app/deploy/setup/util/print.sh
-  source /app/deploy/setup/frontend/params.sh
-  source /app/deploy/setup/frontend/functions.sh
-  setupYvesFrontend
-  setupZedFrontend
+  as_code_owner "
+    # use Spryker scripts to install static assets
+    TERM=linux
+    export TERM
+    source /app/deploy/setup/util/print.sh
+    source /app/deploy/setup/frontend/params.sh
+    source /app/deploy/setup/frontend/functions.sh
+    setupYvesFrontend
+    setupZedFrontend"
   set -e
 }
 
