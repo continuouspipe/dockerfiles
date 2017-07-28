@@ -1,5 +1,8 @@
 #!/bin/bash
 
+# We need development dependencies for "vendor/bin/console setup:deploy:prepare-propel"
+export COMPOSER_INSTALL_FLAGS=${COMPOSER_INSTALL_FLAGS:-"--no-interaction --optimize-autoloader"}
+
 export DATABASE_HOST=${DATABASE_HOST:-postgres}
 export DATABASE_USER=${DATABASE_USER:-spryker_user}
 export DATABASE_PASSWORD=${DATABASE_PASSWORD:-spryker_password}
