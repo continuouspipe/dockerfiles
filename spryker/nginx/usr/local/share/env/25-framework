@@ -14,3 +14,6 @@ export DATABASE_PASSWORD=${DATABASE_PASSWORD:-spryker_password}
 export DATABASE_NAME=${DATABASE_NAME:-spryker}
 
 export SYMFONY_APP_ENDPOINT=${SYMFONY_APP_ENDPOINT:-/index.php}
+
+# We need development dependencies for "vendor/bin/console setup:deploy:prepare-propel"
+export COMPOSER_INSTALL_FLAGS=${COMPOSER_INSTALL_FLAGS:-"--no-interaction --optimize-autoloader"}
