@@ -49,6 +49,7 @@ do_spryker_build() {
 }
 
 do_build_assets() {
+  set +e
   # use Spryker scripts to install static assets
   TERM=linux
   export TERM
@@ -57,6 +58,7 @@ do_build_assets() {
   source /app/deploy/setup/frontend/functions.sh
   setupYvesFrontend
   setupZedFrontend
+  set -e
 }
 
 do_generate_files() {
