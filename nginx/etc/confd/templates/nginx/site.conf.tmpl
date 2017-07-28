@@ -1,5 +1,5 @@
 server {
-    server_name _;
+    server_name {{ getenv "WEB_SERVER_NAME" }};
 {{ if ne "false" (getenv "WEB_HTTP") }}
     listen {{ getenv "WEB_HTTP_PORT" }} default_server;
 {{ if and (eq "true" (getenv "WEB_HTTPS_ONLY")) (ne "true" (getenv "WEB_REVERSE_PROXIED")) }}
@@ -9,7 +9,7 @@ server {
 }
 
 server {
-    server_name _;
+    server_name {{ getenv "WEB_SERVER_NAME" }};
 {{ end }}{{ end }}
 {{ if eq "true" (getenv "WEB_HTTPS") }}
 {{ if eq "true" (getenv "WEB_HTTPS_OFFLOADED") }}
@@ -21,6 +21,9 @@ server {
     set $access_log_enabled 1;
 
     include /etc/nginx/sites-available/default-*.conf;
+    {{ if ne "" (getenv "WEB_ADDITIONAL_INCLUDES_NAME") }}
+        include /etc/nginx/sites-available/{{ getenv "WEB_ADDITIONAL_INCLUDES_NAME" }}-*.conf;
+    {{ end }}
 
     error_log /dev/stderr notice;
     access_log /dev/stdout {{ getenv "NGINX_LOG_FORMAT_NAME" }} if=$access_log_enabled;

@@ -63,6 +63,7 @@ The following variables are supported
 Variable | Description | Expected values | Default
 --- | --- | --- | ----
 WEB_HOST | The domain of the website | a domain | localhost
+WEB_SERVER_NAME | The domain matched by the virtual host in NGINX. Default is to match any hostname. | string/regex | _
 WEB_HTTP | Whether to support HTTP traffic on the WEB_HTTP_PORT. | true/false/(deprecated: auto) | auto
 WEB_HTTP_PORT | The port to serve the HTTP traffic or redirect from | 0-65535 | 80
 WEB_HTTPS | Whether to support HTTPS traffic on the WEB_HTTPS_PORT | true/false | true
@@ -79,6 +80,7 @@ WEB_SSL_SESSION_CACHE | Sets the types and sizes of caches that store session pa
 WEB_SSL_SESSION_TIMEOUT | Specifies a time during which a client may reuse the session parameters. | time | 5m
 WEB_SSL_TRUSTED_CERTIFICATES | The trusted certificates to use for OSCP stapling verification and/or SSL client certificate authentication | absolute filename | 
 NGINX_LOG_FORMAT_NAME | Which log format to use for the access log. Two are currently available: combined (provided by NGINX) or combined_with_x_forwarded_for which logs the whole X-Forwarded-For header. | string | combined
+WEB_ADDITIONAL_INCLUDES_NAME | The name of files in /etc/nginx/sites-enabled/ to include with a glob | string | empty
 
 The project using the image can define these environment variables to control
 what is rendered in the Nginx configuration

@@ -43,6 +43,7 @@ export WORK_DIRECTORY=${WORK_DIRECTORY:-/app}
 export WEB_DIRECTORY=${WEB_DIRECTORY:-web}
 
 export WEB_HOST=${WEB_HOST:-localhost}
+export WEB_SERVER_NAME=${WEB_SERVER_NAME:-_}
 export WEB_HTTP_PORT=${WEB_HTTP_PORT:-80}
 WEB_HTTPS="$(convert_to_boolean_string "${WEB_HTTPS:-true}")"
 export WEB_HTTPS
@@ -60,6 +61,7 @@ export WEB_SSL_SESSION_CACHE=${WEB_SSL_SESSION_CACHE:-none}
 export WEB_SSL_SESSION_TIMEOUT=${WEB_SSL_SESSION_TIMEOUT:-5m}
 WEB_SSL_OCSP_STAPLING="$(convert_to_boolean_string "${WEB_SSL_OCSP_STAPLING:-false}")"
 export WEB_SSL_OCSP_STAPLING
+export WEB_ADDITIONAL_INCLUDES_NAME=${WEB_ADDITIONAL_INCLUDES_NAME:-}
 
 AUTH_HTTP_ENABLED="$(convert_to_boolean_string "${AUTH_HTTP_ENABLED:-}")"
 export AUTH_HTTP_ENABLED
