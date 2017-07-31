@@ -1,0 +1,6 @@
+[template]
+src   = "supervisor/spryker_collectors_crons.conf.tmpl"
+dest  = "/etc/supervisor/conf.d/spryker_collectors_crons.conf"
+mode  = "0644"
+keys = [
+]

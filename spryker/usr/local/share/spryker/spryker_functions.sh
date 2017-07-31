@@ -125,6 +125,10 @@ do_spryker_install() {
 
 do_spryker_migrate() {
   do_spryker_propel_install
+
+  if [ "$APPLICATION_ENV" != "production" ] && [ "$IS_CRON_RUNNING" != "true" ]; then
+    do_spryker_run_collectors
+  fi
 }
 
 do_spryker_run_collectors() {
@@ -154,4 +158,15 @@ do_spryker_setup_search() {
 
 do_spryker_run_tests() {
   as_code_owner "vendor/bin/codecept run --skip Acceptance"
+}
+
+do_spryker_hosts() {
+    set +e
+    grep -q zed /etc/hosts
+    HOSTS_UPDATED=$?
+    set -e
+    if [ "$HOSTS_UPDATED" != "0" ]; then
+        # zed is required for internal endpoint and others are required for Acceptance tests to not loop over internet in order to resolve those endpoints
+        echo "127.0.0.1 zed $ZED_HOST $YVES_HOST" >> /etc/hosts
+    fi
 }

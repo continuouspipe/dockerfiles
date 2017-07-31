@@ -1,0 +1,9 @@
+# don't send any mail
+MAILTO=""
+SUPERVISORCTL="supervisorctl -c /etc/supervisor/supervisord.conf -u supervisor -p supervisor"
+
+*/10 * * * * root $SUPERVISORCTL start mailqueue-registration-send
+* * * * *    root $SUPERVISORCTL start stores-collectors
+* * * * *    root $SUPERVISORCTL start oms-check-condition
+* * * * *    root $SUPERVISORCTL start oms-check-timeout
+0 6 * * *    root $SUPERVISORCTL start oms-clear-locks
