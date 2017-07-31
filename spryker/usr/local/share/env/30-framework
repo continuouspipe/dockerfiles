@@ -5,6 +5,7 @@ export APPLICATION_ENV=${APPLICATION_ENV:-production}
 # We need development dependencies for "vendor/bin/console setup:deploy:prepare-propel"
 export COMPOSER_INSTALL_FLAGS=${COMPOSER_INSTALL_FLAGS:-"--no-interaction --optimize-autoloader"}
 
+export DATABASE_PLATFORM=${DATABASE_PLATFORM:-postgres}
 export DATABASE_HOST=${DATABASE_HOST:-postgres}
 export DATABASE_USER=${DATABASE_USER:-spryker_user}
 export DATABASE_PASSWORD=${DATABASE_PASSWORD:-spryker_password}

@@ -107,3 +107,7 @@ do_import_demodata() {
 do_setup_search() {
   as_code_owner "vendor/bin/console setup:search"
 }
+
+do_run_tests() {
+  as_code_owner "vendor/bin/codecept run --skip Acceptance"
+}
