@@ -30,6 +30,7 @@ do_development_start() {
   do_spryker_development_start_inner
   do_templating
   do_spryker_install
+  do_spryker_app_permissions
 }
 
 do_setup() {
