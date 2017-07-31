@@ -87,6 +87,8 @@ do_spryker_install() {
     if [ "$SPRYKER_INSTALLED" -ne 1 ]; then
       as_code_owner "vendor/bin/console setup:install"
       do_import_demodata
+      do_propel_install
+      do_product_label_relations_update
       do_run_collectors
       do_setup_search
     fi
@@ -100,8 +102,20 @@ do_run_collectors() {
   as_code_owner "vendor/bin/console collector:storage:export"
 }
 
+do_propel_install() {
+  as_code_owner "vendor/bin/console propel:install"
+}
+
 do_import_demodata() {
-  as_code_owner "vendor/bin/console import:demo-data"
+  if [ -n "$IMPORT_DEMO_DATA_COMMAND" ]; then
+    as_code_owner "vendor/bin/console $IMPORT_DEMO_DATA_COMMAND"
+  else
+    as_code_owner "vendor/bin/console import:demo-data"
+  fi
+}
+
+do_product_label_relations_update() {
+  as_code_owner "vendor/bin/console product-label:relations:update"
 }
 
 do_setup_search() {
