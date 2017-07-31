@@ -26,6 +26,7 @@ alias_function do_development_start do_spryker_development_start_inner
 do_development_start() {
   do_spryker_development_start_inner
   do_spryker_install
+  do_spryker_app_permissions
 }
 
 alias_function do_setup do_spryker_setup_inner
