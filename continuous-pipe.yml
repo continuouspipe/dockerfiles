@@ -200,6 +200,12 @@ tasks:
         piwik_php71_apache:
           image: quay.io/continuouspipe/piwik-php7.1-apache
           tag: latest
+        postgres94:
+          image: quay.io/continuouspipe/postgres9.4
+          tag: latest
+        postgres96:
+          image: quay.io/continuouspipe/postgres9.6
+          tag: latest
         redis:
           image: quay.io/continuouspipe/redis3
           tag: latest
