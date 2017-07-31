@@ -34,4 +34,7 @@ export YVES_HOST_PROTOCOL=${YVES_HOST_PROTOCOL:-https://}
 export ZED_HOST=${ZED_HOST:-zed}
 export ZED_HOST_PROTOCOL=${ZED_HOST_PROTOCOL:-https://}
 
+export BASE_URL_ZED_API=${BASE_URL_ZED_API:-http://zed}
+export BASE_URL_SSL_ZED_API=${BASE_URL_ZED_API:-https://zed}
+
 export IMPORT_DEMO_DATA_COMMAND=${IMPORT_DEMO_DATA_COMMAND:-data:import}
