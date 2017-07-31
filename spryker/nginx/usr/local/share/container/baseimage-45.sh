@@ -24,3 +24,15 @@ do_templating() {
   do_spryker_templating_inner
   do_spryker_vhosts
 }
+
+alias_function do_development_start do_spryker_development_start_inner
+do_development_start() {
+  do_spryker_development_start_inner
+  do_templating
+  do_spryker_install
+}
+
+do_setup() {
+  do_templating
+  do_spryker_install
+}

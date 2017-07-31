@@ -65,10 +65,6 @@ do_generate_files() {
   as_code_owner "vendor/bin/console application:build-navigation-cache"
 }
 
-do_setup() {
-  do_spryker_install
-}
-
 do_spryker_install() {
   # check if database exists (it is supposed to be created by postgres container)
   set +e
@@ -106,4 +102,8 @@ do_import_demodata() {
 
 do_setup_search() {
   as_code_owner "vendor/bin/console setup:search"
+}
+
+do_run_tests() {
+  as_code_owner "vendor/bin/codecept run --skip Acceptance"
 }
