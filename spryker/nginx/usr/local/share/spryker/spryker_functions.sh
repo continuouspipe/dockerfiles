@@ -72,24 +72,33 @@ do_spryker_install() {
     DATABASE_EXISTS=$?
   set -e
 
-  if [ "$DATABASE_EXISTS" -eq 0 ]; then
-    # database exists
-    # check if spryker is installed
-    set +e
-      psql -U spryker_user -h postgres spryker -c "SELECT EXISTS (SELECT * FROM   information_schema.tables WHERE table_catalog = '$DATABASE_NAME' AND table_name = 'spy_locale');" | grep -q f
-      SPRYKER_INSTALLED=$?
-    set -e
-
-    if [ "$SPRYKER_INSTALLED" -ne 1 ]; then
-      as_code_owner "vendor/bin/console setup:install"
-      do_import_demodata
-      do_propel_install
-      do_product_label_relations_update
-      do_run_collectors
-      do_setup_search
-    fi
-  else
+  if [ "$DATABASE_EXISTS" -ne 0 ]; then
     echo "Database does not exist"
+    exit 1
+  fi
+
+  # database exists
+  # check if spryker is installed
+  set +e
+    psql -U spryker_user -h postgres spryker -c "SELECT EXISTS (SELECT * FROM   information_schema.tables WHERE table_catalog = '$DATABASE_NAME' AND table_name = 'spy_locale');" | grep -q f
+    SPRYKER_INSTALLED=$?
+  set -e
+
+  if [ "$SPRYKER_INSTALLED" -ne 1 ]; then
+    as_code_owner "vendor/bin/console setup:install"
+    do_import_demodata
+    do_propel_install
+    do_product_label_relations_update
+    do_run_collectors
+    do_setup_search
+  fi
+}
+
+do_spryker_migrate() {
+  do_propel_install
+
+  if [ "$APPLICATION_ENV" != "production" ]; then
+    do_run_collectors
   fi
 }
 
