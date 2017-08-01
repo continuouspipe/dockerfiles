@@ -34,4 +34,5 @@ do_setup() {
   do_spryker_setup_inner
   do_templating
   do_spryker_install
+  do_spryker_migrate
 }
