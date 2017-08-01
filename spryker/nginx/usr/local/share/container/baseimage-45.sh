@@ -35,6 +35,7 @@ do_development_start() {
 
 do_setup() {
   do_templating
+  do_spryker_build
   do_spryker_install
   do_spryker_migrate
 }
