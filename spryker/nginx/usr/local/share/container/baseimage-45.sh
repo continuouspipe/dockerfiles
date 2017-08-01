@@ -25,6 +25,12 @@ do_templating() {
   do_spryker_vhosts
 }
 
+alias_function do_start do_spryker_start_inner
+do_start() {
+  do_spryker_hosts
+  do_spryker_start_inner
+}
+
 alias_function do_development_start do_spryker_development_start_inner
 do_development_start() {
   do_spryker_development_start_inner
