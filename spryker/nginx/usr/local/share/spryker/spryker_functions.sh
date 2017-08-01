@@ -80,7 +80,7 @@ do_spryker_install() {
   # database exists
   # check if spryker is installed
   set +e
-    psql -U spryker_user -h postgres spryker -c "SELECT EXISTS (SELECT * FROM   information_schema.tables WHERE table_catalog = '$DATABASE_NAME' AND table_name = 'spy_locale');" | grep -q f
+    psql -U "$DATABASE_USER" -h "$DATABASE_HOST" -c "SELECT EXISTS (SELECT * FROM   information_schema.tables WHERE table_catalog = '$DATABASE_NAME' AND table_name = 'spy_locale');" | grep -q f
     SPRYKER_INSTALLED=$?
   set -e
 
