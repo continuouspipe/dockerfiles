@@ -21,7 +21,7 @@ do_spryker_vhosts() {
 do_spryker_directory_create() {
   as_code_owner "mkdir -p /app/data/DE/cache/Yves/twig"
   as_code_owner "mkdir -p /app/data/DE/cache/Zed/twig"
-  as_code_owner "mkdir -p /app/data/DE/logs"
+  as_code_owner "mkdir -p /app/data/DE/logs/ZED"
   as_code_owner "mkdir -p /app/data/common"
 }
 
