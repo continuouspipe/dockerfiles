@@ -7,8 +7,8 @@ export COMPOSER_INSTALL_FLAGS=${COMPOSER_INSTALL_FLAGS:-"--no-interaction --opti
 
 export DATABASE_PLATFORM=${DATABASE_PLATFORM:-postgres}
 export DATABASE_HOST=${DATABASE_HOST:-postgres}
-export DATABASE_USER=${DATABASE_USER:-spryker_user}
-export DATABASE_PASSWORD=${DATABASE_PASSWORD:-spryker_password}
+export DATABASE_USER=${DATABASE_USER:-spryker}
+export DATABASE_PASSWORD=${DATABASE_PASSWORD:-spryker}
 export DATABASE_NAME=${DATABASE_NAME:-spryker}
 
 export ELASTICSEARCH_HOST=${ELASTICSEARCH_HOST:-elasticsearch}
