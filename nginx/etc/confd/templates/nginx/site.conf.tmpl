@@ -1,7 +1,7 @@
 server {
     server_name {{ getenv "WEB_SERVER_NAME" }};
 {{ if ne "false" (getenv "WEB_HTTP") }}
-    listen {{ getenv "WEB_HTTP_PORT" }} default_server;
+    listen {{ getenv "WEB_HTTP_PORT" }} {{ if eq "true" (getenv "WEB_DEFAULT_SERVER") }} default_server{{ end }};
 {{ if and (eq "true" (getenv "WEB_HTTPS_ONLY")) (ne "true" (getenv "WEB_REVERSE_PROXIED")) }}
 
     access_log off;
@@ -13,17 +13,18 @@ server {
 {{ end }}{{ end }}
 {{ if eq "true" (getenv "WEB_HTTPS") }}
 {{ if eq "true" (getenv "WEB_HTTPS_OFFLOADED") }}
-    listen {{ getenv "WEB_HTTPS_PORT" }} default_server;{{ else }}
-    listen {{ getenv "WEB_HTTPS_PORT" }} default_server ssl http2;
+    listen {{ getenv "WEB_HTTPS_PORT" }}{{ if eq "true" (getenv "WEB_DEFAULT_SERVER") }} default_server{{ end }};{{ else }}
+    listen {{ getenv "WEB_HTTPS_PORT" }} {{ if eq "true" (getenv "WEB_DEFAULT_SERVER") }} default_server{{ end }} ssl http2;
     ssl_certificate {{ getenv "WEB_SSL_FULLCHAIN" }};
     ssl_certificate_key {{ getenv "WEB_SSL_PRIVKEY" }};{{ end }}{{ end }}
 
     set $access_log_enabled 1;
 
-    include /etc/nginx/sites-available/default-*.conf;
-    {{ if ne "" (getenv "WEB_ADDITIONAL_INCLUDES_NAME") }}
-        include /etc/nginx/sites-available/{{ getenv "WEB_ADDITIONAL_INCLUDES_NAME" }}-*.conf;
-    {{ end }}
+{{ $includes := split (replace (replace (getenv "WEB_INCLUDES") "," " " -1) "\n" " " -1) " " }}
+{{ range $includes }}{{ if . }}
+    include /etc/nginx/sites-available/{{ . }}.conf;
+{{ end }}
+{{ end }}
 
     error_log /dev/stderr notice;
     access_log /dev/stdout {{ getenv "NGINX_LOG_FORMAT_NAME" }} if=$access_log_enabled;
