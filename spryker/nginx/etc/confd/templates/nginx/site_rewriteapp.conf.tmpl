@@ -1,0 +1,6 @@
+    location @rewrite_zed {
+        rewrite ^(.*)$ {{ getenv "SYMFONY_APP_ENDPOINT" }}/$1 last;
+    }
+    location @rewrite_yves {
+        rewrite ^/Yves/(.*)$ /Yves{{ getenv "SYMFONY_APP_ENDPOINT" }}/$1 last;
+    }

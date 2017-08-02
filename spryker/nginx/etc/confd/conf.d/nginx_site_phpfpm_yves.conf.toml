@@ -1,0 +1,6 @@
+[template]
+src   = "nginx/site_phpfpm_yves.conf.tmpl"
+dest  = "/etc/nginx/sites-available/default-30-phpfpm-yves.conf"
+mode  = "0644"
+keys = [
+]

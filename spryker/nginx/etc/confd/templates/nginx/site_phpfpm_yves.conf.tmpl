@@ -1,0 +1,8 @@
+location ~ ^/Yves{{ getenv "SYMFONY_APP_ENDPOINT_REGEX" }}(/|$) {
+    root {{ getenv "WEB_DIRECTORY" }};
+    fastcgi_pass unix:/run/php{{ getenv "PHP_VERSION" }}-fpm.sock;
+    fastcgi_split_path_info ^(.+\.php)(/.*)$;
+    include fastcgi_params;
+    fastcgi_param HTTPS $custom_https if_not_empty;
+    fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
+}

@@ -1,0 +1,10 @@
+    root {{ getenv "WEB_DIRECTORY" }}/Zed;
+
+    location / {
+        try_files $uri @rewrite_zed;
+    }
+
+    location /Yves/ {
+        root {{ getenv "WEB_DIRECTORY" }};
+        try_files $uri @rewrite_yves;
+    }
