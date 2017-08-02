@@ -1,23 +1,5 @@
 #!/bin/bash
 
-do_spryker_templating() {
-  sed 's/"WEB_ADDITIONAL_INCLUDES_NAME/"ZED_WEB_ADDITIONAL_INCLUDES_NAME/' /etc/confd/templates/nginx/site.conf.tmpl > /etc/confd/templates/nginx/site_zed.conf.tmpl
-  sed -i'' 's/"WEB_SERVER_NAME/"ZED_WEB_SERVER_NAME/' /etc/confd/templates/nginx/site_zed.conf.tmpl
-  sed -i'' 's/ default_server//' /etc/confd/templates/nginx/site_zed.conf.tmpl
-}
-
-do_spryker_vhosts() {
-  if [ -L /etc/nginx/sites-enabled/default ]; then
-    rm /etc/nginx/sites-enabled/default
-  fi
-  if [ ! -L /etc/nginx/sites-enabled/yves ]; then
-    ln -s /etc/nginx/sites-available/yves /etc/nginx/sites-enabled/yves
-  fi
-  if [ ! -L /etc/nginx/sites-enabled/zed ]; then
-    ln -s /etc/nginx/sites-available/zed /etc/nginx/sites-enabled/zed
-  fi
-}
-
 do_spryker_directory_create() {
   as_code_owner "mkdir -p /app/data/DE/cache/Yves/twig"
   as_code_owner "mkdir -p /app/data/DE/cache/Zed/twig"
