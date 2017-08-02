@@ -124,6 +124,7 @@ WEB_SSL_SESSION_CACHE | Sets the types and sizes of caches that store session pa
 WEB_SSL_SESSION_TIMEOUT | Specifies a time during which a client may reuse the session parameters. | time | 5m
 WEB_SSL_TRUSTED_CERTIFICATES | The trusted certificates to use for OSCP stapling verification and/or SSL client certificate authentication | absolute filename | 
 WEB_INCLUDES | A space separated list of files in /etc/nginx/sites-enabled/ to include. ".conf" will be appended automatically. Globs are accepted. | space separated list of partial file names | default-*
+WEB_DEFAULT_SERVER | True if the virtual host should be used for any unmatched traffic | true/false | true
 ASSETS_CLEANUP | Whether to delete the assets in ASSETS_PATH after they have been applied | true/false | true
 ASSETS_ENV | The assets environment assets are downloaded/applied from. If unset no asset actions will happen | a asset environment | 
 ASSETS_PATH | The assets filesystem path assets are downloaded to /applied from. If unset and ASSETS_ENV unset no asset actions will happen | a asset filesystem path | tools/assets/${ASSETS_ENV} if ASSETS_ENV set
