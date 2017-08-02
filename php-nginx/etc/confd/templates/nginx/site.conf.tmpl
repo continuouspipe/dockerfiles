@@ -20,10 +20,11 @@ server {
 
     set $access_log_enabled 1;
 
-    include /etc/nginx/sites-available/default-*.conf;
-    {{ if ne "" (getenv "WEB_ADDITIONAL_INCLUDES_NAME") }}
-        include /etc/nginx/sites-available/{{ getenv "WEB_ADDITIONAL_INCLUDES_NAME" }}-*.conf;
-    {{ end }}
+{{ $includes := split (replace (replace (getenv "WEB_INCLUDES") "," " " -1) "\n" " " -1) " " }}
+{{ range $includes }}{{ if . }}
+    include /etc/nginx/sites-available/{{ . }}.conf;
+{{ end }}
+{{ end }}
 
     error_log /dev/stderr notice;
     access_log /dev/stdout {{ getenv "NGINX_LOG_FORMAT_NAME" }} if=$access_log_enabled;
