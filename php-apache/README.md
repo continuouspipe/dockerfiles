@@ -101,6 +101,10 @@ WEB_SSL_PROTOCOLS | The SSL/TLS protocols to enable | [all] [+/-][protocol]* | A
 WEB_SSL_SESSION_CACHE | Sets the types and sizes of caches that store session parameters. | See Apache HTTPD SSLSessionCache documentation | none
 WEB_SSL_SESSION_TIMEOUT | Specifies a time during which a client may reuse the session parameters. | time in seconds | 300
 WEB_SSL_TRUSTED_CERTIFICATES | The trusted certificates to use for OSCP stapling verification and/or SSL client certificate authentication | absolute filename | 
+APP_ENDPOINT | The uri of the web application php endpoint | domain relative uri | /index.php
+APP_ENDPOINT_REWRITE | Determines whether to redirect urls that don't match webroot files to the APP_ENDPOINT | true/false | true
+APP_ENDPOINT_REGEX | A regex used to define allowed application endpoints, though not currently implemented | string | auto-detected
+APP_ENDPOINT_STRICT | Restricts allowed application endpoints to only that of the APP_ENDPOINT environment variable | true/false | false
 ASSETS_CLEANUP | Whether to delete the assets in ASSETS_PATH after they have been applied | true/false | true
 ASSETS_ENV | The assets environment assets are downloaded/applied from. If unset no asset actions will happen | a asset environment | 
 ASSETS_PATH | The assets filesystem path assets are downloaded to /applied from. If unset and ASSETS_ENV unset no asset actions will happen | a asset filesystem path | tools/assets/${ASSETS_ENV} if ASSETS_ENV set

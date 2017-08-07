@@ -1,7 +1,13 @@
+{{ if eq (getenv "APP_ENDPOINT_REWRITE") "true" }}
+{{ if eq (getenv "APP_ENDPOINT_STRICT") "true" }}
+DirectoryIndex index.html
+{{ end }}
+
 RewriteEngine On
 
-RewriteCond %{DOCUMENT_ROOT}%{REQUEST_FILENAME} !-f
-RewriteCond %{DOCUMENT_ROOT}%{REQUEST_FILENAME} !-d
-RewriteCond %{DOCUMENT_ROOT}%{REQUEST_FILENAME} !-l
+RewriteCond %{CONTEXT_DOCUMENT_ROOT}%{REQUEST_FILENAME} !-f
+RewriteCond %{CONTEXT_DOCUMENT_ROOT}%{REQUEST_FILENAME} !-d
+RewriteCond %{CONTEXT_DOCUMENT_ROOT}%{REQUEST_FILENAME} !-l
 
-RewriteRule .* /index.php [L]
+RewriteRule .* {{ getenv "APP_ENDPOINT" }} [QSA,L]
+{{ end }}

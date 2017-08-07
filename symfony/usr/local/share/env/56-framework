@@ -1,0 +1,5 @@
+#!/bin/bash
+
+# set deprecated env vars in case it is used in a sub-image
+export SYMFONY_APP_ENDPOINT="$APP_ENDPOINT"
+export SYMFONY_APP_ENDPOINT_REGEX="$APP_ENDPOINT_REGEX"

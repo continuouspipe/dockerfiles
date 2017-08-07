@@ -1,4 +1,4 @@
-    location ~ \.php(/|$) {
+    location ~ ^{{ getenv "APP_ENDPOINT_REGEX" }}(/|$) {
         fastcgi_pass unix:/run/php{{ getenv "PHP_VERSION" }}-fpm.sock;
         fastcgi_split_path_info ^(.+\.php)(/.*)$;
         include fastcgi_params;

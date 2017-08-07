@@ -11,6 +11,15 @@ else
   export WEB_HTTPS_ONLY=${WEB_HTTPS_ONLY:-$WEB_HTTPS}
 fi
 
+if [ -z "${APP_ENDPOINT_REGEX:-}" ]; then
+  if [ "${APP_ENDPOINT_STRICT}" == "true" ]; then
+    APP_ENDPOINT_REGEX=$(php -r 'echo preg_quote(getenv("APP_ENDPOINT"));')
+  else
+    APP_ENDPOINT_REGEX=".*\\.php"
+  fi
+  export APP_ENDPOINT_REGEX
+fi
+
 DEFAULT_COMPOSER_FLAGS="--no-interaction --optimize-autoloader"
 
 if [ -z "$DEVELOPMENT_MODE" ] || [ "$DEVELOPMENT_MODE" != 'true' ]; then

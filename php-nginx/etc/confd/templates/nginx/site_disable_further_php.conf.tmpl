@@ -1,0 +1,5 @@
+{{ if eq (getenv "APP_ENDPOINT_STRICT") "true" }}
+location ~ ^.*\.php(/|$) {
+    deny all;
+}
+{{ end }}
