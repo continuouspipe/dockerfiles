@@ -42,7 +42,12 @@ export XDEBUG_REMOTE_PORT=${XDEBUG_REMOTE_PORT:-9000}
 export WORK_DIRECTORY=${WORK_DIRECTORY:-/app}
 export WEB_DIRECTORY=${WEB_DIRECTORY:-web}
 
+export WEB_INCLUDES=${WEB_INCLUDES:-default-*}
+WEB_DEFAULT_SERVER="$(convert_to_boolean_string "${WEB_DEFAULT_SERVER:-true}")"
+export WEB_DEFAULT_SERVER
+
 export WEB_HOST=${WEB_HOST:-localhost}
+export WEB_SERVER_NAME=${WEB_SERVER_NAME:-_}
 export WEB_HTTP_PORT=${WEB_HTTP_PORT:-80}
 WEB_HTTPS="$(convert_to_boolean_string "${WEB_HTTPS:-true}")"
 export WEB_HTTPS

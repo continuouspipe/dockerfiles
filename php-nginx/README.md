@@ -107,6 +107,7 @@ The following variables are supported
 Variable | Description | Expected values | Default
 --- | --- | --- | ----
 WEB_HOST | The domain of the website | a domain | localhost
+WEB_SERVER_NAME | The domain matched by the virtual host in NGINX. Default is to match any hostname. | string/regex | _
 WEB_HTTP | Whether to support HTTP traffic on the WEB_HTTP_PORT. | true/false/(deprecated: auto) | auto
 WEB_HTTP_PORT | The port to serve the HTTP traffic or redirect from | 0-65535 | 80
 WEB_HTTPS | Whether to support HTTPS traffic on the WEB_HTTPS_PORT | true/false | true
@@ -122,6 +123,8 @@ WEB_SSL_PROTOCOLS | The SSL/TLS protocols to enable | [SSLv2] [SSLv3] [TLSv1] [T
 WEB_SSL_SESSION_CACHE | Sets the types and sizes of caches that store session parameters. See nginx ssl_session_cache documentation for more info | off/none/builtin[:size]/shared:name:size | none
 WEB_SSL_SESSION_TIMEOUT | Specifies a time during which a client may reuse the session parameters. | time | 5m
 WEB_SSL_TRUSTED_CERTIFICATES | The trusted certificates to use for OSCP stapling verification and/or SSL client certificate authentication | absolute filename | 
+WEB_INCLUDES | A space separated list of files in /etc/nginx/sites-enabled/ to include. ".conf" will be appended automatically. Globs are accepted. | space separated list of partial file names | default-*
+WEB_DEFAULT_SERVER | True if the virtual host should be used for any unmatched traffic | true/false | true
 ASSETS_CLEANUP | Whether to delete the assets in ASSETS_PATH after they have been applied | true/false | true
 ASSETS_ENV | The assets environment assets are downloaded/applied from. If unset no asset actions will happen | a asset environment | 
 ASSETS_PATH | The assets filesystem path assets are downloaded to /applied from. If unset and ASSETS_ENV unset no asset actions will happen | a asset filesystem path | tools/assets/${ASSETS_ENV} if ASSETS_ENV set
