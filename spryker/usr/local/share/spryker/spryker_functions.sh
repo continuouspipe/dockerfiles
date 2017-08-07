@@ -119,6 +119,7 @@ do_spryker_install() {
     do_spryker_import_demodata
     do_spryker_product_label_relations_update
     do_spryker_setup_search
+    do_spryker_app_permissions
     do_spryker_run_collectors
   fi
 }
