@@ -132,8 +132,8 @@ do_spryker_migrate() {
 }
 
 do_spryker_run_collectors() {
-  as_code_owner "vendor/bin/console collector:search:export"
-  as_code_owner "vendor/bin/console collector:storage:export"
+  as_app_user "vendor/bin/console collector:search:export"
+  as_app_user "vendor/bin/console collector:storage:export"
 }
 
 do_spryker_propel_install() {
