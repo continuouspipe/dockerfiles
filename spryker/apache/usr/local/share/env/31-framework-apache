@@ -1,0 +1,4 @@
+#!/bin/bash
+
+export YVES_WEB_INCLUDES=${YVES_WEB_INCLUDES:-000-default-* 001-yves-*}
+export ZED_WEB_INCLUDES=${ZED_WEB_INCLUDES:-000-default-* 002-zed-*}

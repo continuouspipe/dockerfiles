@@ -1,19 +1,25 @@
 #!/bin/bash
 
-do_spryker_templating() {
-  # Run confd using the /etc/confd_zed config directory
-  # with all WEB_* variables using values set under ZED_WEB_*
-  # or falling back to WEB_* if a ZED_WEB_* equivalent isn't set
+spryker_vhost() {
+  local -r TYPE=$1
+  # Run confd using the /etc/confd_$TYPE config directory
+  # with all WEB_* variables using values set under ${TYPE}_WEB_*
+  # or falling back to WEB_* if a ${TYPE}_WEB_* equivalent isn't set
 
   # shellcheck disable=SC2016
-  VARS="$(env | grep '^WEB_' | sed -E 's/^(.*)=(.*)$/\1=${ZED_\1:-"\2"}/g')"
-  bash -c "$(printf "%s " "$VARS") confd -onetime -confdir='/etc/confd_zed' -backend env"
+  VARS="$(env | grep -oP "^${TYPE^^}"'_\KWEB_[^=]*' | xargs -I {} echo '{}="$'"${TYPE^^}"'_{}"')"
+  bash -c "$(printf "%s " "$VARS") confd -onetime -confdir=\"/etc/confd_${TYPE,,}\" -backend env"
 }
 
 do_spryker_vhosts() {
-  if [ ! -L /etc/nginx/sites-enabled/zed ]; then
-    ln -s /etc/nginx/sites-available/zed /etc/nginx/sites-enabled/zed
-  fi
+  rm -f "/etc/apache2/sites-enabled/000-default.conf" "/etc/nginx/sites-enabled/default"
+  for VHOST in yves zed; do
+    if [ -z "${APP_SERVICES##*${VHOST}*}" ]; then
+      spryker_vhost "$VHOST"
+    else
+      rm -f "/etc/apache2/sites-enabled/"???-"$VHOST.conf" "/etc/nginx/sites-enabled/$VHOST"
+    fi
+  done
 }
 
 do_spryker_directory_create() {
