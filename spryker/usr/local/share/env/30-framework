@@ -12,9 +12,6 @@ export PHP_REALPATH_CACHE_TTL=${PHP_REALPATH_CACHE_TTL:-600}
 
 export APP_ENDPOINT_STRICT=${APP_ENDPOINT_STRICT:-true}
 
-export WEB_INCLUDES=${WEB_INCLUDES:-default-* yves-*}
-export ZED_WEB_INCLUDES=${ZED_WEB_INCLUDES:-default-01-site_ssl default-05-custom_scheme_flags default-05-site_healthcheck default-06-site_redirect_to_https default-10-base default-20-rewriteapp default-30-phpfpm default-50-disable_further_php zed-*}
-
 ZED_WEB_DEFAULT_SERVER="$(convert_to_boolean_string "${ZED_WEB_DEFAULT_SERVER:-false}")"
 export ZED_WEB_DEFAULT_SERVER
 

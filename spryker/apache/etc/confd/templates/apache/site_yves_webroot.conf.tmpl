@@ -1,0 +1,7 @@
+DocumentRoot {{ getenv "WEB_DIRECTORY" }}/Yves
+
+<Directory {{ getenv "WEB_DIRECTORY" }}/Yves>
+    Options FollowSymLinks
+    AllowOverride None
+    Require all granted
+</Directory>
