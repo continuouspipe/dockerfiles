@@ -73,6 +73,12 @@ tasks:
         symfony_php71_nginx:
           image: quay.io/continuouspipe/symfony-php7.1-nginx
           tag: latest
+        symfony_php71_apache:
+          image: quay.io/continuouspipe/symfony-php7.1-apache
+          tag: latest
+        symfony_php70_apache:
+          image: quay.io/continuouspipe/symfony-php7-apache
+          tag: latest
 
   ###########################
   # No dependency images    #
@@ -107,8 +113,11 @@ tasks:
         elasticsearch:
           image: quay.io/continuouspipe/elasticsearch2.4
           tag: latest
-        ez:
+        ez_php70_apache:
           image: quay.io/continuouspipe/ez6-apache-php7
+          tag: latest
+        ez_php71_apache:
+          image: quay.io/continuouspipe/ez6-php7.1-apache
           tag: latest
         hem:
           image: quay.io/continuouspipe/hem1
@@ -229,12 +238,6 @@ tasks:
           tag: latest
         symfony_php56_nginx:
           image: quay.io/continuouspipe/symfony-php5.6-nginx
-          tag: latest
-        symfony_php71_apache:
-          image: quay.io/continuouspipe/symfony-php7.1-apache
-          tag: latest
-        symfony_php70_apache:
-          image: quay.io/continuouspipe/symfony-php7-apache
           tag: latest
         symfony_php56_apache:
           image: quay.io/continuouspipe/symfony-php5.6-apache
