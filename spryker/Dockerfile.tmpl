@@ -1,4 +1,4 @@
-FROM quay.io/continuouspipe/symfony-php7.1-nginx:latest
+FROM quay.io/continuouspipe/php{{PHP_VERSION}}-{{WEB_SERVER}}:latest
 
 MAINTAINER Hardik Gajjar <hardik.gajjar@inviqa.com>
 
@@ -9,8 +9,8 @@ RUN curl -sL https://deb.nodesource.com/setup_6.x > /tmp/install-node.sh \
     build-essential \
     graphviz \
     nodejs \
-    php7.1-pgsql \
-    php7.1-gmp \
+    php{{PHP_VERSION}}-pgsql \
+    php{{PHP_VERSION}}-gmp \
     postgresql-client \
     redis-tools \
  \

@@ -221,6 +221,9 @@ tasks:
         spryker_php71_nginx:
           image: quay.io/continuouspipe/spryker-php7.1-nginx
           tag: latest
+        spryker_php71_apache:
+          image: quay.io/continuouspipe/spryker-php7.1-apache
+          tag: latest
         symfony_php70_nginx:
           image: quay.io/continuouspipe/symfony-php7-nginx
           tag: latest

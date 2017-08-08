@@ -370,10 +370,19 @@ services:
 
   spryker_php71_nginx:
     build:
-      context: ./spryker/nginx/
+      context: ./spryker/
+      dockerfile: Dockerfile-php7.1-nginx
     image: quay.io/continuouspipe/spryker-php7.1-nginx:latest
     depends_on:
-      - symfony_php71_nginx
+      - php71_nginx
+
+  spryker_php71_apache:
+    build:
+      context: ./spryker/
+      dockerfile: Dockerfile-php7.1-apache
+    image: quay.io/continuouspipe/spryker-php7.1-apache:latest
+    depends_on:
+      - php71_apache
 
   symfony_php71_nginx:
     build:
