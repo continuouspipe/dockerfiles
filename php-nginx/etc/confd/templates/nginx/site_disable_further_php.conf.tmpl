@@ -1,0 +1,9 @@
+{{ if eq (getenv "APP_ENDPOINT_STRICT") "true" }}
+location ~ ^.*\.php(/|$) {
+{{ if eq (getenv "APP_ENDPOINT_REWRITE") "true" }}
+    rewrite ^(.*)$ {{ getenv "APP_ENDPOINT"}}/$1 last;
+{{ else }}
+    return 404;
+{{ end }}
+}
+{{ end }}

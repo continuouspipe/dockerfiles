@@ -27,6 +27,12 @@ export START_PHP_FPM
 START_CRON="$(convert_to_boolean_string "${START_MODE_CRON:-false}")"
 export START_CRON
 
+APP_ENDPOINT_REWRITE="$(convert_to_boolean_string "${AAPP_ENDPOINT_REWRITE-true}")"
+export APP_ENDPOINT_REWRITE
+APP_ENDPOINT_STRICT="$(convert_to_boolean_string "${APP_ENDPOINT_STRICT:-false}")"
+export APP_ENDPOINT_STRICT
+export APP_ENDPOINT=${APP_ENDPOINT:-/index.php}
+
 TIDEWAYS_ENABLED="$(convert_to_boolean_string "${TIDEWAYS_ENABLED:-false}")"
 export TIDEWAYS_ENABLED
 export TIDEWAYS_FRAMEWORK=${TIDEWAYS_FRAMEWORK:-}

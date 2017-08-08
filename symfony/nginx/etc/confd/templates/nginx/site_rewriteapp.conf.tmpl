@@ -1,3 +1,0 @@
-    location @rewriteapp {
-        rewrite ^(.*)$ {{ getenv "SYMFONY_APP_ENDPOINT" }}/$1 last;
-    }

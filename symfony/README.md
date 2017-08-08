@@ -74,8 +74,10 @@ SYMFONY_ENV | The Symfony env to use, when the app reads this variable | string 
 SYMFONY_MAJOR_VERSION | The major version of Symfony that will be used | 2, 3 | auto-detected based on location of console script
 SYMFONY_CONSOLE | The location of the Symfony console script | file path | auto-detected
 SYMFONY_WEB_APP_ENV_REWRITE | Whether to use web/app_*.php when SYMFONY_ENV != prod | true, false | false
-SYMFONY_APP_ENDPOINT | The uri of the web application php endpoint | domain relative uri | auto-detected based on SYMFONY_ENV and SYMFONY_WEB_APP_ENV_REWRITE
-SYMFONY_APP_ENDPOINT_REGEX | Not able to be influenced directly, but the SYMFONY_APP_ENDPOINT variable with regular expression characters quoted. Used by the nginx configuration in [site_phpfpm.conf.tmpl](https://github.com/continuouspipe/dockerfiles/blob/master/symfony/nginx/etc/confd/templates/nginx/site_phpfpm.conf.tmpl#L1) | string | auto-detected
+APP_ENDPOINT | The uri of the web application php endpoint | domain relative uri | auto-detected based on SYMFONY_ENV and SYMFONY_WEB_APP_ENV_REWRITE
+APP_ENDPOINT_REWRITE | Determines whether to redirect urls that don't match webroot files to the APP_ENDPOINT | true/false | true
+APP_ENDPOINT_REGEX | A regex used to define allowed application endpoints, see [site_phpfpm.conf.tmpl](https://github.com/continuouspipe/dockerfiles/blob/master/php-nginx/etc/confd/templates/nginx/site_phpfpm.conf.tmpl#L1) | string | auto-detected
+APP_ENDPOINT_STRICT | Restricts allowed application endpoints to only that of the APP_ENDPOINT environment variable | true/false | true
 
 The following variables have had their defaults changed from the php-nginx image so that Symfony runs better:
 
