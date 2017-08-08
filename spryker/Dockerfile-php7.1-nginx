@@ -9,9 +9,7 @@ RUN curl -sL https://deb.nodesource.com/setup_6.x > /tmp/install-node.sh \
     build-essential \
     graphviz \
     nodejs \
-    php7.1-pgsql \
     php7.1-gmp \
-    postgresql-client \
     redis-tools \
  \
  # Clean the image \
