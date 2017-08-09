@@ -11,6 +11,8 @@ RUN curl -sL "https://deb.nodesource.com/setup_$NODE_VERSION" > /tmp/install-nod
  && DEBIAN_FRONTEND=noninteractive apt-get -qq -y --no-install-recommends install \
     nodejs \
     jq \
+# Temparory, should be in base images
+    php7.1-sqlite3 \
  \
  # Set up common NPM packages \
  && if [ "$INSTALL_COMMON_PACKAGES" = "true" ]; then \
