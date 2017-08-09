@@ -11,8 +11,8 @@ alias_function do_build do_spryker_nginx_build_inner
 do_build() {
   do_spryker_nginx_build_inner
   do_templating
-  do_generate_files
-  do_build_assets
+  do_spryker_generate_files
+  do_spryker_build_assets
   do_spryker_app_permissions
 }
 

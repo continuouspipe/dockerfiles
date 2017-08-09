@@ -51,7 +51,7 @@ do_spryker_build() {
   do_spryker_config_create
 }
 
-do_build_assets() {
+do_spryker_build_assets() {
   set +e
   as_code_owner "
     # use Spryker scripts to install static assets
@@ -65,7 +65,7 @@ do_build_assets() {
   set -e
 }
 
-do_generate_files() {
+do_spryker_generate_files() {
   as_code_owner "vendor/bin/console setup:deploy:prepare-propel"
   as_code_owner "vendor/bin/console transfer:generate"
   as_code_owner "vendor/bin/console setup:search:index-map"
@@ -93,32 +93,31 @@ do_spryker_install() {
 
   if [ "$SPRYKER_INSTALLED" -ne 1 ]; then
     as_code_owner "vendor/bin/console setup:install"
-    do_import_demodata
-    do_propel_install
-    do_product_label_relations_update
-    do_run_collectors
-    do_setup_search
+    do_spryker_import_demodata
+    do_spryker_product_label_relations_update
+    do_spryker_run_collectors
+    do_spryker_setup_search
   fi
 }
 
 do_spryker_migrate() {
-  do_propel_install
+  do_spryker_propel_install
 
   if [ "$APPLICATION_ENV" != "production" ]; then
-    do_run_collectors
+    do_spryker_run_collectors
   fi
 }
 
-do_run_collectors() {
+do_spryker_run_collectors() {
   as_code_owner "vendor/bin/console collector:search:export"
   as_code_owner "vendor/bin/console collector:storage:export"
 }
 
-do_propel_install() {
+do_spryker_propel_install() {
   as_code_owner "vendor/bin/console propel:install"
 }
 
-do_import_demodata() {
+do_spryker_import_demodata() {
   if [ -n "$IMPORT_DEMO_DATA_COMMAND" ]; then
     as_code_owner "vendor/bin/console $IMPORT_DEMO_DATA_COMMAND"
   else
@@ -126,14 +125,14 @@ do_import_demodata() {
   fi
 }
 
-do_product_label_relations_update() {
+do_spryker_product_label_relations_update() {
   as_code_owner "vendor/bin/console product-label:relations:update"
 }
 
-do_setup_search() {
+do_spryker_setup_search() {
   as_code_owner "vendor/bin/console setup:search"
 }
 
-do_run_tests() {
+do_spryker_run_tests() {
   as_code_owner "vendor/bin/codecept run --skip Acceptance"
 }
