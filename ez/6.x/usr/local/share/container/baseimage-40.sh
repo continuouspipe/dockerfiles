@@ -3,6 +3,7 @@
 source /usr/local/share/ez/ez_functions.sh
 
 function do_setup() {
+  ASSETS_FILES_ENABLED="false" do_assets_all
   do_ez_setup
 }
 

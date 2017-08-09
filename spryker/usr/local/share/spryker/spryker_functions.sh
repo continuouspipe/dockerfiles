@@ -67,6 +67,7 @@ do_generate_files() {
 }
 
 do_setup() {
+  ASSETS_FILES_ENABLED="false" do_assets_all
   do_spryker_install
 }
 

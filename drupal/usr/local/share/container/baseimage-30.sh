@@ -29,6 +29,7 @@ do_development_start() {
 }
 
 do_setup() {
+  ASSETS_FILES_ENABLED="false" do_assets_all
   do_drupal_install
   do_drupal_legacy_install_script
   do_drupal_legacy_install_finalise_script
