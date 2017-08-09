@@ -37,5 +37,6 @@ do_magento_development_start() {
 
 do_setup() {
   do_templating
+  ASSETS_FILES_ENABLED="false" do_assets_all
   do_magento_setup
 }
