@@ -1,5 +1,15 @@
 #!/bin/bash
 
+spryker_service_yves() {
+  [ -z "${APP_SERVICES##*yves*}" ]
+  return "$?"
+}
+
+spryker_service_zed() {
+  [ -z "${APP_SERVICES##*zed*}" ]
+  return "$?"
+}
+
 spryker_vhost() {
   local -r TYPE=$1
   # Run confd using the /etc/confd_$TYPE config directory
@@ -14,7 +24,7 @@ spryker_vhost() {
 do_spryker_vhosts() {
   rm -f "/etc/apache2/sites-enabled/000-default.conf" "/etc/nginx/sites-enabled/default"
   for VHOST in yves zed; do
-    if [ -z "${APP_SERVICES##*${VHOST}*}" ]; then
+    if "spryker_service_$VHOST"; then
       spryker_vhost "$VHOST"
     else
       rm -f "/etc/apache2/sites-enabled/"???-"$VHOST.conf" "/etc/nginx/sites-enabled/$VHOST"
@@ -51,8 +61,8 @@ do_spryker_build() {
   do_spryker_config_create
 }
 
-do_spryker_build_assets() {
-  set +e
+spryker_build_assets() {
+  local -r TYPE="$1"
   as_code_owner "
     # use Spryker scripts to install static assets
     TERM=linux
@@ -60,8 +70,14 @@ do_spryker_build_assets() {
     source /app/deploy/setup/util/print.sh
     source /app/deploy/setup/frontend/params.sh
     source /app/deploy/setup/frontend/functions.sh
-    setupYvesFrontend
-    setupZedFrontend"
+    setup${TYPE}Frontend
+  "
+}
+
+do_spryker_build_assets() {
+  set +e
+  ! spryker_service_yves || spryker_build_assets 'Yves'
+  ! spryker_service_zed || spryker_build_assets 'Zed'
   set -e
 }
 
