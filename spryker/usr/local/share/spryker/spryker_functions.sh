@@ -59,6 +59,14 @@ do_spryker_config_create() {
 do_spryker_build() {
   do_spryker_directory_create
   do_spryker_config_create
+
+  if [ "$IS_APP_MOUNTPOINT" == 'true' ] || [ "${TASK}" == "build" ]; then
+    if spryker_service_zed; then
+      do_spryker_generate_files
+    fi
+    do_spryker_build_assets
+    do_spryker_app_permissions
+  fi
 }
 
 spryker_build_assets() {

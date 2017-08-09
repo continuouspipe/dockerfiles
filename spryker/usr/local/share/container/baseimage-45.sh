@@ -11,11 +11,7 @@ alias_function do_build do_spryker_nginx_build_inner
 do_build() {
   do_spryker_nginx_build_inner
   do_templating
-  if spryker_service_zed; then
-    do_spryker_generate_files
-  fi
-  do_spryker_build_assets
-  do_spryker_app_permissions
+  do_spryker_build
 }
 
 alias_function do_templating do_spryker_templating_inner
