@@ -1,5 +1,27 @@
 #!/bin/bash
 
+spryker_vhost() {
+  local -r TYPE=$1
+  # Run confd using the /etc/confd_$TYPE config directory
+  # with all WEB_* variables using values set under ${TYPE}_WEB_*
+  # or falling back to WEB_* if a ${TYPE}_WEB_* equivalent isn't set
+
+  # shellcheck disable=SC2016
+  VARS="$(env | grep -oP "^${TYPE^^}"'_\KWEB_[^=]*' | xargs -I {} echo '{}="$'"${TYPE^^}"'_{}"')"
+  bash -c "$(printf "%s " "${VARS[@]}") confd -onetime -confdir=\"/etc/confd_${TYPE,,}\" -backend env"
+}
+
+do_spryker_vhosts() {
+  rm -f "/etc/apache2/sites-enabled/000-default.conf" "/etc/nginx/sites-enabled/default"
+  for VHOST in yves zed; do
+    if [ -z "${APP_SERVICES##*${VHOST}*}" ]; then
+      spryker_vhost "$VHOST"
+    else
+      rm -f "/etc/apache2/sites-enabled/"???-"$VHOST.conf" "/etc/nginx/sites-enabled/$VHOST"
+    fi
+  done
+}
+
 do_spryker_directory_create() {
   as_code_owner "mkdir -p /app/data/DE/cache/Yves/twig"
   as_code_owner "mkdir -p /app/data/DE/cache/Zed/twig"

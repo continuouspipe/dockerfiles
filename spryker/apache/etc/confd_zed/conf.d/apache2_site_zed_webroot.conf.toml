@@ -1,0 +1,6 @@
+[template]
+src   = "apache/site_zed_webroot.conf.tmpl"
+dest  = "/etc/apache2/sites-available/002-zed-01-webroot.conf"
+mode  = "0644"
+keys = [
+]

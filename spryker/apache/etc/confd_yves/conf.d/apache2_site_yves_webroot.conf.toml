@@ -1,0 +1,6 @@
+[template]
+src   = "apache/site_yves_webroot.conf.tmpl"
+dest  = "/etc/apache2/sites-available/001-yves-01-webroot.conf"
+mode  = "0644"
+keys = [
+]

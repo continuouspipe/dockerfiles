@@ -1,0 +1,6 @@
+[template]
+src   = "nginx/site_yves_webroot.conf.tmpl"
+dest  = "/etc/nginx/sites-available/yves-01-webroot.conf"
+mode  = "0644"
+keys = [
+]

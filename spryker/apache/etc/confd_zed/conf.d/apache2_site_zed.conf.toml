@@ -1,0 +1,6 @@
+[template]
+src   = "apache/site_zed.conf.tmpl"
+dest  = "/etc/apache2/sites-available/002-zed.conf"
+mode  = "0644"
+keys = [
+]
