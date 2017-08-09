@@ -1,5 +1,5 @@
     location @rewriteapp {
-{{ if eq (getenv "APP_ENDPOINT_REDIRECT") "true" }}
+{{ if eq (getenv "APP_ENDPOINT_REWRITE") "true" }}
         rewrite ^(.*)$ {{ getenv "APP_ENDPOINT"}}/$1 last;
 {{ end }}
     }
