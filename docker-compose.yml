@@ -72,7 +72,7 @@ services:
   ez_php70_apache:
     build:
       context: ./ez/6.x/
-      dockerfile: Dockerfile-php7.0
+      dockerfile: Dockerfile-php7
     image: quay.io/continuouspipe/ez6-apache-php7:latest
     depends_on:
       - symfony_php70_apache
