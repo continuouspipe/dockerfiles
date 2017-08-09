@@ -85,12 +85,15 @@ The following variables are supported
 Variable | Description | Expected values | Default
 --- | --- | --- | ----
 WEB_HOST | The domain of the website | a domain | localhost
+WEB_SERVER_NAME | The domain matched by the virtual host in Apache HTTPD. Default is to match any hostname. | string |
+WEB_SERVER_ALIAS | Additional domains matched by the virtual host in Apache HTTPD. | string/wildcard |
 WEB_HTTP | Whether to support HTTP traffic on the WEB_HTTP_PORT. | true/false/(deprecated: auto) | auto
 WEB_HTTP_PORT | The port to serve the HTTP traffic or redirect from | 0-65535 | 80
 WEB_HTTPS | Whether to support HTTPS traffic on the WEB_HTTPS_PORT | true/false | true
 WEB_HTTPS_PORT | The port to serve the HTTPS traffic from | 0-65535 | 443
 WEB_HTTPS_OFFLOADED | Whether the HTTPS traffic has been forwarded without SSL to the HTTPS port | true/false | false
 WEB_HTTPS_ONLY      | Whether to redirect all HTTP traffic to HTTPS | true/false | $WEB_HTTPS (deprecated: if $WEB_HTTPS=true then false)
+WEB_INCLUDES | A space separated list of files in /etc/apache2/sites-enabled/ to include. ".conf" will be appended automatically. Globs are accepted. | space separated list of partial file names | 000-default-*
 WEB_REVERSE_PROXIED | Whether to interpret X-Forwarded-Proto as the $custom_scheme and $custom_https emulation. | true/false | true
 WEB_SSL_CIPHERS | The enabled SSL/TLS server ciphers | the format understood by the OpenSSL library | ECDH+AESGCM:DH+AESGCM:ECDH+AES256:DH+AES256:ECDH+AES128:DH+AES:ECDH+3DES:DH+3DES:RSA+AESGCM:RSA+AES:RSA+3DES:!aNULL:!MD5:!DSS
 WEB_SSL_FULLCHAIN | The location of the SSL certificate and intermediate chain file | absolute filename | /etc/ssl/certs/fullchain.pem

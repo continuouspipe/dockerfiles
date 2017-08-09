@@ -1,7 +1,13 @@
 {{ if ne "false" (getenv "WEB_HTTP") }}
 <VirtualHost *:{{ getenv "WEB_HTTP_PORT" }}>
+    {{ if getenv "WEB_SERVER_NAME" }}ServerName {{ getenv "WEB_SERVER_NAME" }}{{ end }}
+    {{ if getenv "WEB_SERVER_ALIAS" }}ServerAlias {{ getenv "WEB_SERVER_ALIAS" }}{{ end }}
 {{ if or (ne "true" (getenv "WEB_HTTPS_ONLY")) (eq "true" (getenv "WEB_REVERSE_PROXIED")) }}
-    IncludeOptional /etc/apache2/sites-available/000-default-*.conf
+    {{ $includes := split (replace (replace (getenv "WEB_INCLUDES") "," " " -1) "\n" " " -1) " " }}
+    {{ range $includes }}{{ if . }}
+    IncludeOptional /etc/apache2/sites-available/{{ . }}.conf
+    {{ end }}
+    {{ end }}
 {{ else }}
     RewriteEngine on
     RewriteRule ^.* https://%{HTTP_HOST}$0 [L,R=301]
@@ -11,12 +17,19 @@
 
 {{ if eq "true" (getenv "WEB_HTTPS") }}
 <VirtualHost *:{{ getenv "WEB_HTTPS_PORT" }}>
+    {{ if getenv "WEB_SERVER_NAME" }}ServerName {{ getenv "WEB_SERVER_NAME" }}{{ end }}
+    {{ if getenv "WEB_SERVER_ALIAS" }}ServerAlias {{ getenv "WEB_SERVER_ALIAS" }}{{ end }}
+
     {{ if ne "true" (getenv "WEB_HTTPS_OFFLOADED") }}
     SSLEngine on
     SSLCertificateFile {{ getenv "WEB_SSL_FULLCHAIN" }}
     SSLCertificateKeyFile {{ getenv "WEB_SSL_PRIVKEY" }}
     {{ end }}
 
-    IncludeOptional /etc/apache2/sites-available/000-default-*.conf
+    {{ $includes := split (replace (replace (getenv "WEB_INCLUDES") "," " " -1) "\n" " " -1) " " }}
+    {{ range $includes }}{{ if . }}
+    IncludeOptional /etc/apache2/sites-available/{{ . }}.conf
+    {{ end }}
+    {{ end }}
 </VirtualHost>
 {{ end }}
