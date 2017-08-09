@@ -8,7 +8,7 @@ spryker_vhost() {
 
   # shellcheck disable=SC2016
   VARS="$(env | grep -oP "^${TYPE^^}"'_\KWEB_[^=]*' | xargs -I {} echo '{}="$'"${TYPE^^}"'_{}"')"
-  bash -c "$(printf "%s " "$VARS") confd -onetime -confdir=\"/etc/confd_${TYPE,,}\" -backend env"
+  bash -c "$(printf "%s " "${VARS[@]}") confd -onetime -confdir=\"/etc/confd_${TYPE,,}\" -backend env"
 }
 
 do_spryker_vhosts() {
