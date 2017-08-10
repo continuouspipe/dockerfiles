@@ -7,18 +7,18 @@ function do_magento_n98_download() {
 }
 
 function do_magento_create_directories() {
-  mkdir -p /app/public/media /app/public/sitemaps /app/public/staging /app/public/var
+  mkdir -p "${MAGE_ROOT}/media" "${MAGE_ROOT}/sitemaps" "${MAGE_ROOT}/staging" "${MAGE_ROOT}/var"
 }
 
 function do_magento_directory_permissions() {
   if [ "$IS_CHOWN_FORBIDDEN" != 'true' ]; then
-    [ ! -x /app/public/app/etc/local.xml ] || chown -R "${CODE_OWNER}:${APP_GROUP}" /app/public/app/etc/local.xml
-    chown -R "${APP_USER}:${CODE_GROUP}" /app/public/media /app/public/sitemaps /app/public/staging /app/public/var
-    chmod -R ug+rw,o-w /app/public/media /app/public/sitemaps /app/public/staging /app/public/var
-    chmod -R a+r /app/public/media /app/public/sitemaps /app/public/staging
+    [ ! -x "${MAGE_ROOT}/app/etc/local.xml" ] || chown -R "${CODE_OWNER}:${APP_GROUP}" "${MAGE_ROOT}/app/etc/local.xml"
+    chown -R "${APP_USER}:${CODE_GROUP}" "${MAGE_ROOT}/media" "${MAGE_ROOT}/sitemaps" "${MAGE_ROOT}/staging" "${MAGE_ROOT}/var"
+    chmod -R ug+rw,o-w "${MAGE_ROOT}/media" "${MAGE_ROOT}/sitemaps" "${MAGE_ROOT}/staging" "${MAGE_ROOT}/var"
+    chmod -R a+r "${MAGE_ROOT}/media" "${MAGE_ROOT}/sitemaps" "${MAGE_ROOT}/staging"
   else
-    [ ! -x /app/public/app/etc/local.xml ] || chmod a+r /app/public/app/etc/local.xml
-    chmod -R a+rw /app/public/media /app/public/sitemaps /app/public/staging /app/public/var
+    [ ! -x "${MAGE_ROOT}/app/etc/local.xml" ] || chmod a+r "${MAGE_ROOT}/app/etc/local.xml"
+    chmod -R a+rw "${MAGE_ROOT}/media" "${MAGE_ROOT}/sitemaps" "${MAGE_ROOT}/staging" "${MAGE_ROOT}/var"
   fi
 }
 
@@ -65,19 +65,19 @@ function do_replace_core_config_values() {
 }
 
 function do_magento_config_cache_enable() {
-  as_code_owner "php /app/bin/n98-magerun.phar cache:enable config" /app/public
+  as_code_owner "php /app/bin/n98-magerun.phar cache:enable config" "${MAGE_ROOT}"
 }
 
 function do_magento_config_cache_clean() {
-  as_code_owner "php /app/bin/n98-magerun.phar cache:clean config" /app/public
+  as_code_owner "php /app/bin/n98-magerun.phar cache:clean config" "${MAGE_ROOT}"
 }
 
 function do_magento_system_setup() {
-  as_code_owner "php /app/bin/n98-magerun.phar sys:setup:incremental -n" /app/public
+  as_code_owner "php /app/bin/n98-magerun.phar sys:setup:incremental -n" "${MAGE_ROOT}"
 }
 
 function do_magento_reindex() {
-  (as_code_owner "php /app/bin/n98-magerun.phar index:reindex:all" /app/public || echo "Failing indexing to the end, ignoring.") && echo "Indexing successful"
+  (as_code_owner "php /app/bin/n98-magerun.phar index:reindex:all" "${MAGE_ROOT}" || echo "Failing indexing to the end, ignoring.") && echo "Indexing successful"
 }
 
 function do_magento_cache_flush() {
@@ -92,13 +92,13 @@ function do_magento_create_admin_user() {
 
   # Create magento admin user
   set +e
-  as_code_owner "php /app/bin/n98-magerun.phar admin:user:list | grep -q '$MAGENTO_ADMIN_USERNAME'" /app/public
+  as_code_owner "php /app/bin/n98-magerun.phar admin:user:list | grep -q '$MAGENTO_ADMIN_USERNAME'" "${MAGE_ROOT}"
   local HAS_ADMIN_USER=$?
   set -e
   if [ "$HAS_ADMIN_USER" != 0 ]; then
     set +x
     echo "Creating admin user '$MAGENTO_ADMIN_USERNAME'"
-    as_code_owner "php /app/bin/n98-magerun.phar admin:user:create '$MAGENTO_ADMIN_USERNAME' '$MAGENTO_ADMIN_EMAIL' '$MAGENTO_ADMIN_PASSWORD' '$MAGENTO_ADMIN_FORENAME' '$MAGENTO_ADMIN_SURNAME' Administrators" /app/public
+    as_code_owner "php /app/bin/n98-magerun.phar admin:user:create '$MAGENTO_ADMIN_USERNAME' '$MAGENTO_ADMIN_EMAIL' '$MAGENTO_ADMIN_PASSWORD' '$MAGENTO_ADMIN_FORENAME' '$MAGENTO_ADMIN_SURNAME' Administrators" "${MAGE_ROOT}"
     set -x
   fi
 }
