@@ -1,6 +1,0 @@
-[template]
-src   = "magento/cron.tmpl"
-dest  = "/etc/cron.d/magento"
-mode  = "0644"
-keys = [
-]

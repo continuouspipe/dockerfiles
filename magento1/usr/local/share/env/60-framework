@@ -1,0 +1,6 @@
+#!/bin/bash
+
+# Relative MAGE_ROOT converted to absolute path
+if ! [[ "$MAGE_ROOT" =~ ^/ ]]; then
+  export MAGE_ROOT=${WORK_DIRECTORY}/${MAGE_ROOT}
+fi
