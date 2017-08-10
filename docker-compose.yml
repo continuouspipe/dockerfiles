@@ -110,7 +110,7 @@ services:
 
   magento2_nginx:
     build:
-      context: ./magento2-nginx/fpm-7.0/
+      context: ./magento2/
     image: quay.io/continuouspipe/magento2-nginx-php7:latest
     depends_on:
       - php70_nginx
