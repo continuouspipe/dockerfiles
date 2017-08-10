@@ -212,9 +212,10 @@ This base image adds the following bash functions:
 function | description | executed on
 --- | --- | ---
 do_build | By default does nothing in this image, but is intended to perform installation steps where no external services such as databases are required. | manual trigger
+do_migrate | By default does nothing in this image, but is intended to perform deployment steps run only once per deployment that need an external service, e.g. database migrations, cache flushes/warming | manual trigger
 do_start_supervisord | Runs do_start and do_supervisord | manual trigger
 do_supervisord | Runs [supervisord](#SupervisorD) | do_start_supervisor
-do_setup | By default does nothing in this image, but is intended to perform installation steps that need an external service. | manual trigger
+do_setup | By default does nothing in this image, but is intended to perform installation steps on first deployment only that need an external service. | manual trigger
 do_start | Runs all of the bash functions defined below | do_start_supervisor
 do_update_permissions | Runs the [Volume Permission Fixes](#Volume Permission Fixes) | do_start
 check_development_start | Triggers "do_development_start" if "DEVELOPMENT_MODE" is set to true | do_start

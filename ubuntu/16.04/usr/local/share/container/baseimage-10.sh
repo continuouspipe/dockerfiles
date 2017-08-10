@@ -41,3 +41,11 @@ do_build_user_ssh_keys() {
   unset BUILD_USER_SSH_KNOWN_HOSTS
   set -x
 }
+
+do_setup() {
+  :
+}
+
+do_migrate() {
+  :
+}
