@@ -36,6 +36,7 @@ RUN echo 'deb http://s3-eu-west-1.amazonaws.com/qafoo-profiler/packages debian m
     "php$PHP_VERSION-zip" \
     "php$PHP_VERSION-mysql" mysql-client \
     "php$PHP_VERSION-pgsql" postgresql-client \
+    "php$PHP_VERSION-sqlite3" \
     postfix \
     tideways-php \
  \
