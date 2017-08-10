@@ -1,4 +1,4 @@
-# Magento 1 NGINX/PHP-FPM
+# Magento 1 with Nginx
 
 In a Dockerfile:
 ```Dockerfile
@@ -8,17 +8,28 @@ ARG GITHUB_TOKEN=
 
 COPY . /app
 RUN container build
+
+# Magento 1 with Apache
+
+In a Dockerfile:
+```Dockerfile
+FROM quay.io/continuouspipe/magento1-apache-php5.6:stable
+
+ARG GITHUB_TOKEN=
+
+COPY . /app
+RUN container build
 ```
 
 ## How to build
 ```bash
-docker-compose build magento1_nginx
-docker-compose push magento1_nginx
+docker-compose build magento1_nginx magento1_apache
+docker-compose push magento1_nginx magento1_apache
 ```
 
 ## About
 
-This is a Docker image that can install and serve a Magento 1 installation via NGINX and PHP 7.
+These are Docker image that can install and serve a Magento 1 installation via PHP 5.6 with either NGINX or Apache.
 
 ## How to use
 
@@ -42,6 +53,7 @@ This allows you to define and override bash functions that the base images add.
 In addition to the bash functions defined in this base image's parent images:
 * [the base image functions](../../ubuntu/16.04/README.md#custom-build-and-startup-scripts)
 * [the php-nginx image functions](../../php-nginx/README.md#custom-build-and-startup-scripts)
+* [the php-apache image functions](../../php-apache/README.md#custom-build-and-startup-scripts)
 
 This base image adds the following bash functions:
 
