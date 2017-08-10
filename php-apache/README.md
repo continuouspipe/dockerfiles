@@ -194,28 +194,24 @@ To use this functionality:
   export AUTH_HTTP_FILE=/etc/apache2/custom-htpasswd-path
   ```
 
-### IP Whitelist
+### IP Whitelisting
 
-This image has support for protecting websites with IP whitelisting.
+Entering basic authentication credentials each time can be tiresome. IP addresses separated by "," in `AUTH_IP_WHITELIST`
+will be allowed to bypass the basic authentication section.
 
-To use this functionality:
+When basic authentication is turned off, the IP addresses whitelisted will be the only addresses allowed to access the
+environment.
 
-1. Provide the following variables with some values either through docker-compose environment or in
-   `/usr/local/share/env/`:
-  ```
-  export AUTH_IP_WHITELIST_ENABLED=true
-  ```
+If there is another reverse proxy or load balancer in front of this container, set the IP or Hostname via `EXTERNAL_LOAD_BALANCER_HOST`
+to get apache to use it's remoteip functionality to work out from the client IP form the X-Forwarded-For header.
+If a hostname is provided, the container will look up the IP address of `EXTERNAL_LOAD_BALANCER_HOST` to then pass to remoteip.
 
-2. By default when enabled, the loopback ips are whitelisted
-  ```
-  export AUTH_IP_WHITELIST=${AUTH_IP_WHITELIST:-
-    127.0.0.0/8,
-    ::1
-  }
-  ```
-You can add IPs to this entry to allow more fixed IP addresses be whitelisted.
+If there are more reverse proxies in between the client IP and this container, then follow [Real IP detection for logging and application fraud checks](#real-ip-detection-for-logging-and-application-fraud-checks).
 
-When used in conjunction with basic authentication, the IP whitelist will bypass the basic authentication
+### Real IP detection for logging and application fraud checks
+
+If there are reverse proxies in between the client IP and this container, add the IPs of the proxies to
+`TRUSTED_REVERSE_PROXIES`, separated by ",", for them to be removed from the X-Forwarded-For header.
 
 ### Custom build and startup scripts
 
