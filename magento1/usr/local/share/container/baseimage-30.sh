@@ -35,7 +35,9 @@ do_magento_development_start() {
   do_magento_development_build
 }
 
+alias_function do_setup do_magento_setup_inner
 do_setup() {
+  do_magento_setup_inner
   do_templating
   do_magento_setup
 }

@@ -28,7 +28,9 @@ if [ "$IMAGE_VERSION" -ge 2 ]; then
     do_composer_post_install
   }
 
+  alias_function do_setup do_magento_setup_inner
   do_setup() {
+    do_magento_setup_inner
     do_templating
     do_magento2_setup
   }
