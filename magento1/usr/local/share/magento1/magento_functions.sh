@@ -104,8 +104,7 @@ function do_magento_create_admin_user() {
 }
 
 function do_magento_templating() {
-  mkdir -p /home/build/.hem/gems/
-  chown -R build:build /home/build/.hem/
+  :
 }
 
 function do_magento_build() {
