@@ -28,3 +28,9 @@ do_development_start() {
   do_assets_all
   do_composer
 }
+
+alias_function do_setup do_php_apache_setup_inner
+do_setup() {
+  do_php_apache_setup_inner
+  ASSETS_FILES_ENABLED="false" do_assets_all
+}

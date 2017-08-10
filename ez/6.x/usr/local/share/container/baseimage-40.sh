@@ -2,7 +2,9 @@
 
 source /usr/local/share/ez/ez_functions.sh
 
+alias_function do_setup do_ez_setup_inner
 function do_setup() {
+  do_ez_setup_inner
   do_ez_setup
 }
 
