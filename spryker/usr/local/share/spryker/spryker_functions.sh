@@ -119,17 +119,13 @@ do_spryker_install() {
     as_code_owner "vendor/bin/console setup:install"
     do_spryker_import_demodata
     do_spryker_product_label_relations_update
-    do_spryker_run_collectors
     do_spryker_setup_search
+    do_spryker_run_collectors
   fi
 }
 
 do_spryker_migrate() {
   do_spryker_propel_install
-
-  if [ "$APPLICATION_ENV" != "production" ]; then
-    do_spryker_run_collectors
-  fi
 }
 
 do_spryker_run_collectors() {
@@ -138,7 +134,7 @@ do_spryker_run_collectors() {
 }
 
 do_spryker_propel_install() {
-  as_code_owner "vendor/bin/console propel:install"
+  as_code_owner "vendor/bin/console propel:install -o"
 }
 
 do_spryker_import_demodata() {
