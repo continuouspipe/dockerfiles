@@ -20,3 +20,9 @@ do_templating() {
   do_spryker_templating_inner
   do_spryker_vhosts
 }
+
+alias_function do_setup do_spryker_setup_inner
+do_setup() {
+  do_spryker_setup_inner
+  do_spryker_install
+}
