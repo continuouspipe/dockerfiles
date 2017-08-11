@@ -113,10 +113,10 @@ tasks:
         elasticsearch:
           image: quay.io/continuouspipe/elasticsearch2.4
           tag: latest
-        ez_php70_apache:
+        ezplatform_php70_apache:
           image: quay.io/continuouspipe/ez6-apache-php7
           tag: latest
-        ez_php71_apache:
+        ezplatform_php71_apache:
           image: quay.io/continuouspipe/ez6-php7.1-apache
           tag: latest
         hem:
