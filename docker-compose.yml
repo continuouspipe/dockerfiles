@@ -71,7 +71,7 @@ services:
 
   ezplatform_php70_apache:
     build:
-      context: ./ezplatform/6.x/
+      context: ./ezplatform/
       dockerfile: Dockerfile-php7
     image: quay.io/continuouspipe/ez6-apache-php7:latest
     depends_on:
@@ -79,7 +79,7 @@ services:
 
   ezplatform_php71_apache:
     build:
-      context: ./ezplatform/6.x/
+      context: ./ezplatform/
       dockerfile: Dockerfile-php7.1
     image: quay.io/continuouspipe/ez6-php7.1-apache:latest
     depends_on:
