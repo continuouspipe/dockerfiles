@@ -1,0 +1,6 @@
+[template]
+src   = "apache/apache2_remoteip.conf.tmpl"
+dest  = "/etc/apache2/conf-enabled/apache2_remoteip.conf"
+mode  = "0644"
+keys = [
+]

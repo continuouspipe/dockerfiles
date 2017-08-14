@@ -55,6 +55,7 @@ RUN echo 'deb http://s3-eu-west-1.amazonaws.com/qafoo-profiler/packages debian m
  \
  # Enable the correct config for most sites \
  && a2disconf other-vhosts-access-log \
+ && a2enmod remoteip \
  && a2enmod rewrite \
  && a2enmod ssl
 

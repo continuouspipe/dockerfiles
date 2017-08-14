@@ -1,0 +1,7 @@
+{{ if (or (getenv "EXTERNAL_LOAD_BALANCER_HOST_IPS") (getenv "TRUSTED_REVERSE_PROXIES")) }}
+{{ if (getenv "TRUSTED_REVERSE_PROXIES") }}{{ $nodes := split (getenv "TRUSTED_REVERSE_PROXIES") "," }}{{ range $nodes }}
+RemoteIPInternalProxy {{ . }}{{ end }}{{ end }}
+{{ if (getenv "EXTERNAL_LOAD_BALANCER_HOST_IPS") }}{{ $nodes := split (getenv "EXTERNAL_LOAD_BALANCER_HOST_IPS") "\n" }}{{ range $nodes }}
+RemoteIPInternalProxy {{ . }}{{ end }}{{ end }}
+RemoteIPHeader X-Forwarded-For
+{{ end }}
