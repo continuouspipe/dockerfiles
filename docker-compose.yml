@@ -69,17 +69,17 @@ services:
     depends_on:
       - external_elasticsearch
 
-  ez_php70_apache:
+  ezplatform_php70_apache:
     build:
-      context: ./ez/6.x/
+      context: ./ezplatform/
       dockerfile: Dockerfile-php7
     image: quay.io/continuouspipe/ez6-apache-php7:latest
     depends_on:
       - symfony_php70_apache
 
-  ez_php71_apache:
+  ezplatform_php71_apache:
     build:
-      context: ./ez/6.x/
+      context: ./ezplatform/
       dockerfile: Dockerfile-php7.1
     image: quay.io/continuouspipe/ez6-php7.1-apache:latest
     depends_on:
