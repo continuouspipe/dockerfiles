@@ -7,8 +7,12 @@ export MAGE_ROOT=${MAGE_ROOT:-${WEB_DIRECTORY}}
 PRODUCTION_ENVIRONMENT=${PRODUCTION_ENVIRONMENT:-false}
 PRODUCTION_ENVIRONMENT="$(convert_to_boolean_string "$PRODUCTION_ENVIRONMENT")"
 export PRODUCTION_ENVIRONMENT
-export APP_HOSTNAME=${APP_HOSTNAME:-magento1.dev}
-export PUBLIC_ADDRESS=${PUBLIC_ADDRESS:-https://magento.docker/}
+
+if [ -n "${APP_HOSTNAME:-}" ]; then
+  echo 'deprecated: APP_HOSTNAME is deprecated, please use WEB_HOST instead' >&2
+  export WEB_HOST="${APP_HOSTNAME}"
+fi
+export WEB_HOST=${WEB_HOST:-magento.docker}
 
 FORCE_DATABASE_DROP=${FORCE_DATABASE_DROP:-false}
 FORCE_DATABASE_DROP="$(convert_to_boolean_string "$FORCE_DATABASE_DROP")"
