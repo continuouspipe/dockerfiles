@@ -47,7 +47,31 @@ export PROXY_LOCATIONS='[
 Multiple locations can be specified. The only required keys per location are
 location and backend.
 
+Location settings available:
+
+Key | Description | Expected values | Default
+--- | --- | --- | ---
+location | The domain-relative uri for which to apply the proxy configuration | domain-relative uri |
+backend | The backend host to proxy for the location, note for domains, WEB_RESOLVER needs to be set | url |
+preserve_host | Whether to pass the request's HTTP Host header value, or otherwise use the host from the backend setting | true/false | false
+use_downstream_edge_headers | Whether to pass the downstream edge headers to the backend server, or send it's own | true/false | false
+hide_edge_headers | Whether to hide edge headers from the backend server | true/false | false
+
 As this is using NGINX's proxy module, check out the documentation here: https://nginx.org/en/docs/http/ngx_http_proxy_module.html#proxy_pass
+
+### Edge vs intermediate reverse proxy header handling
+
+Edge and intermediate reverse proxies should handle X-Forwarded-* headers differently.
+
+Other than X-Forwarded-For, generally edge servers should ignore downstream
+X-Forwarded-* headers as they are untrusted, yet intermediate servers may need
+to proxy downstream X-Forwarded-* headers, if the edge servers set them.
+
+This can be achieved by setting `use_downstream_edge_headers` to true for
+intermediate servers, and false (which is the default) for edge servers.
+
+X-Forwarded-For instead is fine the same for both, as it appends the next value
+onto the end of the existing header value.
 
 ### SSL Certificates/key
 
