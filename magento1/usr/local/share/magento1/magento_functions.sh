@@ -12,12 +12,12 @@ function do_magento_create_directories() {
 
 function do_magento_directory_permissions() {
   if [ "$IS_CHOWN_FORBIDDEN" != 'true' ]; then
-    [ ! -x "${MAGE_ROOT}/app/etc/local.xml" ] || chown -R "${CODE_OWNER}:${APP_GROUP}" "${MAGE_ROOT}/app/etc/local.xml"
+    [ ! -e "${MAGE_ROOT}/app/etc/local.xml" ] || chown -R "${CODE_OWNER}:${APP_GROUP}" "${MAGE_ROOT}/app/etc/local.xml"
     chown -R "${APP_USER}:${CODE_GROUP}" "${MAGE_ROOT}/media" "${MAGE_ROOT}/sitemaps" "${MAGE_ROOT}/staging" "${MAGE_ROOT}/var"
     chmod -R ug+rw,o-w "${MAGE_ROOT}/media" "${MAGE_ROOT}/sitemaps" "${MAGE_ROOT}/staging" "${MAGE_ROOT}/var"
     chmod -R a+r "${MAGE_ROOT}/media" "${MAGE_ROOT}/sitemaps" "${MAGE_ROOT}/staging"
   else
-    [ ! -x "${MAGE_ROOT}/app/etc/local.xml" ] || chmod a+r "${MAGE_ROOT}/app/etc/local.xml"
+    [ ! -e "${MAGE_ROOT}/app/etc/local.xml" ] || chmod a+r "${MAGE_ROOT}/app/etc/local.xml"
     chmod -R a+rw "${MAGE_ROOT}/media" "${MAGE_ROOT}/sitemaps" "${MAGE_ROOT}/staging" "${MAGE_ROOT}/var"
   fi
 }
