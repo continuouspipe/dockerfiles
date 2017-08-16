@@ -24,6 +24,7 @@ if [ "$IMAGE_VERSION" -ge 2 ]; then
   alias_function do_composer do_magento2_composer_inner
   do_composer() {
     do_composer_config
+    do_composer_pre_install
     do_magento2_composer_inner
     do_composer_post_install
   }

@@ -11,6 +11,11 @@ function do_composer_config() {
   fi
 }
 
+function do_composer_pre_install() {
+  mkdir -p /app/bin
+  chown -R "${CODE_OWNER}:${CODE_GROUP}" /app/bin
+}
+
 function do_composer_post_install() {
   if [ -f /app/bin/magento ]; then
     chmod +x /app/bin/magento
@@ -18,13 +23,13 @@ function do_composer_post_install() {
 }
 
 function do_magento_create_web_writable_directories() {
-  mkdir -p pub/media pub/static var/log var/report var/generation
+  mkdir -p pub/media pub/static var/log var/report var/generation generated
 
   if [ "$IS_CHOWN_FORBIDDEN" != 'true' ]; then
-    chown -R "${APP_USER}:${CODE_GROUP}" pub/media pub/static var
-    chmod -R ug+rw,o-w pub/media pub/static var
+    chown -R "${APP_USER}:${CODE_GROUP}" pub/media pub/static var generated
+    chmod -R ug+rw,o-w pub/media pub/static var generated
   else
-    chmod -R a+rw pub/media pub/static var
+    chmod -R a+rw pub/media pub/static var generated
   fi
 }
 
@@ -60,9 +65,9 @@ function do_magento_install_custom() {
 
 function do_magento_switch_web_writable_directories_to_code_owner() {
   if [ "$IS_CHOWN_FORBIDDEN" != 'true' ]; then
-    chown -R "${CODE_OWNER}":"${CODE_GROUP}" pub/media pub/static var
+    chown -R "${CODE_OWNER}":"${CODE_GROUP}" pub/media pub/static var generated
   else
-    chmod a+rw pub/media pub/static var
+    chmod a+rw pub/media pub/static var generated
   fi
 }
 
@@ -376,6 +381,7 @@ function do_magento_download_magerun2() {
 
 function do_magento2_templating() {
   mkdir -p /app/app/etc/
+  chown -R "${CODE_OWNER}:${CODE_GROUP}" /app/app/
 }
 
 function do_magento_catalog_image_resize() {
