@@ -108,12 +108,21 @@ services:
     depends_on:
       - php56_nginx
 
-  magento2_nginx:
+  magento2_nginx_php7:
     build:
       context: ./magento2/
+      dockerfile: Dockerfile-php7
     image: quay.io/continuouspipe/magento2-nginx-php7:latest
     depends_on:
       - php70_nginx
+
+  magento2_nginx_php71:
+    build:
+      context: ./magento2/
+      dockerfile: Dockerfile-php7.1
+    image: quay.io/continuouspipe/magento2-nginx-php7.1:latest
+    depends_on:
+      - php71_nginx
 
   magento2_varnish:
     build:

@@ -128,8 +128,11 @@ tasks:
         magento1_nginx:
           image: quay.io/continuouspipe/magento1-nginx-php5.6
           tag: latest
-        magento2_nginx:
+        magento2_nginx_php7:
           image: quay.io/continuouspipe/magento2-nginx-php7
+          tag: latest
+        magento2_nginx_php71:
+          image: quay.io/continuouspipe/magento2-nginx-php7.1
           tag: latest
         magento2_varnish:
           image: quay.io/continuouspipe/magento2-varnish4
