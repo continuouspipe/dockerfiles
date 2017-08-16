@@ -122,16 +122,16 @@ tasks:
         hem:
           image: quay.io/continuouspipe/hem1
           tag: latest
-        magento1_apache:
+        magento1_php56_apache:
           image: quay.io/continuouspipe/magento1-apache-php5.6
           tag: latest
-        magento1_nginx:
+        magento1_php56_nginx:
           image: quay.io/continuouspipe/magento1-nginx-php5.6
           tag: latest
-        magento2_nginx_php7:
+        magento2_php70_nginx:
           image: quay.io/continuouspipe/magento2-nginx-php7
           tag: latest
-        magento2_nginx_php71:
+        magento2_php71_nginx:
           image: quay.io/continuouspipe/magento2-nginx-php7.1
           tag: latest
         magento2_varnish:

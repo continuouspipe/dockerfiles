@@ -92,7 +92,7 @@ services:
     depends_on:
       - ubuntu
 
-  magento1_apache:
+  magento1_php56_apache:
     build:
       context: ./magento1/
       dockerfile: Dockerfile-php5.6-apache
@@ -100,7 +100,7 @@ services:
     depends_on:
       - php56_apache
 
-  magento1_nginx:
+  magento1_php56_nginx:
     build:
       context: ./magento1/
       dockerfile: Dockerfile-php5.6-nginx
@@ -108,7 +108,7 @@ services:
     depends_on:
       - php56_nginx
 
-  magento2_nginx_php7:
+  magento2_php70_nginx:
     build:
       context: ./magento2/
       dockerfile: Dockerfile-php7
@@ -116,7 +116,7 @@ services:
     depends_on:
       - php70_nginx
 
-  magento2_nginx_php71:
+  magento2_php71_nginx:
     build:
       context: ./magento2/
       dockerfile: Dockerfile-php7.1
