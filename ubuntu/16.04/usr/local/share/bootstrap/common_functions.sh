@@ -110,10 +110,10 @@ is_true() {
 is_false() {
   case "$1" in
   true|1)
-    return 0;
+    return 1;
     ;;
   esac
-  return 1;
+  return 0;
 }
 
 is_hem_project() {
