@@ -17,6 +17,7 @@ RUN echo 'deb http://s3-eu-west-1.amazonaws.com/qafoo-profiler/packages debian m
     apache2-utils \
     curl \
     git \
+    jq \
     "libapache2-mod-php$PHP_VERSION" \
     php-apcu \
     php-imagick \

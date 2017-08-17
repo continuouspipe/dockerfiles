@@ -13,3 +13,13 @@ do_composer() {
   do_symfony_composer_inner
   do_symfony_app_permissions
 }
+
+alias_function do_development_start do_symfony_development_start_inner
+do_development_start() {
+  do_symfony_development_start_inner
+  do_database_build
+}
+
+do_migrate() {
+  do_database_build
+}

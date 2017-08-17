@@ -98,6 +98,24 @@ convert_to_boolean_string_zero_is_true() {
   fi
 }
 
+is_true() {
+  case "$1" in
+  true|1)
+    return 0;
+    ;;
+  esac
+  return 1;
+}
+
+is_false() {
+  case "$1" in
+  true|1)
+    return 0;
+    ;;
+  esac
+  return 1;
+}
+
 is_hem_project() {
   local RESULT=1
   if [ -f /app/tools/hem/config.yaml ] || [ -f /app/tools/hobo/config.yaml ]; then

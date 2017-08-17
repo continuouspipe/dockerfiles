@@ -32,12 +32,52 @@ do_symfony_app_permissions() {
   fi
 }
 
+
+symfony_doctrine_mode() {
+  case "$SYMFONY_DOCTRINE_MODE" in
+  auto)
+    if has_composer_package doctrine/doctrine-migrations-bundle; then
+      SYMFONY_DOCTRINE_MODE=migrations
+    elif has_composer_package doctrine/doctrine-bundle && has_composer_package doctrine/orm; then
+      SYMFONY_DOCTRINE_MODE=schema
+    else
+      SYMFONY_DOCTRINE_MODE=off
+    fi
+    ;;
+  ?*)
+    ;;
+  *)
+    SYMFONY_DOCTRINE_MODE=off
+    ;;
+  esac
+  export SYMFONY_DOCTRINE_MODE
+  echo "$SYMFONY_DOCTRINE_MODE"
+}
+
+uses_symfony_doctrine() {
+  [ "$(symfony_doctrine_mode)" != "off" ]
+}
+
+uses_symfony_doctrine_mode_schema() {
+  [ "$(symfony_doctrine_mode)" = "schema" ]
+}
+
+uses_symfony_doctrine_mode_migrations() {
+  [ "$(symfony_doctrine_mode)" = "migrations" ]
+}
+
 do_database_rebuild() {
-  do_symfony_console doctrine:database:drop --force >/dev/null || true
+  if uses_symfony_doctrine; then
+    do_symfony_console doctrine:database:drop --force >/dev/null || true
+  fi
   do_database_build
 }
 
 do_database_build() {
+  if ! uses_symfony_doctrine; then
+    return 0
+  fi
+
   # load the database if it doesn't exist
   set +e
   do_symfony_console doctrine:database:create >/dev/null
@@ -57,13 +97,20 @@ do_database_build() {
 }
 
 do_database_install() {
-  do_database_schema_create
-  do_database_migrations_mark_done
+  if uses_symfony_doctrine_mode_migrations; then
+    do_database_migrate
+  elif uses_symfony_doctrine_mode_schema; then
+    do_database_schema_create
+  fi
   do_database_fixtures
 }
 
 do_database_update() {
-  do_database_migrate
+  if uses_symfony_doctrine_mode_migrations; then
+    do_database_migrate
+  elif uses_symfony_doctrine_mode_schema; then
+    do_database_schema_update
+  fi
 }
 
 do_database_schema_create() {
@@ -87,7 +134,9 @@ do_cache_clear() {
 }
 
 do_database_fixtures() {
-  do_symfony_console doctrine:fixtures:load -n
+  if has_composer_package doctrine/doctrine-fixtures-bundle; then
+    do_symfony_console doctrine:fixtures:load -n
+  fi
 }
 
 do_symfony_build() {

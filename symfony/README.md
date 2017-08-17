@@ -70,6 +70,7 @@ The following variables are supported
 
 Variable | Description | Expected values | Default
 --- | --- | --- | ----
+SYMFONY_DOCTRINE_MODE | Whether to use Doctrine migrations, schema update or nothing. Automatically detected based on installed composer packages by default | auto/migrations/schema/off | auto
 SYMFONY_ENV | The Symfony env to use, when the app reads this variable | string | prod
 SYMFONY_MAJOR_VERSION | The major version of Symfony that will be used | 2, 3 | auto-detected based on location of console script
 SYMFONY_CONSOLE | The location of the Symfony console script | file path | auto-detected
