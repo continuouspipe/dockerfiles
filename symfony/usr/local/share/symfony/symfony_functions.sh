@@ -97,9 +97,10 @@ do_database_build() {
 }
 
 do_database_install() {
-  do_database_schema_create
   if uses_symfony_doctrine_mode_migrations; then
-    do_database_migrations_mark_done
+    do_database_migrate
+  elif uses_symfony_doctrine_mode_schema; then
+    do_database_schema_create
   fi
   do_database_fixtures
 }
