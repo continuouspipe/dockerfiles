@@ -245,30 +245,34 @@ function do_magento_installer_install() {
 
   if [ "$DATABASE_EXISTS" != "true" ]; then
     do_magento_database_create
-
-    echo 'Install Magento 2 via the Installer'
-    chmod +x bin/magento
-    local INSTALL_COMMAND="bin/magento setup:install --base-url='$PUBLIC_ADDRESS' \
-      --db-host='$DATABASE_HOST' \
-      --db-name='$DATABASE_NAME' \
-      --db-user='$DATABASE_USER' \
-      --admin-firstname=Admin \
-      --admin-lastname=Demo \
-      --admin-user='${MAGENTO_ADMIN_USERNAME:-admin}' \
-      --admin-password='${MAGENTO_ADMIN_PASSWORD:-admin123}' \
-      --admin-email='${MAGENTO_ADMIN_EMAIL:-admin@example.com}' \
-      --language=en_GB \
-      --currency=GBP \
-      --timezone=Europe/London \
-      --use-rewrites=1 \
-      --session-save=db"
-    if [ -n "$DATABASE_PASSWORD" ]; then
-      INSTALL_COMMAND="${INSTALL_COMMAND} --db-password='${DATABASE_PASSWORD}'"
-    fi
-    as_code_owner "$INSTALL_COMMAND"
+    do_magento_clear_redis_cache
+    magento_installer_install
   fi
 
   set -x
+}
+
+function magento_installer_install() {
+  echo 'Install Magento 2 via the Installer'
+  chmod +x bin/magento
+  local INSTALL_COMMAND="bin/magento setup:install --base-url='$PUBLIC_ADDRESS' \
+    --db-host='$DATABASE_HOST' \
+    --db-name='$DATABASE_NAME' \
+    --db-user='$DATABASE_USER' \
+    --admin-firstname=Admin \
+    --admin-lastname=Demo \
+    --admin-user='${MAGENTO_ADMIN_USERNAME:-admin}' \
+    --admin-password='${MAGENTO_ADMIN_PASSWORD:-admin123}' \
+    --admin-email='${MAGENTO_ADMIN_EMAIL:-admin@example.com}' \
+    --language=en_GB \
+    --currency=GBP \
+    --timezone=Europe/London \
+    --use-rewrites=1 \
+    --session-save=db"
+  if [ -n "$DATABASE_PASSWORD" ]; then
+    INSTALL_COMMAND="${INSTALL_COMMAND} --db-password='${DATABASE_PASSWORD}'"
+  fi
+  as_code_owner "$INSTALL_COMMAND"
 }
 
 function do_magento_wait_for_database() {
