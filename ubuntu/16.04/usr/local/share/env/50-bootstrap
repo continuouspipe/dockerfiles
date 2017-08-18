@@ -8,16 +8,14 @@ START_CRON=${START_CRON:-false}
 START_CRON="$(convert_to_boolean_string "$START_CRON")"
 export START_CRON
 
-set +e
-IS_CHOWN_FORBIDDEN="$(is_chown_forbidden)"
+IS_CHOWN_FORBIDDEN="$(run_return_boolean is_chown_forbidden)"
 export IS_CHOWN_FORBIDDEN
 
-IS_VBOXSF_MOUNTPOINT="$(is_vboxsf_mountpoint)"
+IS_VBOXSF_MOUNTPOINT="$(run_return_boolean is_vboxsf_mountpoint)"
 export IS_VBOXSF_MOUNTPOINT
 
-IS_APP_MOUNTPOINT="$(is_app_mountpoint)"
+IS_APP_MOUNTPOINT="$(run_return_boolean is_app_mountpoint)"
 export IS_APP_MOUNTPOINT
-set -e
 
 DEVELOPMENT_MODE="$(convert_to_boolean_string_zero_is_true "${DEVELOPMENT_MODE:-${IS_APP_MOUNTPOINT}}")"
 export DEVELOPMENT_MODE

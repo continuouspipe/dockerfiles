@@ -15,7 +15,7 @@ fi
 cd /app || exit 1
 
 set +e
-IS_CHOWN_FORBIDDEN="$(is_chown_forbidden)"
+IS_CHOWN_FORBIDDEN="$(run_return_boolean is_chown_forbidden)"
 set -e
 
 if [ "$IS_CHOWN_FORBIDDEN" != 'true' ]; then
@@ -57,10 +57,7 @@ fi
 # (sad that we have to do that tho...)
 
 # Download the static assets
-set +e
-IS_HEM="$(is_hem_project)"
-set -e
-if [ "$IS_HEM" == 'true' ]; then
+if is_hem_project; then
   export HEM_RUN_ENV="${HEM_RUN_ENV:-local}"
   for asset_env in $ASSET_DOWNLOAD_ENVIRONMENTS; do
     as_build "hem --non-interactive --skip-host-checks assets download -e $asset_env"
