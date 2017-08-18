@@ -207,6 +207,9 @@ function do_magento_database_create() {
 
 function do_magento_database_install() {
   set +x
+  if [ "${DATABASE_HOST}" != "localhost" ]; then
+    wait_for_remote_ports "30" "${DATABASE_HOST}:${DATABASE_PORT}"
+  fi
   if [ -f "$DATABASE_ARCHIVE_PATH" ]; then
     do_magento_drop_database
 
@@ -230,6 +233,9 @@ function do_magento_database_install() {
 
 function do_magento_installer_install() {
   set +x
+  if [ "${DATABASE_HOST}" != "localhost" ]; then
+    wait_for_remote_ports "30" "${DATABASE_HOST}:${DATABASE_PORT}"
+  fi
   do_magento_wait_for_database
   do_magento_drop_database
 
