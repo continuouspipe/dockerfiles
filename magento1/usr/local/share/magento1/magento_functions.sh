@@ -45,7 +45,7 @@ function do_magento_frontend_build() {
   fi
 }
 
-function do_replace_core_config_values() {
+function do_replace_core_config_values() (
   set +x
   local SQL
   SQL="DELETE from core_config_data WHERE path LIKE 'web/%base_url';
@@ -61,8 +61,7 @@ function do_replace_core_config_values() {
   echo "$SQL"
   
   echo "$SQL" | mysql -h"$DATABASE_HOST" -u"$DATABASE_USER" -p"$DATABASE_PASSWORD" "$DATABASE_NAME"
-  set -x
-}
+)
 
 function do_magento_config_cache_enable() {
   as_code_owner "php /app/bin/n98-magerun.phar cache:enable config" "${MAGE_ROOT}"
@@ -85,7 +84,7 @@ function do_magento_cache_flush() {
   as_code_owner "php bin/n98-magerun.phar cache:flush"
 }
 
-function do_magento_create_admin_user() {
+function do_magento_create_admin_user() (
   if [ "$MAGENTO_CREATE_ADMIN_USER" != 'true' ]; then
     return 0
   fi
@@ -99,9 +98,8 @@ function do_magento_create_admin_user() {
     set +x
     echo "Creating admin user '$MAGENTO_ADMIN_USERNAME'"
     as_code_owner "php /app/bin/n98-magerun.phar admin:user:create '$MAGENTO_ADMIN_USERNAME' '$MAGENTO_ADMIN_EMAIL' '$MAGENTO_ADMIN_PASSWORD' '$MAGENTO_ADMIN_FORENAME' '$MAGENTO_ADMIN_SURNAME' Administrators" "${MAGE_ROOT}"
-    set -x
   fi
-}
+)
 
 function do_magento_templating() {
   :

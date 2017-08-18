@@ -147,11 +147,11 @@ do_symfony_build() {
   do_symfony_config_create
 }
 
-do_symfony_console() {
+do_symfony_console() (
   set +x
   if [ "$#" -gt 0 ]; then
     as_app_user "'$SYMFONY_CONSOLE' $(printf "%q " "$@")"
   else
     as_app_user "'$SYMFONY_CONSOLE'"
   fi
-}
+)
