@@ -56,7 +56,7 @@ function assets_apply_database()
 }
 
 function assets_apply_database_mysql()
-{
+(
   set +x
   local DECOMPRESS
   local -r ASSET_FILE="$1"
@@ -87,7 +87,6 @@ function assets_apply_database_mysql()
   fi
 
   wait_for_remote_ports "${ASSETS_DATABASE_WAIT_TIMEOUT}" "${DATABASE_HOST}:${DATABASE_PORT}"
-  set +x
 
   local DATABASES
   mapfile -t DATABASES < <(mysql "${DATABASE_ARGS[@]}" --execute="SHOW DATABASES" | tail --lines=+2)
@@ -119,11 +118,10 @@ function assets_apply_database_mysql()
     echo "Importing ${ASSET_FILE} into ${APPLY_DATABASE_NAME} MySql database"
     "${DECOMPRESS[@]}" | mysql "${DATABASE_ARGS[@]}" "${APPLY_DATABASE_NAME}"
   fi
-  set -x
-}
+)
 
 function assets_apply_database_postgres()
-{
+(
   set +x
   local DECOMPRESS
   local -r ASSET_FILE="$1"
@@ -156,7 +154,6 @@ function assets_apply_database_postgres()
   fi
 
   wait_for_remote_ports "${ASSETS_DATABASE_WAIT_TIMEOUT}" "${DATABASE_HOST}:${DATABASE_PORT}"
-  set +x
 
   local DATABASES
   mapfile -t DATABASES < <(PGPASSWORD="$PGPASSWORD" psql "${DATABASE_ARGS[@]}" -lqt | cut -d \| -f 1 | sed "s/ //g")
@@ -189,8 +186,7 @@ function assets_apply_database_postgres()
     echo "Importing ${ASSET_FILE} into ${APPLY_DATABASE_NAME} MySql database"
     "${DECOMPRESS[@]}" | PGPASSWORD="$PGPASSWORD" psql "${DATABASE_ARGS[@]}" "${APPLY_DATABASE_NAME}"
   fi
-  set -x
-}
+)
 
 function do_assets_apply_database()
 {

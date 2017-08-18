@@ -1,6 +1,6 @@
 #!/bin/bash
 
-do_magento_database_restore() {
+do_magento_database_restore() (
   set +x
   if [ -f "$DATABASE_ARCHIVE_PATH" ]; then
     local DATABASE_ARGS=(-h"$DATABASE_HOST")
@@ -34,7 +34,6 @@ do_magento_database_restore() {
       zcat "$DATABASE_ARCHIVE_PATH" | mysql "${DATABASE_ARGS[@]}" "$DATABASE_NAME" || exit 1
     fi
   fi
-  set -x
-}
+)
 
 do_magento_database_restore

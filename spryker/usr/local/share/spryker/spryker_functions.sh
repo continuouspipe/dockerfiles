@@ -47,14 +47,13 @@ do_spryker_app_permissions() {
   fi
 }
 
-do_spryker_config_create() {
+do_spryker_config_create() (
   set +x
   echo "Creating Postgres Credentials file in /root/.pgpass"
   # create .pgpass in home directory for postgres client
   echo "$DATABASE_HOST:*:*:$DATABASE_USER:$DATABASE_PASSWORD" > /root/.pgpass
   chmod 0600 /root/.pgpass
-  set -x
-}
+)
 
 do_spryker_build() {
   do_spryker_directory_create

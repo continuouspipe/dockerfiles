@@ -38,7 +38,7 @@ get_user_home_directory() {
   getent passwd "$USER" | cut -d: -f 6
 }
 
-as_user() {
+as_user() (
   set +x
   local COMMAND="$1"
   local WORKING_DIR="$2"
@@ -55,22 +55,22 @@ as_user() {
   USER_HOME="$(get_user_home_directory "$USER")"
   set -x
   sudo -u "$USER" -E HOME="$USER_HOME" /bin/bash -c "cd '$WORKING_DIR'; $COMMAND"
-}
+)
 
-as_build() {
+as_build() (
   set +x
   as_user "$1" "$2" 'build'
-}
+)
 
-as_code_owner() {
+as_code_owner() (
   set +x
   as_user "$1" "$2" "$CODE_OWNER"
-}
+)
 
-as_app_user() {
+as_app_user() (
   set +x
   as_user "$1" "$2" "$APP_USER"
-}
+)
 
 convert_exit_code_to_string() {
   if [ "$1" -eq 0 ]; then
@@ -158,7 +158,7 @@ do_start() {
 }
 
 
-do_user_ssh_keys() {
+do_user_ssh_keys() (
   set +x
   local SSH_USER="$1"
   if [ -z "$SSH_USER" ]; then
@@ -191,8 +191,7 @@ do_user_ssh_keys() {
     unset SSH_PUBLIC_KEY
     unset SSH_KNOWN_HOSTS
   fi
-  set -x
-}
+)
 
 function do_enable_tracing() {
   export PS4='$(date "+%s.%N ($LINENO) + ")'
@@ -216,7 +215,7 @@ function do_clear_apt_caches() {
   rm -rf /var/lib/apt/lists/*
 }
 
-function wait_for_remote_ports() {
+function wait_for_remote_ports() (
   set +x
 
   local -r TIMEOUT=$1
@@ -236,9 +235,7 @@ function wait_for_remote_ports() {
     fi
     sleep "${INTERVAL}"
   done
-
-  set -x
-}
+)
 
 function test_remote_ports() {
   local SERVICE

@@ -77,11 +77,11 @@ else
 fi
 
 
-do_magento() {
+do_magento() (
   set +x
   if [ "$#" -gt 0 ]; then
     as_app_user "./bin/magento $(printf "%q " "$@")"
   else
     as_app_user "./bin/magento"
   fi
-}
+)

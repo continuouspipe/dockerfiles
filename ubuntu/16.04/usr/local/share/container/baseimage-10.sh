@@ -32,15 +32,13 @@ do_development_start() {
   :
 }
 
-do_build_user_ssh_keys() {
+do_build_user_ssh_keys() (
   set +x
   do_user_ssh_keys "build" "id_rsa" "$BUILD_USER_SSH_PRIVATE_KEY" "$BUILD_USER_SSH_PUBLIC_KEY" "$BUILD_USER_SSH_KNOWN_HOSTS"
-  set +x
   unset BUILD_USER_SSH_PRIVATE_KEY
   unset BUILD_USER_SSH_PUBLIC_KEY
   unset BUILD_USER_SSH_KNOWN_HOSTS
-  set -x
-}
+)
 
 do_setup() {
   :

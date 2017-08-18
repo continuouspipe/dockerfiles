@@ -159,7 +159,7 @@ function do_magento_install_finalise_custom() {
   fi
 }
 
-function do_magento_drop_database() {
+function do_magento_drop_database() (
   set +x
 
   if [ "$FORCE_DATABASE_DROP" != 'true' ]; then
@@ -172,9 +172,9 @@ function do_magento_drop_database() {
   else
     mysql -h"$DATABASE_HOST" -uroot -e "DROP DATABASE IF EXISTS $DATABASE_NAME" || exit 1
   fi
-}
+)
 
-function check_magento_database_exists() {
+function check_magento_database_exists() (
   set +e
   local DATABASE_EXISTS
   if [ -n "$DATABASE_PASSWORD" ]; then
@@ -189,7 +189,7 @@ function check_magento_database_exists() {
   else
     echo "false";
   fi
-}
+)
 
 function do_magento_database_create() {
   echo 'Create Magento database'
@@ -200,14 +200,13 @@ function do_magento_database_create() {
   fi
 }
 
-function do_magento_database_install() {
+function do_magento_database_install() (
   set +x
   if [ -f "$DATABASE_ARCHIVE_PATH" ]; then
     do_magento_drop_database
 
     local DATABASE_EXISTS
     DATABASE_EXISTS="$(check_magento_database_exists)"
-    set -e
 
     if [ "$DATABASE_EXISTS" != "true" ]; then
       do_magento_database_create
@@ -221,16 +220,15 @@ function do_magento_database_install() {
     fi
   fi
   set -x
-}
+)
 
-function do_magento_installer_install() {
+function do_magento_installer_install() (
   set +x
   do_magento_wait_for_database
   do_magento_drop_database
 
   local DATABASE_EXISTS
   DATABASE_EXISTS="$(check_magento_database_exists)"
-  set -e
 
   if [ "$DATABASE_EXISTS" != "true" ]; then
     do_magento_database_create
@@ -253,9 +251,7 @@ function do_magento_installer_install() {
       --use-rewrites=1 \
       --session-save=db"
   fi
-
-  set -x
-}
+)
 
 function do_magento_wait_for_database() {
   if [ "$DATABASE_HOST" != 'localhost' ]; then
@@ -301,8 +297,7 @@ function do_magento_install_development_custom() {
   fi
 }
 
-function do_replace_core_config_values() {
-  set +x
+function do_replace_core_config_values() (
   local SQL
   SQL="DELETE from core_config_data WHERE path LIKE 'web/%base_url';
   DELETE from core_config_data WHERE path LIKE 'system/full_page_cache/varnish%';
@@ -321,9 +316,7 @@ function do_replace_core_config_values() {
   else
     echo "$SQL" | mysql -h"$DATABASE_HOST" -u"$DATABASE_USER" "$DATABASE_NAME"
   fi
-
-  set -x
-}
+)
 
 function do_magento_build_start_mysql() {
   apt-get update -qq -y
@@ -393,10 +386,9 @@ function do_magento_tail_logs() {
     /app/var/log/system.log
 }
 
-function do_magento_create_admin_user() {
+function do_magento_create_admin_user() (
   set +x
   if [ -z "${MAGENTO_ADMIN_USERNAME}" ] || [ -z "${MAGENTO_ADMIN_PASSWORD}" ]; then
-    set -x
     return 0
   fi
   local SQL="SELECT 1 FROM admin_user WHERE username='$MAGENTO_ADMIN_USERNAME'"
@@ -412,7 +404,6 @@ function do_magento_create_admin_user() {
   set -e
 
   if [ "$HAS_ADMIN_USER" != 0 ]; then
-    set +x
     as_code_owner "bin/magento admin:user:create \
       --admin-user='${MAGENTO_ADMIN_USERNAME}' \
       --admin-password='${MAGENTO_ADMIN_PASSWORD}' \
@@ -421,7 +412,7 @@ function do_magento_create_admin_user() {
       --admin-lastname='Admin'"
     set -x
   fi
-}
+)
 
 function do_magento2_build() {
 
