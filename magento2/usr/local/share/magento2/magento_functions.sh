@@ -248,11 +248,10 @@ function do_magento_installer_install() {
 
     echo 'Install Magento 2 via the Installer'
     chmod +x bin/magento
-    as_code_owner "bin/magento setup:install --base-url='$PUBLIC_ADDRESS' \
+    local INSTALL_COMMAND="bin/magento setup:install --base-url='$PUBLIC_ADDRESS' \
       --db-host='$DATABASE_HOST' \
       --db-name='$DATABASE_NAME' \
       --db-user='$DATABASE_USER' \
-      --db-password='$DATABASE_PASSWORD' \
       --admin-firstname=Admin \
       --admin-lastname=Demo \
       --admin-user='${MAGENTO_ADMIN_USERNAME:-admin}' \
@@ -263,6 +262,10 @@ function do_magento_installer_install() {
       --timezone=Europe/London \
       --use-rewrites=1 \
       --session-save=db"
+    if [ -n "$DATABASE_PASSWORD" ]; then
+      INSTALL_COMMAND="${INSTALL_COMMAND} --db-password='${DATABASE_PASSWORD}'"
+    fi
+    as_code_owner "$INSTALL_COMMAND"
   fi
 
   set -x
