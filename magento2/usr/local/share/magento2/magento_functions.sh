@@ -395,6 +395,9 @@ function do_magento_download_magerun2() {
 function do_magento2_templating() {
   mkdir -p /app/app/etc/
   chown -R "${CODE_OWNER}:${CODE_GROUP}" /app/app/
+  if [ "${APP_USER_LOCAL}" == "true" ]; then
+    chown "${CODE_OWNER}:${CODE_GROUP}" /app/app/etc/env.php
+  fi
 }
 
 function do_magento_catalog_image_resize() {
