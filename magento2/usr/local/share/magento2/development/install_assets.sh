@@ -10,9 +10,7 @@ set -x
 cd /app || exit 1
 
 if [ -f "$ASSET_ARCHIVE_PATH" ]; then
-  set +e
-  IS_CHOWN_FORBIDDEN="$(is_chown_forbidden)"
-  set -e
+  IS_CHOWN_FORBIDDEN="$(run_return_boolean is_chown_forbidden)"
 
   if [ "$IS_CHOWN_FORBIDDEN" != 'true' ]; then
     chown -R "${CODE_OWNER}:${CODE_GROUP}" pub/media

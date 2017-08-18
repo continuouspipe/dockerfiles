@@ -16,9 +16,7 @@ fi
 
 cd /app || exit 1;
 
-set +e
-IS_CHOWN_FORBIDDEN="$(is_chown_forbidden)"
-set -e
+IS_CHOWN_FORBIDDEN="$(run_return_boolean is_chown_forbidden)"
 
 if [ ! -d "vendor" ] || [ ! -f "vendor/autoload.php" ]; then
   as_code_owner "composer config repositories.magento composer https://repo.magento.com/"

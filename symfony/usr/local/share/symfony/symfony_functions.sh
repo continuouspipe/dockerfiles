@@ -56,14 +56,17 @@ symfony_doctrine_mode() {
 
 uses_symfony_doctrine() {
   [ "$(symfony_doctrine_mode)" != "off" ]
+  return "$?"
 }
 
 uses_symfony_doctrine_mode_schema() {
   [ "$(symfony_doctrine_mode)" = "schema" ]
+  return "$?"
 }
 
 uses_symfony_doctrine_mode_migrations() {
   [ "$(symfony_doctrine_mode)" = "migrations" ]
+  return "$?"
 }
 
 do_database_rebuild() {

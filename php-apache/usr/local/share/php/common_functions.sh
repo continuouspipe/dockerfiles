@@ -28,11 +28,11 @@ do_composer_postinstall_scripts() {
   as_code_owner 'composer run-script post-install-cmd'
 }
 
-has_composer_package() (
-  set -e
+has_composer_package() {
   if [ ! -f "composer.lock" ]; then
     return
   fi
 
   is_true "$(jq -c '(.packages + .["packages-dev"])[] | select(.name == "'"$1"'") | has("name")' composer.lock)"
-)
+  return "$?"
+}
