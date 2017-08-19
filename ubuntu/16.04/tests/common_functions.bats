@@ -70,7 +70,33 @@ function setup() {
   }
   run as_user "test"
   [ "$status" -eq 0 ]
-  [ "$COMMAND" == "sudo -u build -E HOME=/home/build bash -c \"cd '/app'; test\"" ]
+  [ "$COMMAND" == "sudo -u \"build\" -E HOME=\"/home/build\" bash -c \"cd '/app'; test\"" ]
+}
+
+@test "as_user runs a command via sudo from a certain directory" {
+  COMMAND=''
+  function sudo() {
+    COMMAND="$@"
+  }
+  function get_user_home_directory() {
+    echo "/home/build"
+  }
+  run as_user "test" "/tmp"
+  [ "$status" -eq 0 ]
+  [ "$COMMAND" == "sudo -u build -E HOME=/home/build bash -c \"cd '/tmp'; test\"" ]
+}
+
+@test "as_user runs a command via sudo as a certain user" {
+  COMMAND=''
+  function sudo() {
+    COMMAND="$@"
+  }
+  function get_user_home_directory() {
+    echo "/var/www"
+  }
+  run as_user "test" "/app" "www-data"
+  [ "$status" -eq 0 ]
+  [ "$COMMAND" == "sudo -u www-data -E HOME=/var/www bash -c \"cd '/app'; test\"" ]
 }
 
 @test "alias_function renames a function" {
