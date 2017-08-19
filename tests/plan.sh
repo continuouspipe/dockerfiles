@@ -1,7 +1,7 @@
 #!/bin/bash
 
 function do_run_tests() {
-  find . -maxdepth 3 -type d -name "tests" -print -exec bats {} +
+  find . -maxdepth 3 -type d -name "tests" -print -exec bats {} \;
 }
 
 function do_watch_tests() (
