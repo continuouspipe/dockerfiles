@@ -22,8 +22,8 @@ internal services and for the application templates.
     - [Varnish 4.0](drupal8-varnish/4.0/)
 - [eZ Platform 6.x](ez/6.x/)
 - *General PHP*
-    - [Apache w/ PHP (5.6, 7.0, 7.1)](php-apache/)
-    - [NGINX w/ PHP-FPM (5.6, 7.0, 7.1)](php-nginx/)
+    - [Apache w/ PHP (5.6, 7.0, 7.1)](php/apache/)
+    - [NGINX w/ PHP-FPM (5.6, 7.0, 7.1)](php/nginx/)
 - [Magento 1](magento1-nginx/fpm-5.6/)
 - *Magento 2*
     - [NGINX w/ PHP-FPM 7.0](magento2-nginx/fpm-7.0/)

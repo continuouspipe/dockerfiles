@@ -127,7 +127,7 @@ WEB_INCLUDES | A space separated list of files in /etc/nginx/sites-enabled/ to i
 WEB_DEFAULT_SERVER | True if the virtual host should be used for any unmatched traffic | true/false | true
 APP_ENDPOINT | The uri of the web application php endpoint | domain relative uri | /index.php
 APP_ENDPOINT_REWRITE | Determines whether to rewrite urls that don't match webroot files to the APP_ENDPOINT | true/false | true
-APP_ENDPOINT_REGEX | A regex used to define allowed application endpoints, see [site_phpfpm.conf.tmpl](https://github.com/continuouspipe/dockerfiles/blob/master/php-nginx/etc/confd/templates/nginx/site_phpfpm.conf.tmpl#L1) | string | auto-detected
+APP_ENDPOINT_REGEX | A regex used to define allowed application endpoints, see [site_phpfpm.conf.tmpl](https://github.com/continuouspipe/dockerfiles/blob/master/php/nginx/etc/confd/templates/nginx/site_phpfpm.conf.tmpl#L1) | string | auto-detected
 APP_ENDPOINT_STRICT | Restricts allowed application endpoints to only that of the APP_ENDPOINT environment variable | true/false | false
 ASSETS_CLEANUP | Whether to delete the assets in ASSETS_PATH after they have been applied | true/false | true
 ASSETS_ENV | The assets environment assets are downloaded/applied from. If unset no asset actions will happen | a asset environment | 

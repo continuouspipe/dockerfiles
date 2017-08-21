@@ -59,7 +59,7 @@ This allows you to define and override bash functions that the base images add.
 
 In addition to the bash functions defined in this base image's parent images:
 * [the base image functions](../../ubuntu/16.04/README.md#custom-build-and-startup-scripts)
-* [the php-nginx image functions](../../php-nginx/README.md#custom-build-and-startup-scripts)
+* [the php-nginx image functions](../../php/nginx/README.md#custom-build-and-startup-scripts)
 
 This base image adds the following bash functions:
 
