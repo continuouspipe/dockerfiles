@@ -64,24 +64,24 @@ function do_replace_core_config_values() (
 )
 
 function do_magento_config_cache_enable() {
-  as_code_owner "php /app/bin/n98-magerun.phar cache:enable config" "${MAGE_ROOT}"
+  as_app_user "php /app/bin/n98-magerun.phar cache:enable config" "${MAGE_ROOT}"
 }
 
 function do_magento_config_cache_clean() {
-  as_code_owner "php /app/bin/n98-magerun.phar cache:clean config" "${MAGE_ROOT}"
+  as_app_user "php /app/bin/n98-magerun.phar cache:clean config" "${MAGE_ROOT}"
 }
 
 function do_magento_system_setup() {
-  as_code_owner "php /app/bin/n98-magerun.phar sys:setup:incremental -n" "${MAGE_ROOT}"
+  as_app_user "php /app/bin/n98-magerun.phar sys:setup:incremental -n" "${MAGE_ROOT}"
 }
 
 function do_magento_reindex() {
-  (as_code_owner "php /app/bin/n98-magerun.phar index:reindex:all" "${MAGE_ROOT}" || echo "Failing indexing to the end, ignoring.") && echo "Indexing successful"
+  (as_app_user "php /app/bin/n98-magerun.phar index:reindex:all" "${MAGE_ROOT}" || echo "Failing indexing to the end, ignoring.") && echo "Indexing successful"
 }
 
 function do_magento_cache_flush() {
   # Flush magento cache
-  as_code_owner "php bin/n98-magerun.phar cache:flush"
+  as_app_user "php bin/n98-magerun.phar cache:flush"
 }
 
 function do_magento_create_admin_user() (
@@ -91,13 +91,13 @@ function do_magento_create_admin_user() (
 
   # Create magento admin user
   set +e
-  as_code_owner "php /app/bin/n98-magerun.phar admin:user:list | grep -q '$MAGENTO_ADMIN_USERNAME'" "${MAGE_ROOT}"
+  as_app_user "php /app/bin/n98-magerun.phar admin:user:list | grep -q '$MAGENTO_ADMIN_USERNAME'" "${MAGE_ROOT}"
   local HAS_ADMIN_USER=$?
   set -e
   if [ "$HAS_ADMIN_USER" != 0 ]; then
     set +x
     echo "Creating admin user '$MAGENTO_ADMIN_USERNAME'"
-    as_code_owner "php /app/bin/n98-magerun.phar admin:user:create '$MAGENTO_ADMIN_USERNAME' '$MAGENTO_ADMIN_EMAIL' '$MAGENTO_ADMIN_PASSWORD' '$MAGENTO_ADMIN_FORENAME' '$MAGENTO_ADMIN_SURNAME' Administrators" "${MAGE_ROOT}"
+    as_app_user "php /app/bin/n98-magerun.phar admin:user:create '$MAGENTO_ADMIN_USERNAME' '$MAGENTO_ADMIN_EMAIL' '$MAGENTO_ADMIN_PASSWORD' '$MAGENTO_ADMIN_FORENAME' '$MAGENTO_ADMIN_SURNAME' Administrators" "${MAGE_ROOT}"
   fi
 )
 
