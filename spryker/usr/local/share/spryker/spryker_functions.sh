@@ -127,7 +127,7 @@ do_spryker_install() {
 do_spryker_migrate() {
   do_spryker_propel_install
 
-  if [ "$APPLICATION_ENV" != "production" ] && [ "$IS_CRON_RUNNING" != "true" ]; then
+  if [ "$IS_CRON_RUNNING" != "true" ]; then
     do_spryker_run_collectors
   fi
 }
