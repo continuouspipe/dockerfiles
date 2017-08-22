@@ -115,7 +115,7 @@ MAGENTO_DEPENDENCY_INJECTION_COMPILE_COMMAND | Magento DI compile command | - | 
 MAGENTO_CRYPT_KEY | Magneto crypt key | - | -
 COMPOSER_CUSTOM_CONFIG_COMMAND | Used to set any custom composer configuration, will be executed before composer install | composer config .. | -
 REDIS_HOST | Redis host name (to store cache and sessions) | - | redis 
-REDIS_HOST_PORT | Redis port | port number | 6379
+REDIS_PORT | Redis port | port number | 6379
 MAGENTO_ENABLE_CACHE | Should redis be used for cache? | true/false | true
 MAGENTO_USE_REDIS | Should redis be used for sessions? | true/false | true
 REDIS_USE_SENTINEL | If you are running a redis cluster watched by sentinels and have Cm_Cache_Redis_Backend v1.10.x, set this to true to avoid trying to write to the redis followers | boolean | true/false

@@ -131,19 +131,19 @@ function do_magento_clear_redis_cache() {
   fi
 
   local REDIS_HOST="$REDIS_HOST"
-  local REDIS_HOST_PORT="$REDIS_HOST_PORT"
+  local REDIS_PORT="$REDIS_PORT"
 
   if [ "$REDIS_USE_SENTINEL" == "true" ]; then
     local MASTER_REDIS_DETAILS
     MASTER_REDIS_DETAILS="$(redis-cli -h "$REDIS_SENTINEL_SERVICE_HOST" -p "$REDIS_SENTINEL_SERVICE_PORT" --csv SENTINEL get-master-addr-by-name "$REDIS_SENTINEL_MASTER" | tr ',' ' ')"
     REDIS_HOST="$(echo "$MASTER_REDIS_DETAILS" | cut -d' ' -f1)"
     REDIS_HOST="${REDIS_HOST//\"}"
-    REDIS_HOST_PORT="$(echo "$MASTER_REDIS_DETAILS" | cut -d' ' -f2)"
-    REDIS_HOST_PORT="${REDIS_HOST_PORT//\"}"
+    REDIS_PORT="$(echo "$MASTER_REDIS_DETAILS" | cut -d' ' -f2)"
+    REDIS_PORT="${REDIS_PORT//\"}"
   fi
 
-  redis-cli -h "$REDIS_HOST" -p "$REDIS_HOST_PORT" -n "$MAGENTO_REDIS_CACHE_DATABASE" "FLUSHDB"
-  redis-cli -h "$REDIS_HOST" -p "$REDIS_HOST_PORT" -n "$MAGENTO_REDIS_FULL_PAGE_CACHE_DATABASE" "FLUSHDB"
+  redis-cli -h "$REDIS_HOST" -p "$REDIS_PORT" -n "$MAGENTO_REDIS_CACHE_DATABASE" "FLUSHDB"
+  redis-cli -h "$REDIS_HOST" -p "$REDIS_PORT" -n "$MAGENTO_REDIS_FULL_PAGE_CACHE_DATABASE" "FLUSHDB"
 }
 
 function do_magento_cache_flush() {

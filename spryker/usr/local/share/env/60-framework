@@ -1,0 +1,6 @@
+#!/bin/bash
+
+# Support older configurations by setting original env vars
+export ELASTICSEARCH_HOST_PORT=${ELASTICSEARCH_PORT}
+export REDIS_HOST_PORT=${REDIS_PORT}
+export MAILCATCHER_HOST_PORT=${MAILCATCHER_PORT}
