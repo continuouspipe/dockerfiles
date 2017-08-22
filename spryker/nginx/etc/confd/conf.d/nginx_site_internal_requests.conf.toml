@@ -1,6 +1,0 @@
-[template]
-src   = "nginx/site_internal_requests.conf.tmpl"
-dest  = "/etc/nginx/sites-available/default-05-site_internal_requests.conf"
-mode  = "0644"
-keys = [
-]
