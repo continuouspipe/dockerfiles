@@ -19,12 +19,12 @@ internal services and for the application templates.
     - [Apache w/ PHP 5.6/7.0/7.1](drupal/)
     - [Solr 4.10](drupal8-solr/4.10/)
     - [Solr 6.2](drupal8-solr/6.2/)
-    - [Varnish 4.0](drupal8-varnish/4.0/)
-- [eZ Platform 6.x](ez/6.x/)
+    - [Varnish 4.0](drupal8-varnish/)
+- [eZ Platform 6.x](ezplatform/)
 - *General PHP*
     - [Apache w/ PHP (5.6, 7.0, 7.1)](php/apache/)
     - [NGINX w/ PHP-FPM (5.6, 7.0, 7.1)](php/nginx/)
-- [Magento 1](magento1-nginx/fpm-5.6/)
+- [Magento 1 - NGINX or Apache with PHP 5.6] (magento1/)
 - *Magento 2*
     - [NGINX w/ PHP-FPM 7.0](magento2-nginx/fpm-7.0/)
     - [Varnish](magento2-varnish/4.0/)
