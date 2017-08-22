@@ -9,9 +9,9 @@ if [ "$IMAGE_VERSION" -ge 2 ]; then
     PRODUCTION_ENVIRONMENT="$BUILD_PRODUCTION_ENVIRONMENT" MAGENTO_MODE="$BUILD_MAGENTO_MODE" DEVELOPMENT_MODE="$BUILD_DEVELOPMENT_MODE" do_magento2_build
   }
 
+  alias_function do_development_start do_magento2_development_start_inner
   do_development_start() {
-    do_php_nginx_development_start_inner
-    do_composer
+    do_magento2_development_start_inner
     do_magento2_development_build
   }
 
