@@ -1,0 +1,12 @@
+#!/bin/bash
+
+export WEB_DIRECTORY=${WEB_DIRECTORY:-public}
+export SYMFONY_APP_ENDPOINT=${SYMFONY_APP_ENDPOINT:-/index.php}
+
+COMPOSER_FLAGS="--no-interaction --optimize-autoloader"
+
+if [ "$APP_ENV" = "prod" ]; then
+  COMPOSER_FLAGS="${DEFAULT_COMPOSER_FLAGS} --no-dev"
+fi
+
+export COMPOSER_INSTALL_FLAGS=${COMPOSER_INSTALL_FLAGS:-$COMPOSER_FLAGS}
