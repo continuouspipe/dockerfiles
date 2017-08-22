@@ -1,0 +1,6 @@
+[template]
+src   = "cron/spryker.tmpl"
+dest  = "/etc/cron.d/spryker"
+mode  = "0644"
+keys = [
+]

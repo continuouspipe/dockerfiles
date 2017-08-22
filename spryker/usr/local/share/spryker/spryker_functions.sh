@@ -119,6 +119,7 @@ do_spryker_install() {
     do_spryker_import_demodata
     do_spryker_product_label_relations_update
     do_spryker_setup_search
+    do_spryker_app_permissions
     do_spryker_run_collectors
   fi
 }
@@ -128,8 +129,8 @@ do_spryker_migrate() {
 }
 
 do_spryker_run_collectors() {
-  as_code_owner "vendor/bin/console collector:search:export"
-  as_code_owner "vendor/bin/console collector:storage:export"
+  as_app_user "vendor/bin/console collector:search:export"
+  as_app_user "vendor/bin/console collector:storage:export"
 }
 
 do_spryker_propel_install() {
