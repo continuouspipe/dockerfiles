@@ -69,6 +69,7 @@ RUN composer global require "hirak/prestissimo" --no-interaction --no-ansi --qui
 USER root
 
 # Add configuration
-COPY ./shared/ ./apache/ /
+COPY ./shared/etc/ ./apache/etc/ /etc/
+COPY ./shared/usr/ ./apache/usr/ /usr/
 
 RUN find /etc/confd/conf.d/ -name "*.toml" -type f -exec sed -i'' "s/\$PHP_VERSION/$PHP_VERSION/" {} \;
