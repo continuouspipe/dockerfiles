@@ -29,6 +29,4 @@ RUN curl -sL https://deb.nodesource.com/setup_6.x > /tmp/install-node.sh \
 
 WORKDIR /app
 
-COPY ./{{WEB_SERVER}}/ /
-COPY ./etc/ /etc/
-COPY ./usr/ /usr/
+COPY ./shared/ ./{{WEB_SERVER}}/ /

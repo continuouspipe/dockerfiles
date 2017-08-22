@@ -11,5 +11,4 @@ RUN apt-get update -qq \
  && apt-get clean \
  && rm -rf /var/lib/apt/lists/*
 
-COPY ./etc/ /etc/
-COPY ./usr/ /usr/
+COPY ./shared/ /

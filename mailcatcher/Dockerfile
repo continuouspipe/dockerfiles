@@ -18,8 +18,7 @@ RUN apt-get update -qq \
  && rm -rf /var/lib/apt/lists/* \
  && useradd --create-home mailcatcher
 
-COPY ./etc/ /etc/
-COPY ./usr/ /usr/
+COPY ./shared/ /
 
 # smtp port
 EXPOSE 1025
