@@ -126,10 +126,6 @@ do_spryker_install() {
 
 do_spryker_migrate() {
   do_spryker_propel_install
-
-  if [ "$IS_CRON_RUNNING" != "true" ]; then
-    do_spryker_run_collectors
-  fi
 }
 
 do_spryker_run_collectors() {
