@@ -1,0 +1,27 @@
+# PHP entry point for update application
+location ~* ^/update($|/) {
+{{ if eq "true" (getenv "MAGENTO_ALLOW_ACCESS_TO_UPDATE") }}
+    root $MAGE_ROOT;
+
+    location ~ ^/update/index.php {
+        fastcgi_split_path_info ^(/update/index.php)(/.+)$;
+        fastcgi_pass   php-fpm;
+        fastcgi_index  index.php;
+        fastcgi_param  SCRIPT_FILENAME  $document_root$fastcgi_script_name;
+        fastcgi_param  PATH_INFO        $fastcgi_path_info;
+        fastcgi_param  HTTPS $custom_https if_not_empty;
+        include        fastcgi_params;
+    }
+
+    # Deny everything but index.php
+    location ~ ^/update/(?!pub/). {
+        deny all;
+    }
+
+    location ~ ^/update/pub/ {
+        add_header X-Frame-Options "SAMEORIGIN";
+    }
+{{ else }}
+    deny all;
+{{ end }}
+}
