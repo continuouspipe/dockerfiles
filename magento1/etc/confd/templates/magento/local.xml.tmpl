@@ -36,8 +36,8 @@
                 </connection>
             </default_setup>
         </resources>
-        <session_save><![CDATA[memcache]]></session_save>
-        <session_save_path><![CDATA[tcp://{{ getenv "MEMCACHED_HOST" }}:{{ getenv "MEMCACHED_HOST_PORT" }}?persistent=1&weight=1&timeout=10&retry_interval=10]]></session_save_path><!-- e.g. for memcache session save handler tcp://10.0.0.1:11211?persistent=1&weight=2&timeout=10&retry_interval=10 -->
+        <session_save><![CDATA[memcached]]></session_save>
+        <session_save_path><![CDATA[{{ getenv "MEMCACHED_HOST" }}:{{ getenv "MEMCACHED_HOST_PORT" }}]]></session_save_path><!-- e.g. for memcache session save handler tcp://10.0.0.1:11211?persistent=1&weight=2&timeout=10&retry_interval=10 -->
         <session_cache_limiter><![CDATA[nocache]]></session_cache_limiter><!-- see http://php.net/manual/en/function.session-cache-limiter.php#82174 for possible values -->
         <cache>
              <backend><![CDATA[Cm_Cache_Backend_Redis]]></backend><!-- apc / memcached / xcache / Cm_Cache_Backend_Redis empty=file -->

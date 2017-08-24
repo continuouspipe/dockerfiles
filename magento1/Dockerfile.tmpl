@@ -7,7 +7,6 @@ RUN curl -sL https://deb.nodesource.com/setup_6.x > /tmp/install-node.sh \
  && bash /tmp/install-node.sh \
  && apt-get update -qq -y \
  && DEBIAN_FRONTEND=noninteractive apt-get -qq -y --no-install-recommends install \
-    php-memcache \
     nodejs \
     rsyslog \
     sudo \
