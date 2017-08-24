@@ -148,6 +148,10 @@ tasks:
           image: quay.io/continuouspipe/hem1
           tag: latest
           reuse: false
+        magento1_php55_nginx:
+          image: quay.io/continuouspipe/eol-magento1-nginx-php5.5
+          tag: latest
+          reuse: false
         magento1_php56_apache:
           image: quay.io/continuouspipe/magento1-apache-php5.6
           tag: latest

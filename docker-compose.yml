@@ -92,6 +92,14 @@ services:
     depends_on:
       - ubuntu
 
+  magento1_php55_nginx:
+    build:
+      context: ./magento1/
+      dockerfile: Dockerfile-eol-php5.5-nginx
+      args:
+        PHP_FULL_VERSION: '5.5.38'
+    image: quay.io/continuouspipe/eol-magento1-nginx-php5.5:latest
+
   magento1_php56_apache:
     build:
       context: ./magento1/
