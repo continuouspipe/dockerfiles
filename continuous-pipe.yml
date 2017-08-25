@@ -15,8 +15,7 @@ tasks:
   third_level_dependency_images:
     build:
       environment:
-        - name: FROM_TAG
-          value: ${FROM_TAG}
+        FROM_TAG: ${FROM_TAG}
       services:
         ubuntu:
           image: quay.io/continuouspipe/ubuntu16.04
@@ -29,8 +28,7 @@ tasks:
   second_level_dependency_images:
     build:
       environment:
-        - name: FROM_TAG
-          value: ${FROM_TAG}
+        FROM_TAG: ${FROM_TAG}
       services:
         nginx:
           image: quay.io/continuouspipe/nginx
@@ -41,50 +39,43 @@ tasks:
           tag: ${FROM_TAG}
           reuse: false
           environment:
-            - name: PHP_VERSION
-              value: '7.1'
+            PHP_VERSION: '7.1'
         php70_apache:
           image: quay.io/continuouspipe/php7-apache
           tag: ${FROM_TAG}
           reuse: false
           environment:
-            - name: PHP_VERSION
-              value: '7.0'
+            PHP_VERSION: '7.0'
         php56_apache:
           image: quay.io/continuouspipe/php5.6-apache
           tag: ${FROM_TAG}
           reuse: false
           environment:
-            - name: PHP_VERSION
-              value: '5.6'
+            PHP_VERSION: '5.6'
         php71_nginx:
           image: quay.io/continuouspipe/php7.1-nginx
           tag: ${FROM_TAG}
           reuse: false
           environment:
-            - name: PHP_VERSION
-              value: '7.1'
+            PHP_VERSION: '7.1'
         php70_nginx:
           image: quay.io/continuouspipe/php7-nginx
           tag: ${FROM_TAG}
           reuse: false
           environment:
-            - name: PHP_VERSION
-              value: '7.0'
+            PHP_VERSION: '7.0'
         php55_nginx:
           image: quay.io/continuouspipe/eol-php5.5-nginx
           tag: latest
           reuse: false
           environment:
-            - name: PHP_FULL_VERSION
-              value: '5.5.38'
+            PHP_FULL_VERSION: '5.5.38'
         php56_nginx:
           image: quay.io/continuouspipe/php5.6-nginx
           tag: ${FROM_TAG}
           reuse: false
           environment:
-            - name: PHP_VERSION
-              value: '5.6'
+            PHP_VERSION: '5.6'
         solr_4_10:
           image: quay.io/continuouspipe/solr4
           tag: ${FROM_TAG}
@@ -104,8 +95,7 @@ tasks:
   first_level_dependency_images:
     build:
       environment:
-        - name: FROM_TAG
-          value: ${FROM_TAG}
+        FROM_TAG: ${FROM_TAG}
       services:
         symfony_php71_nginx:
           image: quay.io/continuouspipe/symfony-php7.1-nginx
@@ -126,8 +116,7 @@ tasks:
   no_dependency_images:
     build:
       environment:
-        - name: FROM_TAG
-          value: ${FROM_TAG}
+        FROM_TAG: ${FROM_TAG}
       services:
         couchdb16:
           image: quay.io/continuouspipe/couchdb1.6
@@ -242,49 +231,40 @@ tasks:
           tag: ${FROM_TAG}
           reuse: false
           environment:
-            - name: NODE_VERSION
-              value: "6.x"
+            NODE_VERSION: "6.x"
         nodejs6_small:
           image: quay.io/continuouspipe/nodejs6-small
           tag: ${FROM_TAG}
           reuse: false
           environment:
-            - name: NODE_VERSION
-              value: "6.x"
-            - name: INSTALL_COMMON_PACKAGES
-              value: "false"
+            NODE_VERSION: "6.x"
+            INSTALL_COMMON_PACKAGES: "false"
         nodejs7:
           image: quay.io/continuouspipe/nodejs7
           tag: ${FROM_TAG}
           reuse: false
           environment:
-            - name: NODE_VERSION
-              value: "7.x"
+            NODE_VERSION: "7.x"
         nodejs7_small:
           image: quay.io/continuouspipe/nodejs7-small
           tag: ${FROM_TAG}
           reuse: false
           environment:
-            - name: NODE_VERSION
-              value: "7.x"
-            - name: INSTALL_COMMON_PACKAGES
-              value: "false"
+            NODE_VERSION: "7.x"
+            INSTALL_COMMON_PACKAGES: "false"
         nodejs8:
           image: quay.io/continuouspipe/nodejs8
           tag: ${FROM_TAG}
           reuse: false
           environment:
-            - name: NODE_VERSION
-              value: "8.x"
+            NODE_VERSION: "8.x"
         nodejs8_small:
           image: quay.io/continuouspipe/nodejs8-small
           tag: ${FROM_TAG}
           reuse: false
           environment:
-            - name: NODE_VERSION
-              value: "8.x"
-            - name: INSTALL_COMMON_PACKAGES
-              value: "false"
+            NODE_VERSION: "8.x"
+            INSTALL_COMMON_PACKAGES: "false"
         phantomjs2:
           image: quay.io/continuouspipe/phantomjs2
           tag: ${FROM_TAG}
