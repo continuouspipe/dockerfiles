@@ -18,6 +18,7 @@ RUN echo 'deb http://s3-eu-west-1.amazonaws.com/qafoo-profiler/packages debian m
     nginx \
     php-apcu \
     php-imagick \
+    php-memcached \
     php-redis \
     php-xdebug \
     "php$PHP_VERSION-bcmath" \
@@ -28,7 +29,6 @@ RUN echo 'deb http://s3-eu-west-1.amazonaws.com/qafoo-profiler/packages debian m
     "php$PHP_VERSION-intl" \
     "php$PHP_VERSION-mbstring" \
     "php$PHP_VERSION-mcrypt" \
-    "php$PHP_VERSION-memcached" \
     "php$PHP_VERSION-opcache" \
     "php$PHP_VERSION-pgsql" \
     "php$PHP_VERSION-soap" \
