@@ -1,4 +1,5 @@
-FROM postgres:9.6
+ARG FROM_TAG
+FROM mongo:${FROM_TAG}
 
 MAINTAINER "Kieren Evans <kieren.evans+cp-dockerfiles@inviqa.com>"
 
@@ -11,3 +12,7 @@ RUN apt-get update -qq \
  && apt-get autoremove -qq \
  && apt-get clean \
  && rm -rf /var/lib/apt/lists/*
+
+COPY ./usr/ /usr
+
+CMD ["/usr/local/bin/mongo-init.sh"]

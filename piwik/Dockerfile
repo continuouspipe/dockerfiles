@@ -1,4 +1,6 @@
-FROM quay.io/continuouspipe/php7.1-apache:latest
+ARG PHP_VERSION
+ARG FROM_TAG=latest
+FROM quay.io/continuouspipe/php${PHP_VERSION}-apache:${FROM_TAG}
 
 MAINTAINER Alex Biddle <alex.biddle+cp-dockerfiles@inviqa.com>
 

@@ -101,14 +101,23 @@ tasks:
           image: quay.io/continuouspipe/symfony-php7.1-nginx
           tag: ${FROM_TAG}
           reuse: false
+          environment:
+            PHP_VERSION: '7.1'
+            WEB_SERVER: nginx
         symfony_php71_apache:
           image: quay.io/continuouspipe/symfony-php7.1-apache
           tag: ${FROM_TAG}
           reuse: false
+          environment:
+            PHP_VERSION: '7.1'
+            WEB_SERVER: apache
         symfony_php70_apache:
           image: quay.io/continuouspipe/symfony-php7-apache
           tag: ${FROM_TAG}
           reuse: false
+          environment:
+            PHP_VERSION: '7'
+            WEB_SERVER: apache
 
   ###########################
   # No dependency images    #
@@ -122,22 +131,32 @@ tasks:
           image: quay.io/continuouspipe/couchdb1.6
           tag: ${FROM_TAG}
           reuse: false
+          environment:
+            FROM_TAG: '1.6'
         drupal_php71_apache:
           image: quay.io/continuouspipe/drupal-php7.1-apache
           tag: ${FROM_TAG}
           reuse: false
+          environment:
+            PHP_VERSION: '7.1'
         drupal_php70_apache:
           image: quay.io/continuouspipe/drupal-php7-apache
           tag: ${FROM_TAG}
           reuse: false
+          environment:
+            PHP_VERSION: '7'
         drupal8_apache_php7:
           image: quay.io/continuouspipe/drupal8-apache-php7
           tag: ${FROM_TAG}
           reuse: false
+          environment:
+            PHP_VERSION: '7'
         drupal_php56_apache:
           image: quay.io/continuouspipe/drupal-php5.6-apache
           tag: ${FROM_TAG}
           reuse: false
+          environment:
+            PHP_VERSION: '5.6'
         drupal8_solr_4_10:
           image: quay.io/continuouspipe/drupal8-solr4
           tag: ${FROM_TAG}
@@ -158,10 +177,14 @@ tasks:
           image: quay.io/continuouspipe/ez6-apache-php7
           tag: ${FROM_TAG}
           reuse: false
+          environment:
+            PHP_VERSION: '7'
         ezplatform_php71_apache:
           image: quay.io/continuouspipe/ez6-php7.1-apache
           tag: ${FROM_TAG}
           reuse: false
+          environment:
+            PHP_VERSION: '7.1'
         hem:
           image: quay.io/continuouspipe/hem1
           tag: ${FROM_TAG}
@@ -170,22 +193,37 @@ tasks:
           image: quay.io/continuouspipe/eol-magento1-nginx-php5.5
           tag: latest
           reuse: false
+          environment:
+            FROM_IMAGE: eol-php5.5_nginx
+            WEB_SERVER: nginx
         magento1_php56_apache:
           image: quay.io/continuouspipe/magento1-apache-php5.6
           tag: ${FROM_TAG}
           reuse: false
+          environment:
+            FROM_IMAGE: php5.6_apache
+            WEB_SERVER: apache
         magento1_php56_nginx:
           image: quay.io/continuouspipe/magento1-nginx-php5.6
           tag: ${FROM_TAG}
           reuse: false
+          environment:
+            FROM_IMAGE: php5.6_nginx
+            WEB_SERVER: nginx
         magento2_php70_nginx:
           image: quay.io/continuouspipe/magento2-nginx-php7
           tag: ${FROM_TAG}
           reuse: false
+          environment:
+            FROM_IMAGE: php7_nginx
+            WEB_SERVER: nginx
         magento2_php71_nginx:
           image: quay.io/continuouspipe/magento2-nginx-php7.1
           tag: ${FROM_TAG}
           reuse: false
+          environment:
+            FROM_IMAGE: php7.1_nginx
+            WEB_SERVER: nginx
         magento2_varnish:
           image: quay.io/continuouspipe/magento2-varnish4
           tag: ${FROM_TAG}
@@ -202,22 +240,32 @@ tasks:
           image: quay.io/continuouspipe/mongodb3.4
           tag: ${FROM_TAG}
           reuse: false
+          environment:
+            FROM_TAG: '3.4'
         mysql80:
           image: quay.io/continuouspipe/mysql8.0
           tag: ${FROM_TAG}
           reuse: false
+          environment:
+            FROM_TAG: '8.0'
         mysql57:
           image: quay.io/continuouspipe/mysql5.7
           tag: ${FROM_TAG}
           reuse: false
+          environment:
+            FROM_TAG: '5.7'
         mysql56:
           image: quay.io/continuouspipe/mysql5.6
           tag: ${FROM_TAG}
           reuse: false
+          environment:
+            FROM_TAG: '5.6'
         mysql55:
           image: quay.io/continuouspipe/mysql5.5
           tag: ${FROM_TAG}
           reuse: false
+          environment:
+            FROM_TAG: '5.5'
         nginx_ingress_controller:
           image: quay.io/continuouspipe/nginx-ingress-controller
           tag: ${FROM_TAG}
@@ -273,14 +321,20 @@ tasks:
           image: quay.io/continuouspipe/piwik-php7.1-apache
           tag: ${FROM_TAG}
           reuse: false
+          environment:
+            PHP_VERSION: 7.1
         postgres94:
           image: quay.io/continuouspipe/postgres9.4
           tag: ${FROM_TAG}
           reuse: false
+          environment:
+            FROM_TAG: '9.4'
         postgres96:
           image: quay.io/continuouspipe/postgres9.6
           tag: ${FROM_TAG}
           reuse: false
+          environment:
+            FROM_TAG: '9.6'
         redis:
           image: quay.io/continuouspipe/redis3
           tag: ${FROM_TAG}
@@ -301,22 +355,37 @@ tasks:
           image: quay.io/continuouspipe/spryker-php7.1-nginx
           tag: ${FROM_TAG}
           reuse: false
+          environment:
+            PHP_VERSION: '7.1'
+            WEB_SERVER: nginx
         spryker_php71_apache:
           image: quay.io/continuouspipe/spryker-php7.1-apache
           tag: ${FROM_TAG}
           reuse: false
+          environment:
+            PHP_VERSION: '7.1'
+            WEB_SERVER: apache
         symfony_php70_nginx:
           image: quay.io/continuouspipe/symfony-php7-nginx
           tag: ${FROM_TAG}
           reuse: false
+          environment:
+            PHP_VERSION: '7'
+            WEB_SERVER: nginx
         symfony_php56_nginx:
           image: quay.io/continuouspipe/symfony-php5.6-nginx
           tag: ${FROM_TAG}
           reuse: false
+          environment:
+            PHP_VERSION: '5.6'
+            WEB_SERVER: nginx
         symfony_php56_apache:
           image: quay.io/continuouspipe/symfony-php5.6-apache
           tag: ${FROM_TAG}
           reuse: false
+          environment:
+            PHP_VERSION: '5.6'
+            WEB_SERVER: apache
         tideways:
           image: quay.io/continuouspipe/tideways
           tag: ${FROM_TAG}

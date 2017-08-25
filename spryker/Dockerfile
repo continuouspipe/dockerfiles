@@ -1,4 +1,10 @@
-FROM quay.io/continuouspipe/php{{PHP_VERSION}}-{{WEB_SERVER}}:latest
+ARG PHP_VERSION
+ARG WEB_SERVER
+ARG FROM_TAG=latest
+FROM quay.io/continuouspipe/php${PHP_VERSION}-${WEB_SERVER}:${FROM_TAG}
+
+ARG PHP_VERSION
+ARG WEB_SERVER
 
 MAINTAINER Hardik Gajjar <hardik.gajjar@inviqa.com>
 
@@ -9,7 +15,7 @@ RUN curl -sL https://deb.nodesource.com/setup_6.x > /tmp/install-node.sh \
     build-essential \
     graphviz \
     nodejs \
-    php{{PHP_VERSION}}-gmp \
+    "php${PHP_VERSION}-gmp" \
     redis-tools \
  \
  # Clean the image \
@@ -17,5 +23,5 @@ RUN curl -sL https://deb.nodesource.com/setup_6.x > /tmp/install-node.sh \
  && apt-get clean \
  && rm -rf /var/lib/apt/lists/*
 
-COPY ./etc/ ./{{WEB_SERVER}}/etc/ /etc/
-COPY ./usr/ /{{WEB_SERVER}}/usr/ /usr/
+COPY ./etc/ ./${WEB_SERVER}/etc/ /etc/
+COPY ./usr/ ./${WEB_SERVER}/usr/ /usr/
