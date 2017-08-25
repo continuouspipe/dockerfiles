@@ -1,4 +1,5 @@
-FROM quay.io/continuouspipe/solr4:latest
+ARG FROM_TAG=latest
+FROM quay.io/continuouspipe/solr4:${FROM_TAG}
 
 MAINTAINER Kieren Evans <kieren.evans+cp-dockerfiles@inviqa.com>
 
