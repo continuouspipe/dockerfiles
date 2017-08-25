@@ -31,6 +31,7 @@ RUN export PHP_VERSION=${PHP_FULL_VERSION%.[0-9]*} \
     libjpeg-dev \
     libltdl-dev \
     libmcrypt-dev \
+    libmemcached-dev \
     libmysqlclient-dev \
     libpng-dev \
     libpq-dev \
@@ -48,16 +49,20 @@ RUN export PHP_VERSION=${PHP_FULL_VERSION%.[0-9]*} \
     zlib1g-dev \
  \
  # Compile PHP \
- && mkdir -p /etc/php/${PHP_VERSION}/cli/conf.d /etc/php/${PHP_VERSION}/fpm/conf.d \
- && touch /etc/php/${PHP_VERSION}/php.ini \
- && wget https://secure.php.net/distributions/php-${PHP_FULL_VERSION}.tar.bz2 \
- && tar -xf php-${PHP_FULL_VERSION}.tar.bz2 \
- && cd php-${PHP_FULL_VERSION} \
+ && wget "https://secure.php.net/distributions/php-${PHP_FULL_VERSION}.tar.bz2" \
+ && tar -xf "php-${PHP_FULL_VERSION}.tar.bz2" \
+ && cd "php-${PHP_FULL_VERSION}" \
  && mkdir build-cli build-fpm \
  && cd build-cli \
  && ln -s ../configure \
  && ./configure \
+   --prefix=/usr \
+   --sysconfdir=/etc \
+   --localstatedir=/var \
    --with-libedit=shared,/usr \
+   --enable-cli \
+   --disable-cgi \
+   --disable-phpdbg \
    --enable-pcntl \
    --enable-bcmath \
    --with-bz2=/usr \
@@ -87,15 +92,20 @@ RUN export PHP_VERSION=${PHP_FULL_VERSION%.[0-9]*} \
    --with-xsl \
    --enable-zip \
    --with-zlib \
-   --with-config-file-path=/etc/php/${PHP_VERSION} \
-   --with-config-file-scan-dir=/etc/php/${PHP_VERSION}/cli/conf.d \
+   "--with-config-file-path=/etc/php/${PHP_VERSION}/cli" \
+   "--with-config-file-scan-dir=/etc/php/${PHP_VERSION}/cli/conf.d" \
  && make -j2 \
  && make install \
  && cd .. \
  && cd build-fpm \
  && ln -s ../configure \
  && ./configure \
+   --prefix=/usr \
+   "--sysconfdir=/etc/php/${PHP_VERSION}/fpm" \
+   --localstatedir=/var \
    --enable-fpm \
+   --disable-cgi \
+   --disable-phpdbg \
    --enable-bcmath \
    --with-bz2=/usr \
    --with-curl \
@@ -124,16 +134,29 @@ RUN export PHP_VERSION=${PHP_FULL_VERSION%.[0-9]*} \
    --with-xsl \
    --enable-zip \
    --with-zlib \
-   --with-config-file-path=/etc/php/${PHP_VERSION} \
-   --with-config-file-scan-dir=/etc/php/${PHP_VERSION}/fpm/conf.d \
+   --with-libevent-dir=/usr \
+   --with-fpm-user=www-data --with-fpm-group=www-data \
+   "--with-config-file-path=/etc/php/${PHP_VERSION}/fpm" \
+   "--with-config-file-scan-dir=/etc/php/${PHP_VERSION}/fpm/conf.d" \
  && make -j2 \
  && make install-fpm \
- && cd .. \
- && cd .. \
- && rm -rf php-{PHP_FULL_VERSION} php-${PHP_FULL_VERSION}.tar.bz2 \
+ && cd ../.. \
+ && rm -rf php-${PHP_FULL_VERSION} php-${PHP_FULL_VERSION}.tar.bz2 \
+ \
+ # update php locations \
+ && mv /usr/sbin/php-fpm "/usr/sbin/php-fpm${PHP_VERSION}" \
+ \
+ # set up configuration folders \
+ && mkdir -p "/etc/php/${PHP_VERSION}/cli/conf.d" "/etc/php/${PHP_VERSION}/fpm/conf.d" \
+ && mkdir -p "/etc/php/${PHP_VERSION}/fpm/pool.d" \
  \
  # build pecl modules
- && pecl install memcache \
+ && if bash -c '[[ "${PHP_FULL_VERSION}" =~ ^5\. ]]'; then \
+   pecl install memcached-2.2.0; \
+ else \
+   pecl install memcached; \
+ fi \
+ && echo -e '; priority=25\nextension=memcached.so' | tee /etc/php/${PHP_VERSION}/fpm/conf.d/25-memcached.ini > /etc/php/${PHP_VERSION}/cli/conf.d/25-memcached.ini \
  \
  # Clean the image \
  && apt-get auto-remove -qq -y \
@@ -158,4 +181,5 @@ USER root
 
 COPY ./shared/ ./nginx/ /
 
-RUN PHP_VERSION=${PHP_FULL_VERSION%.[0-9]*} find /etc/confd/conf.d/ -name "*.toml" -type f -exec sed -i'' "s/\$PHP_VERSION/$PHP_VERSION/" {} \;
+RUN export PHP_VERSION=${PHP_FULL_VERSION%.[0-9]*} \
+ && find /etc/confd/conf.d/ -name "*.toml" -type f -exec sed -i'' "s/\$PHP_VERSION/$PHP_VERSION/" {} \;
