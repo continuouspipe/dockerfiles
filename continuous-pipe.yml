@@ -55,6 +55,13 @@ tasks:
           environment:
             - name: PHP_VERSION
               value: '7.0'
+        php55_nginx:
+          image: quay.io/continuouspipe/eol-php5.5-nginx
+          tag: latest
+          reuse: false
+          environment:
+            - name: PHP_FULL_VERSION
+              value: '5.5.38'
         php56_nginx:
           image: quay.io/continuouspipe/php5.6-nginx
           tag: latest
@@ -146,6 +153,10 @@ tasks:
           reuse: false
         hem:
           image: quay.io/continuouspipe/hem1
+          tag: latest
+          reuse: false
+        magento1_php55_nginx:
+          image: quay.io/continuouspipe/eol-magento1-nginx-php5.5
           tag: latest
           reuse: false
         magento1_php56_apache:

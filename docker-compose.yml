@@ -92,6 +92,14 @@ services:
     depends_on:
       - ubuntu
 
+  magento1_php55_nginx:
+    build:
+      context: ./magento1/
+      dockerfile: Dockerfile-eol-php5.5-nginx
+    image: quay.io/continuouspipe/eol-magento1-nginx-php5.5:latest
+    depends_on:
+      - php55_nginx
+
   magento1_php56_apache:
     build:
       context: ./magento1/
@@ -321,6 +329,16 @@ services:
       args:
         PHP_VERSION: 7.0
     image: quay.io/continuouspipe/php7-nginx:latest
+    depends_on:
+      - ubuntu
+
+  php55_nginx:
+    build:
+      context: ./php/
+      dockerfile: Dockerfile-nginx-phpsource
+      args:
+        PHP_FULL_VERSION: 5.5.38
+    image: quay.io/continuouspipe/eol-php5.5-nginx:latest
     depends_on:
       - ubuntu
 

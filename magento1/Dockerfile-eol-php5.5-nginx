@@ -1,4 +1,4 @@
-FROM quay.io/continuouspipe/php5.6-nginx:latest
+FROM quay.io/continuouspipe/eol-php5.5-nginx:latest
 
 MAINTAINER Kieren Evans <kieren.evans+cp-dockerfiles@inviqa.com>
 
@@ -21,12 +21,13 @@ RUN curl -sL https://deb.nodesource.com/setup_6.x > /tmp/install-node.sh \
  && npm rebuild node-sass \
  \
  # Clean the image \
- && apt-get remove -qq -y php5.6-dev pkg-config libmagickwand-dev build-essential \
+ && apt-get remove -qq -y php5.5-dev pkg-config libmagickwand-dev build-essential \
  && apt-get auto-remove -qq -y \
  && apt-get clean \
  && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
 WORKDIR /app
 
-COPY ./etc/ ./nginx/etc/ /etc/
+COPY ./nginx/ /
+COPY ./etc/ /etc/
 COPY ./usr/ /usr/
