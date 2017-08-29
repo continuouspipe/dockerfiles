@@ -1,12 +1,22 @@
 variables:
-  FROM_TAG_LATEST:
-    name: FROM_TAG
-    value: 'latest'
-    condition: 'code_reference.branch in ["master"]'
-  FROM_TAG_BRANCH:
+  FROM_TAG:
     name: FROM_TAG
     expression: '"dev-" ~ slugify(code_reference.branch)'
+
+pipelines:
+  - name: Production
+    condition: 'code_reference.branch in ["master"]'
+    tasks: &ALL_IMAGES
+      - third_level_dependency_images
+      - second_level_dependency_images
+      - first_level_dependency_images
+      - no_dependency_images
+    variables:
+      - name: FROM_TAG
+        value: 'latest'
+  - name: Feature Branches
     condition: 'not(code_reference.branch in ["master"])'
+    tasks: *ALL_IMAGES
 
 tasks:
   ##################################################
