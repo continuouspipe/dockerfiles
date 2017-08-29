@@ -15,7 +15,7 @@ pipelines:
       - name: FROM_TAG
         value: 'latest'
   - name: Feature Branches
-    condition: 'not(code_reference.branch in ["master"])'
+    condition: '"Ready for Review" in pull_request.labels and not(code_reference.branch in ["master"])'
     tasks: *ALL_IMAGES
 
 tasks:
