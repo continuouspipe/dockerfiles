@@ -400,5 +400,3 @@ tasks:
           image: quay.io/continuouspipe/tideways
           tag: ${FROM_TAG}
           reuse: false
-
-filter: code_reference.branch in ["master"]
