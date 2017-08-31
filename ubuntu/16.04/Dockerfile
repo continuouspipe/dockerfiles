@@ -13,6 +13,7 @@ RUN echo 'APT::Install-Recommends 0;' >> /etc/apt/apt.conf.d/01norecommends \
  && DEBIAN_FRONTEND=noninteractive apt-get -qq -y --no-install-recommends install \
     acl \
     apt-transport-https \
+    bash-completion \
     ca-certificates \
     daemontools \
     cron \
