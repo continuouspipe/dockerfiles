@@ -137,7 +137,7 @@ MAGENTO_CACHE_STATIC_ASSETS=${MAGENTO_CACHE_STATIC_ASSETS:-false}
 MAGENTO_CACHE_STATIC_ASSETS="$(convert_to_boolean_string "$MAGENTO_CACHE_STATIC_ASSETS")"
 export MAGENTO_CACHE_STATIC_ASSETS
 
-(set +e; has_composer_package "magento/product-enterprise-edition")
+(set +e; source /usr/local/share/php/common_functions.sh; has_composer_package "magento/product-enterprise-edition")
 DEFAULT_MAGENTO_ENTERPRISE_EDITION="$(convert_exit_code_to_string "$?")"
 MAGENTO_ENTERPRISE_EDITION=$(convert_to_boolean_string "${MAGENTO_ENTERPRISE_EDITION:-$DEFAULT_MAGENTO_ENTERPRISE_EDITION}")
 export MAGENTO_ENTERPRISE_EDITION
