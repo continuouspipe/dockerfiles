@@ -145,3 +145,5 @@ MAGENTO_ALLOW_ACCESS_TO_UPDATE | Whether to allow access to the /update URL or n
 MAGENTO_RUN_BUILD | Whether to run the installer each time the container is started in development mode. Run once with true and then further builds can be stopped by setting to false. | true/false | true
 BUILD_DEVELOPMENT_MODE | If true, development dependencies will be installed during the build of the docker image. | true/false | false
 MAGENTO_CACHE_STATIC_ASSETS | If true, static assets under /static will be cached in varnish and potentially browsers for a very long time. We have made this an opt-in feature as you should ensure that the config value `dev/static/sign` is set to `1`, or you will find the next deployment doesn't update the assets for visitors who have visited your site before. | true/false | false
+MAGENTO_ENTERPRISE_EDITION | If true, this installation of magento is the enterprise edition which allows you to use the target rule cache. | true/false | false
+MAGENTO_ENABLE_TARGET_RULE_CACHE | If true, enable the target rule cache type in /app/app/etc/env.php. Enterprise edition only. | true/false | true
