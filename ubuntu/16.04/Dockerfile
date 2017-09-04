@@ -14,6 +14,7 @@ RUN echo 'APT::Install-Recommends 0;' >> /etc/apt/apt.conf.d/01norecommends \
     acl \
     apt-transport-https \
     bash-completion \
+    bzip2 \
     ca-certificates \
     daemontools \
     cron \
