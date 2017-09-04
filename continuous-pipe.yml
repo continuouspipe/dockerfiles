@@ -76,7 +76,7 @@ tasks:
             PHP_VERSION: '7.0'
         php55_nginx:
           image: quay.io/continuouspipe/eol-php5.5-nginx
-          tag: latest
+          tag: ${FROM_TAG}
           reuse: false
           environment:
             PHP_FULL_VERSION: '5.5.38'
@@ -201,7 +201,7 @@ tasks:
           reuse: false
         magento1_php55_nginx:
           image: quay.io/continuouspipe/eol-magento1-nginx-php5.5
-          tag: latest
+          tag: ${FROM_TAG}
           reuse: false
           environment:
             FROM_IMAGE: eol-php5.5_nginx
