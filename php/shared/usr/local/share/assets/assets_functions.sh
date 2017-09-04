@@ -55,30 +55,47 @@ function assets_apply_database()
   "assets_apply_database_${DATABASE_PLATFORM}" "$@"
 }
 
+function assets_decompress_stream()
+{
+  local -r ASSET_FILE="$1"
+  case "${ASSET_FILE}" in
+  *.sql.gz)
+    gunzip -c "${ASSET_FILE}"
+    ;;
+  *.sql.bz2)
+    bunzip2 -c "${ASSET_FILE}"
+    ;;
+  *.sql)
+    cat "${ASSET_FILE}"
+    ;;
+  *)
+    echo "Unknown database dump format for ${ASSET_FILE}, supported *.sql, *.sql.gz, *.sql.bz2" >&2
+    return 1
+  esac
+}
+
+function assets_decompress_validate()
+{
+  local -r ASSET_FILE="$1"
+  case "${ASSET_FILE}" in
+  *.sql.gz|*.sql.bz2|*.sql)
+    return 0
+    ;;
+  *)
+    echo "Unknown database dump format for ${ASSET_FILE}, supported *.sql, *.sql.gz, *.sql.bz2" >&2
+    return 1
+  esac
+}
+
 function assets_apply_database_mysql()
 (
   set +x
-  local DECOMPRESS
   local -r ASSET_FILE="$1"
   local -r APPLY_DATABASE_NAME="$2"
   local -r APPLY_FORCE_DATABASE_DROP="$(convert_to_boolean_string "${3:-0}")"
-
-  case "${ASSET_FILE}" in
-  *.sql.gz)
-    DECOMPRESS=(gunzip -c "${ASSET_FILE}")
-    ;;
-  *.sql.bz2)
-    DECOMPRESS=(bunzip2 -c "${ASSET_FILE}")
-    ;;
-  *.sql)
-    DECOMPRESS=(cat "${ASSET_FILE}")
-    ;;
-  *)
-    echo "Unknown database dump format for ${ASSET_FILE}, supported *.sql, *.sql.gz, *.sql.bz2"
-    return 1
-  esac
-
   local DATABASE_ARGS=("--host=${DATABASE_HOST}" "--port=${DATABASE_PORT}")
+
+  assets_decompress_validate "${ASSET_FILE}"
 
   if [ -n "${DATABASE_ADMIN_USER}" ]; then
     DATABASE_ARGS+=("--user=${DATABASE_ADMIN_USER}" "--password=${DATABASE_ADMIN_PASSWORD}")
@@ -116,34 +133,19 @@ function assets_apply_database_mysql()
 
   if [ "${#DATABASE_TABLES[@]}" -eq 0 ]; then
     echo "Importing ${ASSET_FILE} into ${APPLY_DATABASE_NAME} MySql database"
-    "${DECOMPRESS[@]}" | mysql "${DATABASE_ARGS[@]}" "${APPLY_DATABASE_NAME}"
+    assets_decompress_stream "${ASSET_FILE}" | mysql "${DATABASE_ARGS[@]}" "${APPLY_DATABASE_NAME}"
   fi
 )
 
 function assets_apply_database_postgres()
 (
   set +x
-  local DECOMPRESS
   local -r ASSET_FILE="$1"
   local -r APPLY_DATABASE_NAME="$2"
   local -r APPLY_FORCE_DATABASE_DROP="$(convert_to_boolean_string "${3:-0}")"
-
-  case "${ASSET_FILE}" in
-  *.sql.gz)
-    DECOMPRESS=(gunzip -c "${ASSET_FILE}")
-    ;;
-  *.sql.bz2)
-    DECOMPRESS=(bunzip2 -c "${ASSET_FILE}")
-    ;;
-  *.sql)
-    DECOMPRESS=(cat "${ASSET_FILE}")
-    ;;
-  *)
-    echo "Unknown database dump format for ${ASSET_FILE}, supported *.sql, *.sql.gz, *.sql.bz2"
-    return 1
-  esac
-
   local DATABASE_ARGS=("--host=${DATABASE_HOST}" "--port=${DATABASE_PORT}")
+
+  assets_decompress_validate "${ASSET_FILE}"
 
   if [ -n "${DATABASE_ADMIN_USER}" ]; then
     PGPASSWORD="$DATABASE_ADMIN_PASSWORD"
@@ -184,7 +186,7 @@ function assets_apply_database_postgres()
 
   if [ "${#DATABASE_TABLES[@]}" -eq 0 ]; then
     echo "Importing ${ASSET_FILE} into ${APPLY_DATABASE_NAME} MySql database"
-    "${DECOMPRESS[@]}" | PGPASSWORD="$PGPASSWORD" psql "${DATABASE_ARGS[@]}" "${APPLY_DATABASE_NAME}"
+    assets_decompress_stream "${ASSET_FILE}" | PGPASSWORD="$PGPASSWORD" psql "${DATABASE_ARGS[@]}" "${APPLY_DATABASE_NAME}"
   fi
 )
 
