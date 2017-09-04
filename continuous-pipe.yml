@@ -204,28 +204,28 @@ tasks:
           tag: ${FROM_TAG}
           reuse: false
           environment:
-            FROM_IMAGE: php5.6_apache
+            FROM_IMAGE: php5.6-apache
             WEB_SERVER: apache
         magento1_php56_nginx:
           image: quay.io/continuouspipe/magento1-nginx-php5.6
           tag: ${FROM_TAG}
           reuse: false
           environment:
-            FROM_IMAGE: php5.6_nginx
+            FROM_IMAGE: php5.6-nginx
             WEB_SERVER: nginx
         magento2_php70_nginx:
           image: quay.io/continuouspipe/magento2-nginx-php7
           tag: ${FROM_TAG}
           reuse: false
           environment:
-            FROM_IMAGE: php7_nginx
+            FROM_IMAGE: php7-nginx
             WEB_SERVER: nginx
         magento2_php71_nginx:
           image: quay.io/continuouspipe/magento2-nginx-php7.1
           tag: ${FROM_TAG}
           reuse: false
           environment:
-            FROM_IMAGE: php7.1_nginx
+            FROM_IMAGE: php7.1-nginx
             WEB_SERVER: nginx
         magento2_varnish:
           image: quay.io/continuouspipe/magento2-varnish4
