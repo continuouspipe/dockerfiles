@@ -1,4 +1,6 @@
-FROM quay.io/continuouspipe/ubuntu16.04:latest
+ARG FROM_TAG=latest
+FROM quay.io/continuouspipe/ubuntu16.04:${FROM_TAG}
+
 MAINTAINER Kieren Evans <kieren.evans+cp-dockerfiles@inviqa.com>
 
 RUN apt-get update -qq \

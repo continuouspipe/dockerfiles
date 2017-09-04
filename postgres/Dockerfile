@@ -1,4 +1,5 @@
-FROM couchdb:1.6
+ARG FROM_TAG
+FROM postgres:${FROM_TAG}
 
 MAINTAINER "Kieren Evans <kieren.evans+cp-dockerfiles@inviqa.com>"
 
@@ -10,4 +11,4 @@ RUN apt-get update -qq \
  # Clean the image \
  && apt-get autoremove -qq \
  && apt-get clean \
- && rm -rf /var/lib/apt/lists/* \
+ && rm -rf /var/lib/apt/lists/*

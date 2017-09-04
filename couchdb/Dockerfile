@@ -1,4 +1,5 @@
-FROM mongo:3.4
+ARG FROM_TAG
+FROM couchdb:${FROM_TAG}
 
 MAINTAINER "Kieren Evans <kieren.evans+cp-dockerfiles@inviqa.com>"
 
@@ -10,8 +11,4 @@ RUN apt-get update -qq \
  # Clean the image \
  && apt-get autoremove -qq \
  && apt-get clean \
- && rm -rf /var/lib/apt/lists/*
-
-COPY ./usr/ /usr
-
-CMD ["/usr/local/bin/mongo-init.sh"]
+ && rm -rf /var/lib/apt/lists/* \

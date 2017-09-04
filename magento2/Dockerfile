@@ -1,4 +1,6 @@
-FROM quay.io/continuouspipe/php7.1-nginx:latest
+ARG PHP_VERSION
+ARG FROM_TAG=latest
+FROM quay.io/continuouspipe/php${PHP_VERSION}-nginx:${FROM_TAG}
 
 MAINTAINER Kieren Evans <kieren.evans+cp-dockerfiles@inviqa.com>
 
