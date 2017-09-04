@@ -11,12 +11,18 @@ pipelines:
       - second_level_dependency_images
       - first_level_dependency_images
       - no_dependency_images
+      - first_level_dependency_long_build_images
+      - no_dependency_long_build_images
     variables:
       - name: FROM_TAG
         value: 'latest'
   - name: Feature Branches
     condition: '"Ready for Review" in pull_request.labels and not(code_reference.branch in ["master"])'
-    tasks: *ALL_IMAGES
+    tasks:
+      - third_level_dependency_images
+      - second_level_dependency_images
+      - first_level_dependency_images
+      - no_dependency_images
 
 tasks:
   ##################################################
@@ -74,12 +80,6 @@ tasks:
           reuse: false
           environment:
             PHP_VERSION: '7.0'
-        php55_nginx:
-          image: quay.io/continuouspipe/eol-php5.5-nginx
-          tag: ${FROM_TAG}
-          reuse: false
-          environment:
-            PHP_FULL_VERSION: '5.5.38'
         php56_nginx:
           image: quay.io/continuouspipe/php5.6-nginx
           tag: ${FROM_TAG}
@@ -199,13 +199,6 @@ tasks:
           image: quay.io/continuouspipe/hem1
           tag: ${FROM_TAG}
           reuse: false
-        magento1_php55_nginx:
-          image: quay.io/continuouspipe/eol-magento1-nginx-php5.5
-          tag: ${FROM_TAG}
-          reuse: false
-          environment:
-            FROM_IMAGE: eol-php5.5_nginx
-            WEB_SERVER: nginx
         magento1_php56_apache:
           image: quay.io/continuouspipe/magento1-apache-php5.6
           tag: ${FROM_TAG}
@@ -400,3 +393,34 @@ tasks:
           image: quay.io/continuouspipe/tideways
           tag: ${FROM_TAG}
           reuse: false
+
+  #############################################
+  # Long Build: First level dependency images #
+  #############################################
+  first_level_dependency_long_build_images:
+    build:
+      environment:
+        FROM_TAG: ${FROM_TAG}
+      services:
+        php55_nginx:
+          image: quay.io/continuouspipe/eol-php5.5-nginx
+          tag: ${FROM_TAG}
+          reuse: false
+          environment:
+            PHP_FULL_VERSION: '5.5.38'
+  
+  ####################################
+  # Long Build: No dependency images #
+  ####################################
+  no_dependency_long_build_images:
+    build:
+      environment:
+        FROM_TAG: ${FROM_TAG}
+      services:
+        magento1_php55_nginx:
+          image: quay.io/continuouspipe/eol-magento1-nginx-php5.5
+          tag: ${FROM_TAG}
+          reuse: false
+          environment:
+            FROM_IMAGE: eol-php5.5_nginx
+            WEB_SERVER: nginx
