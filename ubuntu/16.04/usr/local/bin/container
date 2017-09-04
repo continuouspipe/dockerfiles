@@ -6,7 +6,9 @@ ARGS=( "$@" )
 
 source /usr/local/share/bootstrap/bootstrap.sh
 
-set -x
+if [ "$TASK" != "list_functions" ]; then
+  set -x
+fi
 
 if [ "$TASK" == "start" ]; then
   source /usr/local/bin/supervisor_custom_start

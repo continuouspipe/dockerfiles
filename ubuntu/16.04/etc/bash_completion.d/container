@@ -1,0 +1,16 @@
+#!/bin/bash
+
+_container() {
+  local cur
+  COMPREPLY=()
+  cur="${COMP_WORDS[COMP_CWORD]}"
+
+  case "$cur" in
+    *)
+    COMPREPLY=( $( compgen -W "$(container list_functions)" -- "$cur" ) );;
+  esac
+
+  return 0
+}
+
+complete -F _container -o filenames container

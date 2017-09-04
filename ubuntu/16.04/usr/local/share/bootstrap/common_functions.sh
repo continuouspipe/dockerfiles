@@ -252,3 +252,7 @@ function test_remote_ports() {
     timeout 1 bash -c "cat < /dev/null > /dev/tcp/${SERVICE_PARAMS[0]}/${SERVICE_PARAMS[1]}" 2>/dev/null || return 1
   done
 }
+
+function do_list_functions() {
+  compgen -A function -X '!do_**' | sed 's/^do_//'
+}
