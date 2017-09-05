@@ -1,6 +1,6 @@
-ARG PHP_VERSION
+ARG FROM_IMAGE
 ARG FROM_TAG=latest
-FROM quay.io/continuouspipe/php${PHP_VERSION}-nginx:${FROM_TAG}
+FROM quay.io/continuouspipe/${FROM_IMAGE}:${FROM_TAG}
 
 MAINTAINER Kieren Evans <kieren.evans+cp-dockerfiles@inviqa.com>
 
