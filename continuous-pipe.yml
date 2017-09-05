@@ -422,5 +422,5 @@ tasks:
           tag: ${FROM_TAG}
           reuse: false
           environment:
-            FROM_IMAGE: eol-php5.5_nginx
+            FROM_IMAGE: eol-php5.5-nginx
             WEB_SERVER: nginx
