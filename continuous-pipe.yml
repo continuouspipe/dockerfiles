@@ -8,7 +8,7 @@ pipelines:
     condition: 'code_reference.branch in ["master"]'
     tasks: &ALL_IMAGES
       - third_level_dependency_images
-      - import: second_level_dependency_images
+      - imports: second_level_dependency_images
         build:
           services:
             php55_nginx:
@@ -18,7 +18,7 @@ pipelines:
               environment:
                 PHP_FULL_VERSION: '5.5.38'
       - first_level_dependency_images
-      - import: no_dependency_images
+      - imports: no_dependency_images
         build:
           services:
             magento1_php55_nginx:
