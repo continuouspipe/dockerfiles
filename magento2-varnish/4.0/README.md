@@ -34,7 +34,7 @@ The following variables are supported
 Variable | Description | Expected values | Default
 --- | --- | --- | ----
 MAGENTO_MODE | The magento mode that the varnish template should be supporting. In "developer" mode, Varnish will not cache static assets. | developer/production | production
-PURGE_IPS | A comma or newline separated list of IP addresses, hostnames or ranges that are allowed to send HTTP PURGE requests to Varnish, to clear caches. Ranges need their IP components quoted with \" | hostname/IP/IP Range | \"172.17.0.0\"/16,\"172.20.0.0\"/16,\"10.0.0.0\"/8
+PURGE_IPS | A comma or newline separated list of IP addresses, hostnames or ranges that are allowed to send HTTP PURGE requests to Varnish, to clear caches. Ranges need their IP components quoted with \" | hostname/IP/IP Range | \"172.0.0.0\"/8,\"10.0.0.0\"/8
 MAGENTO_USE_SEPARATE_ADMIN_CONTAINER | Should a separate admin container be used for requests to /admin ? | true/false | false
 MAGENTO_ADMIN_FRONTNAME_REGEX_ESCAPED | If MAGENTO_USE_SEPARATE_ADMIN_CONTAINER is true, the admin URL "front name" that is configured for the magento application. Please escape any regular expression special characters | regex escaped string | admin
 MAGENTO_ADMIN_BACKEND_HOST | If MAGENTO_USE_SEPARATE_ADMIN_CONTAINER is true, the hostname/IP to send admin traffic to. | hostname/IP | admin
