@@ -13,6 +13,8 @@ if [ "$#" -gt 0 ]; then
   done
 fi
 
+load_env
+
 source /usr/local/share/container/plan.sh
 if [ -e "$WORK_DIRECTORY/plan.sh" ]; then
   # shellcheck source=/dev/null

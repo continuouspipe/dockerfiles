@@ -2,8 +2,6 @@
 
 source /usr/local/share/bootstrap/common_functions.sh
 
-load_env
-
 do_confd() {
   # Initialisation - Templating
   confd -onetime -backend env
