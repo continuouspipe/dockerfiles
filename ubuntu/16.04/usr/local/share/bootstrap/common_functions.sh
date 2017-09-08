@@ -272,7 +272,7 @@ function deprecate_env_var() {
 
   if [ -n "${!DEPRECATED_ENV_VAR:-}" ]; then
     echo "deprecated: $DEPRECATED_ENV_VAR is deprecated, please use $NEW_ENV_VAR instead" >&1
-    declare "$NEW_ENV_VAR=${!DEPRECATED_ENV_VAR}"
+    eval "export $NEW_ENV_VAR=${!DEPRECATED_ENV_VAR}"
   fi
 }
 
