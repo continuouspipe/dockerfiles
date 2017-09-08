@@ -279,3 +279,11 @@ function deprecate_env_var() {
 function do_list_functions() {
   compgen -A function -X '!do_**' | sed 's/^do_//'
 }
+
+function do_shell() {
+  if [ "$#" -gt 0 ]; then
+    bash "$@"
+  else
+    bash
+  fi
+}
