@@ -1,4 +1,5 @@
 #!/bin/bash
+export WEB_DIRECTORY=${WEB_DIRECTORY:-web}
 
 # Relative WEB_DIRECTORY converted to absolute path
 if ! [[ "$WEB_DIRECTORY" =~ ^/ ]]; then

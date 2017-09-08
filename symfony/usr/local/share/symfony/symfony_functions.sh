@@ -2,7 +2,8 @@
 
 do_symfony_config_create() {
   # Prepare a default parameters.yml. incenteev/parameters-handler can still update it
-  if [ ! -f /app/app/config/parameters.yml ]; then
+  if is_false "${SYMFONY_FLEX}" && [ ! -f /app/app/config/parameters.yml ]; then
+    mkdir -p /app/app/config
     echo 'parameters: {}' > /app/app/config/parameters.yml
   fi
 }
@@ -11,7 +12,6 @@ do_symfony_directory_create() {
   if [ "$SYMFONY_MAJOR_VERSION" -eq 2 ]; then
     mkdir -p /app/app/{cache,logs}
   fi
-  mkdir -p /app/app/config
   mkdir -p /app/var
 }
 

@@ -1,13 +1,44 @@
 #!/bin/bash
 
-if [ -f "${WORK_DIRECTORY}/bin/console" ]; then
+if has_composer_package 'symfony/symfony'; then
+  SYMFONY_MAJOR_VERSION_GUESS="$(composer_package_version 'symfony/symfony' | cut -d '.' -f 1)"
+elif has_composer_package 'symfony/framework-bundle'; then
+  SYMFONY_MAJOR_VERSION_GUESS="$(composer_package_version 'symfony/framework-bundle' | cut -d '.' -f 1)"
+elif [ -f "${WORK_DIRECTORY}/bin/console" ]; then
   SYMFONY_MAJOR_VERSION_GUESS=3
-  SYMFONY_CONSOLE_DEFAULT=${WORK_DIRECTORY}/bin/console
 else
   SYMFONY_MAJOR_VERSION_GUESS=2
-  SYMFONY_CONSOLE_DEFAULT=${WORK_DIRECTORY}/app/console
 fi
 
 export SYMFONY_MAJOR_VERSION=${SYMFONY_MAJOR_VERSION:-${SYMFONY_MAJOR_VERSION_GUESS}}
+
+if has_composer_package 'symfony/flex'; then
+  SYMFONY_FLEX="$(convert_to_boolean_string "${SYMFONY_FLEX:-true}")"
+else
+  SYMFONY_FLEX="$(convert_to_boolean_string "${SYMFONY_FLEX:-false}")"
+fi
+export SYMFONY_FLEX
+
+if is_true "${SYMFONY_FLEX}"; then
+    DEFAULT_APP_ENDPOINT=/index.php
+    export WEB_DIRECTORY=${WEB_DIRECTORY:-public}
+
+    if is_true "$SYMFONY_WEB_APP_ENV_REWRITE"; then
+        echo 'warning: SYMFONY_WEB_APP_ENV_REWRITE is ignored when using Symfony 4+ folder structure' >&2
+    fi
+elif [ "$SYMFONY_ENV" == "prod" ] || is_false "$SYMFONY_WEB_APP_ENV_REWRITE"; then
+    DEFAULT_APP_ENDPOINT=/app.php
+else
+    DEFAULT_APP_ENDPOINT=/app_${SYMFONY_ENV}.php
+fi
+
+export APP_ENDPOINT_STRICT=${APP_ENDPOINT_STRICT:-true}
+export APP_ENDPOINT=${SYMFONY_APP_ENDPOINT:-${APP_ENDPOINT:-${DEFAULT_APP_ENDPOINT}}}
+
+if [ "${SYMFONY_MAJOR_VERSION}" -ge 3 ]; then
+  SYMFONY_CONSOLE_DEFAULT=${WORK_DIRECTORY}/bin/console
+else
+  SYMFONY_CONSOLE_DEFAULT=${WORK_DIRECTORY}/app/console
+fi
+
 export SYMFONY_CONSOLE=${SYMFONY_CONSOLE:-${SYMFONY_CONSOLE_DEFAULT}}
-export SYMFONY_DOCTRINE_MODE=auto
