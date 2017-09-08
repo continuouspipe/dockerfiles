@@ -159,7 +159,6 @@ do_start() {
   :
 }
 
-
 do_user_ssh_keys() (
   set +x
   local SSH_USER="$1"
@@ -217,6 +216,20 @@ function do_clear_apt_caches() {
   rm -rf /var/lib/apt/lists/*
 }
 
+function canonical_port() {
+  local PORT="$1"
+  if [[ $PORT =~ tcp://[^:]+:([0-9]+) ]]; then
+    PORT="${BASH_REMATCH[1]}"
+  fi
+
+  if [[ "$PORT" =~ [^0-9] ]] || [[ "$PORT" -lt 1 ]] || [[ "$PORT" -gt 65535 ]]; then
+    echo "Invalid Port specified for $VAR_NAME: '$PORT'"
+    exit 1
+  fi
+
+  echo "$PORT"
+}
+
 function wait_for_remote_ports() (
   set +x
 
@@ -251,6 +264,16 @@ function test_remote_ports() {
 
     timeout 1 bash -c "cat < /dev/null > /dev/tcp/${SERVICE_PARAMS[0]}/${SERVICE_PARAMS[1]}" 2>/dev/null || return 1
   done
+}
+
+function deprecate_env_var() {
+  local -r DEPRECATED_ENV_VAR="$1"
+  local -r NEW_ENV_VAR="$2"
+
+  if [ -n "${!DEPRECATED_ENV_VAR:-}" ]; then
+    echo "deprecated: $DEPRECATED_ENV_VAR is deprecated, please use $NEW_ENV_VAR instead" >&1
+    eval "export $NEW_ENV_VAR=${!DEPRECATED_ENV_VAR}"
+  fi
 }
 
 function do_list_functions() {
