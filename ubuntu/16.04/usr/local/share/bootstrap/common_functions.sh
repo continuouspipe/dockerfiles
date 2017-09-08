@@ -256,3 +256,11 @@ function test_remote_ports() {
 function do_list_functions() {
   compgen -A function -X '!do_**' | sed 's/^do_//'
 }
+
+function do_shell() {
+  if [ "$#" -gt 0 ]; then
+    bash "$@"
+  else
+    bash
+  fi
+}
