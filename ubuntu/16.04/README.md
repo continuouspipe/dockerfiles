@@ -142,6 +142,15 @@ For Docker, variables can be passed in by docker-compose.yml, the Dockerfile, or
 
 The default which is after the ":-" will be used if no value for the variable name has been given.
 
+##### Debugging variables
+
+You can use the shell function from common_functions.sh to access a bash session which has all the environment variables declared.
+To do so, run the following:
+```bash
+container shell -c 'env'
+```
+Or if you run `container shell` by itself then you can stay in the session.
+
 #### How to name your variables file
 
 The files in the env folder are evaluated in alpha-numerical order, meaning the same order as when you list them in the directory.
@@ -226,4 +235,3 @@ These functions can be triggered via the /usr/local/bin/container command, dropp
 
 /usr/local/bin/container build # runs do_build
 /usr/local/bin/container start_supervisord # runs do_start_supervisord
-

@@ -11,6 +11,11 @@ function do_composer_config() {
   fi
 }
 
+function do_composer_pre_install() {
+  mkdir -p /app/bin
+  chown -R "${CODE_OWNER}:${CODE_GROUP}" /app/bin
+}
+
 function do_composer_post_install() {
   if [ -f /app/bin/magento ]; then
     chmod +x /app/bin/magento
@@ -18,13 +23,13 @@ function do_composer_post_install() {
 }
 
 function do_magento_create_web_writable_directories() {
-  mkdir -p pub/media pub/static var/log var/report var/generation
+  mkdir -p pub/media pub/static var/log var/report var/generation generated
 
   if [ "$IS_CHOWN_FORBIDDEN" != 'true' ]; then
-    chown -R "${APP_USER}:${CODE_GROUP}" pub/media pub/static var
-    chmod -R ug+rw,o-w pub/media pub/static var
+    chown -R "${APP_USER}:${CODE_GROUP}" pub/media pub/static var generated
+    chmod -R ug+rw,o-w pub/media pub/static var generated
   else
-    chmod -R a+rw pub/media pub/static var
+    chmod -R a+rw pub/media pub/static var generated
   fi
 }
 
@@ -60,9 +65,9 @@ function do_magento_install_custom() {
 
 function do_magento_switch_web_writable_directories_to_code_owner() {
   if [ "$IS_CHOWN_FORBIDDEN" != 'true' ]; then
-    chown -R "${CODE_OWNER}":"${CODE_GROUP}" pub/media pub/static var
+    chown -R "${CODE_OWNER}":"${CODE_GROUP}" pub/media pub/static var generated
   else
-    chmod a+rw pub/media pub/static var
+    chmod a+rw pub/media pub/static var generated
   fi
 }
 
@@ -131,19 +136,19 @@ function do_magento_clear_redis_cache() {
   fi
 
   local REDIS_HOST="$REDIS_HOST"
-  local REDIS_HOST_PORT="$REDIS_HOST_PORT"
+  local REDIS_PORT="$REDIS_PORT"
 
   if [ "$REDIS_USE_SENTINEL" == "true" ]; then
     local MASTER_REDIS_DETAILS
     MASTER_REDIS_DETAILS="$(redis-cli -h "$REDIS_SENTINEL_SERVICE_HOST" -p "$REDIS_SENTINEL_SERVICE_PORT" --csv SENTINEL get-master-addr-by-name "$REDIS_SENTINEL_MASTER" | tr ',' ' ')"
     REDIS_HOST="$(echo "$MASTER_REDIS_DETAILS" | cut -d' ' -f1)"
     REDIS_HOST="${REDIS_HOST//\"}"
-    REDIS_HOST_PORT="$(echo "$MASTER_REDIS_DETAILS" | cut -d' ' -f2)"
-    REDIS_HOST_PORT="${REDIS_HOST_PORT//\"}"
+    REDIS_PORT="$(echo "$MASTER_REDIS_DETAILS" | cut -d' ' -f2)"
+    REDIS_PORT="${REDIS_PORT//\"}"
   fi
 
-  redis-cli -h "$REDIS_HOST" -p "$REDIS_HOST_PORT" -n "$MAGENTO_REDIS_CACHE_DATABASE" "FLUSHDB"
-  redis-cli -h "$REDIS_HOST" -p "$REDIS_HOST_PORT" -n "$MAGENTO_REDIS_FULL_PAGE_CACHE_DATABASE" "FLUSHDB"
+  redis-cli -h "$REDIS_HOST" -p "$REDIS_PORT" -n "$MAGENTO_REDIS_CACHE_DATABASE" "FLUSHDB"
+  redis-cli -h "$REDIS_HOST" -p "$REDIS_PORT" -n "$MAGENTO_REDIS_FULL_PAGE_CACHE_DATABASE" "FLUSHDB"
 }
 
 function do_magento_cache_flush() {
@@ -202,6 +207,9 @@ function do_magento_database_create() {
 
 function do_magento_database_install() (
   set +x
+  if [ "${DATABASE_HOST}" != "localhost" ]; then
+    wait_for_remote_ports "30" "${DATABASE_HOST}:${DATABASE_PORT}"
+  fi
   if [ -f "$DATABASE_ARCHIVE_PATH" ]; then
     do_magento_drop_database
 
@@ -224,6 +232,9 @@ function do_magento_database_install() (
 
 function do_magento_installer_install() (
   set +x
+  if [ "${DATABASE_HOST}" != "localhost" ]; then
+    wait_for_remote_ports "30" "${DATABASE_HOST}:${DATABASE_PORT}"
+  fi
   do_magento_wait_for_database
   do_magento_drop_database
 
@@ -232,26 +243,33 @@ function do_magento_installer_install() (
 
   if [ "$DATABASE_EXISTS" != "true" ]; then
     do_magento_database_create
-
-    echo 'Install Magento 2 via the Installer'
-    chmod +x bin/magento
-    as_code_owner "bin/magento setup:install --base-url='$PUBLIC_ADDRESS' \
-      --db-host='$DATABASE_HOST' \
-      --db-name='$DATABASE_NAME' \
-      --db-user='$DATABASE_USER' \
-      --db-password='$DATABASE_PASSWORD' \
-      --admin-firstname=Admin \
-      --admin-lastname=Demo \
-      --admin-user='${MAGENTO_ADMIN_USERNAME:-admin}' \
-      --admin-password='${MAGENTO_ADMIN_PASSWORD:-admin123}' \
-      --admin-email='${MAGENTO_ADMIN_EMAIL:-admin@example.com}' \
-      --language=en_GB \
-      --currency=GBP \
-      --timezone=Europe/London \
-      --use-rewrites=1 \
-      --session-save=db"
+    do_magento_clear_redis_cache
+    magento_installer_install
   fi
 )
+
+function magento_installer_install() {
+  echo 'Install Magento 2 via the Installer'
+  chmod +x bin/magento
+  local INSTALL_COMMAND="bin/magento setup:install --base-url='$PUBLIC_ADDRESS' \
+    --db-host='$DATABASE_HOST' \
+    --db-name='$DATABASE_NAME' \
+    --db-user='$DATABASE_USER' \
+    --admin-firstname=Admin \
+    --admin-lastname=Demo \
+    --admin-user='${MAGENTO_ADMIN_USERNAME:-admin}' \
+    --admin-password='${MAGENTO_ADMIN_PASSWORD:-admin123}' \
+    --admin-email='${MAGENTO_ADMIN_EMAIL:-admin@example.com}' \
+    --language=en_GB \
+    --currency=GBP \
+    --timezone=Europe/London \
+    --use-rewrites=1 \
+    --session-save=db"
+  if [ -n "$DATABASE_PASSWORD" ]; then
+    INSTALL_COMMAND="${INSTALL_COMMAND} --db-password='${DATABASE_PASSWORD}'"
+  fi
+  as_code_owner "$INSTALL_COMMAND"
+}
 
 function do_magento_wait_for_database() {
   if [ "$DATABASE_HOST" != 'localhost' ]; then
@@ -369,6 +387,7 @@ function do_magento_download_magerun2() {
 
 function do_magento2_templating() {
   mkdir -p /app/app/etc/
+  chown -R "${CODE_OWNER}:${CODE_GROUP}" /app/app/
 }
 
 function do_magento_catalog_image_resize() {

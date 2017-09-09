@@ -8,15 +8,39 @@ pipelines:
     condition: 'code_reference.branch in ["master"]'
     tasks: &ALL_IMAGES
       - third_level_dependency_images
-      - second_level_dependency_images
+      - imports: second_level_dependency_images
+        build:
+          services:
+            php55_nginx:
+              image: quay.io/continuouspipe/eol-php5.5-nginx
+              tag: ${FROM_TAG}
+              reuse: false
+              build_directory: ./php/
+              docker_file_path: ./Dockerfile-nginx-phpsource
+              environment:
+                PHP_FULL_VERSION: '5.5.38'
       - first_level_dependency_images
-      - no_dependency_images
+      - imports: no_dependency_images
+        build:
+          services:
+            magento1_php55_nginx:
+              image: quay.io/continuouspipe/eol-magento1-nginx-php5.5
+              tag: ${FROM_TAG}
+              reuse: false
+              build_directory: ./magento1/
+              environment:
+                FROM_IMAGE: eol-php5.5-nginx
+                WEB_SERVER: nginx
     variables:
       - name: FROM_TAG
         value: 'latest'
   - name: Feature Branches
     condition: '"Ready for Review" in pull_request.labels and not(code_reference.branch in ["master"])'
-    tasks: *ALL_IMAGES
+    tasks:
+      - third_level_dependency_images
+      - second_level_dependency_images
+      - first_level_dependency_images
+      - no_dependency_images
 
 tasks:
   ##################################################
@@ -74,12 +98,6 @@ tasks:
           reuse: false
           environment:
             PHP_VERSION: '7.0'
-        php55_nginx:
-          image: quay.io/continuouspipe/eol-php5.5-nginx
-          tag: latest
-          reuse: false
-          environment:
-            PHP_FULL_VERSION: '5.5.38'
         php56_nginx:
           image: quay.io/continuouspipe/php5.6-nginx
           tag: ${FROM_TAG}
@@ -199,40 +217,33 @@ tasks:
           image: quay.io/continuouspipe/hem1
           tag: ${FROM_TAG}
           reuse: false
-        magento1_php55_nginx:
-          image: quay.io/continuouspipe/eol-magento1-nginx-php5.5
-          tag: latest
-          reuse: false
-          environment:
-            FROM_IMAGE: eol-php5.5_nginx
-            WEB_SERVER: nginx
         magento1_php56_apache:
           image: quay.io/continuouspipe/magento1-apache-php5.6
           tag: ${FROM_TAG}
           reuse: false
           environment:
-            FROM_IMAGE: php5.6_apache
+            FROM_IMAGE: php5.6-apache
             WEB_SERVER: apache
         magento1_php56_nginx:
           image: quay.io/continuouspipe/magento1-nginx-php5.6
           tag: ${FROM_TAG}
           reuse: false
           environment:
-            FROM_IMAGE: php5.6_nginx
+            FROM_IMAGE: php5.6-nginx
             WEB_SERVER: nginx
         magento2_php70_nginx:
           image: quay.io/continuouspipe/magento2-nginx-php7
           tag: ${FROM_TAG}
           reuse: false
           environment:
-            FROM_IMAGE: php7_nginx
+            FROM_IMAGE: php7-nginx
             WEB_SERVER: nginx
         magento2_php71_nginx:
           image: quay.io/continuouspipe/magento2-nginx-php7.1
           tag: ${FROM_TAG}
           reuse: false
           environment:
-            FROM_IMAGE: php7.1_nginx
+            FROM_IMAGE: php7.1-nginx
             WEB_SERVER: nginx
         magento2_varnish:
           image: quay.io/continuouspipe/magento2-varnish4

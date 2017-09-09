@@ -133,7 +133,7 @@ services:
     build:
       context: ./magento2/
       args:
-        PHP_VERSION: '7'
+        FROM_IMAGE: 'php7-nginx'
     image: quay.io/continuouspipe/magento2-nginx-php7:latest
     depends_on:
       - php70_nginx
@@ -142,7 +142,7 @@ services:
     build:
       context: ./magento2/
       args:
-        PHP_VERSION: '7.1'
+        FROM_IMAGE: 'php7.1-nginx'
     image: quay.io/continuouspipe/magento2-nginx-php7.1:latest
     depends_on:
       - php71_nginx
