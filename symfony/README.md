@@ -70,13 +70,14 @@ The following variables are supported
 
 Variable | Description | Expected values | Default
 --- | --- | --- | ----
+SYMFONY_DOCTRINE_MODE | Whether to use Doctrine migrations, schema update or nothing. Automatically detected based on installed composer packages by default | auto/migrations/schema/off | auto
 SYMFONY_ENV | The Symfony env to use, when the app reads this variable | string | prod
 SYMFONY_MAJOR_VERSION | The major version of Symfony that will be used | 2, 3 | auto-detected based on location of console script
 SYMFONY_CONSOLE | The location of the Symfony console script | file path | auto-detected
 SYMFONY_WEB_APP_ENV_REWRITE | Whether to use web/app_*.php when SYMFONY_ENV != prod | true, false | false
 APP_ENDPOINT | The uri of the web application php endpoint | domain relative uri | auto-detected based on SYMFONY_ENV and SYMFONY_WEB_APP_ENV_REWRITE
 APP_ENDPOINT_REWRITE | Determines whether to redirect urls that don't match webroot files to the APP_ENDPOINT | true/false | true
-APP_ENDPOINT_REGEX | A regex used to define allowed application endpoints, see [site_phpfpm.conf.tmpl](https://github.com/continuouspipe/dockerfiles/blob/master/php-nginx/etc/confd/templates/nginx/site_phpfpm.conf.tmpl#L1) | string | auto-detected
+APP_ENDPOINT_REGEX | A regex used to define allowed application endpoints, see [site_phpfpm.conf.tmpl](https://github.com/continuouspipe/dockerfiles/blob/master/php/nginx/etc/confd/templates/nginx/site_phpfpm.conf.tmpl#L1) | string | auto-detected
 APP_ENDPOINT_STRICT | Restricts allowed application endpoints to only that of the APP_ENDPOINT environment variable | true/false | true
 
 The following variables have had their defaults changed from the php-nginx image so that Symfony runs better:
@@ -98,8 +99,8 @@ This allows you to define and override bash functions that the base images add.
 
 In addition to the bash functions defined in this base image's parent images:
 * [the base image functions](../ubuntu/16.04/README.md#custom-build-and-startup-scripts)
-* either [the php-nginx image functions](../php-nginx/README.md#custom-build-and-startup-scripts)
-* or [the php-apache image functions](../php-apache/README.md#custom-build-and-startup-scripts)
+* either [the php-nginx image functions](../php/nginx/README.md#custom-build-and-startup-scripts)
+* or [the php-apache image functions](../php/apache/README.md#custom-build-and-startup-scripts)
 
 This base image adds the following bash functions:
 

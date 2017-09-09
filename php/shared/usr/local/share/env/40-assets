@@ -1,0 +1,40 @@
+#!/bin/bash
+
+if [ -n "${ASSETS_ENV:-}" ]; then
+  export ASSETS_PATH="${ASSETS_PATH:-tools/assets/${ASSETS_ENV}}"
+
+  if [ -n "${ASSETS_S3_BUCKET:-}" ]; then
+    export ASSETS_S3_BUCKET_PATH="${ASSETS_S3_BUCKET_PATH:-s3://${ASSETS_S3_BUCKET}/${ASSETS_ENV}}"
+  fi
+fi
+
+export DATABASE_PLATFORM=${DATABASE_PLATFORM:-mysql}
+
+case "${DATABASE_PLATFORM}" in
+  mysql)
+    DATABASE_DEFAULT_PORT=3306
+    ;;
+  postgres)
+    DATABASE_DEFAULT_PORT=5432
+    ;;
+esac
+
+DATABASE_PORT="$(canonical_port "${DATABASE_PORT:-${DATABASE_DEFAULT_PORT}}")"
+export DATABASE_PORT
+
+export ASSETS_S3_EXCLUDE_PATTERN=${ASSETS_S3_EXCLUDE_PATTERN:-}
+
+ASSETS_CLEANUP="$(convert_to_boolean_string "${ASSETS_CLEANUP:-true}")"
+export ASSETS_CLEANUP
+
+ASSETS_DATABASE_ENABLED="$(convert_to_boolean_string "${ASSETS_DATABASE_ENABLED:-true}")"
+export ASSETS_DATABASE_ENABLED
+
+export ASSETS_DATABASE_PATTERN="${ASSETS_DATABASE_PATTERN:-/([^/\.]+)(\.[^/]*)?\.sql(\.(gz|bz2))?$}"
+export ASSETS_DATABASE_NAME_CAPTURE_GROUP="${ASSETS_DATABASE_NAME_CAPTURE_GROUP:-1}"
+export ASSETS_DATABASE_WAIT_TIMEOUT="${ASSETS_DATABASE_WAIT_TIMEOUT:-10}"
+
+ASSETS_FILES_ENABLED="$(convert_to_boolean_string "${ASSETS_FILES_ENABLED:-true}")"
+export ASSETS_FILES_ENABLED
+
+export ASSETS_FILES_PATTERN="${ASSETS_FILES_PATTERN:-/([^/]*)\.files\.(tgz|tar|tar\.gz|tar\.bz2)$}"

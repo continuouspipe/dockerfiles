@@ -38,7 +38,7 @@ get_user_home_directory() {
   getent passwd "$USER" | cut -d: -f 6
 }
 
-as_user() {
+as_user() (
   set +x
   local COMMAND="$1"
   local WORKING_DIR="$2"
@@ -55,28 +55,36 @@ as_user() {
   USER_HOME="$(get_user_home_directory "$USER")"
   set -x
   sudo -u "$USER" -E HOME="$USER_HOME" /bin/bash -c "cd '$WORKING_DIR'; $COMMAND"
-}
+)
 
-as_build() {
+as_build() (
   set +x
   as_user "$1" "$2" 'build'
-}
+)
 
-as_code_owner() {
+as_code_owner() (
   set +x
   as_user "$1" "$2" "$CODE_OWNER"
-}
+)
 
-as_app_user() {
+as_app_user() (
   set +x
   as_user "$1" "$2" "$APP_USER"
-}
+)
 
 convert_exit_code_to_string() {
   if [ "$1" -eq 0 ]; then
     echo 'true';
   else
     echo 'false';
+  fi
+}
+
+run_return_boolean() {
+  if "$@"; then
+    echo 'true'
+  else
+    echo 'false'
   fi
 }
 
@@ -98,31 +106,43 @@ convert_to_boolean_string_zero_is_true() {
   fi
 }
 
+is_true() {
+  case "$1" in
+  true|1)
+    return 0;
+    ;;
+  esac
+  return 1;
+}
+
+is_false() {
+  case "$1" in
+  true|1)
+    return 1;
+    ;;
+  esac
+  return 0;
+}
+
 is_hem_project() {
-  local RESULT=1
-  if [ -f /app/tools/hem/config.yaml ] || [ -f /app/tools/hobo/config.yaml ]; then
-    RESULT=0
-  fi
-  convert_exit_code_to_string "$RESULT"
+  [ -f /app/tools/hem/config.yaml ] || [ -f /app/tools/hobo/config.yaml ]
+  return "$?"
 }
 
 is_app_mountpoint() {
   grep -q -E "/app (nfs|vboxsf|fuse\\.osxfs)" /proc/mounts
-  local RESULT="$?"
-  convert_exit_code_to_string "$RESULT"
+  return "$?"
 }
 
 is_chown_forbidden() {
   # Determine if the app directory is an NFS mountpoint, which doesn't allow chowning.
   grep -q -E "/app (nfs|vboxsf)" /proc/mounts
-  local RESULT="$?"
-  convert_exit_code_to_string "$RESULT"
+  return "$?"
 }
 
 is_vboxsf_mountpoint() {
   grep -q "/app vboxsf" /proc/mounts
-  local RESULT="$?"
-  convert_exit_code_to_string "$RESULT"
+  return "$?"
 }
 
 alias_function() {
@@ -139,8 +159,7 @@ do_start() {
   :
 }
 
-
-do_user_ssh_keys() {
+do_user_ssh_keys() (
   set +x
   local SSH_USER="$1"
   if [ -z "$SSH_USER" ]; then
@@ -173,8 +192,7 @@ do_user_ssh_keys() {
     unset SSH_PUBLIC_KEY
     unset SSH_KNOWN_HOSTS
   fi
-  set -x
-}
+)
 
 function do_enable_tracing() {
   export PS4='$(date "+%s.%N ($LINENO) + ")'
@@ -198,7 +216,21 @@ function do_clear_apt_caches() {
   rm -rf /var/lib/apt/lists/*
 }
 
-function wait_for_remote_ports() {
+function canonical_port() {
+  local PORT="$1"
+  if [[ $PORT =~ tcp://[^:]+:([0-9]+) ]]; then
+    PORT="${BASH_REMATCH[1]}"
+  fi
+
+  if [[ "$PORT" =~ [^0-9] ]] || [[ "$PORT" -lt 1 ]] || [[ "$PORT" -gt 65535 ]]; then
+    echo "Invalid Port specified for $VAR_NAME: '$PORT'"
+    exit 1
+  fi
+
+  echo "$PORT"
+}
+
+function wait_for_remote_ports() (
   set +x
 
   local -r TIMEOUT=$1
@@ -218,9 +250,7 @@ function wait_for_remote_ports() {
     fi
     sleep "${INTERVAL}"
   done
-
-  set -x
-}
+)
 
 function test_remote_ports() {
   local SERVICE
@@ -234,4 +264,26 @@ function test_remote_ports() {
 
     timeout 1 bash -c "cat < /dev/null > /dev/tcp/${SERVICE_PARAMS[0]}/${SERVICE_PARAMS[1]}" 2>/dev/null || return 1
   done
+}
+
+function deprecate_env_var() {
+  local -r DEPRECATED_ENV_VAR="$1"
+  local -r NEW_ENV_VAR="$2"
+
+  if [ -n "${!DEPRECATED_ENV_VAR:-}" ]; then
+    echo "deprecated: $DEPRECATED_ENV_VAR is deprecated, please use $NEW_ENV_VAR instead" >&1
+    eval "export $NEW_ENV_VAR=${!DEPRECATED_ENV_VAR}"
+  fi
+}
+
+function do_list_functions() {
+  compgen -A function -X '!do_**' | sed 's/^do_//'
+}
+
+function do_shell() {
+  if [ "$#" -gt 0 ]; then
+    bash "$@"
+  else
+    bash
+  fi
 }

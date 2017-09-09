@@ -47,14 +47,13 @@ do_spryker_app_permissions() {
   fi
 }
 
-do_spryker_config_create() {
+do_spryker_config_create() (
   set +x
   echo "Creating Postgres Credentials file in /root/.pgpass"
   # create .pgpass in home directory for postgres client
   echo "$DATABASE_HOST:*:*:$DATABASE_USER:$DATABASE_PASSWORD" > /root/.pgpass
   chmod 0600 /root/.pgpass
-  set -x
-}
+)
 
 do_spryker_build() {
   do_spryker_directory_create
@@ -120,6 +119,7 @@ do_spryker_install() {
     do_spryker_import_demodata
     do_spryker_product_label_relations_update
     do_spryker_setup_search
+    do_spryker_app_permissions
     do_spryker_run_collectors
   fi
 }
@@ -129,8 +129,8 @@ do_spryker_migrate() {
 }
 
 do_spryker_run_collectors() {
-  as_code_owner "vendor/bin/console collector:search:export"
-  as_code_owner "vendor/bin/console collector:storage:export"
+  as_app_user "vendor/bin/console collector:search:export"
+  as_app_user "vendor/bin/console collector:storage:export"
 }
 
 do_spryker_propel_install() {
@@ -167,3 +167,12 @@ do_spryker_hosts() {
         echo "127.0.0.1 zed $ZED_HOST $YVES_HOST" >> /etc/hosts
     fi
 }
+
+do_spryker_console() (
+  set +x
+  if [ "$#" -gt 0 ]; then
+    as_app_user "vendor/bin/console $(printf "%q " "$@")"
+  else
+    as_app_user "vendor/bin/console"
+  fi
+)

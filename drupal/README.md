@@ -63,13 +63,7 @@ DATABASE_ADMIN_USER | Optional MySQL database password to perform DBA operations
 DATABASE_ADMIN_PASSWORD | Optional MySQL database password to perform DBA operations, DATABASE_PASSWORD will be used if not specified | - | -
 DATABASE_PREFIX | A prefix to apply to the tables in the database, if the database is being shared with other technology | string | empty
 DATABASE_HOST | The database hostname to connect to | string | database
-DATABASE_HOST_PORT | The port to connect to on the database host | 1-65535 | 3306
-DRUPAL_DATABASE_NAME | Deprecated - set to DATABASE_NAME automatically | string | The value of DATABASE_NAME
-DRUPAL_DATABASE_USERNAME | Deprecated - set to DRUPAL_DATABASE_USERNAME automatically | string | The value of DATABASE_USER
-DRUPAL_DATABASE_PASSWORD | Deprecated - set to DRUPAL_DATABASE_PASSWORD automatically | string | The value of DATABASE_PASSWORD
-DRUPAL_DATABASE_PREFIX | Deprecated - set to DRUPAL_DATABASE_PREFIX automatically | string | The value of DATABASE_PREFIX
-DRUPAL_DATABASE_HOST | Deprecated - set to DRUPAL_DATABASE_HOST automatically | string | The value of DATABASE_HOST
-DRUPAL_DATABASE_PORT | Deprecated - set to DRUPAL_DATABASE_PORT automatically | 1-65535 | The value of DATABASE_HOST_PORT
+DATABASE_PORT | The port to connect to on the database host | 1-65535 | 3306
 DRUPAL_DRUSH_ALIAS | The alias to apply to most drush commands, see /usr/local/share/drupal/drupal_functions.sh | string | empty
 INSTALL_DRUPAL | Should Drupal be installed as part of the "setup" step? | true/false | true
 DRUPAL_INSTALL_PROFILE | Profile to install drupal with, if INSTALL_DRUPAL is true | string | standard
@@ -108,7 +102,7 @@ This allows you to define and override bash functions that the base images add.
 
 In addition to the bash functions defined in this base image's parent images:
 [the base image functions](../../ubuntu/16.04/README.md#custom-build-and-startup-scripts)
-[the php-apache image functions](../../php-apache/README.md#custom-build-and-startup-scripts)
+[the php-apache image functions](../../php/apache/README.md#custom-build-and-startup-scripts)
 
 This base image adds the following bash functions:
 

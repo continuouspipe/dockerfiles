@@ -52,8 +52,8 @@ This allows you to define and override bash functions that the base images add.
 
 In addition to the bash functions defined in this base image's parent images:
 * [the base image functions](../../ubuntu/16.04/README.md#custom-build-and-startup-scripts)
-* [the php-nginx image functions](../../php-nginx/README.md#custom-build-and-startup-scripts)
-* [the php-apache image functions](../../php-apache/README.md#custom-build-and-startup-scripts)
+* [the php-nginx image functions](../../php/nginx/README.md#custom-build-and-startup-scripts)
+* [the php-apache image functions](../../php/apache/README.md#custom-build-and-startup-scripts)
 
 This base image adds the following bash functions:
 
@@ -76,15 +76,16 @@ Variable | Description | Expected values | Default
 --- | --- | --- | ----
 PHP_MEMORY_LIMIT | PHP memory limit | - | 768M
 PRODUCTION_ENVIRONMENT | If true, magento DI will be compiled | true/false | false
-APP_HOSTNAME | Web server's host name | \<projectname\>.docker | magento.docker
-PUBLIC_ADDRESS | Magento base URL. Note that an underscore should not be used due to magento admin login using PHP's filter_var to check for domain validity. "_" is not a valid character in a domain name. |  https://\<projectname\>.docker/ | https://magento.docker/
+WEB_HOST | Web server's host name | \<projectname\>.docker | magento.docker
+PUBLIC_ADDRESS_UNSECURE | Magento unsecure base URL. Note that an underscore should not be used due to magento admin login using PHP's filter_var to check for domain validity. "_" is not a valid character in a domain name. |  https://\<projectname\>.docker/ | https://$WEB_HOST/
+PUBLIC_ADDRESS_SECURE | Magento secure base URL. Note that an underscore should not be used due to magento admin login using PHP's filter_var to check for domain validity. "_" is not a valid character in a domain name. |  https://\<projectname\>.docker/ | https://$WEB_HOST/
 FORCE_DATABASE_DROP | Drops the existing database before importing from assets | true/false | false
 DATABASE_NAME | Magento database name | - | magentodb
 DATABASE_USER | Magento database user | - | magento
 DATABASE_PASSWORD | Magento database password | - | magento
 DATABASE_ADMIN_USER | Optional MySQL database password to perform DBA operations, DATABASE_USER will be used if not specified | - | -
 DATABASE_ADMIN_PASSWORD | Optional MySQL database password to perform DBA operations, DATABASE_PASSWORD will be used if not specified | - | -
-DATABASE_HOST | Magneto database host | - | database
+DATABASE_HOST | Magento database host | - | database
 ADDITIONAL_SETUP_SQL | Any additional SQL query which should be executed after database import (changing base URLs and setting varnish host/port is added by default) | SQL Query | -
 FRONTEND_INSTALL_DIRECTORY | NPM modules will be installed within this directory (if it exists) | absolute path (normally we mount the source at /app) | /app/tools/inviqa
 FRONTEND_BUILD_DIRECTORY | Gulp command will be executed within this directory (if it exists) | absolute path (normally we mount the source at /app) | /app/tools/inviqa
@@ -94,12 +95,14 @@ MAGENTO_MODE | Used to set Magento mode. If set to "production", static contents
 MAGENTO_RUN_CODE_MAPPING | Mapped to http_host and default store name. First part of the value is the host name and second part is magento's store code (separated by space). Don't forget to add ";" at the end. | - | magento_web.docker default;
 FRONTEND_COMPILE_LANGUAGES | Used during static content deployment. It can be multiple language codes. | language code(s) separated by space | en_GB
 MAGENTO_DEPENDENCY_INJECTION_COMPILE_COMMAND | Magento DI compile command | - | bin/magento setup:di:compile
-MAGENTO_CRYPT_KEY | Magneto crypt key | - | -
+MAGENTO_CRYPT_KEY | Magento crypt key | - | -
 COMPOSER_CUSTOM_CONFIG_COMMAND | Used to set any custom composer configuration, will be executed before composer install | composer config .. | -
 REDIS_HOST | Redis host name (to store cache and sessions) | - | redis
-REDIS_HOST_PORT | Redis port | port number | 6379
+REDIS_PORT | Redis port | port number | 6379
 MAGENTO_REDIS_CACHE_DATABASE | Redis database number to store block cache | database number | 0
 MAGENTO_REDIS_FULL_PAGE_CACHE_DATABASE | Redis database number to store full page cache | database number | 1
 MAGENTO_REDIS_SESSION_DATABASE | Redis database number to store sessions | database number | 2
 MAGENTO_ADMIN_FRONTNAME | Magento backend frontname | - | admin
+MEMCACHED_HOST | Hostname of the memcached storage for magento sessions | - | memcached
+MEMCACHED_PORT | Port of the memcached storage for magento sessions | 1-65535 | 11211
 START_MODE | Start in "web" mode to serve a site, or "cron" mode to run the cron | (web|cron) | web

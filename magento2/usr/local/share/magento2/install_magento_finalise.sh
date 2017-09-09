@@ -15,7 +15,7 @@ fi
 cd /app || exit 1
 
 set +e
-IS_CHOWN_FORBIDDEN="$(is_chown_forbidden)"
+IS_CHOWN_FORBIDDEN="$(run_return_boolean is_chown_forbidden)"
 set -e
 
 if [ "$IS_CHOWN_FORBIDDEN" != 'true' ]; then
@@ -31,8 +31,8 @@ if [ -d pub/static/frontend/ ]; then
 fi
 
 rm -rf var/generation/*
-redis-cli -h "$REDIS_HOST" -p "$REDIS_HOST_PORT" -n "$MAGENTO_REDIS_CACHE_DATABASE" "FLUSHDB"
-redis-cli -h "$REDIS_HOST" -p "$REDIS_HOST_PORT" -n "$MAGENTO_REDIS_FULL_PAGE_CACHE_DATABASE" "FLUSHDB"
+redis-cli -h "$REDIS_HOST" -p "$REDIS_PORT" -n "$MAGENTO_REDIS_CACHE_DATABASE" "FLUSHDB"
+redis-cli -h "$REDIS_HOST" -p "$REDIS_PORT" -n "$MAGENTO_REDIS_FULL_PAGE_CACHE_DATABASE" "FLUSHDB"
 as_code_owner "bin/magento setup:upgrade"
 
 if [ -d /tmp/assets/ ]; then
@@ -57,10 +57,7 @@ fi
 # (sad that we have to do that tho...)
 
 # Download the static assets
-set +e
-IS_HEM="$(is_hem_project)"
-set -e
-if [ "$IS_HEM" == 'true' ]; then
+if is_hem_project; then
   export HEM_RUN_ENV="${HEM_RUN_ENV:-local}"
   for asset_env in $ASSET_DOWNLOAD_ENVIRONMENTS; do
     as_build "hem --non-interactive --skip-host-checks assets download -e $asset_env"

@@ -4,7 +4,8 @@ services:
   couchdb16:
     build:
       context: ./couchdb/
-      dockerfile: Dockerfile-1.6
+      args:
+        FROM_TAG: '1.6'
     image: quay.io/continuouspipe/couchdb1.6:latest
     depends_on:
       - external_couchdb16
@@ -12,7 +13,8 @@ services:
   drupal_php71_apache:
     build:
       context: ./drupal/
-      dockerfile: Dockerfile-php7.1
+      args:
+        PHP_VERSION: '7.1'
     image: quay.io/continuouspipe/drupal-php7.1-apache:latest
     depends_on:
       - php71_apache
@@ -20,7 +22,8 @@ services:
   drupal_php70_apache:
     build:
       context: ./drupal/
-      dockerfile: Dockerfile-php7
+      args:
+        PHP_VERSION: '7'
     image: quay.io/continuouspipe/drupal-php7-apache:latest
     depends_on:
       - php70_apache
@@ -28,7 +31,8 @@ services:
   drupal8_apache_php7:
     build:
       context: ./drupal/
-      dockerfile: Dockerfile-php7
+      args:
+        PHP_VERSION: '7'
     image: quay.io/continuouspipe/drupal8-apache-php7:latest
     depends_on:
       - php70_apache
@@ -36,7 +40,8 @@ services:
   drupal_php56_apache:
     build:
       context: ./drupal/
-      dockerfile: Dockerfile-php5.6
+      args:
+        PHP_VERSION: '5.6'
     image: quay.io/continuouspipe/drupal-php5.6-apache:latest
     depends_on:
       - php56_apache
@@ -72,7 +77,8 @@ services:
   ezplatform_php70_apache:
     build:
       context: ./ezplatform/
-      dockerfile: Dockerfile-php7
+      args:
+        PHP_VERSION: '7'
     image: quay.io/continuouspipe/ez6-apache-php7:latest
     depends_on:
       - symfony_php70_apache
@@ -80,7 +86,8 @@ services:
   ezplatform_php71_apache:
     build:
       context: ./ezplatform/
-      dockerfile: Dockerfile-php7.1
+      args:
+        PHP_VERSION: '7'
     image: quay.io/continuouspipe/ez6-php7.1-apache:latest
     depends_on:
       - symfony_php71_apache
@@ -92,10 +99,22 @@ services:
     depends_on:
       - ubuntu
 
+  magento1_php55_nginx:
+    build:
+      context: ./magento1/
+      args:
+        FROM_IMAGE: eol-php5.5-nginx
+        WEB_SERVER: nginx
+    image: quay.io/continuouspipe/eol-magento1-nginx-php5.5:latest
+    depends_on:
+      - php55_nginx
+
   magento1_php56_apache:
     build:
       context: ./magento1/
-      dockerfile: Dockerfile-php5.6-apache
+      args:
+        FROM_IMAGE: php5.6-apache
+        WEB_SERVER: apache
     image: quay.io/continuouspipe/magento1-apache-php5.6:latest
     depends_on:
       - php56_apache
@@ -103,7 +122,9 @@ services:
   magento1_php56_nginx:
     build:
       context: ./magento1/
-      dockerfile: Dockerfile-php5.6-nginx
+      args:
+        FROM_IMAGE: php5.6-nginx
+        WEB_SERVER: nginx
     image: quay.io/continuouspipe/magento1-nginx-php5.6:latest
     depends_on:
       - php56_nginx
@@ -111,7 +132,8 @@ services:
   magento2_php70_nginx:
     build:
       context: ./magento2/
-      dockerfile: Dockerfile-php7
+      args:
+        FROM_IMAGE: 'php7-nginx'
     image: quay.io/continuouspipe/magento2-nginx-php7:latest
     depends_on:
       - php70_nginx
@@ -119,7 +141,8 @@ services:
   magento2_php71_nginx:
     build:
       context: ./magento2/
-      dockerfile: Dockerfile-php7.1
+      args:
+        FROM_IMAGE: 'php7.1-nginx'
     image: quay.io/continuouspipe/magento2-nginx-php7.1:latest
     depends_on:
       - php71_nginx
@@ -148,7 +171,8 @@ services:
   mongodb34:
     build:
       context: ./mongodb/
-      dockerfile: Dockerfile-3.4
+      args:
+        FROM_TAG: '3.4'
     image: quay.io/continuouspipe/mongodb3.4:latest
     depends_on:
       - external_mongodb34
@@ -156,7 +180,8 @@ services:
   mysql80:
     build:
       context: ./mysql/
-      dockerfile: Dockerfile-8.0
+      args:
+        FROM_TAG: '8.0'
     image: quay.io/continuouspipe/mysql8.0:latest
     depends_on:
       - external_mysql80
@@ -164,7 +189,8 @@ services:
   mysql57:
     build:
       context: ./mysql/
-      dockerfile: Dockerfile-5.7
+      args:
+        FROM_TAG: '5.7'
     image: quay.io/continuouspipe/mysql5.7:latest
     depends_on:
       - external_mysql57
@@ -172,7 +198,8 @@ services:
   mysql56:
     build:
       context: ./mysql/
-      dockerfile: Dockerfile-5.6
+      args:
+        FROM_TAG: '5.6'
     image: quay.io/continuouspipe/mysql5.6:latest
     depends_on:
       - external_mysql56
@@ -180,7 +207,8 @@ services:
   mysql55:
     build:
       context: ./mysql/
-      dockerfile: Dockerfile-5.5
+      args:
+        FROM_TAG: '5.5'
     image: quay.io/continuouspipe/mysql5.5:latest
     depends_on:
       - external_mysql55
@@ -207,7 +235,7 @@ services:
     build:
       context: ./nodejs/
       args:
-        NODE_VERSION: "6.x"
+        NODE_VERSION: '6.x'
     image: quay.io/continuouspipe/nodejs6:latest
     depends_on:
       - ubuntu
@@ -216,8 +244,8 @@ services:
     build:
       context: ./nodejs/
       args:
-        NODE_VERSION: "6.x"
-        INSTALL_COMMON_PACKAGES: "false"
+        NODE_VERSION: '6.x'
+        INSTALL_COMMON_PACKAGES: 'false'
     image: quay.io/continuouspipe/nodejs6-small:latest
     depends_on:
       - ubuntu
@@ -226,7 +254,7 @@ services:
     build:
       context: ./nodejs/
       args:
-        NODE_VERSION: "7.x"
+        NODE_VERSION: '7.x'
     image: quay.io/continuouspipe/nodejs7:latest
     depends_on:
       - ubuntu
@@ -235,8 +263,8 @@ services:
     build:
       context: ./nodejs/
       args:
-        NODE_VERSION: "7.x"
-        INSTALL_COMMON_PACKAGES: "false"
+        NODE_VERSION: '7.x'
+        INSTALL_COMMON_PACKAGES: 'false'
     image: quay.io/continuouspipe/nodejs7-small:latest
     depends_on:
       - ubuntu
@@ -245,7 +273,7 @@ services:
     build:
       context: ./nodejs/
       args:
-        NODE_VERSION: "8.x"
+        NODE_VERSION: '8.x'
     image: quay.io/continuouspipe/nodejs8:latest
     depends_on:
       - ubuntu
@@ -254,8 +282,8 @@ services:
     build:
       context: ./nodejs/
       args:
-        NODE_VERSION: "8.x"
-        INSTALL_COMMON_PACKAGES: "false"
+        NODE_VERSION: '8.x'
+        INSTALL_COMMON_PACKAGES: 'false'
     image: quay.io/continuouspipe/nodejs8-small:latest
     depends_on:
       - ubuntu
@@ -269,61 +297,78 @@ services:
   piwik_php71_apache:
     build:
       context: ./piwik/
-      dockerfile: Dockerfile-php7.1
+      args:
+        PHP_VERSION: 7.1
     image: quay.io/continuouspipe/piwik-php7.1-apache:latest
     depends_on:
       - php71_apache
 
   php71_apache:
     build:
-      context: ./php-apache/
+      context: ./php/
+      dockerfile: Dockerfile-apache
       args:
-        PHP_VERSION: 7.1
+        PHP_VERSION: '7.1'
     image: quay.io/continuouspipe/php7.1-apache:latest
     depends_on:
       - ubuntu
 
   php70_apache:
     build:
-      context: ./php-apache/
+      context: ./php/
+      dockerfile: Dockerfile-apache
       args:
-        PHP_VERSION: 7.0
+        PHP_VERSION: '7.0'
     image: quay.io/continuouspipe/php7-apache:latest
     depends_on:
       - ubuntu
 
   php56_apache:
     build:
-      context: ./php-apache/
+      context: ./php/
+      dockerfile: Dockerfile-apache
       args:
-        PHP_VERSION: 5.6
+        PHP_VERSION: '5.6'
     image: quay.io/continuouspipe/php5.6-apache:latest
     depends_on:
       - ubuntu
 
   php71_nginx:
     build:
-      context: ./php-nginx/
+      context: ./php/
+      dockerfile: Dockerfile-nginx
       args:
-        PHP_VERSION: 7.1
+        PHP_VERSION: '7.1'
     image: quay.io/continuouspipe/php7.1-nginx:latest
     depends_on:
       - ubuntu
 
   php70_nginx:
     build:
-      context: ./php-nginx/
+      context: ./php/
+      dockerfile: Dockerfile-nginx
       args:
-        PHP_VERSION: 7.0
+        PHP_VERSION: '7.0'
     image: quay.io/continuouspipe/php7-nginx:latest
+    depends_on:
+      - ubuntu
+
+  php55_nginx:
+    build:
+      context: ./php/
+      dockerfile: Dockerfile-nginx-phpsource
+      args:
+        PHP_FULL_VERSION: '5.5.38'
+    image: quay.io/continuouspipe/eol-php5.5-nginx:latest
     depends_on:
       - ubuntu
 
   php56_nginx:
     build:
-      context: ./php-nginx/
+      context: ./php/
+      dockerfile: Dockerfile-nginx
       args:
-        PHP_VERSION: 5.6
+        PHP_VERSION: '5.6'
     image: quay.io/continuouspipe/php5.6-nginx:latest
     depends_on:
       - ubuntu
@@ -331,7 +376,8 @@ services:
   postgres94:
     build:
       context: ./postgres/
-      dockerfile: Dockerfile-9.4
+      args:
+        FROM_TAG: '9.4'
     image: quay.io/continuouspipe/postgres9.4:latest
     depends_on:
       - external_postgres94
@@ -339,7 +385,8 @@ services:
   postgres96:
     build:
       context: ./postgres/
-      dockerfile: Dockerfile-9.6
+      args:
+        FROM_TAG: '9.6'
     image: quay.io/continuouspipe/postgres9.6:latest
     depends_on:
       - external_postgres96
@@ -391,7 +438,9 @@ services:
   spryker_php71_nginx:
     build:
       context: ./spryker/
-      dockerfile: Dockerfile-php7.1-nginx
+      args:
+        PHP_VERSION: '7.1'
+        WEB_SERVER: nginx
     image: quay.io/continuouspipe/spryker-php7.1-nginx:latest
     depends_on:
       - php71_nginx
@@ -399,7 +448,9 @@ services:
   spryker_php71_apache:
     build:
       context: ./spryker/
-      dockerfile: Dockerfile-php7.1-apache
+      args:
+        PHP_VERSION: '7.1'
+        WEB_SERVER: apache
     image: quay.io/continuouspipe/spryker-php7.1-apache:latest
     depends_on:
       - php71_apache
@@ -407,7 +458,9 @@ services:
   symfony_php71_nginx:
     build:
       context: ./symfony/
-      dockerfile: Dockerfile-php7.1-nginx
+      args:
+        PHP_VERSION: '7.1'
+        WEB_SERVER: nginx
     image: quay.io/continuouspipe/symfony-php7.1-nginx:latest
     depends_on:
       - php71_nginx
@@ -415,7 +468,9 @@ services:
   symfony_php70_nginx:
     build:
       context: ./symfony/
-      dockerfile: Dockerfile-php7-nginx
+      args:
+        PHP_VERSION: '7'
+        WEB_SERVER: nginx
     image: quay.io/continuouspipe/symfony-php7-nginx:latest
     depends_on:
       - php70_nginx
@@ -423,7 +478,9 @@ services:
   symfony_php56_nginx:
     build:
       context: ./symfony/
-      dockerfile: Dockerfile-php5.6-nginx
+      args:
+        PHP_VERSION: '5.6'
+        WEB_SERVER: nginx
     image: quay.io/continuouspipe/symfony-php5.6-nginx:latest
     depends_on:
       - php56_nginx
@@ -431,7 +488,9 @@ services:
   symfony_php71_apache:
     build:
       context: ./symfony/
-      dockerfile: Dockerfile-php7.1-apache
+      args:
+        PHP_VERSION: '7.1'
+        WEB_SERVER: apache
     image: quay.io/continuouspipe/symfony-php7.1-apache:latest
     depends_on:
       - php71_apache
@@ -439,7 +498,9 @@ services:
   symfony_php70_apache:
     build:
       context: ./symfony/
-      dockerfile: Dockerfile-php7-apache
+      args:
+        PHP_VERSION: '7'
+        WEB_SERVER: apache
     image: quay.io/continuouspipe/symfony-php7-apache:latest
     depends_on:
       - php70_apache
@@ -447,7 +508,9 @@ services:
   symfony_php56_apache:
     build:
       context: ./symfony/
-      dockerfile: Dockerfile-php5.6-apache
+      args:
+        PHP_VERSION: '5.6'
+        WEB_SERVER: apache
     image: quay.io/continuouspipe/symfony-php5.6-apache:latest
     depends_on:
       - php56_apache

@@ -4,26 +4,11 @@ set -e
 TASK=$1
 ARGS=( "$@" )
 
-# Initialisation - Declare variables and run pre-templating steps.
-source /usr/local/share/bootstrap/setup.sh
+source /usr/local/share/bootstrap/bootstrap.sh
 
-# Initialisation - Runtime installation tasks
-shopt -s nullglob
-set -- /usr/local/share/container/baseimage-*
-if [ "$#" -gt 0 ]; then
-  for file in "$@"; do
-    # shellcheck source=/dev/null
-    source "${file}"
-  done
+if [ "$TASK" != "list_functions" ]; then
+  set -x
 fi
-
-source /usr/local/share/container/plan.sh
-if [ -e "$WORK_DIRECTORY/plan.sh" ]; then
-  # shellcheck source=/dev/null
-  source "$WORK_DIRECTORY/plan.sh"
-fi
-
-set -x
 
 if [ "$TASK" == "start" ]; then
   source /usr/local/bin/supervisor_custom_start

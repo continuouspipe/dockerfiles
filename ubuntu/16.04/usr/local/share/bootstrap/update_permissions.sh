@@ -26,7 +26,7 @@ function update_permissions() {
         export CODE_OWNER
 
         if [[ "$group" = UNKNOWN ]]; then
-            APP_GROUP="$owner"
+            APP_GROUP="$APP_USER"
             CODE_GROUP="$APP_GROUP"
             export APP_GROUP
             export CODE_GROUP

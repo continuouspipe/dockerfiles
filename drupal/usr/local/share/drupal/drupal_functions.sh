@@ -97,14 +97,15 @@ do_drupal_install() {
   # then install it.
   if ! drush status bootstrap -r "${WEB_DIRECTORY}" | grep -q Successful ; then
     echo 'Installing Drupal'
-    set +x
-    INSTALL_OPTS="${DRUPAL_INSTALL_PROFILE} --account-name=\"${DRUPAL_ADMIN_USERNAME}\"  --account-pass=\"${DRUPAL_ADMIN_PASSWORD}\" install_configure_form.update_status_module='array(FALSE,FALSE)'"
-    # We should make sure this is writeable, but only do it directly before an
-    # install. Drupal will lock it back down on install completion.
-    chmod -R ug+rw,o-w "${WEB_DIRECTORY}/sites/default/files"
-    chmod go+w "${WEB_DIRECTORY}/sites/default/settings.php"
-    as_code_owner "drush site-install ${INSTALL_OPTS} -y -r ${WEB_DIRECTORY}"
-    set -x
+    (
+      set +x
+      INSTALL_OPTS="${DRUPAL_INSTALL_PROFILE} --account-name=\"${DRUPAL_ADMIN_USERNAME}\"  --account-pass=\"${DRUPAL_ADMIN_PASSWORD}\" install_configure_form.update_status_module='array(FALSE,FALSE)'"
+      # We should make sure this is writeable, but only do it directly before an
+      # install. Drupal will lock it back down on install completion.
+      chmod -R ug+rw,o-w "${WEB_DIRECTORY}/sites/default/files"
+      chmod go+w "${WEB_DIRECTORY}/sites/default/settings.php"
+      as_code_owner "drush site-install ${INSTALL_OPTS} -y -r ${WEB_DIRECTORY}"
+    )
   fi
 
 }
@@ -123,15 +124,13 @@ do_drupal_sync_database() {
 ####
 # Provide SSH keys so that do_drupal_sync_database_backup_via_ssh can function
 ####
-do_drupal_setup_sync_ssh_keys() {
+do_drupal_setup_sync_ssh_keys() (
   set +x
   do_user_ssh_keys "build" "${DRUPAL_SYNC_SSH_KEY_NAME}" "${DRUPAL_SYNC_SSH_PRIVATE_KEY}" "${DRUPAL_SYNC_SSH_PUBLIC_KEY}" "${DRUPAL_SYNC_SSH_KNOWN_HOSTS}"
-  set +x
   unset DRUPAL_SYNC_SSH_PRIVATE_KEY
   unset DRUPAL_SYNC_SSH_PRIVATE_KEY
   unset DRUPAL_SYNC_SSH_KNOWN_HOSTS
-  set -x
-}
+)
 
 ####
 # Ability to sync a database dump from a remote server that is accessible via SSH.
@@ -153,7 +152,7 @@ do_drupal_sync_database_backup_via_ssh() {
 # Restore a database if required.
 # Not triggered by default, please call from a function in your plan.sh to use.
 #####
-do_drupal_database_restore() {
+do_drupal_database_restore() (
   set +x
   if [ -f "$DATABASE_ARCHIVE_PATH" ]; then
     local DATABASE_ARGS=(-h"$DATABASE_HOST")
@@ -187,8 +186,7 @@ do_drupal_database_restore() {
       zcat "$DATABASE_ARCHIVE_PATH" | mysql "${DATABASE_ARGS[@]}" "$DATABASE_NAME" || return 1
     fi
   fi
-  set -x
-}
+)
 
 do_drupal_database_sanitise() {
   as_code_owner "drush ${DRUPAL_DRUSH_ALIAS} sql-sanitize --yes -r ${WEB_DIRECTORY}"
