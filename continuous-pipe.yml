@@ -15,6 +15,8 @@ pipelines:
               image: quay.io/continuouspipe/eol-php5.5-nginx
               tag: ${FROM_TAG}
               reuse: false
+              build_directory: ./php/
+              docker_file_path: ./Dockerfile-nginx-phpsource
               environment:
                 PHP_FULL_VERSION: '5.5.38'
       - first_level_dependency_images
@@ -25,6 +27,7 @@ pipelines:
               image: quay.io/continuouspipe/eol-magento1-nginx-php5.5
               tag: ${FROM_TAG}
               reuse: false
+              build_directory: ./magento1/
               environment:
                 FROM_IMAGE: eol-php5.5-nginx
                 WEB_SERVER: nginx
