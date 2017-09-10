@@ -3,7 +3,7 @@
 set -e
 
 source /usr/local/share/bootstrap/common_functions.sh
-source /usr/local/share/bootstrap/setup.sh
+source /usr/local/share/bootstrap/bootstrap.sh
 
 set -x
 

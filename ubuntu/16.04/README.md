@@ -54,11 +54,10 @@ Upon starting a container made from this image, `/bin/bash /usr/local/bin/contai
 1. Read in function definitions from:
  1.1. /usr/local/share/bootstrap/setup.sh
  1.2. /usr/local/share/bootstrap/common_functions.sh
-2. Run "load_env()", which will include environment variable definitions from /usr/local/share/env/*, in alphanumerical order.
-3. Read in function definitions from:
- 3.1. /usr/local/share/container/baseimage-*.sh, in alphanumerical order.
- 3.2. /usr/local/share/container/plan.sh
-4. Execute the function "do_start_supervisord()", which will run "do_start()" and "do_supervisord()"
+2. Read in function definitions from /usr/local/share/container/baseimage-*.sh, in alphanumerical order.
+3. Run "load_env()", which will include environment variable definitions from /usr/local/share/env/*, in alphanumerical order.
+4. Read in function definitions from /usr/local/share/container/plan.sh
+5. Execute the function "do_start_supervisord()", which will run "do_start()" and "do_supervisord()"
 
 ### SupervisorD
 
