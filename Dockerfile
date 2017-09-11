@@ -25,7 +25,7 @@ USER build
 RUN git clone https://github.com/ztombol/bats-support.git /usr/local/share/bats/bats-support \
  && git clone https://github.com/ztombol/bats-assert.git /usr/local/share/bats/bats-assert \
  && git clone https://github.com/jasonkarns/bats-mock.git /usr/local/share/bats/bats-mock \
- && ( cd /usr/local/share/bats/bats-mock; git apply /app/tests/bats-mock/0001-Patch-for-similar-space-splits-as-the-execution-plan.patch )
+ && ( cd /usr/local/share/bats/bats-mock || exit 1; git apply /app/tests/bats-mock/0001-Patch-for-similar-space-splits-as-the-execution-plan.patch )
 USER root
 
 CMD ["container", "run_tests"]
