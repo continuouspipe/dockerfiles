@@ -29,10 +29,34 @@ do_composer_postinstall_scripts() {
 }
 
 has_composer_package() {
-  if [ ! -f "composer.lock" ]; then
+  if [ ! -f "${WORK_DIRECTORY}/composer.lock" ]; then
     return
   fi
 
-  is_true "$(jq -c '(.packages + .["packages-dev"])[] | select(.name == "'"$1"'") | has("name")' composer.lock)"
+  is_true "$(jq -c '(.packages + .["packages-dev"])[] | select(.name == "'"$1"'") | has("name")' "${WORK_DIRECTORY}/composer.lock")"
+  return "$?"
+}
+
+composer_package_version() {
+  local -r PACKAGE_VERSION="$(jq -c '(.packages + .["packages-dev"])[] | select(.name == "'"$1"'") | .version' "${WORK_DIRECTORY}/composer.lock" | sed 's/^"v\?\(.*\)"/\1/')"
+
+  if [ -z "${PACKAGE_VERSION}" ]; then
+    return 1
+  fi
+
+  echo "${PACKAGE_VERSION}"
+}
+
+composer_package_compare() {
+  local -r PACKAGE="$1"
+  local -r RELATION="$2"
+  local -r COMPARE_VERSION="$3"
+  local -r PACKAGE_VERSION="$(composer_package_version "${PACKAGE}")"
+
+  if [ -z "${PACKAGE_VERSION}" ]; then
+    return 1
+  fi
+
+  dpkg --compare-versions "${PACKAGE_VERSION}" "${RELATION}" "${COMPARE_VERSION}"
   return "$?"
 }
