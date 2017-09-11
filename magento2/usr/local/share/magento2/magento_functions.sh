@@ -303,6 +303,10 @@ function do_magento_assets_install() {
 }
 
 function do_magento_assets_cleanup() {
+  if [ -z "$DATABASE_ARCHIVE_PATH" ] && [ -z "$ASSET_ARCHIVE_PATH" ]; then
+    return
+  fi
+
   if [ -d /app/tools/assets/ ]; then
     find /app/tools/assets/ -type f ! -path "*${DATABASE_ARCHIVE_PATH}" -delete
   fi
