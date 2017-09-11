@@ -1,0 +1,25 @@
+From 68ea9d96be3a071be1484e21ce3a562b2be7f07a Mon Sep 17 00:00:00 2001
+From: Kieren Evans <kieren.evans+dockerfiles@inviqa.com>
+Date: Mon, 11 Sep 2017 22:38:26 +0000
+Subject: [PATCH] Patch for similar space splits for arguments as the execution
+ plan.
+
+---
+ binstub | 2 +-
+ 1 file changed, 1 insertions(+), 1 deletions(-)
+
+diff --git a/binstub b/binstub
+index d1169a2..9e2a0a2 100755
+--- a/binstub
++++ b/binstub
+@@ -50,7 +50,7 @@ while IFS= read -r line; do
+     set -f
+     patterns=($patterns)
+     set +f
+-    arguments=("$@")
++    arguments=($@)
+
+     # Match the expected argument patterns to actual
+     # arguments.
+--
+2.7.4

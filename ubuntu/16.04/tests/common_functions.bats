@@ -9,176 +9,137 @@ function setup() {
   }
 }
 
-function teardown() {
-  for overridden in $MOCKS $SPIES; do
-    restore_function "$overridden"
-  done
+load /usr/local/share/bats/bats-support/load.bash
+load /usr/local/share/bats/bats-assert/load.bash
+load /usr/local/share/bats/bats-mock/stub.bash
 
-  MOCKS=''
-  SPIES=''
-  set -e
-  set +x
-}
-
-function original_function() {
-  if [ "$(type -t "$1")" == 'function' ]; then
-    eval "original_$(declare -f $1)"
-  fi
-}
-
-function restore_function() {
-  if [ "$(type -t "original_$1")" == 'function' ]; then
-    FUNC=$(declare -f "original_$1")
-    eval "${FUNC#original_}"
-    eval "unset original_$1"
-  else
-    eval "unset $1"
-  fi
-}
-
-MOCKS=''
-function mock() {
-  MOCKS="$MOCKS $1"
-  original_function "$1"
-  eval "$1() { echo $2; }"
-}
-
-SPIES=''
-function spy() {
-  SPIES="$SPIES $1"
-  original_function "$1"
-  eval "export COMMAND_$1=''"
-  eval "$1() { export COMMAND_$1=\"\$@\"; }"
-}
-
-@test "escape_shell_args uses printf" {
-  run_test() {
-    spy 'printf'
-    escape_shell_args 'test test2'
-    [ "$COMMAND_printf" == '%q  test test2' ]
-  }
-  run run_test
-  [ "$status" -eq 0 ]
+@test "escape_shell_args escapes spaces" {
+  run escape_shell_args 'test test2'
+  assert_success
+  assert_output 'test\ test2 '
 }
 
 @test "escape_shell_args adds a space to the end of the string" {
   run escape_shell_args 'test'
-  [ "$status" -eq 0 ]
-  [ "$output" == 'test ' ]
+  assert_success
+  assert_output 'test '
 }
 
 @test "escape_shell_args escapes special characters" {
   run escape_shell_args '# &*{}[];,"\!?$<>|^`test'
-  [ "$status" -eq 0 ]
-  [ "$output" == '\#\ \&\*\{\}\[\]\;\,\"\\\!\?\$\<\>\|\^\`test ' ]
+  assert_success
+  assert_output '\#\ \&\*\{\}\[\]\;\,\"\\\!\?\$\<\>\|\^\`test '
 
   run escape_shell_args "'test"
-  [ "$status" -eq 0 ]
-  [ "${lines[0]}" == "\'test " ]
+  assert_success
+  assert_output "\'test "
 }
 
 @test "escape_shell_args does not escape non-special characters" {
   run escape_shell_args ":/.-+%~test"
-  [ "$status" -eq 0 ]
-  [ "$output" == ":/.-+%~test " ]
+  assert_success
+  assert_output  ":/.-+%~test "
 }
 
 @test "resolve_path does not prepend the working path if the path begins with slash" {
   run resolve_path "/path" "/working"
-  [ "$status" -eq 0 ]
-  [ "$output" == "/path" ]
+  assert_success
+  assert_output "/path"
 }
 
 @test "resolve_path prepends the working path if the path does not begin with slash" {
   run resolve_path "path" "/working"
-  [ "$status" -eq 0 ]
-  [ "$output" == "/working/path" ]
+  assert_success
+  assert_output "/working/path"
 }
 
 @test "get_user_home_directory uses getent and cut" {
-  skip "Pipes not supported yet"
-  run_test() {
-    spy 'getent'
-    spy 'cut'
-    get_user_home_directory "build"
-    [ "$COMMAND_getent" == 'passwd build' ]
-    [ "$COMMAND_cut" == '-d: -f6' ]
-  }
-  run run_test
-  [ "$status" -eq 0 ]
+  stub getent 'passwd build : echo ":::::/home/foo:::::"'
+  stub cut '-d: -f 6 : echo /home/foo'
+
+  run get_user_home_directory "build"
+
+  assert_success
+  assert_output '/home/foo'
+
+  unstub getent
+  unstub cut
 }
 
 @test "get_user_home_directory returns if no user given" {
   run get_user_home_directory ""
-  [ "$status" -eq 1 ]
+  assert_failure
 }
 
 @test "get_user_home_directory finds the build user's home directory" {
   run get_user_home_directory "build"
-  [ "$status" -eq 0 ]
-  [ "$output" == "/home/build" ]
+  assert_success
+  assert_output "/home/build"
 }
 
 @test "get_user_home_directory finds the www-data user's home directory" {
   run get_user_home_directory "www-data"
-  [ "$status" -eq 0 ]
-  [ "$output" == "/var/www" ]
+  assert_success
+  assert_output "/var/www"
 }
 
 @test "get_user_home_directory finds the root user's home directory" {
   run get_user_home_directory "root"
-  [ "$status" -eq 0 ]
-  [ "$output" == "/root" ]
+  assert_success
+  assert_output "/root"
 }
 
 @test "as_user runs a command via sudo" {
-  run_test() {
-    spy 'sudo'
-    mock 'get_user_home_directory' '/home/build'
-    as_user "test"
-    [ "$COMMAND_sudo" == "-u build -E HOME=/home/build bash -c cd /app; test" ]
-  }
-  run run_test
-  [ "$status" -eq 0 ]
+  stub sudo "-u build -E HOME=/home/build /bin/bash -c cd '/app'; test : true"
+  unset get_user_home_directory
+  stub get_user_home_directory "build : echo /home/build"
+
+  run as_user 'test'
+
+  assert_success
+  unstub sudo
+  unstub get_user_home_directory
 }
 
 @test "as_user runs a command via sudo from a certain directory" {
-  run_test() {
-    spy 'sudo'
-    mock 'get_user_home_directory' '/home/build'
-    as_user "test" "/tmp"
-    [ "$COMMAND_sudo" == "-u build -E HOME=/home/build bash -c cd /tmp; test" ]
-  }
-  run run_test
-  [ "$status" -eq 0 ]
+  stub sudo "-u build -E HOME=/home/build /bin/bash -c cd '/tmp'; test : true"
+  unset get_user_home_directory
+  stub get_user_home_directory "build : echo /home/build"
+
+  run as_user "test" "/tmp"
+
+  assert_success
+  unstub sudo
+  unstub get_user_home_directory
 }
 
 @test "as_user runs a command via sudo as a certain user" {
-  run_test() {
-    spy 'sudo'
-    mock 'get_user_home_directory' '/var/www'
-    as_user "test" "/app" "www-data"
-    [ "$COMMAND_sudo" == "-u www-data -E HOME=/var/www /bin/bash -c cd '\''/app'\''; test" ]
-  }
-  run run_test
-  [ "$output" == "" ]
-  [ "$status" -eq 0 ]
+  stub sudo "-u www-data -E HOME=/var/www /bin/bash -c cd '/app'; test : true"
+  unset get_user_home_directory
+  stub get_user_home_directory "www-data : echo /var/www"
+
+  run as_user "test" "/app" "www-data"
+
+  assert_success
+  unstub sudo
+  unstub get_user_home_directory
 }
 
 @test "alias_function renames a function" {
-  alias_function original aliased
-  run aliased
-  [ "$status" -eq 0 ]
-  [ "$output" == "original" ]
+  export -f alias_function original
+  run bash -c 'alias_function original aliased; aliased'
+  assert_success
+  assert_output "original"
 }
 
 @test "before prepends a function to another" {
   function prepended() {
     echo "prepended"
   }
-  before original prepended
-  run original
-  [ "$status" -eq 0 ]
+  export -f before original prepended
+
+  run bash -c 'before original prepended; original'
+  assert_success
   [ "${lines[0]}" == "prepended" ]
   [ "${lines[1]}" == "original" ]
 }
@@ -187,9 +148,11 @@ function spy() {
   function appended() {
     echo "appended"
   }
-  after original appended
-  run original
-  [ "$status" -eq 0 ]
+  export -f after original appended
+
+  run bash -c 'after original appended; original'
+
+  assert_success
   [ "${lines[0]}" == "original" ]
   [ "${lines[1]}" == "appended" ]
 }
@@ -198,8 +161,8 @@ function spy() {
   function replaced() {
     echo "replaced"
   }
-  replace original replaced
-  run original
-  [ "$status" -eq 0 ]
+  export -f replace original replaced
+  run bash -c 'replace original replaced; original'
+  assert_success
   [ "${lines[0]}" == "replaced" ]
 }

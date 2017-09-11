@@ -10,10 +10,21 @@ RUN apt-get update -qq \
  # Clean the image \
  && apt-get auto-remove -qq -y \
  && apt-get clean \
- && rm -rf /var/lib/apt/lists/*
+ && rm -rf /var/lib/apt/lists/* \
+ \
+ # Install bats-mock package \
+ && mkdir -p /usr/local/share/bats/ \
+ && chown -R build:build /usr/local/share/bats/
 
 COPY ./tests/plan.sh /usr/local/share/container/plan.sh
 COPY . /app
 WORKDIR /app
+
+USER build
+RUN git clone https://github.com/ztombol/bats-support.git /usr/local/share/bats/bats-support \
+ && git clone https://github.com/ztombol/bats-assert.git /usr/local/share/bats/bats-assert \
+ && git clone https://github.com/jasonkarns/bats-mock.git /usr/local/share/bats/bats-mock \
+ && ( cd /usr/local/share/bats/bats-mock; git apply /app/tests/bats-mock/0001-Patch-for-similar-space-splits-as-the-execution-plan.patch )
+USER root
 
 CMD ["container", "run_tests"]
