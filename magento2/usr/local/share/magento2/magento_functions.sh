@@ -34,26 +34,45 @@ function do_magento_create_web_writable_directories() {
 }
 
 function do_magento_frontend_build() {
-  if [ -d "$FRONTEND_INSTALL_DIRECTORY" ]; then
-    mkdir -p pub/static/frontend/
+  do_magento_frontend_build_install
+  do_magento_frontend_build_run
+}
 
-  if [ -d "pub/static/frontend/" ] && [ "$IS_CHOWN_FORBIDDEN" != 'true' ]; then
-      chown -R "${CODE_OWNER}:${CODE_GROUP}" pub/static/frontend/
-    fi
-
-    if [ ! -d "$FRONTEND_INSTALL_DIRECTORY/node_modules" ]; then
-      as_code_owner "npm install" "$FRONTEND_INSTALL_DIRECTORY"
-    fi
-    if [ -z "$GULP_BUILD_THEME_NAME" ]; then
-      as_code_owner "gulp $FRONTEND_BUILD_ACTION" "$FRONTEND_BUILD_DIRECTORY"
-    else
-      as_code_owner "gulp $FRONTEND_BUILD_ACTION --theme='$GULP_BUILD_THEME_NAME'" "$FRONTEND_BUILD_DIRECTORY"
-    fi
-
-  if [ -d "pub/static/frontend/" ] && [ "$IS_CHOWN_FORBIDDEN" != 'true' ]; then
-      chown -R "${APP_USER}:${APP_GROUP}" pub/static/frontend/
-    fi
+function do_magento_frontend_build_install() {
+  if [ ! -d "$FRONTEND_INSTALL_DIRECTORY" ] || [ ! -f "$FRONTEND_INSTALL_DIRECTORY/package.json" ]; then
+    return
   fi
+
+  mkdir -p pub/static/frontend/
+  if [ -d "pub/static/frontend/" ] && [ "$IS_CHOWN_FORBIDDEN" != 'true' ]; then
+    chown -R "${CODE_OWNER}:${CODE_GROUP}" pub/static/frontend/
+  fi
+
+  as_code_owner "npm install" "$FRONTEND_INSTALL_DIRECTORY"
+}
+
+function do_magento_frontend_build_run() {
+  if [ ! -d "$FRONTEND_BUILD_DIRECTORY" ] || [[ ! -e "$FRONTEND_BUILD_DIRECTORY/gulpfile.js" && ! -e "$FRONTEND_BUILD_DIRECTORY/gulpfile.babel.js" ]]; then
+    return
+  fi
+
+  if [ -z "$GULP_BUILD_THEME_NAME" ]; then
+    as_code_owner "gulp $FRONTEND_BUILD_ACTION" "$FRONTEND_BUILD_DIRECTORY"
+  else
+    as_code_owner "gulp $FRONTEND_BUILD_ACTION --theme='$GULP_BUILD_THEME_NAME'" "$FRONTEND_BUILD_DIRECTORY"
+  fi
+}
+
+function do_magento_frontend_build() {
+  do_magento_frontend_build_install
+  do_magento_frontend_build_run
+}
+
+function do_magento_frontend_cache_clean() {
+  if is_true "$DEVELOPMENT_MODE" || [ ! -f "$FRONTEND_INSTALL_DIRECTORY/package.json" ]; then
+    return
+  fi
+  as_code_owner "npm cache clean --force"
 }
 
 function do_magento_install_custom() {
@@ -438,6 +457,7 @@ function do_magento2_build() {
   do_magento_build_start_mysql
   do_magento_create_web_writable_directories
   do_magento_frontend_build
+  do_magento_frontend_cache_clean
   do_magento_assets_download
   do_magento_assets_install
   do_magento_install_custom
@@ -476,6 +496,7 @@ function do_magento2_development_build() {
     do_templating
     do_magento2_setup
     do_magento_frontend_build
+    do_magento_frontend_cache_clean
     do_magento_install_custom
     do_magento_dependency_injection_compilation
     set +e
