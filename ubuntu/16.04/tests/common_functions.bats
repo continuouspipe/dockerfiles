@@ -123,6 +123,78 @@ function setup() {
   unstub get_user_home_directory
 }
 
+@test 'as_build runs a command as the build user' {
+  unset as_user
+  stub as_user "ls  build : echo '. ..'"
+
+  run as_build "ls"
+
+  assert_success
+  assert_output ". .."
+  unstub as_user
+}
+
+@test 'as_build runs a command as the build user from a certain directory' {
+  unset as_user
+  stub as_user "ls /tmp build : true"
+
+  run as_build "ls" "/tmp"
+
+  assert_success
+  unstub as_user
+}
+
+@test 'as_build does not vary the user based on CODE_OWNER' {
+  unset as_user
+  stub as_user "ls  build : true"
+
+  CODE_OWNER="someone_else" run as_build "ls"
+
+  assert_success
+  unstub as_user
+}
+
+@test 'as_code_owner runs a command as the build user by default' {
+  unset as_user
+  stub as_user "ls  build : echo '. ..'"
+
+  run as_code_owner "ls"
+
+  assert_success
+  assert_output ". .."
+  unstub as_user
+}
+
+@test 'as_code_owner runs a command as the build user from a certain directory' {
+  unset as_user
+  stub as_user "ls /tmp build : true"
+
+  run as_code_owner "ls" "/tmp"
+
+  assert_success
+  unstub as_user
+}
+
+@test 'as_code_owner varies the user based on CODE_OWNER' {
+  unset as_user
+  stub as_user "ls  someone_else : true"
+
+  CODE_OWNER="someone_else" run as_code_owner "ls"
+
+  assert_success
+  unstub as_user
+}
+
+@test 'as_app_user varies the user based on APP_USER' {
+  unset as_user
+  stub as_user "ls /tmp someone_else : true"
+
+  APP_USER="someone_else" run as_app_user "ls" "/tmp"
+
+  assert_success
+  unstub as_user
+}
+
 @test "alias_function renames a function" {
   export -f alias_function original
   run bash -c 'alias_function original aliased; aliased'
