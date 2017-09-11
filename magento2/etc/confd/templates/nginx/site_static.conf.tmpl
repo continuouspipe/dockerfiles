@@ -1,0 +1,33 @@
+location /static/ {
+    {{ if eq "true" (getenv "MAGENTO_CACHE_STATIC_ASSETS") }}
+    expires max;
+    {{ end }}
+
+    # Remove signature of the static files that is used to overcome the browser cache
+    location ~ ^/static/version {
+        rewrite ^/static/(version\d*/)?(.*)$ /static/$2 last;
+    }
+
+    location ~* \.(ico|jpg|jpeg|png|gif|svg|js|css|swf|eot|ttf|otf|woff|woff2)$ {
+        add_header Cache-Control "public";
+        add_header X-Frame-Options "SAMEORIGIN";
+        expires +1y;
+
+        if (!-f $request_filename) {
+            rewrite ^/static/(version\d*/)?(.*)$ /static.php?resource=$2 last;
+        }
+    }
+    location ~* \.(zip|gz|gzip|bz2|csv|xml)$ {
+        add_header Cache-Control "no-store";
+        add_header X-Frame-Options "SAMEORIGIN";
+        expires    off;
+
+        if (!-f $request_filename) {
+           rewrite ^/static/(version\d*/)?(.*)$ /static.php?resource=$2 last;
+        }
+    }
+    if (!-f $request_filename) {
+        rewrite ^/static/(version\d*/)?(.*)$ /static.php?resource=$2 last;
+    }
+    add_header X-Frame-Options "SAMEORIGIN";
+}

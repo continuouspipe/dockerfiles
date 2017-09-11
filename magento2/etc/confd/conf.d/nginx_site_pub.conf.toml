@@ -1,0 +1,6 @@
+[template]
+src   = "nginx/site_pub.conf.tmpl"
+dest  = "/etc/nginx/sites-available/default-14-pub.conf"
+mode  = "0644"
+keys = [
+]

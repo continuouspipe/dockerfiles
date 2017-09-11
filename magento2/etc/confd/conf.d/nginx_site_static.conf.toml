@@ -1,0 +1,6 @@
+[template]
+src   = "nginx/site_static.conf.tmpl"
+dest  = "/etc/nginx/sites-available/default-15-static.conf"
+mode  = "0644"
+keys = [
+]

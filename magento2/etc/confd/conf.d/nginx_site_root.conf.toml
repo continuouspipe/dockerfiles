@@ -1,0 +1,6 @@
+[template]
+src   = "nginx/site_root.conf.tmpl"
+dest  = "/etc/nginx/sites-available/default-13-root.conf"
+mode  = "0644"
+keys = [
+]

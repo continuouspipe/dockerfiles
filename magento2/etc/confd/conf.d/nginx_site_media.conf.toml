@@ -1,0 +1,6 @@
+[template]
+src   = "nginx/site_media.conf.tmpl"
+dest  = "/etc/nginx/sites-available/default-16-media.conf"
+mode  = "0644"
+keys = [
+]
