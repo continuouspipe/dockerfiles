@@ -4,7 +4,8 @@ source /usr/local/share/spryker/spryker_functions.sh
 alias_function do_build_permissions do_spryker_build_permissions_inner
 do_build_permissions() {
   do_spryker_build_permissions_inner
-  do_spryker_build
+  do_spryker_directory_create
+  do_spryker_config_create
 }
 
 alias_function do_build do_spryker_nginx_build_inner
