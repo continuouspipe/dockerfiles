@@ -408,10 +408,15 @@ function do_magento_download_magerun2() {
   chmod +x /app/bin/n98-magerun2.phar
 }
 
-function do_magento2_templating() {
-  if [ "$MAGENTO_VERSION" != "2.0" ] && [ "$MAGENTO_VERSION" != "2.1" ]; then
+function remove_config_template() (
+  set +e
+  if dpkg --compare-versions "$MAGENTO_VERSION" ge 2.2; then
     rm -f /etc/confd/conf.d/magento_config.php.toml /etc/confd/templates/magento/config.php.tmpl
   fi
+)
+
+function do_magento2_templating() {
+  remove_config_template
 
   mkdir -p /app/app/etc/
   chown -R "${CODE_OWNER}:${CODE_GROUP}" /app/app/
