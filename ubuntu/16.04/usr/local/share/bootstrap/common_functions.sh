@@ -52,9 +52,12 @@ as_user() (
   if [ -z "$USER" ]; then
     USER='build';
   fi
-  USER_HOME="$(get_user_home_directory "$USER")"
+  COMMAND="/bin/bash -c \"cd '$WORKING_DIR'; $COMMAND\""
+  if [ "$(whoami)" != "$USER" ]; then
+    COMMAND="sudo -u '$USER' -E HOME='$(get_user_home_directory "$USER")' $COMMAND"
+  fi
   set -x
-  sudo -u "$USER" -E HOME="$USER_HOME" /bin/bash -c "cd '$WORKING_DIR'; $COMMAND"
+  eval "$COMMAND"
 )
 
 as_build() (
