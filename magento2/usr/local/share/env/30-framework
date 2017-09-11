@@ -169,14 +169,7 @@ export MAGENTO_ENABLE_CONFIG_WEBSERVICE_CACHE
 MAGENTO_ENABLE_TARGET_RULE_CACHE=$(convert_to_boolean_string "${MAGENTO_ENABLE_TARGET_RULE_CACHE:-true}")
 export MAGENTO_ENABLE_TARGET_RULE_CACHE
 
-function detect_enterprise_edition() (
-  set +e
-  source /usr/local/share/php/common_functions.sh
-  if has_composer_package "magento/product-enterprise-edition"; then
-    echo 'true'
-  else
-    echo 'false'
-  fi
-)
-MAGENTO_ENTERPRISE_EDITION=$(convert_to_boolean_string "${MAGENTO_ENTERPRISE_EDITION:-$(detect_enterprise_edition)}")
+MAGENTO_ENTERPRISE_EDITION=$(convert_to_boolean_string "${MAGENTO_ENTERPRISE_EDITION:-$(run_return_boolean has_composer_package "magento/product-enterprise-edition")}")
 export MAGENTO_ENTERPRISE_EDITION
+
+export MAGENTO_VERSION="${MAGENTO_VERSION:-$(composer_package_version magento/product-community-edition | cut -d. -f1,2)}"
