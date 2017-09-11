@@ -17,6 +17,7 @@ RUN apt-get update -qq \
  && chown -R build:build /usr/local/share/bats/
 
 COPY ./tests/plan.sh /usr/local/share/container/plan.sh
+COPY ./tests/bats/helper.bash /usr/local/share/bats/
 COPY . /app
 WORKDIR /app
 

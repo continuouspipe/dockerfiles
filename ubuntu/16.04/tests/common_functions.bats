@@ -1,5 +1,7 @@
 #!/usr/bin/env bats
 
+load /usr/local/share/bats/helper.bash
+
 # shellcheck source=../usr/local/share/bootstrap/common_functions.sh
 source "$BATS_TEST_DIRNAME/../usr/local/share/bootstrap/common_functions.sh"
 
@@ -8,10 +10,6 @@ function setup() {
     echo "original"
   }
 }
-
-load /usr/local/share/bats/bats-support/load.bash
-load /usr/local/share/bats/bats-assert/load.bash
-load /usr/local/share/bats/bats-mock/stub.bash
 
 @test "escape_shell_args escapes spaces" {
   run escape_shell_args 'test test2'
