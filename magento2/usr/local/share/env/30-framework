@@ -172,4 +172,4 @@ export MAGENTO_ENABLE_TARGET_RULE_CACHE
 MAGENTO_ENTERPRISE_EDITION=$(convert_to_boolean_string "${MAGENTO_ENTERPRISE_EDITION:-$(run_return_boolean has_composer_package "magento/product-enterprise-edition")}")
 export MAGENTO_ENTERPRISE_EDITION
 
-export MAGENTO_VERSION="${MAGENTO_VERSION:-$(composer_package_version magento/product-community-edition | cut -d. -f1,2)}"
+export MAGENTO_VERSION="${MAGENTO_VERSION:-$(detect_magento_version)}"
