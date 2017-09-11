@@ -39,7 +39,7 @@ function do_magento_frontend_build() {
 }
 
 function do_magento_frontend_build_install() {
-  if [ ! -d "$FRONTEND_INSTALL_DIRECTORY" ]; then
+  if [ ! -d "$FRONTEND_INSTALL_DIRECTORY" ] || [ ! -f "$FRONTEND_INSTALL_DIRECTORY/package.json" ]; then
     return
   fi
 
@@ -52,7 +52,7 @@ function do_magento_frontend_build_install() {
 }
 
 function do_magento_frontend_build_run() {
-  if [ ! -d "$FRONTEND_INSTALL_DIRECTORY" ]; then
+  if [ ! -d "$FRONTEND_BUILD_DIRECTORY" ] || [[ ! -e "$FRONTEND_BUILD_DIRECTORY/gulpfile.js" && ! -e "$FRONTEND_BUILD_DIRECTORY/gulpfile.babel.js" ]]; then
     return
   fi
 
@@ -69,6 +69,9 @@ function do_magento_frontend_build() {
 }
 
 function do_magento_frontend_cache_clean() {
+  if is_true "$DEVELOPMENT_MODE" || [ ! -f "$FRONTEND_INSTALL_DIRECTORY/package.json" ]; then
+    return
+  fi
   as_code_owner "npm cache clean --force"
 }
 
