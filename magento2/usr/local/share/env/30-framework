@@ -180,3 +180,5 @@ function detect_enterprise_edition() (
 )
 MAGENTO_ENTERPRISE_EDITION=$(convert_to_boolean_string "${MAGENTO_ENTERPRISE_EDITION:-$(detect_enterprise_edition)}")
 export MAGENTO_ENTERPRISE_EDITION
+
+export MAGENTO_VERSION="${MAGENTO_VERSION:-2.1}"

@@ -409,6 +409,10 @@ function do_magento_download_magerun2() {
 }
 
 function do_magento2_templating() {
+  if [ "$MAGENTO_VERSION" != "2.0" ] && [ "$MAGENTO_VERSION" != "2.1" ]; then
+    rm -f /etc/confd/conf.d/magento_config.php.toml /etc/confd/templates/magento/config.php.tmpl
+  fi
+
   mkdir -p /app/app/etc/
   chown -R "${CODE_OWNER}:${CODE_GROUP}" /app/app/
 }
