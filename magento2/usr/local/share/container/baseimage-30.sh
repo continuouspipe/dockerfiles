@@ -5,6 +5,7 @@ if [ "$IMAGE_VERSION" -ge 2 ]; then
 
   alias_function do_build do_magento2_build_inner
   do_build() {
+    do_magento_build_start_mysql
     do_magento2_build_inner
     PRODUCTION_ENVIRONMENT="$BUILD_PRODUCTION_ENVIRONMENT" MAGENTO_MODE="$BUILD_MAGENTO_MODE" DEVELOPMENT_MODE="$BUILD_DEVELOPMENT_MODE" do_magento2_build
   }
