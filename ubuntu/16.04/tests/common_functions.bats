@@ -1,5 +1,6 @@
 #!/usr/bin/env bats
 
+# shellcheck source=../usr/local/share/bootstrap/common_functions.sh
 source "$BATS_TEST_DIRNAME/../usr/local/share/bootstrap/common_functions.sh"
 
 function setup() {
@@ -9,12 +10,14 @@ function setup() {
 }
 
 function teardown() {
-  for overridden in "$MOCKS $SPIES"; do
+  for overridden in $MOCKS $SPIES; do
     restore_function "$overridden"
   done
 
-  MOCKED=''
+  MOCKS=''
   SPIES=''
+  set -e
+  set +x
 }
 
 function original_function() {
@@ -49,10 +52,13 @@ function spy() {
 }
 
 @test "escape_shell_args uses printf" {
-  spy 'printf'
-  run escape_shell_args 'test test2'
+  run_test() {
+    spy 'printf'
+    escape_shell_args 'test test2'
+    [ "$COMMAND_printf" == '%q  test test2' ]
+  }
+  run run_test
   [ "$status" -eq 0 ]
-  [ "$COMMAND_printf" == '%q  test test2' ]
 }
 
 @test "escape_shell_args adds a space to the end of the string" {
@@ -90,12 +96,16 @@ function spy() {
 }
 
 @test "get_user_home_directory uses getent and cut" {
-  spy 'getent'
-  spy 'cut'
-  run get_user_home_directory "build"
+  skip "Pipes not supported yet"
+  run_test() {
+    spy 'getent'
+    spy 'cut'
+    get_user_home_directory "build"
+    [ "$COMMAND_getent" == 'passwd build' ]
+    [ "$COMMAND_cut" == '-d: -f6' ]
+  }
+  run run_test
   [ "$status" -eq 0 ]
-  [ "$COMMAND_getent" == 'passwd build' ]
-  [ "$COMMAND_cut" == '-d: -f6' ]
 }
 
 @test "get_user_home_directory returns if no user given" {
@@ -122,27 +132,37 @@ function spy() {
 }
 
 @test "as_user runs a command via sudo" {
-  spy 'sudo'
-  mock 'get_user_home_directory' '/home/build'
-  run as_user "test"
+  run_test() {
+    spy 'sudo'
+    mock 'get_user_home_directory' '/home/build'
+    as_user "test"
+    [ "$COMMAND_sudo" == "-u build -E HOME=/home/build bash -c cd /app; test" ]
+  }
+  run run_test
   [ "$status" -eq 0 ]
-  [ "$COMMAND_sudo" == "-u build -E HOME=/home/build bash -c cd /app; test" ]
 }
 
 @test "as_user runs a command via sudo from a certain directory" {
-  spy 'sudo'
-  mock 'get_user_home_directory' '/home/build'
-  run as_user "test" "/tmp"
+  run_test() {
+    spy 'sudo'
+    mock 'get_user_home_directory' '/home/build'
+    as_user "test" "/tmp"
+    [ "$COMMAND_sudo" == "-u build -E HOME=/home/build bash -c cd /tmp; test" ]
+  }
+  run run_test
   [ "$status" -eq 0 ]
-  [ "$COMMAND_sudo" == "-u build -E HOME=/home/build bash -c cd /tmp; test" ]
 }
 
 @test "as_user runs a command via sudo as a certain user" {
-  spy 'sudo'
-  mock 'get_user_home_directory' '/var/www'
-  run as_user "test" "/app" "www-data"
+  run_test() {
+    spy 'sudo'
+    mock 'get_user_home_directory' '/var/www'
+    as_user "test" "/app" "www-data"
+    [ "$COMMAND_sudo" == "-u www-data -E HOME=/var/www /bin/bash -c cd '\''/app'\''; test" ]
+  }
+  run run_test
+  [ "$output" == "" ]
   [ "$status" -eq 0 ]
-  [ "$COMMAND_sudo" == "sudo -u www-data -E HOME=/var/www bash -c cd /app; test" ]
 }
 
 @test "alias_function renames a function" {
