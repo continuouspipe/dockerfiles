@@ -3,13 +3,6 @@
 if [ "$IMAGE_VERSION" -ge 2 ]; then
   source /usr/local/share/magento2/magento_functions.sh
 
-  alias_function do_build do_magento2_build_inner
-  do_build() {
-    do_magento_build_start_mysql
-    do_magento2_build_inner
-    PRODUCTION_ENVIRONMENT="$BUILD_PRODUCTION_ENVIRONMENT" MAGENTO_MODE="$BUILD_MAGENTO_MODE" MAGE_MODE="$BUILD_MAGENTO_MODE" DEVELOPMENT_MODE="$BUILD_DEVELOPMENT_MODE" do_magento2_build
-  }
-
   alias_function do_start do_magento2_start_inner
   do_start() {
     do_magento2_start_inner
@@ -89,6 +82,25 @@ else
   }
 fi
 
+if [ "$IMAGE_VERSION" -ge 3 ]; then
+  alias_function do_build do_magento2_build_inner
+  do_build() {
+    if ! has_deploy_pipeline; then
+      do_magento_build_start_mysql
+    fi
+    do_magento2_build_inner
+    do_magento2_build
+  }
+elif [ "$IMAGE_VERSION" -ge 2 ]; then
+  alias_function do_build do_magento2_build_inner
+  do_build() {
+    if ! has_deploy_pipeline; then
+      do_magento_build_start_mysql
+    fi
+    do_magento2_build_inner
+    PRODUCTION_ENVIRONMENT="$BUILD_PRODUCTION_ENVIRONMENT" MAGENTO_MODE="$BUILD_MAGENTO_MODE" MAGE_MODE="$BUILD_MAGENTO_MODE" DEVELOPMENT_MODE="$BUILD_DEVELOPMENT_MODE" do_magento2_build
+  }
+fi
 
 do_magento() (
   set +x

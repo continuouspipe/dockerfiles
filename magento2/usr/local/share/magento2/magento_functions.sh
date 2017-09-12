@@ -398,8 +398,14 @@ function do_magento_download_magerun2() {
   chmod +x /app/bin/n98-magerun2.phar
 }
 
+function has_deploy_pipeline() (
+  set +e
+  dpkg --compare-versions "$MAGENTO_VERSION" ge 2.2
+  return $?
+)
+
 function remove_config_template() {
-  if dpkg --compare-versions "$MAGENTO_VERSION" ge 2.2; then
+  if has_deploy_pipeline; then
     rm -f /etc/confd/conf.d/magento_config.php.toml /etc/confd/templates/magento/config.php.tmpl
   fi
 }
@@ -454,17 +460,11 @@ function do_magento_create_admin_user() (
   fi
 )
 
-function do_magento2_build() {
-  do_magento_create_web_writable_directories
-  do_magento_frontend_build
-  do_magento_frontend_cache_clean
-  if [ "$IMAGE_VERSION" -le 3 ]; then
-    do_magento_assets_download
-    do_magento_assets_install
+setup_build_database() {
+  if has_deploy_pipeline; then
+    return
   fi
-  do_magento_install_custom
 
-  DATABASE_HOST="localhost" DATABASE_USER="root" DATABASE_PASSWORD="" DATABASE_ROOT_PASSWORD="" MAGENTO_ENABLE_CACHE="false" MAGENTO_USE_REDIS="false" MAGENTO_HTTP_CACHE_HOSTS="" do_templating
   if [ "$IMAGE_VERSION" -le 3 ]; then
     DATABASE_HOST="localhost" DATABASE_USER="root" DATABASE_PASSWORD="" DATABASE_ROOT_PASSWORD="" DATABASE_USER_HOST="localhost" MAGENTO_ENABLE_CACHE="false" MAGENTO_USE_REDIS="false" MAGENTO_HTTP_CACHE_HOSTS="" do_magento_database_install
   fi
@@ -478,11 +478,29 @@ function do_magento2_build() {
   MAGENTO_ENABLE_CACHE="false" MAGENTO_USE_REDIS="false" MAGENTO_HTTP_CACHE_HOSTS="" do_magento_setup_upgrade
   do_magento_remove_config_template
   do_magento_move_compiled_assets_back_to_codebase
+}
+
+function do_magento2_build() {
+  do_magento_create_web_writable_directories
+  do_magento_frontend_build
+  do_magento_frontend_cache_clean
+  if [ "$IMAGE_VERSION" -le 3 ]; then
+    do_magento_assets_download
+    do_magento_assets_install
+  fi
+  do_magento_install_custom
+
+  DATABASE_HOST="localhost" DATABASE_USER="root" DATABASE_PASSWORD="" DATABASE_ROOT_PASSWORD="" MAGENTO_ENABLE_CACHE="false" MAGENTO_USE_REDIS="false" MAGENTO_HTTP_CACHE_HOSTS="" do_templating
+
+  setup_build_database
 
   do_magento_dependency_injection_compilation
   do_magento_deploy_static_content
   do_magento_install_finalise_custom
-  do_magento_build_stop_mysql
+
+  if ! has_deploy_pipeline; then
+    do_magento_build_stop_mysql
+  fi
 
   # Reset permissions to www-data:build for the var/log folder, which is owned by build:build after running bin/magento tasks as the build user!
   do_magento_create_web_writable_directories
@@ -492,11 +510,11 @@ function do_magento2_development_build() {
   if [[ "${IS_APP_MOUNTPOINT}" == "true" ]]; then
     do_magento_create_web_writable_directories
   fi
-  if [[ "${MAGENTO_RUN_BUILD}" != "true" ]]; then
+  if [[ "${RUN_BUILD}" != "true" ]]; then
     # Ensure existing /app/app/etc/config.php isn't overwritten
     do_magento_remove_config_template
   fi
-  if [[ "${MAGENTO_RUN_BUILD}" == "true" ]]; then
+  if [[ "${RUN_BUILD}" == "true" ]]; then
     if [ "$IMAGE_VERSION" -le 3 ]; then
       do_magento_assets_download
       do_magento_assets_install
