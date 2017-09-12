@@ -159,9 +159,5 @@ do_spryker_run_tests() {
 
 do_spryker_console() (
   set +x
-  if [ "$#" -gt 0 ]; then
-    as_app_user "vendor/bin/console $(printf "%q " "$@")"
-  else
-    as_app_user "vendor/bin/console"
-  fi
+  as_app_user "$(escape_shell_args vendor/bin/console "$@")"
 )
