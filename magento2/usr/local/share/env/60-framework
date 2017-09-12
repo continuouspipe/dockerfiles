@@ -8,3 +8,8 @@ export BUILD_MAGENTO_MODE=${BUILD_MAGENTO_MODE:-production}
 
 # Support older configurations by setting original env vars
 export REDIS_HOST_PORT=${REDIS_PORT}
+
+MAGENTO_ENTERPRISE_EDITION=$(convert_to_boolean_string "${MAGENTO_ENTERPRISE_EDITION:-$(run_return_boolean has_composer_package "magento/product-enterprise-edition")}")
+export MAGENTO_ENTERPRISE_EDITION
+
+export MAGENTO_VERSION="${MAGENTO_VERSION:-$(detect_magento_version)}"
