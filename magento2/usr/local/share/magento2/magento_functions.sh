@@ -460,7 +460,15 @@ function do_magento_create_admin_user() (
   fi
 )
 
-setup_build_database() {
+function do_magento_app_config_dump() {
+  do_magento "app:config:dump"
+}
+
+function do_magento_app_config_import() {
+  do_magento "app:config:import"
+}
+
+function setup_build_database() {
   if has_deploy_pipeline; then
     return
   fi
@@ -484,10 +492,8 @@ function do_magento2_build() {
   do_magento_create_web_writable_directories
   do_magento_frontend_build
   do_magento_frontend_cache_clean
-  if [ "$IMAGE_VERSION" -le 3 ]; then
-    do_magento_assets_download
-    do_magento_assets_install
-  fi
+  call_if_available do_magento_assets_download
+  call_if_available do_magento_assets_install
   do_magento_install_custom
 
   setup_build_database
@@ -538,6 +544,9 @@ function do_magento2_setup() {
   call_if_available do_magento_database_install
   do_magento_installer_install
   do_replace_core_config_values
+  if has_deploy_pipeline; then
+    do_magento_app_config_import
+  fi
   do_magento_cache_flush
   do_magento_setup_upgrade
   do_magento_cache_flush
