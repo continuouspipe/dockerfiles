@@ -149,9 +149,5 @@ do_symfony_build() {
 
 do_symfony_console() (
   set +x
-  if [ "$#" -gt 0 ]; then
-    as_app_user "'$SYMFONY_CONSOLE' $(printf "%q " "$@")"
-  else
-    as_app_user "'$SYMFONY_CONSOLE'"
-  fi
+  as_app_user "$(escape_shell_args "$SYMFONY_CONSOLE" "$@")"
 )

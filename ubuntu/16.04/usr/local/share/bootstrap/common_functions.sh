@@ -281,9 +281,5 @@ function do_list_functions() {
 }
 
 function do_shell() {
-  if [ "$#" -gt 0 ]; then
-    bash "$@"
-  else
-    bash
-  fi
+  bash "$@"
 }
