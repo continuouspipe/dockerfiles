@@ -81,18 +81,15 @@ do_database_build() {
     return 0
   fi
 
-  # load the database if it doesn't exist
-  set +e
-  do_symfony_console doctrine:database:create >/dev/null
-  local DATABASE_EXISTED=$?
-  set -e
+  wait_for_remote_ports "${SYMFONY_DOCTRINE_WAIT_TIMEOUT}" "${DATABASE_HOST}:${DATABASE_PORT}"
 
-  local QUERY_LINE_COUNT=0
-  if [ "$DATABASE_EXISTED" -eq 1 ]; then
-    QUERY_LINE_COUNT="$(do_symfony_console doctrine:query:sql 'SELECT TABLE_NAME FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = database()' | wc -l)"
-  fi
+  # create the database if it doesn't exist
+  do_symfony_console doctrine:database:create --if-not-exists
 
-  if [ "$DATABASE_EXISTED" -ne 1 ] || [ "$QUERY_LINE_COUNT" -lt 3 ]; then
+  local QUERY_LINE_COUNT
+  QUERY_LINE_COUNT="$(do_symfony_console doctrine:query:sql 'SELECT TABLE_NAME FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = database()' | wc -l)"
+
+  if [ "$QUERY_LINE_COUNT" -lt 3 ]; then
     do_database_install
   else
     do_database_update
