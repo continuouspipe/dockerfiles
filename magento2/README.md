@@ -187,6 +187,7 @@ MAGENTO_ENABLE_CONFIG_INTEGRATION_API_CACHE | If true, enable this cache type in
 MAGENTO_ENABLE_TRANSLATE_CACHE | If true, enable this cache type in /app/app/etc/env.php | true/false | true
 MAGENTO_ENABLE_CONFIG_WEBSERVICE_CACHE | If true, enable this cache type in /app/app/etc/env.php | true/false | true
 MAGENTO_ENABLE_TARGET_RULE_CACHE | If true, enable the target rule cache type in /app/app/etc/env.php. Enterprise edition only. | true/false | true
+MAGENTO_ENABLE_COMPILED_CONFIG_CACHE | If true, enable the compiled_config cache type in /app/app/etc/env.php. Magento 2.2 onwards | true/false | true
 MAGENTO_ENTERPRISE_EDITION | If true, this installation of magento is the enterprise edition which allows you to use the target rule cache. | true/false | false
 
 The following variables have had their defaults changed from the php-nginx image so that Magento 2 runs better:
