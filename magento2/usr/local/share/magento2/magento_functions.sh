@@ -417,6 +417,12 @@ function do_magento2_templating() {
   chown -R "${CODE_OWNER}:${CODE_GROUP}" /app/app/
 }
 
+function do_magento2_post_templating() {
+  if has_deploy_pipeline; then
+    php /usr/local/share/magento2/format_env.php
+  fi
+}
+
 function do_magento_catalog_image_resize() {
   as_user "bin/magento catalog:images:resize -vvv" "/app" "www-data"
 }

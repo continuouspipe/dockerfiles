@@ -32,6 +32,7 @@ if [ "$IMAGE_VERSION" -ge 2 ]; then
   do_templating() {
     do_magento2_templating
     do_magento2_templating_inner
+    do_magento2_post_templating
   }
 
   alias_function do_composer_config do_magento_composer_config_inner
