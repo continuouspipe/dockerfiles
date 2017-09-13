@@ -7,8 +7,10 @@ clear_env = no
 
 listen = /run/php{{ getenv "PHP_VERSION" }}-fpm.sock
 
+{{ if not (eq "true" (getenv "NON_PRIVILEGED_USER")) }}
 listen.owner = www-data
 listen.group = www-data
+{{ end }}
 
 pm = dynamic
 

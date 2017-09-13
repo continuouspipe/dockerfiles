@@ -39,9 +39,15 @@ get_user_home_directory() {
 }
 
 as_user() (
-  set +x
   local COMMAND="$1"
   local WORKING_DIR="$2"
+
+  if [ "true" = "$NON_PRIVILEGED_USER" ];
+    /bin/bash -c "cd '$WORKING_DIR'; $COMMAND"
+    return "$?"
+  fi
+
+  set +x
   local USER="$3"
   if [ -z "$COMMAND" ]; then
     return 1;
