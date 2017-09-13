@@ -1,5 +1,13 @@
 #!/bin/bash
 
+function detect_magento_version() {
+  if has_composer_package magento/product-community-edition; then
+    composer_package_version magento/product-community-edition | cut -d. -f1,2
+  else
+    echo "2.1"
+  fi
+}
+
 function do_composer_config() {
   as_code_owner "composer global config repositories.magento composer https://repo.magento.com/"
 
@@ -408,12 +416,11 @@ function do_magento_download_magerun2() {
   chmod +x /app/bin/n98-magerun2.phar
 }
 
-function remove_config_template() (
-  set +e
+function remove_config_template() {
   if dpkg --compare-versions "$MAGENTO_VERSION" ge 2.2; then
     rm -f /etc/confd/conf.d/magento_config.php.toml /etc/confd/templates/magento/config.php.tmpl
   fi
-)
+}
 
 function do_magento2_templating() {
   remove_config_template
