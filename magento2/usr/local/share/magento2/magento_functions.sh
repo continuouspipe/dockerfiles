@@ -399,8 +399,8 @@ function do_magento_download_magerun2() {
 }
 
 function has_deploy_pipeline() (
-  set +e
-  dpkg --compare-versions "$MAGENTO_VERSION" ge 2.2
+  set +ex
+  dpkg --compare-versions "$MAGENTO_VERSION" ge 2.2 && [ -f "${WORK_DIRECTORY}/app/etc/config.php" ]
   return $?
 )
 
@@ -465,14 +465,14 @@ setup_build_database() {
     return
   fi
 
-  if [ "$IMAGE_VERSION" -le 3 ]; then
+  DATABASE_HOST="localhost" DATABASE_USER="root" DATABASE_PASSWORD="" DATABASE_ROOT_PASSWORD="" MAGENTO_ENABLE_CACHE="false" MAGENTO_USE_REDIS="false" MAGENTO_HTTP_CACHE_HOSTS="" do_templating
+
+  if is_function do_magento_database_install; then
     DATABASE_HOST="localhost" DATABASE_USER="root" DATABASE_PASSWORD="" DATABASE_ROOT_PASSWORD="" DATABASE_USER_HOST="localhost" MAGENTO_ENABLE_CACHE="false" MAGENTO_USE_REDIS="false" MAGENTO_HTTP_CACHE_HOSTS="" do_magento_database_install
   fi
   DATABASE_HOST="localhost" DATABASE_USER="root" DATABASE_PASSWORD="" DATABASE_ROOT_PASSWORD="" DATABASE_USER_HOST="localhost" MAGENTO_ENABLE_CACHE="false" MAGENTO_USE_REDIS="false" MAGENTO_HTTP_CACHE_HOSTS="" do_magento_installer_install
   DATABASE_HOST="localhost" DATABASE_USER="root" DATABASE_PASSWORD="" DATABASE_ROOT_PASSWORD="" DATABASE_USER_HOST="localhost" MAGENTO_ENABLE_CACHE="false" MAGENTO_USE_REDIS="false" MAGENTO_HTTP_CACHE_HOSTS="" do_replace_core_config_values
-  if [ "$IMAGE_VERSION" -le 3 ]; then
-    do_magento_assets_cleanup
-  fi
+  call_if_available do_magento_assets_cleanup
 
   do_magento_move_compiled_assets_away_from_codebase
   MAGENTO_ENABLE_CACHE="false" MAGENTO_USE_REDIS="false" MAGENTO_HTTP_CACHE_HOSTS="" do_magento_setup_upgrade
@@ -489,8 +489,6 @@ function do_magento2_build() {
     do_magento_assets_install
   fi
   do_magento_install_custom
-
-  DATABASE_HOST="localhost" DATABASE_USER="root" DATABASE_PASSWORD="" DATABASE_ROOT_PASSWORD="" MAGENTO_ENABLE_CACHE="false" MAGENTO_USE_REDIS="false" MAGENTO_HTTP_CACHE_HOSTS="" do_templating
 
   setup_build_database
 
@@ -515,10 +513,8 @@ function do_magento2_development_build() {
     do_magento_remove_config_template
   fi
   if [[ "${RUN_BUILD}" == "true" ]]; then
-    if [ "$IMAGE_VERSION" -le 3 ]; then
-      do_magento_assets_download
-      do_magento_assets_install
-    fi
+    call_if_available do_magento_assets_download
+    call_if_available do_magento_assets_install
     do_templating
     do_magento2_setup
     do_magento_frontend_build
@@ -539,13 +535,24 @@ function do_magento2_development_build() {
 }
 
 function do_magento2_setup() {
-  if [ "$IMAGE_VERSION" -le 3 ]; then
-    do_magento_database_install
-  fi
+  call_if_available do_magento_database_install
   do_magento_installer_install
   do_replace_core_config_values
   do_magento_cache_flush
   do_magento_setup_upgrade
   do_magento_cache_flush
   do_magento_reindex
+}
+
+function is_function() {
+  if [ "$(type -t "$1")" == "function" ]; then
+    return 0
+  fi
+  return 1
+}
+
+function call_if_available() {
+  if is_function "$1"; then
+    eval "$1"
+  fi
 }

@@ -4,10 +4,17 @@ export MAGENTO_ADMIN_IP_WHITELIST=${MAGENTO_ADMIN_IP_WHITELIST:-$AUTH_IP_WHITELI
 
 deprecate_env_var MAGENTO_RUN_BUILD RUN_BUILD
 
-if [ "$IMAGE_VERSION" -le 3 ]; then
+if [ "$IMAGE_VERSION" -ge 3 ]; then
+  if [ "$MAGENTO_MODE" = 'production' ]; then
+    export PRODUCTION_ENVIRONMENT="true"
+  fi
+else
   export BUILD_DEVELOPMENT_MODE=${BUILD_DEVELOPMENT_MODE:-false}
   export BUILD_PRODUCTION_ENVIRONMENT=${BUILD_PRODUCTION_ENVIRONMENT:-true}
   export BUILD_MAGENTO_MODE=${BUILD_MAGENTO_MODE:-production}
+
+  PRODUCTION_ENVIRONMENT="$(convert_to_boolean_string "${PRODUCTION_ENVIRONMENT:-false}")"
+  export PRODUCTION_ENVIRONMENT
 fi
 
 # Support older configurations by setting original env vars
