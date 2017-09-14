@@ -49,11 +49,7 @@ do_spryker_app_permissions() {
 
 do_spryker_config_create() (
   set +x
-  if [ "$NON_PRIVELEGED_USER" = "true" ]; then
-    local target=~/.pgpass
-  else
-    local target=/root/.pgpass
-  fi
+  local target=~/.pgpass
 
   echo "Creating Postgres Credentials file in "$target
   # create .pgpass in home directory for postgres client
