@@ -1,12 +1,6 @@
 #!/bin/bash
 source /usr/local/share/spryker/spryker_functions.sh
 
-alias_function do_build_permissions do_spryker_build_permissions_inner
-do_build_permissions() {
-  do_spryker_build_permissions_inner
-  do_spryker_build
-}
-
 alias_function do_build do_spryker_nginx_build_inner
 do_build() {
   do_spryker_nginx_build_inner
@@ -29,6 +23,7 @@ do_start() {
 alias_function do_development_start do_spryker_development_start_inner
 do_development_start() {
   do_spryker_development_start_inner
+  do_spryker_build
   do_spryker_install
   do_spryker_app_permissions
 }
