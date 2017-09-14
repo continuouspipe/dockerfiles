@@ -1,0 +1,10 @@
+#!/bin/bash
+
+# If running inside Heroku, exposed port is in `$PORT` 
+IN_HEROKU="$(convert_to_boolean_string "${IN_HEROKU:-false}")"
+if [ "true" = "$IN_HEROKU" ]; then
+    export WEB_HTTPS="false"
+    export WEB_HTTP_PORT=$PORT
+
+    export NON_PRIVILEGED_USER="true"
+fi
