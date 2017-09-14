@@ -42,6 +42,13 @@ as_user() (
   set +x
   local COMMAND="$1"
   local WORKING_DIR="$2"
+
+  if [ "true" = "$NON_PRIVILEGED_USER" ]; then
+    set -x
+    /bin/bash -c "cd '$WORKING_DIR'; $COMMAND"
+    return "$?"
+  fi
+
   local USER="$3"
   if [ -z "$COMMAND" ]; then
     return 1;

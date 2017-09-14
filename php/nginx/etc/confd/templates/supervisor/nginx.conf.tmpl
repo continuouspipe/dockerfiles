@@ -5,7 +5,9 @@ stdout_logfile_maxbytes=0
 stderr_logfile=/dev/stderr
 stderr_logfile_maxbytes=0
 loglevel = warn
+{{ if not (eq "true" (getenv "NON_PRIVILEGED_USER")) }}
 user = root
+{{ end }}
 autostart = {{ getenv "START_NGINX" }}
 autorestart = true
 priority = 5

@@ -1,4 +1,6 @@
+{{ if not (eq "true" (getenv "NON_PRIVILEGED_USER")) }}
 user www-data;
+{{ end }}
 worker_processes auto;
 pid /run/nginx.pid;
 

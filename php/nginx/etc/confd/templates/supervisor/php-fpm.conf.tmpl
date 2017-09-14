@@ -4,7 +4,9 @@ stdout_logfile=/dev/stdout
 stdout_logfile_maxbytes=0
 stderr_logfile=/dev/stderr
 stderr_logfile_maxbytes=0
+{{ if not (eq "true" (getenv "NON_PRIVILEGED_USER")) }}
 user = root
+{{ end }}
 autostart = {{ getenv "START_PHP_FPM" }}
 autorestart = true
 priority = 5
