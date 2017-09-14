@@ -6,5 +6,6 @@ if [ "true" = "$IN_HEROKU" ]; then
     export WEB_HTTPS="false"
     export WEB_HTTP_PORT=$PORT
 
+    export IS_CHOWN_FORBIDDEN="true"
     export NON_PRIVILEGED_USER="true"
 fi
