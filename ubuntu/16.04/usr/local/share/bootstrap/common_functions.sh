@@ -262,10 +262,10 @@ function set_path_permissions() {
 
   case "$PERMISSION_MODE" in
   facl)
-    setfacl -R $(printf '-m user:%s:rwX ' "${WRITEABLE_USERS[@]}") \
-            $(printf '-m default:user:%s:rwX ' "${WRITEABLE_USERS[@]}") \
-            $(printf '-m user:%s:rX ' "${READABLE_USERS[@]}") \
-            $(printf '-m default:user:%s:rX ' "${READABLE_USERS[@]}") \
+    setfacl -R $(printf -- '-m user:%s:rwX ' "${WRITEABLE_USERS[@]}") \
+            $(printf -- '-m default:user:%s:rwX ' "${WRITEABLE_USERS[@]}") \
+            $(printf -- '-m user:%s:rX ' "${READABLE_USERS[@]}") \
+            $(printf -- '-m default:user:%s:rX ' "${READABLE_USERS[@]}") \
             "${PATHS[@]}"
     chmod -R ug+rw,o-rwx "${PATHS[@]}"
     ;;
