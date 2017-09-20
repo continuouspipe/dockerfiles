@@ -346,3 +346,17 @@ function do_list_functions() {
 function do_shell() {
   bash "$@"
 }
+
+function has_acl() {
+  return 0
+}
+
+function permission_mode() {
+  if [ "$IS_CHOWN_FORBIDDEN" == "true" ]; then
+    echo "chmod"
+  elif has_acl; then
+    echo "facl"
+  else
+    echo "stickybit"
+  fi
+}
