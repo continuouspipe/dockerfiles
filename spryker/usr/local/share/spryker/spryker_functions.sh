@@ -49,10 +49,12 @@ do_spryker_app_permissions() {
 
 do_spryker_config_create() (
   set +x
-  echo "Creating Postgres Credentials file in /root/.pgpass"
+  local target=~/.pgpass
+
+  echo "Creating Postgres Credentials file in "$target
   # create .pgpass in home directory for postgres client
-  echo "$DATABASE_HOST:*:*:$DATABASE_USER:$DATABASE_PASSWORD" > /root/.pgpass
-  chmod 0600 /root/.pgpass
+  echo "$DATABASE_HOST:*:*:$DATABASE_USER:$DATABASE_PASSWORD" > $target
+  chmod 0600 $target
 )
 
 do_spryker_build() {
@@ -98,7 +100,7 @@ do_spryker_generate_files() {
 do_spryker_install() {
   # check if database exists (it is supposed to be created by postgres container)
   set +e
-    psql -U "$DATABASE_USER" -h "$DATABASE_HOST" -lqt | cut -d \| -f 1 | grep -q "$DATABASE_NAME"
+    psql -U "$DATABASE_USER" -h "$DATABASE_HOST" -lqt "$DATABASE_NAME" | cut -d \| -f 1 | grep -q "$DATABASE_NAME"
     DATABASE_EXISTS=$?
   set -e
 
@@ -110,7 +112,7 @@ do_spryker_install() {
   # database exists
   # check if spryker is installed
   set +e
-    psql -U "$DATABASE_USER" -h "$DATABASE_HOST" -c "SELECT EXISTS (SELECT * FROM   information_schema.tables WHERE table_catalog = '$DATABASE_NAME' AND table_name = 'spy_locale');" | grep -q f
+    psql -U "$DATABASE_USER" -h "$DATABASE_HOST" -c "SELECT EXISTS (SELECT * FROM information_schema.tables WHERE table_catalog = '$DATABASE_NAME' AND table_name = 'spy_locale');" "$DATABASE_NAME" | grep -q f
     SPRYKER_INSTALLED=$?
   set -e
 

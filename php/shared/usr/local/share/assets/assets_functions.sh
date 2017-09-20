@@ -155,6 +155,10 @@ function assets_apply_database_postgres()
     DATABASE_ARGS+=("--username=${DATABASE_USER}")
   fi
 
+  if [ -n "${DATABASE_NAME}" ]; then
+    DATABASE_ARGS+=("${DATABASE_NAME}")
+  fi
+
   wait_for_remote_ports "${ASSETS_DATABASE_WAIT_TIMEOUT}" "${DATABASE_HOST}:${DATABASE_PORT}"
 
   local DATABASES
