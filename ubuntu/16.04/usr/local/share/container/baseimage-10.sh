@@ -47,3 +47,7 @@ do_setup() {
 do_migrate() {
   :
 }
+
+do_bash() {
+  /bin/bash
+}
