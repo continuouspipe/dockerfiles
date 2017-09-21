@@ -8,11 +8,12 @@ do_build_permissions() {
   fi
 }
 
-do_composer_config() {
+do_composer_config() (
+  set +x
   if [ -n "$GITHUB_TOKEN" ]; then
     as_code_owner "composer global config github-oauth.github.com '$GITHUB_TOKEN'"
   fi
-}
+)
 
 run_composer() {
   as_code_owner "composer install ${COMPOSER_INSTALL_FLAGS}"
