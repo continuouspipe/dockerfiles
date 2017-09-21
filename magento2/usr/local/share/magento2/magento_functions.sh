@@ -8,7 +8,7 @@ function detect_magento_version() {
   fi
 }
 
-function do_composer_config() {
+function do_magento_composer_config() {
   as_code_owner "composer global config repositories.magento composer https://repo.magento.com/"
 
   if [ -n "$MAGENTO_USERNAME" ] && [ -n "$MAGENTO_PASSWORD" ]; then
