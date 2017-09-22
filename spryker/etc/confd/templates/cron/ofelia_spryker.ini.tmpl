@@ -1,19 +1,19 @@
 [job-local "mailqueue-registration-send"]
 schedule = */10 * * * * 
-command = /app/vendor/bin/console mailqueue-registration-send
+command = supervisorctl -c /etc/supervisor/supervisord.conf -u supervisor -p supervisor start mailqueue-registration-send
 
 [job-local "stores-collectors"]
 schedule = * * * * * 
-command = /app/vendor/bin/console stores-collectors
+command = supervisorctl -c /etc/supervisor/supervisord.conf -u supervisor -p supervisor start stores-collectors
 
 [job-local "oms-check-condition"]
 schedule = * * * * * 
-command = /app/vendor/bin/console oms-check-condition
+command = supervisorctl -c /etc/supervisor/supervisord.conf -u supervisor -p supervisor start oms-check-condition
 
 [job-local "oms-check-timeout"]
 schedule = * * * * * 
-command = /app/vendor/bin/console oms-check-timeout
+command = supervisorctl -c /etc/supervisor/supervisord.conf -u supervisor -p supervisor start oms-check-timeout
 
 [job-local "oms-clear-locks"]
 schedule = 0 6 * * * 
-command = /app/vendor/bin/console oms-clear-locks
+command = supervisorctl -c /etc/supervisor/supervisord.conf -u supervisor -p supervisor start oms-clear-locks
