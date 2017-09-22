@@ -1,0 +1,6 @@
+[template]
+src   = "cron/ofelia_spryker.ini.tmpl"
+dest  = "/etc/ofelia/config.ini"
+mode  = "0644"
+keys = [
+]
