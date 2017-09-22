@@ -18,7 +18,7 @@ export APP_GROUP=${APP_GROUP:-www-data}
 export START_MODE=${START_MODE:-web}
 declare "START_MODE_${START_MODE^^}=true"
 
-START_CRON="$(convert_to_boolean_string "${START_MODE_CRON:-false}")"
+START_CRON="$(convert_to_boolean_string "${START_CRON:-${START_MODE_CRON:-false}}")"
 export START_CRON
 
 APP_ENDPOINT_REWRITE="$(convert_to_boolean_string "${APP_ENDPOINT_REWRITE-true}")"
