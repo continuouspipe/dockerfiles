@@ -8,7 +8,9 @@ stdout_logfile=/dev/stdout
 stdout_logfile_maxbytes=0
 stderr_logfile=/dev/stderr
 stderr_logfile_maxbytes=0
+{{ if not (eq "true" (getenv "NON_PRIVILEGED_USER")) }}
 user = www-data
+{{ end }}
 autostart = false
 autorestart = false
 priority = 5
