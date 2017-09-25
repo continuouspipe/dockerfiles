@@ -22,8 +22,7 @@ function do_magento_composer_config() (
 )
 
 function do_composer_pre_install() {
-  mkdir -p /app/bin
-  chown -R "${CODE_OWNER}:${CODE_GROUP}" /app/bin
+  as_code_owner "mkdir -p /app/bin"
 }
 
 function do_composer_post_install() {
@@ -34,13 +33,8 @@ function do_composer_post_install() {
 
 function do_magento_create_web_writable_directories() {
   mkdir -p pub/media pub/static var/log var/report var/generation generated
-
-  if [ "$IS_CHOWN_FORBIDDEN" != 'true' ]; then
-    chown -R "${APP_USER}:${CODE_GROUP}" pub/media pub/static var generated
-    chmod -R ug+rw,o-w pub/media pub/static var generated
-  else
-    chmod -R a+rw pub/media pub/static var generated
-  fi
+  set_path_permissions "$CODE_OWNER $APP_USER" "$CODE_OWNER $APP_USER" \
+    "pub/media pub/static var/log var/report var/generation generated"
 }
 
 function do_magento_frontend_build() {
@@ -54,10 +48,6 @@ function do_magento_frontend_build_install() {
   fi
 
   mkdir -p pub/static/frontend/
-  if [ -d "pub/static/frontend/" ] && [ "$IS_CHOWN_FORBIDDEN" != 'true' ]; then
-    chown -R "${CODE_OWNER}:${CODE_GROUP}" pub/static/frontend/
-  fi
-
   as_code_owner "npm install" "$FRONTEND_INSTALL_DIRECTORY"
 }
 
@@ -93,11 +83,7 @@ function do_magento_install_custom() {
 }
 
 function do_magento_switch_web_writable_directories_to_code_owner() {
-  if [ "$IS_CHOWN_FORBIDDEN" != 'true' ]; then
-    chown -R "${CODE_OWNER}":"${CODE_GROUP}" pub/media pub/static var generated
-  else
-    chmod a+rw pub/media pub/static var generated
-  fi
+  do_magento_create_web_writable_directories
 }
 
 function do_magento_move_compiled_assets_away_from_codebase() {
@@ -313,21 +299,12 @@ function do_magento_wait_for_database() {
 
 function do_magento_assets_install() {
   if [ -f "$ASSET_ARCHIVE_PATH" ]; then
-    if [ "$IS_CHOWN_FORBIDDEN" != 'true' ]; then
-      chown -R "${CODE_OWNER}:${CODE_GROUP}" pub/media
-    else
-      chmod -R a+rw pub/media
-    fi
+    do_magento_create_web_writable_directories
 
     echo 'extracting media files'
     as_code_owner "tar --no-same-owner --extract --strip-components=2 --touch --overwrite --gzip --file=$ASSET_ARCHIVE_PATH || exit 1" pub/media
 
-    if [ "$IS_CHOWN_FORBIDDEN" != 'true' ]; then
-      chown -R "${APP_USER}:${CODE_GROUP}" pub/media
-      chmod -R ug+rw,o-rw pub/media
-    else
-      chmod -R a+rw pub/media
-    fi
+    do_magento_create_web_writable_directories
   fi
 }
 
@@ -412,8 +389,7 @@ function do_install_sample_data() {
 }
 
 function do_magento_download_magerun2() {
-  mkdir -p /app/bin
-  chown build:build /app/bin
+  as_code_owner "mkdir -p /app/bin"
   as_code_owner "wget -O n98-magerun2.phar https://files.magerun.net/n98-magerun2.phar" /app/bin
   chmod +x /app/bin/n98-magerun2.phar
 }
@@ -427,8 +403,7 @@ function remove_config_template() {
 function do_magento2_templating() {
   remove_config_template
 
-  mkdir -p /app/app/etc/
-  chown -R "${CODE_OWNER}:${CODE_GROUP}" /app/app/
+  as_code_owner "mkdir -p /app/app/etc/"
 }
 
 function do_magento_catalog_image_resize() {

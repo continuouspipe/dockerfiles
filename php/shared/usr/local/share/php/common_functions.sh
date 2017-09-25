@@ -1,11 +1,7 @@
 #!/bin/bash
 
 do_build_permissions() {
-  if [ "$IS_CHOWN_FORBIDDEN" != 'true' ]; then
-    chown -R "$CODE_OWNER":"$CODE_GROUP" /app/
-  else
-    chmod -R a+rw /app/
-  fi
+  set_path_permissions "$CODE_OWNER $APP_USER" "$CODE_OWNER" "$WORK_DIRECTORY"
 }
 
 do_composer_config() (
