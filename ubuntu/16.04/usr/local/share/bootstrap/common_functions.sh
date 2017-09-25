@@ -136,19 +136,30 @@ is_hem_project() {
   return "$?"
 }
 
+get_filesystem_for_work_directory() (
+  set +e
+  grep "$WORK_DIRECTORY" /proc/mounts | awk '{ print $3 }'
+)
+
 is_app_mountpoint() {
-  grep -q -E "/app (nfs|vboxsf|fuse\\.osxfs)" /proc/mounts
+  local FILESYSTEM=''
+  FILESYSTEM="$(get_filesystem_for_work_directory)"
+  echo "$FILESYSTEM" | grep -q -E "(nfs|vboxsf|fuse\\.osxfs)"
   return "$?"
 }
 
 is_chown_forbidden() {
   # Determine if the app directory is an NFS mountpoint, which doesn't allow chowning.
-  grep -q -E "/app (nfs|vboxsf)" /proc/mounts
+  local FILESYSTEM=''
+  FILESYSTEM="$(get_filesystem_for_work_directory)"
+  echo "$FILESYSTEM" | grep -q -E "(nfs|vboxsf)"
   return "$?"
 }
 
 is_vboxsf_mountpoint() {
-  grep -q "/app vboxsf" /proc/mounts
+  local FILESYSTEM=''
+  FILESYSTEM="$(get_filesystem_for_work_directory)"
+  echo "$FILESYSTEM" | grep -q "vboxsf"
   return "$?"
 }
 
@@ -255,6 +266,29 @@ function canonical_port() {
   echo "$PORT"
 }
 
+function has_acl() {
+  local FILESYSTEM=''
+  FILESYSTEM="$(get_filesystem_for_work_directory)"
+  case "$FILESYSTEM" in
+  fuse.osx)
+    return 1
+    ;;
+  *)
+    return 0
+    ;;
+  esac
+}
+
+function permission_mode() {
+  if [ "$IS_CHOWN_FORBIDDEN" == "true" ]; then
+    echo "chmod"
+  elif has_acl; then
+    echo "facl"
+  else
+    echo "stickybit"
+  fi
+}
+
 function set_path_permissions() {
   local -r READABLE_USERS=($1)
   local -r WRITEABLE_USERS=($2)
@@ -262,11 +296,14 @@ function set_path_permissions() {
 
   case "$PERMISSION_MODE" in
   facl)
-    setfacl -R $(printf -- '-m user:%s:rwX ' "${WRITEABLE_USERS[@]}") \
-            $(printf -- '-m default:user:%s:rwX ' "${WRITEABLE_USERS[@]}") \
-            $(printf -- '-m user:%s:rX ' "${READABLE_USERS[@]}") \
-            $(printf -- '-m default:user:%s:rX ' "${READABLE_USERS[@]}") \
-            "${PATHS[@]}"
+    PERMISSIONS=()
+    for user in "${WRITEABLE_USERS[@]}"; do
+      PERMISSIONS+=(-m "$(printf -- 'user:%s:rwX' "$user")" -m "$(printf -- 'default:user:%s:rwX' "$user")")
+    done
+    for user in "${READABLE_USERS[@]}"; do
+      PERMISSIONS+=(-m "$(printf -- 'user:%s:rX' "$user")" -m "$(printf -- 'default:user:%s:rX' "$user")")
+    done
+    setfacl -R ${PERMISSIONS[@]} "${PATHS[@]}"
     chmod -R ug+rw,o-rwx "${PATHS[@]}"
     ;;
   stickybit)
@@ -345,18 +382,4 @@ function do_list_functions() {
 
 function do_shell() {
   bash "$@"
-}
-
-function has_acl() {
-  return 0
-}
-
-function permission_mode() {
-  if [ "$IS_CHOWN_FORBIDDEN" == "true" ]; then
-    echo "chmod"
-  elif has_acl; then
-    echo "facl"
-  else
-    echo "stickybit"
-  fi
 }
