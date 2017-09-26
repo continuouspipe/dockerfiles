@@ -1,4 +1,4 @@
-{{ $nodes := split "mailqueue:registration:send,oms:check-condition,oms:check-timeout,oms:clear-locks" "," }}
+{{ $nodes := split (getenv "SPRYKER_CRON_COMMANDS") "," }}
 {{ range $nodes }}
 [program: {{ replace ( . ) ":" "-" -1 }}]
 command = /app/vendor/bin/console {{ . }}
@@ -8,7 +8,9 @@ stdout_logfile=/dev/stdout
 stdout_logfile_maxbytes=0
 stderr_logfile=/dev/stderr
 stderr_logfile_maxbytes=0
+{{ if not (eq "true" (getenv "NON_PRIVILEGED_USER")) }}
 user = www-data
+{{ end }}
 autostart = false
 autorestart = false
 priority = 5

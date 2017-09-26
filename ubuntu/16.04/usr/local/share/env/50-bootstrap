@@ -8,6 +8,11 @@ START_CRON=${START_CRON:-false}
 START_CRON="$(convert_to_boolean_string "$START_CRON")"
 export START_CRON
 
+if [[ "$CRON_MODE" = "ofelia" ]]; then
+    CRON_COMMAND=${CRON_COMMAND:-/usr/bin/ofelia daemon --config /etc/ofelia/config.ini}
+fi
+export CRON_COMMAND=${CRON_COMMAND:-/usr/sbin/cron -f}
+
 IS_CHOWN_FORBIDDEN="$(run_return_boolean is_chown_forbidden)"
 export IS_CHOWN_FORBIDDEN
 

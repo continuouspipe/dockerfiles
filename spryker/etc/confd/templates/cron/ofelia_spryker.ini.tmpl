@@ -1,0 +1,19 @@
+[job-local "mailqueue-registration-send"]
+schedule = 0 */10 * * * *
+command = supervisorctl -c /etc/supervisor/supervisord.conf -u supervisor -p supervisor start mailqueue-registration-send
+
+[job-local "stores-collectors"]
+schedule = @every 1m 
+command = supervisorctl -c /etc/supervisor/supervisord.conf -u supervisor -p supervisor start stores-collectors
+
+[job-local "oms-check-condition"]
+schedule = @every 1m 
+command = supervisorctl -c /etc/supervisor/supervisord.conf -u supervisor -p supervisor start oms-check-condition
+
+[job-local "oms-check-timeout"]
+schedule = @every 1m 
+command = supervisorctl -c /etc/supervisor/supervisord.conf -u supervisor -p supervisor start oms-check-timeout
+
+[job-local "oms-clear-locks"]
+schedule = 0 0 6 * * * 
+command = supervisorctl -c /etc/supervisor/supervisord.conf -u supervisor -p supervisor start oms-clear-locks

@@ -1,5 +1,5 @@
 [program:cron]
-command = /usr/sbin/cron -f
+command = {{ getenv "CRON_COMMAND" }}
 stdout_logfile=/dev/stdout
 stdout_logfile_maxbytes=0
 stderr_logfile=/dev/stderr

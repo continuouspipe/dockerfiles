@@ -1,12 +1,14 @@
 [program: stores-collectors]
-command = /usr/local/bin/container run_collectors
+command = /usr/local/bin/container spryker_run_collectors
 startsecs = 0
 startretries = 0
 stdout_logfile=/dev/stdout
 stdout_logfile_maxbytes=0
 stderr_logfile=/dev/stderr
 stderr_logfile_maxbytes=0
+{{ if not (eq "true" (getenv "NON_PRIVILEGED_USER")) }}
 user = root
+{{ end }}
 autostart = false
 autorestart = false
 priority = 5
