@@ -30,6 +30,7 @@ default, our recommended default configuration, including:
 * A default HTTPS only website, with HTTP redirecting to HTTPS
 * A self signed SSL certificate auto-generated on container start
 * X-Forwarded-Proto being used as the request scheme if present
+* A document root that isn't the root of the codebase, to avoid exposing other non-web files to the world - by default /app/web/
 
 Most of these settings can be changed with [environment variables](#environment-variables)
 

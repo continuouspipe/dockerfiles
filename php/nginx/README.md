@@ -72,6 +72,7 @@ default, our recommended default configuration, including:
 * A self signed SSL certificate auto-generated on container start
 * Nginx connecting to php-fpm using a private unix socket on the same container
 * X-Forwarded-Proto being used as the request scheme if present
+* A document root that isn't the root of the codebase, to avoid exposing other non-web files to the world - by default /app/web/
 
 Most of these settings can be changed with [environment variables](#environment-variables)
 
