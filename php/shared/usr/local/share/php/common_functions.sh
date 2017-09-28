@@ -8,20 +8,28 @@ do_build_permissions() {
   fi
 }
 
-run_composer() {
+do_composer_config() (
+  set +x
   if [ -n "$GITHUB_TOKEN" ]; then
     as_code_owner "composer global config github-oauth.github.com '$GITHUB_TOKEN'"
   fi
+)
 
+run_composer() {
   as_code_owner "composer install ${COMPOSER_INSTALL_FLAGS}"
-  rm -rf /home/build/.composer/cache/
-  as_code_owner "composer clear-cache"
 }
 
 do_composer() {
   if [ -f "${WORK_DIRECTORY}/composer.json" ]; then
+    do_composer_config
     run_composer
+    do_composer_clear_cache
   fi
+}
+
+do_composer_clear_cache() {
+  rm -rf /home/build/.composer/cache/
+  as_code_owner "composer clear-cache"
 }
 
 do_composer_postinstall_scripts() {

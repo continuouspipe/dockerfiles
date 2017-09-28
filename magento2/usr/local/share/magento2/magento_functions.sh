@@ -8,8 +8,10 @@ function detect_magento_version() {
   fi
 }
 
-function do_composer_config() {
+function do_magento_composer_config() (
   as_code_owner "composer global config repositories.magento composer https://repo.magento.com/"
+
+  set +x
 
   if [ -n "$MAGENTO_USERNAME" ] && [ -n "$MAGENTO_PASSWORD" ]; then
     as_code_owner "composer global config http-basic.repo.magento.com '$MAGENTO_USERNAME' '$MAGENTO_PASSWORD'"
@@ -17,7 +19,7 @@ function do_composer_config() {
   if [ -n "$COMPOSER_CUSTOM_CONFIG_COMMAND" ]; then
     as_code_owner "$COMPOSER_CUSTOM_CONFIG_COMMAND"
   fi
-}
+)
 
 function do_composer_pre_install() {
   mkdir -p /app/bin
