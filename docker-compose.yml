@@ -515,6 +515,14 @@ services:
     depends_on:
       - php56_apache
 
+  tests:
+    build:
+      context: .
+    volumes:
+      - .:/app
+    depends_on:
+      - ubuntu
+
   tideways:
     build:
       context: ./tideways/

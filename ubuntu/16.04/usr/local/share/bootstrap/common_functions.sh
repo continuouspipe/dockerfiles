@@ -158,6 +158,24 @@ alias_function() {
     eval "$NEWNAME_FUNC"
 }
 
+before() {
+  local -r ORIG_FUNC=$(declare -f "$1")
+  local -r PREPENDED_FUNC="${ORIG_FUNC/\{/\{ $2;}"
+  eval "$PREPENDED_FUNC"
+}
+
+after() {
+  local -r ORIG_FUNC=$(declare -f "$1")
+  local -r APPENDED_FUNC="${ORIG_FUNC/%\}/$2; \}}"
+  eval "$APPENDED_FUNC"
+}
+
+replace() {
+  local -r ORIG_FUNC=$(declare -f "$1")
+  local -r REPLACED_FUNC="$1() { $2; }"
+  eval "$REPLACED_FUNC"
+}
+
 do_build() {
   :
 }

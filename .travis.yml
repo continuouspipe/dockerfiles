@@ -8,6 +8,7 @@ services:
 before_install:
   - docker pull koalaman/shellcheck
   - docker pull lukasmartinelli/hadolint
+  - docker pull quay.io/continuouspipe/ubuntu16.04:latest
 
 script:
   - bash ./test.sh
