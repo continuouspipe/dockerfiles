@@ -201,10 +201,14 @@ tasks:
           image: quay.io/continuouspipe/elasticsearch1.7
           tag: ${FROM_TAG}
           reuse: false
+          environment:
+            FROM_TAG: '1.7'
         elasticsearch24:
           image: quay.io/continuouspipe/elasticsearch2.4
           tag: ${FROM_TAG}
           reuse: false
+          environment:
+            FROM_TAG: '2.4'
         ezplatform_php70_apache:
           image: quay.io/continuouspipe/ez6-apache-php7
           tag: ${FROM_TAG}
