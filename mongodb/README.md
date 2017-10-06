@@ -1,26 +1,43 @@
-# MongoDB 3.4
+# MongoDB 2.6 or 3.4
 
-In a docker-compose.yml:
+In a docker-compose.yml for mongodb3.4:
 ```yml
 version: '3'
 services:
   database:
     image: quay.io/continuouspipe/mongodb3.4:stable
     environment:
+      MONGODB_AUTH_ENABLED: 1
       MONGODB_ADMIN_USER: "myAdminUser"
       MONGODB_ADMIN_PWD: "A secret password for myAdminUser"
 ```
 
-In a Dockerfile:
+In a docker-compose.yml for mongodb2.6:
+```yml
+version: '3'
+services:
+  database:
+    image: quay.io/continuouspipe/mongodb2.6:stable
+    environment:
+      MONGODB_AUTH_ENABLED: 1
+      MONGODB_ADMIN_USER: "myAdminUser"
+      MONGODB_ADMIN_PWD: "A secret password for myAdminUser"
+```
+
+In a Dockerfile for 3.4:
 ```Dockerfile
 FROM quay.io/continuouspipe/mongodb3.4:stable
+```
+or for 2.6:
+```Dockerfile
+FROM quay.io/continuouspipe/mongodb2.6:stable
 ```
 
 ## How to build
 ```bash
 ./build.sh
-docker-compose build --pull mongodb34
-docker-compose push mongodb34
+docker-compose build --pull mongodb34 mongodb26
+docker-compose push mongodb34 mongodb26
 ```
 
 ## About
