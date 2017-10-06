@@ -33,7 +33,7 @@ pipelines:
                 WEB_SERVER: nginx
     variables:
       - name: FROM_TAG
-        value: 'latest'
+        expression: '"latest"'
   - name: Feature Branches
     condition: '"Ready for Review" in pull_request.labels and not(code_reference.branch in ["master"])'
     tasks:
