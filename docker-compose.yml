@@ -67,12 +67,23 @@ services:
     depends_on:
       - varnish
 
-  elasticsearch:
+  elasticsearch17:
     build:
       context: ./elasticsearch/
+      args:
+        FROM_TAG: '1.7'
+    image: quay.io/continuouspipe/elasticsearch1.7:latest
+    depends_on:
+      - external_elasticsearch17
+
+  elasticsearch24:
+    build:
+      context: ./elasticsearch/
+      args:
+        FROM_TAG: '2.4'
     image: quay.io/continuouspipe/elasticsearch2.4:latest
     depends_on:
-      - external_elasticsearch
+      - external_elasticsearch24
 
   ezplatform_php70_apache:
     build:
@@ -571,7 +582,10 @@ services:
   external_redis_highly_available:
     image: gcr.io/google_containers/redis:v1
 
-  external_elasticsearch:
+  external_elasticsearch17:
+    image: elasticsearch:1.7
+
+  external_elasticsearch24:
     image: elasticsearch:2.4
 
   external_postgres94:
