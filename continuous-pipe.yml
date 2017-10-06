@@ -197,7 +197,11 @@ tasks:
           image: quay.io/continuouspipe/drupal8-varnish4
           tag: ${FROM_TAG}
           reuse: false
-        elasticsearch:
+        elasticsearch17:
+          image: quay.io/continuouspipe/elasticsearch1.7
+          tag: ${FROM_TAG}
+          reuse: false
+        elasticsearch24:
           image: quay.io/continuouspipe/elasticsearch2.4
           tag: ${FROM_TAG}
           reuse: false

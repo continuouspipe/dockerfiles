@@ -1,4 +1,5 @@
-FROM elasticsearch:2.4
+ARG FROM_TAG
+FROM elasticsearch:${FROM_TAG}
 
 MAINTAINER "Kieren Evans <kieren.evans+cp-dockerfiles@inviqa.com>"
 
