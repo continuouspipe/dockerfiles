@@ -34,3 +34,11 @@ function do_ez_install() {
 function do_ez_migrate() {
   do_symfony_console kaliop:migration:migrate
 }
+
+alias_function do_ez_app_permissions do_symfony_app_permissions
+function do_ez_app_permissions() {
+    mkdir -p /app/web/var/site/storage
+    chown -R "$APP_USER:$CODE_GROUP" /app/web/var/site/storage
+    chmod -R 775 /app/web/var/site/storage
+    do_symfony_app_permissions
+}
