@@ -15,6 +15,7 @@ RUN echo 'deb http://s3-eu-west-1.amazonaws.com/qafoo-profiler/packages debian m
  && DEBIAN_FRONTEND=noninteractive apt-get -qq -y --no-install-recommends install \
     apache2 \
     apache2-utils \
+    awscli \
     curl \
     git \
     jq \
