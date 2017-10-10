@@ -8,14 +8,14 @@ else
     DIR="$(dirname "$0")" ;
 fi
 
-docker pull koalaman/shellcheck
+docker pull koalaman/shellcheck:v0.4.6
 docker pull lukasmartinelli/hadolint
 
 find "$DIR" -type f ! -path "*.git/*" ! -name "*.py" \( \
   -perm +111 -or -name "*.sh" -or -wholename "*usr/local/share/env/*" -or -wholename "*usr/local/share/container/*" \
 \) | while read -r script; do
   echo "Linting '$script':";
-  docker run --rm -i koalaman/shellcheck --exclude SC1091 - < "$script";
+  docker run --rm -i koalaman/shellcheck:v0.4.6 --exclude SC1091 - < "$script";
   echo
 done
 
