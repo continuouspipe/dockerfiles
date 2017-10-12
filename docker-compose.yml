@@ -85,6 +85,15 @@ services:
     depends_on:
       - external_elasticsearch24
 
+  elasticsearch55:
+    build:
+      context: ./elasticsearch/
+      args:
+        FROM_TAG: '5.5'
+    image: quay.io/continuouspipe/elasticsearch5.5:latest
+    depends_on:
+      - external_elasticsearch55
+
   ezplatform_php70_apache:
     build:
       context: ./ezplatform/
@@ -600,6 +609,9 @@ services:
   external_elasticsearch24:
     image: elasticsearch:2.4
 
+  external_elasticsearch55:
+    image: elasticsearch:5.5
+    
   external_postgres94:
     image: postgres:9.4
 
