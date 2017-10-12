@@ -609,6 +609,9 @@ services:
   external_elasticsearch24:
     image: elasticsearch:2.4
 
+  external_elasticsearch55:
+    image: elasticsearch:5.5
+    
   external_postgres94:
     image: postgres:9.4
 
