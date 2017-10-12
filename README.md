@@ -24,9 +24,9 @@ internal services and for the application templates.
 - *General PHP*
     - [Apache w/ PHP (5.6, 7.0, 7.1)](php/apache/)
     - [NGINX w/ PHP-FPM (5.6, 7.0, 7.1)](php/nginx/)
-- [Magento 1](magento1-nginx/fpm-5.6/)
+- [Magento 1](magento1/)
 - *Magento 2*
-    - [NGINX w/ PHP-FPM 7.0](magento2-nginx/fpm-7.0/)
+    - [NGINX w/ PHP-FPM 7.0](magento2/)
     - [Varnish](magento2-varnish/4.0/)
 - [Symfony - NGINX or Apache with PHP 5.6, 7.0 or 7.1)](symfony/)
 - [Piwik](piwik/)
