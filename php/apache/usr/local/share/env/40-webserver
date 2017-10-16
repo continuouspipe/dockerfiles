@@ -10,3 +10,4 @@ export WEB_INCLUDES=${WEB_INCLUDES:-000-default-*}
 export WEB_SSL_PROTOCOLS=${WEB_SSL_PROTOCOLS:-All -SSLv2 -SSLv3}
 
 export AUTH_HTTP_FILE=${AUTH_HTTP_FILE:-/etc/apache2/htpasswd}
+export AUTH_HTTP_TYPE=${AUTH_HTTP_TYPE:-Basic}
