@@ -81,6 +81,11 @@ do_database_build() {
     return 0
   fi
 
+  if [ -z "$DATABASE_HOST" ]; then
+    echo "Could not build the database as the 'DATABASE_HOST' environment variable is empty."
+    return 1
+  fi
+
   wait_for_remote_ports "${SYMFONY_DOCTRINE_WAIT_TIMEOUT}" "${DATABASE_HOST}:${DATABASE_PORT}"
 
   # create the database if it doesn't exist
