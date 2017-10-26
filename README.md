@@ -53,6 +53,7 @@ Search:
 
 Other:
 - [Hem](hem/)
+- [Kafka](kafka/)
 - [Mailcatcher](mailcatcher/)
 - [NGINX Reverse Proxy](nginx-reverse-proxy/)
 - [SSH Forwarding](ssh-forward/)
