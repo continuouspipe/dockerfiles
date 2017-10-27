@@ -563,6 +563,8 @@ services:
     build:
       context: ./rabbitmq/
     image: quay.io/continuouspipe/rabbitmq36-management:latest
+    depends_on:
+      - external_rabbitmq36_management
 
   ubuntu:
     build:
@@ -601,6 +603,9 @@ services:
 
   external_nginx_ingress_controller:
     image: gcr.io/google-containers/nginx-ingress-controller:0.9.0-beta.5
+
+  external_rabbitmq36_management:
+    image: rabbitmq:3.6-management
 
   external_redis:
     image: redis:3.2

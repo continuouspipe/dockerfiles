@@ -1,7 +1,12 @@
+# RabbitMQ 3.6 - Management
+Includes the management plugin which is available on the port `15672`
+## Usage
+### docker-compose
+```
 version: '3'
 services:
   rabbitmq:
-    image: "rabbitmq:3-management"
+    image: "quay.io/continuouspipe/rabbitmq36-management:stable"
     hostname: "rabbitmq"
     environment:
       RABBITMQ_ERLANG_COOKIE: "SAMPLE"
@@ -12,3 +17,9 @@ services:
     # ports:
     #  - "15672:15672"
     #  - "5672:5672"
+
+```
+### Dockerfile
+```
+FROM quay.io/continuouspipe/rabbitmq36-management:stable
+```
