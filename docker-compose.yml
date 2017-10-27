@@ -559,6 +559,11 @@ services:
     depends_on:
       - ubuntu
 
+  rabbitmq36_management:
+    build:
+      context: ./rabbitmq/
+    image: quay.io/continuouspipe/rabbitmq36-management:latest
+
   ubuntu:
     build:
       context: ./ubuntu/16.04/

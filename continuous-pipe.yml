@@ -431,3 +431,7 @@ tasks:
           image: quay.io/continuouspipe/tideways
           tag: ${FROM_TAG}
           reuse: false
+        rabbitmq36_management:
+          image: quay.io/continuouspipe/rabbitmq36-management
+          tag: ${FROM_TAG}
+          reuse: false
