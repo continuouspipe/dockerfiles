@@ -16,6 +16,7 @@ do_templating() {
 
 alias_function do_start do_spryker_start_inner
 do_start() {
+  do_spryker_hosts
   do_spryker_config_create
   do_spryker_start_inner
 }
