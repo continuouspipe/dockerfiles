@@ -1,3 +1,66 @@
+# Quick start
+
+The following files can be used to set up a local docker environment suitable for Symfony with a database container. 
+The only changes that need to be applied would be to remove `ARG DEVELOPMENT_MODE=true` from the Dockerfile and set 
+appropriate production environment variables. 
+
+Place all files in the root directory. Then run `docker-compose up -d` and visit [http://localhost:81](http://localhost:81) 
+
+Dockerfile
+```
+FROM quay.io/continuouspipe/symfony-php7.1-apache:latest
+ARG GITHUB_TOKEN=
+ARG DEVELOPMENT_MODE=true
+
+COPY . /app/
+RUN container build
+```
+
+docker-compose.yml
+```
+version: '3'
+
+services:
+    web:
+        build:
+            context: .
+        expose:
+            - 80
+            - 443
+        environment:
+            WEB_HTTPS_ONLY: "true"
+        depends_on:
+            - database
+    database:
+        image: mysql:5.7
+        environment:
+            MYSQL_ROOT_PASSWORD: root
+
+```
+
+docker-compose.override.yml
+```
+version: '3'
+
+services:
+    web:
+        ports:
+            - 81:80
+            - 444:443
+        volumes:
+            - .:/app
+        environment:
+            APPLICATION_ENV: development
+            DEVELOPMENT_MODE: "false"
+            WEB_HTTP: "true"
+```
+
+.dockerignore
+```
+vendor/**
+var/cache/**
+```
+
 # Symfony with Nginx
 
 In a Dockerfile:
