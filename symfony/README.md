@@ -6,8 +6,9 @@ appropriate production environment variables.
 
 Place all files in the root directory. Then run `docker-compose up -d` and visit [http://localhost:81](http://localhost:81) 
 
-Dockerfile
 ```
+# Dockerfile
+
 FROM quay.io/continuouspipe/symfony-php7.1-apache:latest
 ARG GITHUB_TOKEN=
 ARG DEVELOPMENT_MODE=true
@@ -16,8 +17,9 @@ COPY . /app/
 RUN container build
 ```
 
-docker-compose.yml
-```
+```yaml
+# docker-compose.yml
+
 version: '3'
 
 services:
@@ -27,8 +29,6 @@ services:
         expose:
             - 80
             - 443
-        environment:
-            WEB_HTTPS_ONLY: "true"
         depends_on:
             - database
     database:
@@ -38,8 +38,9 @@ services:
 
 ```
 
-docker-compose.override.yml
-```
+```yaml
+# docker-compose.override.yml
+
 version: '3'
 
 services:
@@ -55,8 +56,9 @@ services:
             WEB_HTTP: "true"
 ```
 
-.dockerignore
 ```
+# .dockerignore
+
 vendor/**
 var/cache/**
 ```
