@@ -12,3 +12,7 @@ export SYMFONY_WEB_APP_ENV_REWRITE
 deprecate_env_var SYMFONY_APP_ENDPOINT APP_ENDPOINT
 
 export TIDEWAYS_FRAMEWORK=${TIDEWAYS_FRAMEWORK:-symfony}
+
+if [ "$DEVELOPMENT_MODE" == 'true' ]; then
+    export SYMFONY_ENV=${SYMFONY_ENV:-dev}
+fi
