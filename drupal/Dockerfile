@@ -2,8 +2,6 @@ ARG PHP_VERSION
 ARG FROM_TAG=latest
 FROM quay.io/continuouspipe/php${PHP_VERSION}-apache:${FROM_TAG}
 
-MAINTAINER "Kieren Evans <kieren.evans+cp-dockerfiles@inviqa.com>"
-
 RUN curl -sL https://deb.nodesource.com/setup_7.x > /tmp/install-node.sh \
  && bash /tmp/install-node.sh \
  && curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add - \

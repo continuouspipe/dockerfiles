@@ -1,8 +1,6 @@
 ARG FROM_TAG=latest
 FROM quay.io/continuouspipe/ubuntu16.04:${FROM_TAG}
 
-MAINTAINER Kieren Evans <kieren.evans+cp-dockerfiles@inviqa.com>
-
 # Install node
 ARG NODE_VERSION
 ENV NODE_VERSION ${NODE_VERSION:-7.x}

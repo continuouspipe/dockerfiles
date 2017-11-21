@@ -1,8 +1,6 @@
 ARG FROM_TAG=latest
 FROM quay.io/continuouspipe/ubuntu16.04:${FROM_TAG}
 
-MAINTAINER Kieren Evans <kieren.evans+cp-dockerfiles@inviqa.com>
-
 ARG PHANTOMJS_VERSION=2.1.1
 
 RUN apt-get update -qq \
