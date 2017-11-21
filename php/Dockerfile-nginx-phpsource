@@ -148,7 +148,7 @@ RUN export PHP_VERSION=${PHP_FULL_VERSION%.[0-9]*} \
  && mkdir -p "/etc/php/${PHP_VERSION}/cli/conf.d" "/etc/php/${PHP_VERSION}/fpm/conf.d" \
  && mkdir -p "/etc/php/${PHP_VERSION}/fpm/pool.d" \
  \
- # build pecl modules
+ # build pecl modules \
  && if bash -c '[[ "${PHP_FULL_VERSION}" =~ ^5\. ]]'; then \
    pecl install memcached-2.2.0; \
  else \
