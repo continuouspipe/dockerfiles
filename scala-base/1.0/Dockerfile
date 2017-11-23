@@ -1,8 +1,6 @@
 ARG FROM_TAG=latest
 FROM quay.io/continuouspipe/ubuntu16.04:${FROM_TAG}
 
-MAINTAINER Sarunas Valaskevicius <svalaskevicius+cp-dockerfiles@inviqa.com>
-
 # based on java:8 and https://github.com/hseeberger/scala-sbt images
 
 ENV SBT_VERSION 0.13.13

@@ -1,8 +1,6 @@
 ARG FROM_TAG
 FROM elasticsearch:${FROM_TAG}
 
-MAINTAINER "Kieren Evans <kieren.evans+cp-dockerfiles@inviqa.com>"
-
 RUN apt-get update -qq \
  && DEBIAN_FRONTEND=noninteractive apt-get -s dist-upgrade | grep "^Inst" | \
       grep -i securi | awk -F " " '{print $2}' | \

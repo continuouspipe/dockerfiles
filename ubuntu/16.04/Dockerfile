@@ -1,7 +1,5 @@
 FROM ubuntu:16.04
 
-MAINTAINER Kieren Evans <kieren.evans+cp-dockerfiles@inviqa.com>
-
 RUN echo 'APT::Install-Recommends 0;' >> /etc/apt/apt.conf.d/01norecommends \
  && echo 'APT::Install-Suggests 0;' >> /etc/apt/apt.conf.d/01norecommends \
  && apt-get update -qq \

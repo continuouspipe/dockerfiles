@@ -1,7 +1,5 @@
 FROM makuk66/docker-solr:4.10.4
 
-MAINTAINER Kieren Evans <kieren.evans+cp-dockerfiles@inviqa.com>
-
 USER root
 
 RUN apt-get update -qq \

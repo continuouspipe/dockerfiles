@@ -1,5 +1,4 @@
 FROM rabbitmq:3.6-management
-MAINTAINER David Cole <dcole+cp@inviqa.com>
 
 RUN apt-get update -qq \
  && DEBIAN_FRONTEND=noninteractive apt-get -s dist-upgrade | grep "^Inst" | \

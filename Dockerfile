@@ -1,7 +1,5 @@
 FROM quay.io/continuouspipe/ubuntu16.04:latest
 
-MAINTAINER Kieren Evans <kieren.evans+cp-dockerfiles@inviqa.com>
-
 RUN apt-get update -qq \
  && DEBIAN_FRONTEND=noninteractive apt-get -qq -y --no-install-recommends install \
     bats \

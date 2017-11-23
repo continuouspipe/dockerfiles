@@ -1,7 +1,5 @@
 FROM quay.io/continuouspipe/ubuntu16.04:latest
 
-MAINTAINER Kieren Evans <kieren.evans+cp-dockerfiles@inviqa.com>
-
 ARG PHP_FULL_VERSION
 ENV PHP_FULL_VERSION=${PHP_FULL_VERSION}
 RUN export PHP_VERSION=${PHP_FULL_VERSION%.[0-9]*} \
@@ -150,7 +148,7 @@ RUN export PHP_VERSION=${PHP_FULL_VERSION%.[0-9]*} \
  && mkdir -p "/etc/php/${PHP_VERSION}/cli/conf.d" "/etc/php/${PHP_VERSION}/fpm/conf.d" \
  && mkdir -p "/etc/php/${PHP_VERSION}/fpm/pool.d" \
  \
- # build pecl modules
+ # build pecl modules \
  && if bash -c '[[ "${PHP_FULL_VERSION}" =~ ^5\. ]]'; then \
    pecl install memcached-2.2.0; \
  else \

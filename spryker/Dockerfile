@@ -6,8 +6,6 @@ FROM quay.io/continuouspipe/php${PHP_VERSION}-${WEB_SERVER}:${FROM_TAG}
 ARG PHP_VERSION
 ARG WEB_SERVER
 
-MAINTAINER Hardik Gajjar <hardik.gajjar@inviqa.com>
-
 RUN curl -sL https://deb.nodesource.com/setup_6.x > /tmp/install-node.sh \
  && bash /tmp/install-node.sh \
  && apt-get update -qq -y \

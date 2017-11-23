@@ -1,8 +1,6 @@
 ARG FROM_TAG=latest
 FROM quay.io/continuouspipe/ubuntu16.04:${FROM_TAG}
 
-MAINTAINER Kieren Evans <kieren.evans+cp-dockerfiles@inviqa.com>
-
 RUN echo 'deb http://s3-eu-west-1.amazonaws.com/qafoo-profiler/packages debian main' > /etc/apt/sources.list.d/tideways.list \
  && curl -sS https://s3-eu-west-1.amazonaws.com/qafoo-profiler/packages/EEB5E8F4.gpg | apt-key add - \
  && apt-get update -qq \
