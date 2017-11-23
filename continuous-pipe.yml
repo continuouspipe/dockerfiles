@@ -8,29 +8,19 @@ pipelines:
     condition: 'code_reference.branch in ["master"]'
     tasks: &ALL_IMAGES
       - third_level_dependency_images
-      - imports: second_level_dependency_images
-        build:
-          services:
-            php55_nginx:
-              image: quay.io/continuouspipe/eol-php5.5-nginx
-              tag: ${FROM_TAG}
-              reuse: false
-              build_directory: ./php/
-              docker_file_path: ./Dockerfile-nginx-phpsource
-              environment:
-                PHP_FULL_VERSION: '5.5.38'
+      - second_level_dependency_images
       - first_level_dependency_images
-      - imports: no_dependency_images
-        build:
-          services:
-            magento1_php55_nginx:
-              image: quay.io/continuouspipe/eol-magento1-nginx-php5.5
-              tag: ${FROM_TAG}
-              reuse: false
-              build_directory: ./magento1/
-              environment:
-                FROM_IMAGE: eol-php5.5-nginx
-                WEB_SERVER: nginx
+      - no_dependency_images
+      - first_level_dependency_eol_images
+      - no_dependency_eol_images
+    variables:
+      - name: FROM_TAG
+        expression: '"latest"'
+  - name: Production EOL
+    condition: 'code_reference.branch in ["force-eol"]'
+    tasks:
+      - first_level_dependency_eol_images
+      - no_dependency_eol_images
     variables:
       - name: FROM_TAG
         expression: '"latest"'
@@ -435,3 +425,31 @@ tasks:
           image: quay.io/continuouspipe/rabbitmq36-management
           tag: ${FROM_TAG}
           reuse: false
+
+  first_level_dependency_eol_images:
+    build:
+      environment:
+        FROM_TAG: ${FROM_TAG}
+      services:
+        php55_nginx:
+          image: quay.io/continuouspipe/eol-php5.5-nginx
+          tag: ${FROM_TAG}
+          reuse: false
+          build_directory: ./php/
+          docker_file_path: ./Dockerfile-nginx-phpsource
+          environment:
+            PHP_FULL_VERSION: '5.5.38'
+
+  no_dependency_eol_images:
+    build:
+      environment:
+        FROM_TAG: ${FROM_TAG}
+      services:
+        magento1_php55_nginx:
+          image: quay.io/continuouspipe/eol-magento1-nginx-php5.5
+          tag: ${FROM_TAG}
+          reuse: false
+          build_directory: ./magento1/
+          environment:
+            FROM_IMAGE: eol-php5.5-nginx
+            WEB_SERVER: nginx
