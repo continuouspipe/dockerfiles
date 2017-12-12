@@ -1,0 +1,7 @@
+#!/bin/bash
+
+source /usr/local/share/redis_functions.sh
+
+set -xe
+
+eval "$@"
