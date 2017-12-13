@@ -12,3 +12,5 @@ RUN apt-get update -qq \
 
 ENV REDIS_MASTER_DOWN_AFTER_MILLISECONDS=5000
 RUN sed -i'' 's/sentinel down-after-milliseconds mymaster 60000/sentinel down-after-milliseconds mymaster ${REDIS_MASTER_DOWN_AFTER_MILLISECONDS}/' /run.sh
+
+COPY ./usr/ /usr/
