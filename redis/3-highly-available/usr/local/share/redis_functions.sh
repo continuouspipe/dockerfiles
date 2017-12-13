@@ -2,7 +2,7 @@
 
 function sentinel_command()
 {
-  redis-cli -h redis-sentinel -p 26379 --csv SENTINEL
+  redis-cli -h redis-sentinel -p 26379 --csv SENTINEL "$@"
 }
 
 function get_existing_master()
