@@ -36,7 +36,12 @@ REDIS_MASTER_DOWN_AFTER_MILLISECONDS | How many milliseconds to wait before star
 
 ### Example Automatic Deployment via continuous-pipe.yml
 
-The following are some example tasks for automating the deployment of a highly available cluster:
+The following are some example tasks for automating the deployment of a highly available cluster using ContinuousPipe.
+
+First, the task "infrastructure" deploys other unrelated services, such as an Nginx service.
+We use the reference of the Nginx container in this example to ensure that the tasks
+`redis_ha_master_deployment`, `redis_ha_master_remove` and `redis_ha_master_failover` only happen once - e.g. when the environment is first created.
+More details on this `created` mechanism in the [ContinuousPipe documentation for Conditional Tasks](https://docs.continuouspipe.io/configuration/tasks/#retrieving-task-information)
 
 ```yaml
 variables:
@@ -47,11 +52,11 @@ tasks:
   infrastructure:
     deploy:
       services:
-        mysql: ~
+        nginx: ~
 
   redis_ha_master_deployment:
     filter:
-      expression: 'tasks.infrastructure.services.mysql.created'
+      expression: 'tasks.infrastructure.services.nginx.created'
     deploy:
       services:
         redis_initial_master:
@@ -149,7 +154,7 @@ tasks:
 
   redis_ha_master_remove:
     filter:
-      expression: 'tasks.infrastructure.services.mysql.created'
+      expression: 'tasks.infrastructure.services.nginx.created'
     deploy:
       services:
         redis_initial_master:
@@ -171,7 +176,7 @@ tasks:
 
   redis_ha_master_failover:
     filter:
-      expression: 'tasks.infrastructure.services.mysql.created'
+      expression: 'tasks.infrastructure.services.nginx.created'
     run:
       image:
         image: quay.io/continuouspipe/redis3-highly-available:stable
