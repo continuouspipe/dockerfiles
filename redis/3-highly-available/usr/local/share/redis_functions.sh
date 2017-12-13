@@ -18,13 +18,17 @@ function sentinel_info()
 
 function master_failover()
 {
+  echo "> Triggering a failover from $(get_existing_master)"
   sentinel_command failover mymaster
+  echo "> Failover triggered"
 }
 
 function wait_for_exit()
 {
   local WAIT_FOR="$1"
+  echo "> Waiting for $WAIT_FOR to stop accepting connections"
   wait_for_remote_ports_to_close 120 "$WAIT_FOR"
+  echo "> $WAIT_FOR has stopped accepting connections"
 }
 
 function sentinel_cleanup()
@@ -32,6 +36,7 @@ function sentinel_cleanup()
   local EXISTING_MASTER="$1"
   # Run reset on each sentinel, including the current "redis-sentinel" pod.
   # "SENTINEL sentinels mymaster" returns knowledge of the *other* sentinel pods, not the one we are talking to.
+  echo "> Resetting sentinel data for the container that responds as the redis-sentinel service"
   SENTINELS="$(echo -e "SENTINEL sentinels mymaster\nSENTINEL RESET mymaster\n" | redis-cli -h redis-sentinel -p 26379 --csv | sed 's/"name"/\n"name"/g' | grep "name" | grep -v 's-down-time' | sed -E 's/.*"ip","([^"]+)".*/\1/')"
   if [ -n "$EXISTING_MASTER" ]; then
     SENTINELS="$(echo "$SENTINELS" | grep -v "$EXISTING_MASTER")"
@@ -41,7 +46,9 @@ function sentinel_cleanup()
     # master.
     # Sentinels are guaranteed to find out about this information from the other sentinels announcing themselves within
     # 10 seconds. To allow a little leeway, sleep for 11 seconds before resetting the next sentinel.
+    echo "> Waiting for the sentinel to receive data from the other sentinels"
     sleep 11s
+    echo "> Resetting sentinel data for $sentinel"
     redis-cli -h "$sentinel" -p 26379 SENTINEL RESET mymaster
   done
 }
@@ -93,6 +100,7 @@ function master_failover_and_sentinel_cleanup()
 
 function run_master_and_sentinel()
 {
+  echo "> Starting initial master redis server and sentinel server"
   MASTER=true /run.sh &
   SENTINEL=true /run.sh &
   wait
