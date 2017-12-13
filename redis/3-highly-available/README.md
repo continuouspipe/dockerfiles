@@ -58,22 +58,20 @@ tasks:
           specification:
             source:
               image: quay.io/continuouspipe/redis3-highly-available:stable
-            accessibility:
-              from_cluster: true
             ports:
               - 6379
               - 26379
             resources:
               requests:
                 cpu: 50m
-                memory: 100Mi
+                memory: 500Mi
               limits:
                 cpu: 250m
                 memory: 500Mi
             command:
               - /bin/bash
               - -c
-              - '/usr/local/bin/redis_command run_master_and_sentinel'
+              - '/usr/local/bin/container run_master_and_sentinel'
             environment_variables:
               REDIS_SENTINEL_SERVICE_HOST: ''
           deployment_strategy:
@@ -87,8 +85,6 @@ tasks:
               number_of_replicas: ${REDIS_SENTINEL_REPLICAS}
             source:
               image: quay.io/continuouspipe/redis3-highly-available:stable
-            accessibility:
-              from_cluster: true
             environment_variables:
               SENTINEL: 'true'
               REDIS_SENTINEL_SERVICE_HOST: 'redis-initial-master'
@@ -97,7 +93,7 @@ tasks:
             resources:
               requests:
                 cpu: 50m
-                memory: 50Mi
+                memory: 250Mi
               limits:
                 cpu: 250m
                 memory: 250Mi
@@ -115,14 +111,12 @@ tasks:
               number_of_replicas: ${REDIS_REPLICAS}
             source:
               image: quay.io/continuouspipe/redis3-highly-available:stable
-            accessibility:
-              from_cluster: true
             ports:
               - 6379
             resources:
               requests:
                 cpu: 50m
-                memory: 50Mi
+                memory: 250Mi
               limits:
                 cpu: 250m
                 memory: 250Mi
@@ -137,8 +131,6 @@ tasks:
               number_of_replicas: ${REDIS_SENTINEL_REPLICAS}
             source:
               image: quay.io/continuouspipe/redis3-highly-available:stable
-            accessibility:
-              from_cluster: true
             environment_variables:
               SENTINEL: 'true'
             ports:
@@ -146,7 +138,7 @@ tasks:
             resources:
               requests:
                 cpu: 50m
-                memory: 50Mi
+                memory: 250Mi
               limits:
                 cpu: 250m
                 memory: 250Mi
@@ -166,15 +158,13 @@ tasks:
               number_of_replicas: 0
             source:
               image: quay.io/continuouspipe/redis3-highly-available:stable
-            accessibility:
-              from_cluster: true
             ports:
               - 6379
               - 26379
             resources:
               requests:
                 cpu: 50m
-                memory: 100Mi
+                memory: 500Mi
               limits:
                 cpu: 250m
                 memory: 500Mi
@@ -186,5 +176,5 @@ tasks:
       image:
         image: quay.io/continuouspipe/redis3-highly-available:stable
       commands:
-        - /bin/bash -c '/usr/local/bin/redis_command master_failover_and_sentinel_cleanup'
+        - /bin/bash -c '/usr/local/bin/container master_failover_and_sentinel_cleanup'
 ```

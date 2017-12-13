@@ -1,19 +1,24 @@
 #!/bin/bash
 
-function get_existing_master()
+function sentinel_command()
 {
-  redis-cli -h redis-sentinel -p 26379 --csv SENTINEL get-master-addr-by-name mymaster | tr ',' ' ' | cut -d' ' -f1 | cut -d'"' -f2
+  redis-cli -h redis-sentinel -p 26379 --csv SENTINEL
 }
 
-function sentinels()
+function get_existing_master()
+{
+  sentinel_command get-master-addr-by-name mymaster | tr ',' ' ' | cut -d' ' -f1 | cut -d'"' -f2
+}
+
+function sentinel_info()
 {
   # Print out the info of other sentinels
-  redis-cli -h redis-sentinel -p 26379 --csv SENTINEL sentinels mymaster
+  sentinel_command sentinels mymaster
 }
 
 function master_failover()
 {
-  redis-cli -h redis-sentinel -p 26379 SENTINEL failover mymaster
+  sentinel_command failover mymaster
 }
 
 function wait_for_exit()
@@ -25,12 +30,17 @@ function wait_for_exit()
 function sentinel_cleanup()
 {
   local EXISTING_MASTER="$1"
-  # Run reset on each sentinel.
+  # Run reset on each sentinel, including the current "redis-sentinel" pod.
+  # "SENTINEL sentinels mymaster" returns knowledge of the *other* sentinel pods, not the one we are talking to.
   SENTINELS="$(echo -e "SENTINEL sentinels mymaster\nSENTINEL RESET mymaster\n" | redis-cli -h redis-sentinel -p 26379 --csv | sed 's/"name"/\n"name"/g' | grep "name" | grep -v 's-down-time' | sed -E 's/.*"ip","([^"]+)".*/\1/')"
   if [ -n "$EXISTING_MASTER" ]; then
     SENTINELS="$(echo "$SENTINELS" | grep -v "$EXISTING_MASTER")"
   fi
   for sentinel in $SENTINELS; do
+    # Running reset on a sentinel causes it to lose track of any other sentinels and any followers of the current
+    # master.
+    # Sentinels are guaranteed to find out about this information from the other sentinels announcing themselves within
+    # 10 seconds. To allow a little leeway, sleep for 11 seconds before resetting the next sentinel.
     sleep 11s
     redis-cli -h "$sentinel" -p 26379 SENTINEL RESET mymaster
   done
