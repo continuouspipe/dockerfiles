@@ -74,9 +74,8 @@ tasks:
                 cpu: 250m
                 memory: 500Mi
             command:
-              - /bin/bash
-              - -c
-              - 'container run_master_and_sentinel'
+              - container
+              - run_master_and_sentinel
             environment_variables:
               REDIS_SENTINEL_SERVICE_HOST: ''
           deployment_strategy:
@@ -181,5 +180,5 @@ tasks:
       image:
         image: quay.io/continuouspipe/redis3-highly-available:stable
       commands:
-        - /bin/bash -c 'container master_failover_and_sentinel_cleanup'
+        - container master_failover_and_sentinel_cleanup
 ```
