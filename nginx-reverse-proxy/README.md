@@ -44,6 +44,11 @@ export PROXY_LOCATIONS='[
 ]'
 ```
 
+Alternatively, you can use multiple backends using the `backend_servers` configuration:
+```
+export PROXY_LOCATIONS='[{"location": "/", "backend_servers": ["google.com", "yahoo.com"], "backend_scheme": "http"}]'
+```
+
 Multiple locations can be specified. The only required keys per location are
 location and backend.
 
