@@ -1,0 +1,10 @@
+{{ $locations := jsonArray (getenv "PROXY_LOCATIONS")}}
+{{ range $key, $value := $locations }}
+{{ if .backend_servers }}
+upstream stream{{ $key }} {
+{{ range .backend_servers }}
+  server {{ . }};
+{{ end }}
+}
+{{ end }}
+{{ end }}

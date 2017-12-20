@@ -1,0 +1,6 @@
+[template]
+src   = "nginx/upstreams.conf.tmpl"
+dest  = "/etc/nginx/conf.d/upstreams.conf"
+mode  = "0644"
+keys = [
+]
