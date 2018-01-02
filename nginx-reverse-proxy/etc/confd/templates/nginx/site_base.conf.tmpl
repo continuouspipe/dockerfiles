@@ -1,7 +1,11 @@
 {{ $locations := jsonArray (getenv "PROXY_LOCATIONS")}}
-{{ range $locations }}
+{{ range $key, $value := $locations }}
 location {{ .location }} {
+{{ if .backend_servers }}
+  proxy_pass {{ .backend_scheme }}://stream{{ $key }};
+{{ else }}
   proxy_pass {{ .backend }};
+{{ end }}
   proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
 {{ if .hide_edge_headers }}
   proxy_set_header X-Forwarded-Proto "";
@@ -20,3 +24,4 @@ location {{ .location }} {
   {{ $key }} {{ $value }};{{ end }}
 }
 {{ end }}
+
