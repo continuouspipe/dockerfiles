@@ -84,10 +84,8 @@ spryker_build_assets() {
 }
 
 do_spryker_build_assets() {
-  set +e
   ! spryker_service_yves || spryker_build_assets 'Yves'
   ! spryker_service_zed || spryker_build_assets 'Zed'
-  set -e
 }
 
 do_spryker_generate_files() {
