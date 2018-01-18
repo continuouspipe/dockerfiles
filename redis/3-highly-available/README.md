@@ -74,8 +74,7 @@ tasks:
                 cpu: 250m
                 memory: 500Mi
             command:
-              - container
-              - run_master_and_sentinel
+              - container run_master_and_sentinel
             environment_variables:
               REDIS_SENTINEL_SERVICE_HOST: ''
           deployment_strategy:
