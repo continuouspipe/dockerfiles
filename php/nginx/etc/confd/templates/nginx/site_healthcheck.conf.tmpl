@@ -6,6 +6,10 @@ if ($http_user_agent ~ {{ getenv "AUTH_HTTP_HEALTHCHECK_USER_AGENT" }}) {
 }
 {{ end }}
 {{ if getenv "AUTH_HTTP_HEALTHCHECK_LOCATION" }}
+if ($request_uri = "{{ getenv "AUTH_HTTP_HEALTHCHECK_LOCATION" }}") {
+  set $do_https_redirect 0;
+}
+
 location = {{ getenv "AUTH_HTTP_HEALTHCHECK_LOCATION" }} {
   set $do_https_redirect 0;
   set $access_log_enabled 0;
