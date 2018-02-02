@@ -12,6 +12,11 @@ export START_NGINX
 START_PHP_FPM="$(convert_to_boolean_string "${START_PHP_FPM:-${START_MODE_WEB:-false}}")"
 export START_PHP_FPM
 
+WEB_HTTP2_TLS="$(convert_to_boolean_string "${WEB_HTTP2_TLS:-true}")"
+export WEB_HTTP2_TLS
+WEB_HTTP2_PLAINTEXT_NONBC="$(convert_to_boolean_string "${WEB_HTTP2_PLAINTEXT_NONBC:-false}")"
+export WEB_HTTP2_PLAINTEXT_NONBC
+
 export WEB_INCLUDES=${WEB_INCLUDES:-default-*}
 WEB_DEFAULT_SERVER="$(convert_to_boolean_string "${WEB_DEFAULT_SERVER:-true}")"
 export WEB_DEFAULT_SERVER

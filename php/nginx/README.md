@@ -115,6 +115,8 @@ WEB_HTTPS | Whether to support HTTPS traffic on the WEB_HTTPS_PORT | true/false 
 WEB_HTTPS_PORT | The port to serve the HTTPS traffic from | 0-65535 | 443
 WEB_HTTPS_OFFLOADED | Whether the HTTPS traffic has been forwarded without SSL to the HTTPS port | true/false | false
 WEB_HTTPS_ONLY      | Whether to redirect all HTTP traffic to HTTPS | true/false | $WEB_HTTPS (deprecated: if $WEB_HTTPS=true then false)
+WEB_HTTP2_TLS | Whether to enable HTTP2 over TLS on HTTPS port. If WEB_HTTPS_OFFLOADED enabled then this is ignored as TLS is not used | true/false | true
+WEB_HTTP2_PLAINTEXT_NONBC | Whether to enable HTTP2 over plaintext on HTTP port (or HTTPS if WEB_HTTPS_OFFLOADED enabled). Nginx doesn't support h2c for plain HTTP protocol so will not support HTTP 1.1/1.0 if enabled | true/false | false
 WEB_REVERSE_PROXIED | Whether to interpret X-Forwarded-Proto as the $custom_scheme and $custom_https emulation. | true/false | true
 WEB_SSL_CIPHERS | The enabled SSL/TLS server ciphers | the format understood by the OpenSSL library | ECDH+AESGCM:DH+AESGCM:ECDH+AES256:DH+AES256:ECDH+AES128:DH+AES:ECDH+3DES:DH+3DES:RSA+AESGCM:RSA+AES:RSA+3DES:!aNULL:!MD5:!DSS
 WEB_SSL_FULLCHAIN | The location of the SSL certificate and intermediate chain file | absolute filename | /etc/ssl/certs/fullchain.pem

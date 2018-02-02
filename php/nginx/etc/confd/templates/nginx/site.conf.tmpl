@@ -1,7 +1,7 @@
 server {
     server_name {{ getenv "WEB_SERVER_NAME" }};
 {{ if ne "false" (getenv "WEB_HTTP") }}
-    listen {{ getenv "WEB_HTTP_PORT" }} {{ if eq "true" (getenv "WEB_DEFAULT_SERVER") }} default_server{{ end }};
+    listen {{ getenv "WEB_HTTP_PORT" }} {{ if eq "true" (getenv "WEB_DEFAULT_SERVER") }} default_server{{ end }}{{ if eq "true" (getenv "WEB_HTTP2_PLAINTEXT_NONBC") }} http2{{ end }};
 {{ if and (eq "true" (getenv "WEB_HTTPS_ONLY")) (ne "true" (getenv "WEB_REVERSE_PROXIED")) }}
 
     access_log off;
@@ -13,8 +13,8 @@ server {
 {{ end }}{{ end }}
 {{ if eq "true" (getenv "WEB_HTTPS") }}
 {{ if eq "true" (getenv "WEB_HTTPS_OFFLOADED") }}
-    listen {{ getenv "WEB_HTTPS_PORT" }}{{ if eq "true" (getenv "WEB_DEFAULT_SERVER") }} default_server{{ end }};{{ else }}
-    listen {{ getenv "WEB_HTTPS_PORT" }} {{ if eq "true" (getenv "WEB_DEFAULT_SERVER") }} default_server{{ end }} ssl http2;
+    listen {{ getenv "WEB_HTTPS_PORT" }}{{ if eq "true" (getenv "WEB_DEFAULT_SERVER") }} default_server{{ end }}{{ if eq "true" (getenv "WEB_HTTP2_PLAINTEXT_NONBC") }} http2{{ end }};{{ else }}
+    listen {{ getenv "WEB_HTTPS_PORT" }}{{ if eq "true" (getenv "WEB_DEFAULT_SERVER") }} default_server{{ end }} ssl{{ if eq "true" (getenv "WEB_HTTP2_TLS") }} http2{{ end }};
     ssl_certificate {{ getenv "WEB_SSL_FULLCHAIN" }};
     ssl_certificate_key {{ getenv "WEB_SSL_PRIVKEY" }};{{ end }}{{ end }}
 
