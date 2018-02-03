@@ -2,7 +2,7 @@
 
 function sentinel_command()
 {
-  redis-cli -h redis-sentinel -p 26379 --csv SENTINEL
+  redis-cli -h redis-sentinel -p 26379 --csv SENTINEL "$@"
 }
 
 function get_existing_master()
@@ -49,7 +49,12 @@ function sentinel_cleanup()
     echo "> Waiting for the sentinel to receive data from the other sentinels"
     sleep 11s
     echo "> Resetting sentinel data for $sentinel"
-    redis-cli -h "$sentinel" -p 26379 SENTINEL RESET mymaster
+
+    if test_remote_ports "$sentinel:26379"; then
+      redis-cli -h "$sentinel" -p 26379 SENTINEL RESET mymaster
+    else
+      echo "> Sentinel $sentinel doesn't appear to be active any more"
+    fi
   done
 }
 
