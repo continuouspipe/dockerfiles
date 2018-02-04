@@ -1,8 +1,10 @@
 FROM quay.io/continuouspipe/symfony-php7.1-nginx:latest
 
-# Install Node.js
 ARG NODE_VERSION=7.x
 ARG INSTALL_COMMON_PACKAGES=true
+ARG PHP_VERSION=7.1
+
+# Install Node.js
 RUN curl -sL "https://deb.nodesource.com/setup_$NODE_VERSION" > /tmp/install-node.sh \
  && bash /tmp/install-node.sh \
  && apt-get update -qq \
@@ -21,6 +23,9 @@ RUN curl -sL "https://deb.nodesource.com/setup_$NODE_VERSION" > /tmp/install-nod
    # Install node-sass's linux bindings \
    && npm rebuild node-sass; \
     fi \
+ \
+ # Install PHP extensions \
+ && apt-get install -y php-amqp \
  \
  # Clean the image \
  && apt-get auto-remove -qq -y \
