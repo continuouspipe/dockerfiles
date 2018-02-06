@@ -1,0 +1,4 @@
+#!/bin/bash
+
+export TIDEWAYS_HOSTNAME=${TIDEWAYS_HOSTNAME:-tideways-daemon}
+export TIDEWAYS_ENVIRONMENT=${TIDEWAYS_ENVIRONMENT:-production}

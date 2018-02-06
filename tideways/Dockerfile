@@ -13,3 +13,4 @@ RUN echo 'deb http://s3-eu-west-1.amazonaws.com/qafoo-profiler/packages debian m
  && rm -rf /var/lib/apt/lists/*
 
 COPY ./etc/ /etc/
+COPY ./usr/ /usr/
