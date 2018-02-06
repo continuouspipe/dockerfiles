@@ -32,3 +32,13 @@ daemon will forward the generated PHP profile logs to the Tideways API.
 
 As for all images based on the ubuntu base image, see
 [the base image README](../../ubuntu/16.04/README.md)
+
+
+#### Environment variables
+
+The following variables are supported
+
+Variable | Description | Expected values | Default
+--- | --- | --- | ----
+TIDEWAYS_HOSTNAME | The domain of the website to help filter in the Tideways UI | a domain | tideways-daemon
+TIDEWAYS_ENVIRONMENT | The environment of the website to help filter in the Tideways UI, if your plan allows for more than one environment | string | production
