@@ -58,6 +58,13 @@ tasks:
           image: quay.io/continuouspipe/nginx
           tag: ${FROM_TAG}
           reuse: false
+        php72_apache:
+          image: quay.io/continuouspipe/php7.2-apache
+          tag: ${FROM_TAG}
+          reuse: false
+          environment:
+            PHP_VERSION: '7.2'
+            FROM_TAG: ${FROM_TAG}
         php71_apache:
           image: quay.io/continuouspipe/php7.1-apache
           tag: ${FROM_TAG}
@@ -78,6 +85,13 @@ tasks:
           reuse: false
           environment:
             PHP_VERSION: '5.6'
+            FROM_TAG: ${FROM_TAG}
+        php72_nginx:
+          image: quay.io/continuouspipe/php7.2-nginx
+          tag: ${FROM_TAG}
+          reuse: false
+          environment:
+            PHP_VERSION: '7.2'
             FROM_TAG: ${FROM_TAG}
         php71_nginx:
           image: quay.io/continuouspipe/php7.1-nginx
@@ -119,6 +133,14 @@ tasks:
   first_level_dependency_images:
     build:
       services:
+        symfony_php72_nginx:
+          image: quay.io/continuouspipe/symfony-php7.2-nginx
+          tag: ${FROM_TAG}
+          reuse: false
+          environment:
+            PHP_VERSION: '7.2'
+            WEB_SERVER: nginx
+            FROM_TAG: ${FROM_TAG}
         symfony_php71_nginx:
           image: quay.io/continuouspipe/symfony-php7.1-nginx
           tag: ${FROM_TAG}
@@ -126,6 +148,14 @@ tasks:
           environment:
             PHP_VERSION: '7.1'
             WEB_SERVER: nginx
+            FROM_TAG: ${FROM_TAG}
+        symfony_php72_apache:
+          image: quay.io/continuouspipe/symfony-php7.2-apache
+          tag: ${FROM_TAG}
+          reuse: false
+          environment:
+            PHP_VERSION: '7.2'
+            WEB_SERVER: apache
             FROM_TAG: ${FROM_TAG}
         symfony_php71_apache:
           image: quay.io/continuouspipe/symfony-php7.1-apache
