@@ -27,7 +27,7 @@ RUN echo 'deb http://s3-eu-west-1.amazonaws.com/qafoo-profiler/packages debian m
     "php$PHP_VERSION-gd" \
     "php$PHP_VERSION-intl" \
     "php$PHP_VERSION-mbstring" \
-    "php$PHP_VERSION-mcrypt" \
+    "$( dpkg --compare-versions "$PHP_VERSION" ge 7.2 || echo "php$PHP_VERSION-mcrypt" )" \
     "php$PHP_VERSION-opcache" \
     "php$PHP_VERSION-pgsql" \
     "php$PHP_VERSION-soap" \

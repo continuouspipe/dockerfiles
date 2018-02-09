@@ -332,6 +332,16 @@ services:
     depends_on:
       - php71_apache
 
+  php72_apache:
+    build:
+      context: ./php/
+      dockerfile: Dockerfile-apache
+      args:
+        PHP_VERSION: '7.2'
+    image: quay.io/continuouspipe/php7.2-apache:latest
+    depends_on:
+      - ubuntu
+
   php71_apache:
     build:
       context: ./php/
@@ -359,6 +369,16 @@ services:
       args:
         PHP_VERSION: '5.6'
     image: quay.io/continuouspipe/php5.6-apache:latest
+    depends_on:
+      - ubuntu
+
+  php72_nginx:
+    build:
+      context: ./php/
+      dockerfile: Dockerfile-nginx
+      args:
+        PHP_VERSION: '7.2'
+    image: quay.io/continuouspipe/php7.2-nginx:latest
     depends_on:
       - ubuntu
 
@@ -484,6 +504,16 @@ services:
     depends_on:
       - php71_apache
 
+  symfony_php72_nginx:
+    build:
+      context: ./symfony/
+      args:
+        PHP_VERSION: '7.2'
+        WEB_SERVER: nginx
+    image: quay.io/continuouspipe/symfony-php7.2-nginx:latest
+    depends_on:
+      - php72_nginx
+
   symfony_php71_nginx:
     build:
       context: ./symfony/
@@ -513,6 +543,16 @@ services:
     image: quay.io/continuouspipe/symfony-php5.6-nginx:latest
     depends_on:
       - php56_nginx
+
+  symfony_php72_apache:
+    build:
+      context: ./symfony/
+      args:
+        PHP_VERSION: '7.2'
+        WEB_SERVER: apache
+    image: quay.io/continuouspipe/symfony-php7.2-apache:latest
+    depends_on:
+      - php72_apache
 
   symfony_php71_apache:
     build:
