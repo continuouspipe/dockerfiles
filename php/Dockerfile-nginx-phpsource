@@ -1,4 +1,5 @@
-FROM quay.io/continuouspipe/ubuntu16.04:latest
+ARG FROM_TAG=latest
+FROM quay.io/continuouspipe/ubuntu16.04:${FROM_TAG}
 
 ARG PHP_FULL_VERSION
 ENV PHP_FULL_VERSION=${PHP_FULL_VERSION}
