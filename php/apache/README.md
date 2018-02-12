@@ -131,6 +131,7 @@ PHP_MEMORY_LIMIT_CLI | The PHP Memoery Limit on the Command Line | Integers and 
 PHP_OPCACHE_MAX_ACCELERATED_FILES | The amount of files to cache the opcodes for. | integer | 2000
 PHP_OPCACHE_MEMORY_CONSUMPTION | The amount of megabytes that the opcode cache is allowed to use | integer | 64
 PHP_OPCACHE_VALIDATE_TIMESTAMPS | If PHP should use the cache directly or first check if the file has been modified, where 0 means don't check files. This will automatically be set to 0 if DEVELOPMENT_MODE is "false" | 0/1 | 0 if DEVELOPMENT_MODE is false, 1 otherwise
+PHP_OPCACHE_ENABLE_CLI | Should opcache be enabled on the PHP CLI? | 0/1 | 0
 PHP_REALPATH_CACHE_SIZE | The amount of bytes used for the cache of fully resolved file paths | Integer and a unit (K for Kilobytes/M for Megabytes/G for Gigabytes) | 16K
 PHP_REALPATH_CACHE_TTL | The amount of seconds to cache the fully resolved file paths for | integer | 120
 DEVELOPMENT_MODE | If set to "false", composer will run with the "--no-dev" flag to not bring in development dependencies. If set to "true", development dependencies will be brought in | true/false | false

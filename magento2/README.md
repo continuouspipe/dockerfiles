@@ -160,3 +160,15 @@ MAGENTO_ENABLE_TRANSLATE_CACHE | If true, enable this cache type in /app/app/etc
 MAGENTO_ENABLE_CONFIG_WEBSERVICE_CACHE | If true, enable this cache type in /app/app/etc/env.php | true/false | true
 MAGENTO_ENABLE_TARGET_RULE_CACHE | If true, enable the target rule cache type in /app/app/etc/env.php. Enterprise edition only. | true/false | true
 MAGENTO_ENTERPRISE_EDITION | If true, this installation of magento is the enterprise edition which allows you to use the target rule cache. | true/false | false
+
+The following variables have had their defaults changed from the php-nginx image so that Magento 2 runs better:
+
+Variable | Description | Expected values | Default
+--- | --- | --- | ----
+PHP_MEMORY_LIMIT | The memory limit for PHP. | string | 768M
+PHP_MAX_EXECUTION_TIME | How long in seconds can a PHP script run for? | integer | 600
+PHP_OPCACHE_MAX_ACCELERATED_FILES | How many files PHP can cache into Opcache | integer | 130987
+PHP_REALPATH_CACHE_SIZE | How many resolved file locations PHP can cache into the realpath cache. | string | 4096K
+PHP_REALPATH_CACHE_TTL | How many seconds can PHP cache the resolved file locations in it's realpath cache | integer | 600
+PHP_OPCACHE_MEMORY_CONSUMPTION | How much memory in megabytes can opcache use? | integer | 512
+PHP_OPCACHE_ENABLE_CLI | Should opcache be enabled on the PHP CLI? | 0/1 | 1
