@@ -13,7 +13,11 @@ tideways.connection = {{ getenv "TIDEWAYS_CONNECTION" }}
 
 ; Configure the profiling sample rate for this PHP server globally.  The given
 ; number is an integer representing percent between 0 and 100
-tideways.sample_rate=25
+tideways.sample_rate={{getenv "TIDEWAYS_SAMPLE_RATE"}}
+
+{{if getenv "TIDEWAYS_COLLECT"}}
+tideways.collect={{getenv "TIDEWAYS_COLLECT"}}
+{{end}}
 
 ; Automatically detect transactions and exceptions of a given framework The
 ; following frameworks are currently supported:
