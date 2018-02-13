@@ -1,4 +1,35 @@
 # PHP Apache
+For PHP 7.2 in a Dockerfile:
+```Dockerfile
+FROM quay.io/continuouspipe/php7.2-apache:stable
+ARG GITHUB_TOKEN=
+
+COPY . /app
+RUN container build
+```
+or in a docker-compose.yml:
+```yml
+version: '3'
+services:
+  web:
+    image: quay.io/continuouspipe/php7.2-apache:stable
+```
+
+For PHP 7.1 in a Dockerfile:
+```Dockerfile
+FROM quay.io/continuouspipe/php7.1-apache:stable
+ARG GITHUB_TOKEN=
+
+COPY . /app
+RUN container build
+```
+or in a docker-compose.yml:
+```yml
+version: '3'
+services:
+  web:
+    image: quay.io/continuouspipe/php7.1-apache:stable
+```
 
 For PHP 7.0 in a Dockerfile:
 ```Dockerfile

@@ -29,7 +29,7 @@ RUN export PHP_VERSION=${PHP_FULL_VERSION%.[0-9]*} \
     libicu-dev \
     libjpeg-dev \
     libltdl-dev \
-    libmcrypt-dev \
+    "$( dpkg --compare-versions "$PHP_VERSION" ge 7.2 || echo "libmcrypt-dev" )" \
     libmemcached-dev \
     libmysqlclient-dev \
     libpng-dev \
@@ -75,7 +75,7 @@ RUN export PHP_VERSION=${PHP_FULL_VERSION%.[0-9]*} \
    --with-webp-dir=/usr \
    --enable-intl \
    --enable-mbstring \
-   --with-mcrypt \
+   "$( dpkg --compare-versions "$PHP_VERSION" ge 7.2 || echo "--with-mcrypt" )" \
    --with-mhash \
    --enable-mysqlnd \
    --with-mysql=mysqlnd \
@@ -117,7 +117,7 @@ RUN export PHP_VERSION=${PHP_FULL_VERSION%.[0-9]*} \
    --with-webp-dir=/usr \
    --enable-intl \
    --enable-mbstring \
-   --with-mcrypt \
+   "$( dpkg --compare-versions "$PHP_VERSION" ge 7.2 || echo "--with-mcrypt" )" \
    --with-mhash \
    --enable-mysqlnd \
    --with-mysql=mysqlnd \

@@ -67,6 +67,15 @@ var/cache/**
 
 In a Dockerfile:
 ```Dockerfile
+FROM quay.io/continuouspipe/symfony-php7.2-nginx:stable
+ARG GITHUB_TOKEN=
+ARG SYMFONY_ENV=prod
+
+COPY . /app/
+RUN container build
+```
+
+```Dockerfile
 FROM quay.io/continuouspipe/symfony-php7.1-nginx:stable
 ARG GITHUB_TOKEN=
 ARG SYMFONY_ENV=prod
@@ -96,6 +105,15 @@ RUN container build
 # Symfony with Apache
 
 In a Dockerfile:
+```Dockerfile
+FROM quay.io/continuouspipe/symfony-php7.2-apache:stable
+ARG GITHUB_TOKEN=
+ARG SYMFONY_ENV=prod
+
+COPY . /app/
+RUN container build
+```
+
 ```Dockerfile
 FROM quay.io/continuouspipe/symfony-php7.1-apache:stable
 ARG GITHUB_TOKEN=
