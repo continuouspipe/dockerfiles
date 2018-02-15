@@ -74,7 +74,7 @@ WEB_HTTPS_ONLY      | Whether to redirect all HTTP traffic to HTTPS | true/false
 WEB_RESOLVER        | DNS resolver for proxy_pass and ssl_stapling_verify | ip address |
 WEB_REVERSE_PROXIED | Whether to interpret X-Forwarded-Proto as the $custom_scheme and $custom_https emulation. | true/false | true
 WEB_SSL_CIPHERS | The enabled SSL/TLS server ciphers | the format understood by the OpenSSL library | ECDH+ECDSA+AESGCM:ECDH+aRSA+AESGCM:DH+AESGCM:ECDH+ECDSA+AES256:ECDH+aRSA+AES256:DH+AES256:ECDH+ECDSA+AES128:ECDH+aRSA+AES128:DH+AES:${SSL_CIPHERS_3DES_DH}:${SSL_CIPHERS_ROBOT}:!aNULL:!MD5:!DSS
-WEB_SSL_CIPHERS_3DES_FIX | Whether to disable 3DES ciphers found weak | true/false | false
+WEB_SSL_CIPHERS_SWEET32_FIX | Whether to disable 3DES ciphers found weak (SWEET32) | true/false | false
 WEB_SSL_CIPHERS_ROBOT_FIX | Whether to disable RSA encryption ciphers found weak (ROBOT) | true/false | false
 WEB_SSL_FULLCHAIN | The location of the SSL certificate and intermediate chain file | absolute filename | /etc/ssl/certs/fullchain.pem
 WEB_SSL_OCSP_STAPLING | Whether to enable TLS OCSP stapling | true/false | false
