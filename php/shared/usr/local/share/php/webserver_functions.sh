@@ -2,6 +2,7 @@
 
 function dhparam_generate() (
     umask 0077
+    # shellcheck disable=SC2046
     openssl dhparam $([ "${WEB_SSL_DHPARAM_TYPE,,}" != dsa ] || echo '-dsaparam') \
         -out "${WEB_SSL_DHPARAM_FILE}" "${WEB_SSL_DHPARAM_SIZE}"
 )
