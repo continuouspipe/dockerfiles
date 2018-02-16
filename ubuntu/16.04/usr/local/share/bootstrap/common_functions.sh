@@ -291,6 +291,13 @@ function test_remote_ports() {
   done
 }
 
+function supervisor_signal() {
+    local -r SIGNAL=$1
+    local -r PROGRAM_NAME=$2
+
+    supervisorctl --username supervisor --password supervisor signal "$SIGNAL" "$PROGRAM_NAME"
+}
+
 function deprecate_env_var() {
   local -r DEPRECATED_ENV_VAR="$1"
   local -r NEW_ENV_VAR="$2"

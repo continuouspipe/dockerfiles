@@ -5,3 +5,7 @@ alias_function do_webserver do_nginx
 do_webserver() {
   do_nginx
 }
+
+do_webserver_reload() {
+  supervisor_signal HUP nginx
+}

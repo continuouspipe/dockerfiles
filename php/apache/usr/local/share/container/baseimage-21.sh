@@ -5,3 +5,7 @@ alias_function do_webserver do_apache
 do_webserver() {
   do_apache
 }
+
+do_webserver_reload() {
+  supervisor_signal HUP apache
+}

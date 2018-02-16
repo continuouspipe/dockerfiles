@@ -41,3 +41,7 @@ function do_https_certificates() {
 do_nginx() {
   do_https_certificates
 }
+
+do_webserver_reload() {
+  supervisor_signal HUP nginx
+}
