@@ -7,5 +7,5 @@ do_webserver() {
 }
 
 do_webserver_reload() {
-  supervisor_signal HUP apache
+  supervisor_signal USR1 apache
 }
