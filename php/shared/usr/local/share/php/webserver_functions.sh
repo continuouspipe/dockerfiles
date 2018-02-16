@@ -1,11 +1,23 @@
 #!/bin/bash
 
+function dhparam_generate() (
+    umask 0077
+    openssl dhparam $([ "${WEB_SSL_DHPARAM_TYPE,,}" != dsa ] || echo '-dsaparam') \
+        -out "${WEB_SSL_DHPARAM_FILE}" "${WEB_SSL_DHPARAM_SIZE}"
+)
+
 function do_https_certificates() {
     if [ "${WEB_HTTPS}" == "false" ]; then
         return 0
     fi
     if [ "${WEB_HTTPS_OFFLOADED}" == "true" ]; then
         return 0
+    fi
+
+    if is_true "$WEB_SSL_DHPARAM_ENABLE" && [ ! -e "${WEB_SSL_DHPARAM_FILE}" ]; then
+        echo "Generating DH parameters..."
+
+        dhparam_generate
     fi
 
     echo "Loading HTTPS Certificates..."

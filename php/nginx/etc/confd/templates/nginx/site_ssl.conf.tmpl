@@ -14,3 +14,7 @@ ssl_stapling on;
 ssl_stapling_verify on
 {{ end }}
 {{ end }}
+
+{{ if eq (getenv "WEB_SSL_DHPARAM_ENABLE") "true" }}
+ssl_dhparam {{ getenv "WEB_SSL_DHPARAM_FILE" }};
+{{ end }}
