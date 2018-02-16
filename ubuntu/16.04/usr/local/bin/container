@@ -1,12 +1,26 @@
 #!/bin/bash
 set -e
 
+DEBUG=1
+
+while test $#; do
+  case "$1" in
+  --no-debug)
+    DEBUG=0
+    shift
+    ;;
+  *)
+    break
+    ;;
+  esac
+done
+
 TASK=$1
 ARGS=( "$@" )
 
 source /usr/local/share/bootstrap/bootstrap.sh
 
-if [ "$TASK" != "list_functions" ]; then
+if [ "$TASK" != "list_functions" ] && is_true "$DEBUG"; then
   set -x
 fi
 

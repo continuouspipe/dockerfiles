@@ -76,6 +76,7 @@ WEB_REVERSE_PROXIED | Whether to interpret X-Forwarded-Proto as the $custom_sche
 WEB_SSL_CIPHERS | The enabled SSL/TLS server ciphers | the format understood by the OpenSSL library | ECDH+ECDSA+AESGCM:ECDH+aRSA+AESGCM:DH+AESGCM:ECDH+ECDSA+AES256:ECDH+aRSA+AES256:DH+AES256:ECDH+ECDSA+AES128:ECDH+aRSA+AES128:DH+AES:${SSL_CIPHERS_3DES_DH}:${SSL_CIPHERS_RSA}:!aNULL:!MD5:!DSS
 WEB_SSL_CIPHERS_SWEET32_FIX | Whether to disable 3DES ciphers found weak due to SWEET32 security flaw | true/false | false
 WEB_SSL_CIPHERS_RSA_FIX | Whether to disable RSA encryption ciphers found weak due to potential future Bleichenbacher Oracle Threat variations | true/false | false
+WEB_SSL_DHPARAM_CRON     | A cron schedule (based on crond format) to regenerate dhparam and gracefully reload the web server to reload the dhparam. Requires START_CRON=true on the same container as the web server. Set to "false" to disable | crond-format schedule / false | @daily
 WEB_SSL_DHPARAM_ENABLE   | Whether to use a dhparam file for use for ECDHE/DHE SSL ciphers. Nginx (due to openssl defaults) uses a weak 1024 bit dhparam by default | true/false | false
 WEB_SSL_DHPARAM_FILE     | The location of the dhparam file. If it doesn't exist, it will be generated | absolute filename | /etc/ssl/private/dhparam
 WEB_SSL_DHPARAM_SIZE     | The size of the dhparam to generate if enabled. | number of bits | 2048

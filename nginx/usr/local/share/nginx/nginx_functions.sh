@@ -6,6 +6,18 @@ function dhparam_generate() (
         -out "${WEB_SSL_DHPARAM_FILE}" "${WEB_SSL_DHPARAM_SIZE}"
 )
 
+function do_dhparam_regenerate() {
+    if is_true "$DEBUG"; then
+       dhparam_generate
+    else 
+       dhparam_generate 2>/dev/null
+    fi
+
+    if is_true "$START_NGINX" && [ -e /var/run/supervisor.sock ]; then
+       do_webserver_reload
+    fi
+}
+
 function do_https_certificates() {
     if [ "${WEB_HTTPS}" == "false" ]; then
         return 0
