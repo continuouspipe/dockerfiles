@@ -134,7 +134,9 @@ WEB_HTTPS_ONLY      | Whether to redirect all HTTP traffic to HTTPS | true/false
 WEB_HTTP2_TLS | Whether to enable HTTP2 over TLS on HTTPS port. If WEB_HTTPS_OFFLOADED enabled then this is ignored as TLS is not used | true/false | true
 WEB_HTTP2_PLAINTEXT_NONBC | Whether to enable HTTP2 over plaintext on HTTP port (or HTTPS if WEB_HTTPS_OFFLOADED enabled). Nginx doesn't support h2c for plain HTTP protocol so will not support HTTP 1.1/1.0 if enabled | true/false | false
 WEB_REVERSE_PROXIED | Whether to interpret X-Forwarded-Proto as the $custom_scheme and $custom_https emulation. | true/false | true
-WEB_SSL_CIPHERS | The enabled SSL/TLS server ciphers | the format understood by the OpenSSL library | ECDH+AESGCM:DH+AESGCM:ECDH+AES256:DH+AES256:ECDH+AES128:DH+AES:ECDH+3DES:DH+3DES:RSA+AESGCM:RSA+AES:RSA+3DES:!aNULL:!MD5:!DSS
+WEB_SSL_CIPHERS | The enabled SSL/TLS server ciphers | the format understood by the OpenSSL library | ECDH+ECDSA+AESGCM:ECDH+aRSA+AESGCM:DH+AESGCM:ECDH+ECDSA+AES256:ECDH+aRSA+AES256:DH+AES256:ECDH+ECDSA+AES128:ECDH+aRSA+AES128:DH+AES:${SSL_CIPHERS_3DES_DH}:${SSL_CIPHERS_RSA}:!aNULL:!MD5:!DSS
+WEB_SSL_CIPHERS_SWEET32_FIX | Whether to disable 3DES ciphers found weak due to SWEET32 security flaw | true/false | false
+WEB_SSL_CIPHERS_RSA_FIX | Whether to disable RSA encryption ciphers found weak due to potential future Bleichenbacher Oracle Threat variations | true/false | false
 WEB_SSL_FULLCHAIN | The location of the SSL certificate and intermediate chain file | absolute filename | /etc/ssl/certs/fullchain.pem
 WEB_SSL_OCSP_STAPLING | Whether to enable TLS OCSP stapling | true/false | false
 WEB_SSL_PRIVKEY | The location of the SSL private key file | absolute filename | /etc/ssl/private/privkey.pem
