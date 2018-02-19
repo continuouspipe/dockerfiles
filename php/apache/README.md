@@ -127,9 +127,9 @@ WEB_HTTPS_OFFLOADED | Whether the HTTPS traffic has been forwarded without SSL t
 WEB_HTTPS_ONLY      | Whether to redirect all HTTP traffic to HTTPS | true/false | $WEB_HTTPS (deprecated: if $WEB_HTTPS=true then false)
 WEB_INCLUDES | A space separated list of files in /etc/apache2/sites-enabled/ to include. ".conf" will be appended automatically. Globs are accepted. | space separated list of partial file names | 000-default-*
 WEB_REVERSE_PROXIED | Whether to interpret X-Forwarded-Proto as the $custom_scheme and $custom_https emulation. | true/false | true
-WEB_SSL_CIPHERS | The enabled SSL/TLS server ciphers | the format understood by the OpenSSL library | ECDH+ECDSA+AESGCM:ECDH+aRSA+AESGCM:DH+AESGCM:ECDH+ECDSA+AES256:ECDH+aRSA+AES256:DH+AES256:ECDH+ECDSA+AES128:ECDH+aRSA+AES128:DH+AES:${SSL_CIPHERS_3DES_DH}:${SSL_CIPHERS_ROBOT}:!aNULL:!MD5:!DSS
-WEB_SSL_CIPHERS_SWEET32_FIX | Whether to disable 3DES ciphers found weak (SWEET32) | true/false | false
-WEB_SSL_CIPHERS_ROBOT_FIX | Whether to disable RSA encryption ciphers found weak (ROBOT) | true/false | false
+WEB_SSL_CIPHERS | The enabled SSL/TLS server ciphers | the format understood by the OpenSSL library | ECDH+ECDSA+AESGCM:ECDH+aRSA+AESGCM:DH+AESGCM:ECDH+ECDSA+AES256:ECDH+aRSA+AES256:DH+AES256:ECDH+ECDSA+AES128:ECDH+aRSA+AES128:DH+AES:${SSL_CIPHERS_3DES_DH}:${SSL_CIPHERS_RSA}:!aNULL:!MD5:!DSS
+WEB_SSL_CIPHERS_SWEET32_FIX | Whether to disable 3DES ciphers found weak due to SWEET32 security flaw | true/false | false
+WEB_SSL_CIPHERS_RSA_FIX | Whether to disable RSA encryption ciphers found weak due to potential future Bleichenbacher Oracle Threat variations | true/false | false
 WEB_SSL_FULLCHAIN | The location of the SSL certificate and intermediate chain file | absolute filename | /etc/ssl/certs/fullchain.pem
 WEB_SSL_OCSP_STAPLING | Whether to enable TLS OCSP stapling | true/false | false
 WEB_SSL_OCSP_STAPLING_CACHE | If OCSP staping enabled then is a mandatory setting to set where OSCP responses are cached | see Apache HTTPD SSLStaplingCache documentation | 
