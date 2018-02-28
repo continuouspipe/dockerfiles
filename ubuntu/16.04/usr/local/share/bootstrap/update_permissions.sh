@@ -24,14 +24,20 @@ function update_permissions() {
         CODE_OWNER="$APP_USER"
         export APP_USER
         export CODE_OWNER
-
         if [[ "$group" = UNKNOWN ]]; then
             APP_GROUP="$APP_USER"
             CODE_GROUP="$APP_GROUP"
             export APP_GROUP
             export CODE_GROUP
             groupadd --system --gid "$group_id" "$APP_GROUP" || groupmod -g "$group_id" "$APP_GROUP"
+        else
+            APP_GROUP="$group"
+            CODE_GROUP="$APP_GROUP"
+            export APP_GROUP
+            export CODE_GROUP
         fi
-        useradd --create-home --system --uid "$owner_id" --gid "$group_id" "$APP_USER" || usermod -u "$owner_id" "$APP_USER"
+        useradd --create-home --system --uid "$owner_id" --gid "$group_id" "$APP_USER" || usermod -u "$owner_id" -g "$APP_GROUP" "$APP_USER"
+    else
+        echo "The user $owner with ID $owner_id already exists in the container. Nothing to do."
     fi
 }
