@@ -10,8 +10,10 @@ pipelines:
       - third_level_dependency_images
       - second_level_dependency_images
       - first_level_dependency_images
-      - no_dependency_images_a_m
-      - no_dependency_images_n_z
+      - no_dependency_images_a_g
+      - no_dependency_images_h_m
+      - no_dependency_images_n_r
+      - no_dependency_images_s_z
       - first_level_dependency_eol_images
       - no_dependency_eol_images
     variables:
@@ -31,8 +33,10 @@ pipelines:
       - third_level_dependency_images
       - second_level_dependency_images
       - first_level_dependency_images
-      - no_dependency_images_a_m
-      - no_dependency_images_n_z
+      - no_dependency_images_a_g
+      - no_dependency_images_h_m
+      - no_dependency_images_n_r
+      - no_dependency_images_s_z
 
 tasks:
   ##################################################
@@ -177,9 +181,9 @@ tasks:
             FROM_TAG: ${FROM_TAG}
 
   ##############################
-  # No dependency images (A-M) #
+  # No dependency images (A-G) #
   ##############################
-  no_dependency_images_a_m:
+  no_dependency_images_a_g:
     build:
       environment:
         FROM_TAG: ${FROM_TAG}
@@ -262,6 +266,15 @@ tasks:
           environment:
             PHP_VERSION: '7.1'
             FROM_TAG: ${FROM_TAG}
+
+  ##############################
+  # No dependency images (H-M) #
+  ##############################
+  no_dependency_images_h_m:
+    build:
+      environment:
+        FROM_TAG: ${FROM_TAG}
+      services:
         hem:
           image: quay.io/continuouspipe/hem1
           tag: ${FROM_TAG}
@@ -348,9 +361,9 @@ tasks:
             FROM_TAG: '5.5'
 
   ##############################
-  # No dependency images (N-Z) #
+  # No dependency images (N-R) #
   ##############################
-  no_dependency_images_n_z:
+  no_dependency_images_n_r:
     build:
       environment:
         FROM_TAG: ${FROM_TAG}
@@ -443,6 +456,15 @@ tasks:
           image: quay.io/continuouspipe/redis3-highly-available
           tag: ${FROM_TAG}
           reuse: false
+
+  ##############################
+  # No dependency images (S-Z) #
+  ##############################
+  no_dependency_images_s_z:
+    build:
+      environment:
+        FROM_TAG: ${FROM_TAG}
+      services:
         scala_sbt:
           image: quay.io/continuouspipe/scala-base
           tag: ${FROM_TAG}
