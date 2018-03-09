@@ -2,6 +2,7 @@
 
 function do_magento_n98_download() {
   if [ ! -f bin/n98-magerun.phar ]; then
+    as_code_owner "mkdir -p bin"
     as_code_owner "curl -o bin/n98-magerun.phar https://files.magerun.net/n98-magerun.phar"
   fi
 }
