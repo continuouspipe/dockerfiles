@@ -10,7 +10,10 @@ pipelines:
       - third_level_dependency_images
       - second_level_dependency_images
       - first_level_dependency_images
-      - no_dependency_images
+      - no_dependency_images_a_g
+      - no_dependency_images_h_m
+      - no_dependency_images_n_r
+      - no_dependency_images_s_z
       - first_level_dependency_eol_images
       - no_dependency_eol_images
     variables:
@@ -30,7 +33,10 @@ pipelines:
       - third_level_dependency_images
       - second_level_dependency_images
       - first_level_dependency_images
-      - no_dependency_images
+      - no_dependency_images_a_g
+      - no_dependency_images_h_m
+      - no_dependency_images_n_r
+      - no_dependency_images_s_z
 
 tasks:
   ##################################################
@@ -174,10 +180,10 @@ tasks:
             WEB_SERVER: apache
             FROM_TAG: ${FROM_TAG}
 
-  ###########################
-  # No dependency images    #
-  ###########################
-  no_dependency_images:
+  ##############################
+  # No dependency images (A-G) #
+  ##############################
+  no_dependency_images_a_g:
     build:
       environment:
         FROM_TAG: ${FROM_TAG}
@@ -260,6 +266,15 @@ tasks:
           environment:
             PHP_VERSION: '7.1'
             FROM_TAG: ${FROM_TAG}
+
+  ##############################
+  # No dependency images (H-M) #
+  ##############################
+  no_dependency_images_h_m:
+    build:
+      environment:
+        FROM_TAG: ${FROM_TAG}
+      services:
         hem:
           image: quay.io/continuouspipe/hem1
           tag: ${FROM_TAG}
@@ -344,6 +359,15 @@ tasks:
           reuse: false
           environment:
             FROM_TAG: '5.5'
+
+  ##############################
+  # No dependency images (N-R) #
+  ##############################
+  no_dependency_images_n_r:
+    build:
+      environment:
+        FROM_TAG: ${FROM_TAG}
+      services:
         nginx_ingress_controller:
           image: quay.io/continuouspipe/nginx-ingress-controller
           tag: ${FROM_TAG}
@@ -420,6 +444,10 @@ tasks:
           reuse: false
           environment:
             FROM_TAG: '9.6'
+        rabbitmq36_management:
+          image: quay.io/continuouspipe/rabbitmq36-management
+          tag: ${FROM_TAG}
+          reuse: false
         redis:
           image: quay.io/continuouspipe/redis3
           tag: ${FROM_TAG}
@@ -428,6 +456,15 @@ tasks:
           image: quay.io/continuouspipe/redis3-highly-available
           tag: ${FROM_TAG}
           reuse: false
+
+  ##############################
+  # No dependency images (S-Z) #
+  ##############################
+  no_dependency_images_s_z:
+    build:
+      environment:
+        FROM_TAG: ${FROM_TAG}
+      services:
         scala_sbt:
           image: quay.io/continuouspipe/scala-base
           tag: ${FROM_TAG}
@@ -478,10 +515,6 @@ tasks:
             FROM_TAG: ${FROM_TAG}
         tideways:
           image: quay.io/continuouspipe/tideways
-          tag: ${FROM_TAG}
-          reuse: false
-        rabbitmq36_management:
-          image: quay.io/continuouspipe/rabbitmq36-management
           tag: ${FROM_TAG}
           reuse: false
 

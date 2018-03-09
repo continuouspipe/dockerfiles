@@ -8,10 +8,15 @@ else
     DIR="$(dirname "$0")" ;
 fi ;
 
-for file in "${DIR}"/*/build.sh; do
-  # shellcheck source=/dev/null
-  bash "${file}"
-done
+
+shopt -s nullglob
+set -- "${DIR}"/*/build.sh
+if [ "$#" -gt 0 ]; then
+  for file in "$@"; do
+    # shellcheck source=/dev/null
+    source "${file}"
+  done
+fi
 
 echo "Pulling any external images:"; echo
 (cd "$DIR" && grep 'external_.*:' "$DIR/docker-compose.yml" | cut -d":" -f1 | xargs docker-compose pull)
