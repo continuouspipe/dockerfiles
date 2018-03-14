@@ -1,8 +1,9 @@
-FROM quay.io/continuouspipe/symfony-php7.1-nginx:latest
+ARG FROM_TAG=latest
+ARG PHP_VERSION=7.1
+FROM quay.io/continuouspipe/symfony-php${PHP_VERSION}-nginx:${FROM_TAG}
 
 ARG NODE_VERSION=7.x
 ARG INSTALL_COMMON_PACKAGES=true
-ARG PHP_VERSION=7.1
 
 # Install Node.js
 RUN curl -sL "https://deb.nodesource.com/setup_$NODE_VERSION" > /tmp/install-node.sh \
@@ -32,7 +33,7 @@ RUN curl -sL "https://deb.nodesource.com/setup_$NODE_VERSION" > /tmp/install-nod
     curl -A "Docker" -o /tmp/blackfire-probe.tar.gz -D - -L -s https://blackfire.io/api/v1/releases/probe/php/linux/amd64/$version && \
     tar zxpf /tmp/blackfire-probe.tar.gz -C /tmp && \
     mv /tmp/blackfire-*.so $(php -r "echo ini_get('extension_dir');")/blackfire.so && \
-    echo "extension=blackfire.so\nblackfire.agent_socket=tcp://blackfire:8707" > /etc/php/7.0/mods-available/blackfire.ini \
+    echo "extension=blackfire.so\nblackfire.agent_socket=tcp://blackfire:8707" > /etc/php/$PHP_VESION/mods-available/blackfire.ini \
  \
  # Clean the image \
  && apt-get auto-remove -qq -y \
