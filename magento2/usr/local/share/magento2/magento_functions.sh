@@ -32,7 +32,7 @@ function do_composer_post_install() {
 }
 
 function do_magento_create_web_writable_directories() {
-  mkdir -p pub/media pub/static var/log var/report var/generation generated
+  as_code_owner "mkdir -p pub/media pub/static var/log var/report var/generation generated"
   set_path_permissions "" "$CODE_OWNER $APP_USER" \
     pub/media pub/static var/log var/report var/generation generated
 }
@@ -47,7 +47,7 @@ function do_magento_frontend_build_install() {
     return
   fi
 
-  mkdir -p pub/static/frontend/
+  as_code_owner "mkdir -p pub/static/frontend/"
   as_code_owner "npm install" "$FRONTEND_INSTALL_DIRECTORY"
 }
 
