@@ -318,8 +318,8 @@ function set_path_permissions() {
     done
 
     chgrp -R "$GROUP" "${PATHS[@]}"
-    find "${PATHS[@]}" -type d -exec chmod g+ws \;
-    find "${PATHS[@]}" -type f -exec chmod g+w \;
+    find "${PATHS[@]}" -type d -exec chmod g+ws {} +
+    find "${PATHS[@]}" -type f -exec chmod g+w {} +
     ;;
   chmod)
      chmod -R a+rw "${PATHS[@]}"
