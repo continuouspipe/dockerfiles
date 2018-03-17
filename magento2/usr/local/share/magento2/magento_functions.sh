@@ -33,7 +33,7 @@ function do_composer_post_install() {
 
 function do_magento_create_web_writable_directories() {
   mkdir -p pub/media pub/static var/log var/report var/generation generated
-  set_path_permissions "$CODE_OWNER $APP_USER" "" \
+  set_path_permissions "" "$CODE_OWNER $APP_USER" \
     pub/media pub/static var/log var/report var/generation generated
 }
 

@@ -1,7 +1,7 @@
 #!/bin/bash
 
 do_build_permissions() {
-  set_path_permissions "$CODE_OWNER $APP_USER" "$CODE_OWNER" "$WORK_DIRECTORY"
+  set_path_permissions "$APP_USER" "$CODE_OWNER" "$WORK_DIRECTORY"
 }
 
 do_composer_config() (
