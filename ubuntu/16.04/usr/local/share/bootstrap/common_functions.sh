@@ -303,7 +303,7 @@ function set_path_permissions() {
     for user in "${READABLE_USERS[@]}"; do
       PERMISSIONS+=(-m "$(printf -- 'user:%s:rX' "$user")" -m "$(printf -- 'default:user:%s:rX' "$user")")
     done
-    setfacl -R ${PERMISSIONS[@]} "${PATHS[@]}"
+    setfacl -R "${PERMISSIONS[@]}" "${PATHS[@]}"
     chmod -R ug+rw,o-rwx "${PATHS[@]}"
     ;;
   stickybit)
