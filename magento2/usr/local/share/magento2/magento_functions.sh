@@ -32,9 +32,9 @@ function do_composer_post_install() {
 }
 
 function do_magento_create_web_writable_directories() {
-  as_code_owner "mkdir -p pub/media pub/static var/log var/report var/generation generated"
+  as_code_owner "mkdir -p generated/code generated/metadata pub/media pub/static var/cache var/composer_home var/generation var/log var/page_cache var/report var/view_preprocessed"
   set_path_permissions "" "$CODE_OWNER $APP_USER" \
-    pub/media pub/static var/log var/report var/generation generated
+    pub/media pub/static var generated
 }
 
 function do_magento_frontend_build() {
