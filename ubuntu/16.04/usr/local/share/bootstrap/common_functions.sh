@@ -331,6 +331,13 @@ function set_path_permissions() {
   esac
 }
 
+function remove_world_writable_permissions()
+{
+  if [ "${PERMISSION_MODE}" != 'chmod' ]; then
+    find "${WORK_DIRECTORY}" \( -type f -or -type d \) -perm -0006 -exec chmod o-w {} +
+  fi
+}
+
 function wait_for_remote_ports() (
   set +x
 

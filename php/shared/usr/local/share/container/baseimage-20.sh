@@ -10,6 +10,7 @@ do_build() {
   do_build_permissions
   do_assets_all
   do_composer
+  remove_world_writable_permissions
 }
 
 alias_function do_start do_php_web_start_inner
