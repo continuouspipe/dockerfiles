@@ -290,9 +290,12 @@ function permission_mode() {
 }
 
 function set_path_permissions() {
-  local -r READABLE_USERS=($1)
-  local -r WRITEABLE_USERS=($2)
-  local -r PATHS=("${@:3}")
+  local -a READABLE_USERS=()
+  IFS=" " read -r -a READABLE_USERS <<< "$1"
+  local -a WRITEABLE_USERS=()
+  IFS=" " read -r -a WRITEABLE_USERS <<< "$2"
+  local -a PATHS=()
+  IFS=" " read -r -a PATHS <<< "${@:3}"
 
   case "$PERMISSION_MODE" in
   facl)
@@ -304,7 +307,7 @@ function set_path_permissions() {
       PERMISSIONS+=(-m "$(printf -- 'user:%s:rX' "$user")" -m "$(printf -- 'default:user:%s:rX' "$user")")
     done
     setfacl -R "${PERMISSIONS[@]}" "${PATHS[@]}"
-    chmod -R ug+rw,o-rwx "${PATHS[@]}"
+    find "${PATHS[@]}" ! -perm /660 -exec chmod ug+rw,o-rwx {} +
     ;;
   stickybit)
     GROUP="$(printf '%s' "${WRITEABLE_USERS[@]}")"
@@ -317,16 +320,16 @@ function set_path_permissions() {
       usermod -a -G "$GROUP" "$USER"
     done
 
-    chgrp -R "$GROUP" "${PATHS[@]}"
-    find "${PATHS[@]}" -type d -exec chmod g+ws {} +
-    find "${PATHS[@]}" -type f -exec chmod g+w {} +
+    find "${PATHS[@]}" ! -group "$GROUP" -exec chgrp "$GROUP" {} +
+    find "${PATHS[@]}" -type d ! -perm -2070 -exec chmod g+ws {} +
+    find "${PATHS[@]}" -type f ! -perm -0060 -exec chmod g+w {} +
     ;;
   chmod)
-     chmod -R a+rw "${PATHS[@]}"
-     ;;
+    find "${PATHS[@]}" ! -perm -0666 -exec chmod a+rw {} +
+    ;;
   *)
-     echo "unsupported permission mode '$PERMISSION_MODE'" >&2
-     ;;
+    echo "unsupported permission mode '$PERMISSION_MODE'" >&2
+    ;;
   esac
 }
 
