@@ -282,8 +282,6 @@ function has_acl() {
 function permission_mode() {
   if [ "$IS_CHOWN_FORBIDDEN" == "true" ]; then
     echo "chmod"
-  elif has_acl; then
-    echo "facl"
   else
     echo "stickybit"
   fi
