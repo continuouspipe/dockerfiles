@@ -62,7 +62,7 @@ function do_magento_frontend_build_install() {
     chown -R "${CODE_OWNER}:${CODE_GROUP}" pub/static/frontend/
   fi
 
-  as_code_owner "npm install" "$FRONTEND_INSTALL_DIRECTORY"
+  as_code_owner "npm install --no-save" "$FRONTEND_INSTALL_DIRECTORY"
 }
 
 function do_magento_frontend_build_run() {
