@@ -1,6 +1,6 @@
 #!/bin/bash
 
-if [ "$IMAGE_VERSION" -le 3 ]; then
+if [ "$IMAGE_VERSION" -lt 3 ]; then
   source /usr/local/share/magento2/magento_legacy_asset_functions.sh
 fi
 
