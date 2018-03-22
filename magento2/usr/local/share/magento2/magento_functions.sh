@@ -400,7 +400,7 @@ function do_magento_download_magerun2() {
 
 function has_deploy_pipeline() (
   set +ex
-  dpkg --compare-versions "$MAGENTO_VERSION" ge 2.2 && [ -f "${WORK_DIRECTORY}/app/etc/config.php" ]
+  dpkg --compare-versions "$MAGENTO_VERSION" ge 2.2 && [ -f "${WORK_DIRECTORY}/app/etc/config.php" ] && grep -q 'websites' "${WORK_DIRECTORY}/app/etc/config.php"
   return $?
 )
 
