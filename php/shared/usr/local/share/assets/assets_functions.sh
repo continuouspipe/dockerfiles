@@ -35,6 +35,7 @@ function do_assets_all()
   do_assets_download
   do_assets_apply
 }
+export -f do_assets_all
 
 function assets_list()
 {
