@@ -51,6 +51,7 @@ function do_magento_frontend_build() {
   do_magento_frontend_build_install
   do_magento_frontend_build_run
 }
+export -f do_magento_frontend_build
 
 function do_magento_frontend_build_install() {
   if [ ! -d "$FRONTEND_INSTALL_DIRECTORY" ] || [ ! -f "$FRONTEND_INSTALL_DIRECTORY/package.json" ]; then
@@ -127,25 +128,27 @@ function do_magento_move_compiled_assets_back_to_codebase() {
 
 function do_magento_dependency_injection_compilation() {
   # Compile the DIC if to be productionized
-  if [ "$PRODUCTION_ENVIRONMENT" = "true" ]; then
+  if [[ "$IMAGE_VERSION" -le 2 && "$PRODUCTION_ENVIRONMENT" = "true" ]] || [[ "$MAGENTO_MODE" == "production" ]]; then
     as_code_owner "$MAGENTO_DEPENDENCY_INJECTION_COMPILE_COMMAND"
   fi
 }
+export -f do_magento_dependency_injection_compilation
 
 function do_magento_deploy_static_content() {
   # Compile static content if it's a production container.
   if [ "$MAGENTO_MODE" = "production" ]; then
     set +e
-    run_magento_deploy_static_content "" "--no-javascript $FRONTEND_COMPILE_LANGUAGES"
-    run_magento_deploy_static_content "on" "--no-css --no-less --no-images --no-fonts --no-html --no-misc --no-html-minify $FRONTEND_COMPILE_LANGUAGES"
+    parallel run_magento_deploy_static_content :::: "" "--no-javascript $FRONTEND_COMPILE_LANGUAGES" :::: "on" "--no-css --no-less --no-images --no-fonts --no-html --no-misc --no-html-minify $FRONTEND_COMPILE_LANGUAGES"
     set -e
   fi
 }
+export -f do_magento_deploy_static_content
 
 function run_magento_deploy_static_content() {
   local FLAGS="$2"
   HTTPS="$1" as_code_owner "bin/magento setup:static-content:deploy $FLAGS"
 }
+export -f run_magento_deploy_static_content
 
 function do_magento_reindex() {
   (as_code_owner "bin/magento indexer:reindex" || echo "Failing indexing to the end, ignoring.") && echo "Indexing successful"
@@ -494,18 +497,22 @@ function setup_build_database() {
   do_magento_move_compiled_assets_back_to_codebase
 }
 
-function do_magento2_build() {
-  do_magento_create_web_writable_directories
-  do_magento_frontend_build
-  do_magento_frontend_cache_clean
+function legacy_asset_functions()
+{
   call_if_available do_magento_assets_download
   call_if_available do_magento_assets_install
+}
+export -f legacy_asset_functions
+
+function do_magento2_build() {
+  do_magento_create_web_writable_directories
+  parallel ::: do_magento_frontend_build legacy_asset_functions
+  do_magento_frontend_cache_clean
   do_magento_install_custom
 
   setup_build_database
 
-  do_magento_dependency_injection_compilation
-  do_magento_deploy_static_content
+  parallel ::: do_magento_dependency_injection_compilation do_magento_deploy_static_content
   do_magento_install_finalise_custom
 
   if ! has_deploy_pipeline; then
@@ -525,8 +532,7 @@ function do_magento2_development_build() {
     do_magento_remove_config_template
   fi
   if [[ "${RUN_BUILD}" == "true" ]]; then
-    call_if_available do_magento_assets_download
-    call_if_available do_magento_assets_install
+    legacy_asset_functions
     do_templating
     do_magento2_setup
     do_magento_frontend_build
@@ -556,7 +562,9 @@ function do_magento2_setup() {
   do_magento_cache_flush
   do_magento_setup_upgrade
   do_magento_cache_flush
-  do_magento_reindex
+  if is_true "$REINDEX_DURING_SETUP"; then
+    do_magento_reindex
+  fi
 }
 
 function is_function() {
