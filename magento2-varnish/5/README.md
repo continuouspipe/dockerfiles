@@ -5,20 +5,20 @@ In a docker-compose.yml:
 version: '3'
 services:
   varnish:
-    image: quay.io/continuouspipe/magento2-varnish4:stable
+    image: quay.io/continuouspipe/magento2-varnish5:stable
     environment:
       VARNISH_SECRET: "A secret for varnish that should be kept secret!"
 ```
 
 In a Dockerfile:
 ```Dockerfile
-FROM quay.io/continuouspipe/magento2-varnish4:stable
+FROM quay.io/continuouspipe/magento2-varnish5:stable
 ```
 
 ## How to build
 ```bash
-docker-compose build magento2_varnish4
-docker-compose push magento2_varnish4
+docker-compose build magento2_varnish5
+docker-compose push magento2_varnish5
 ```
 
 ## About

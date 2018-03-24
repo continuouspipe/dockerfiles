@@ -167,19 +167,19 @@ services:
     depends_on:
       - php71_nginx
 
-  magento2_varnish4:
-    build:
-      context: ./magento2-varnish/4.0/
-    image: quay.io/continuouspipe/magento2-varnish4:latest
-    depends_on:
-      - varnish4
-
   magento2_varnish5:
     build:
       context: ./magento2-varnish/5/
     image: quay.io/continuouspipe/magento2-varnish5:latest
     depends_on:
       - varnish5
+
+  magento2_varnish4:
+    build:
+      context: ./magento2-varnish/4.0/
+    image: quay.io/continuouspipe/magento2-varnish4:latest
+    depends_on:
+      - varnish4
 
   mailcatcher:
     build:
