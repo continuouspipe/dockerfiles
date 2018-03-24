@@ -26,7 +26,6 @@ do_composer() {
     do_composer_clear_cache
   fi
 }
-export -f do_composer
 
 do_composer_clear_cache() {
   rm -rf /home/build/.composer/cache/

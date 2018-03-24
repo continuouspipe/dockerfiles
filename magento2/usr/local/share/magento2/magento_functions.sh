@@ -51,7 +51,6 @@ function do_magento_frontend_build() {
   do_magento_frontend_build_install
   do_magento_frontend_build_run
 }
-export -f do_magento_frontend_build
 
 function do_magento_frontend_build_install() {
   if [ ! -d "$FRONTEND_INSTALL_DIRECTORY" ] || [ ! -f "$FRONTEND_INSTALL_DIRECTORY/package.json" ]; then
@@ -132,7 +131,6 @@ function do_magento_dependency_injection_compilation() {
     as_code_owner "$MAGENTO_DEPENDENCY_INJECTION_COMPILE_COMMAND"
   fi
 }
-export -f do_magento_dependency_injection_compilation
 
 function do_magento_deploy_static_content() {
   # Compile static content if it's a production container.
@@ -142,13 +140,11 @@ function do_magento_deploy_static_content() {
     set -e
   fi
 }
-export -f do_magento_deploy_static_content
 
 function run_magento_deploy_static_content() {
   local FLAGS="$2"
   HTTPS="$1" as_code_owner "bin/magento setup:static-content:deploy $FLAGS"
 }
-export -f run_magento_deploy_static_content
 
 function do_magento_reindex() {
   (as_code_owner "bin/magento indexer:reindex" || echo "Failing indexing to the end, ignoring.") && echo "Indexing successful"
@@ -502,7 +498,6 @@ function legacy_asset_functions()
   call_if_available do_magento_assets_download
   call_if_available do_magento_assets_install
 }
-export -f legacy_asset_functions
 
 function do_magento2_build() {
   do_magento_create_web_writable_directories

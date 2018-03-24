@@ -9,10 +9,18 @@ if [ "$IMAGE_VERSION" -ge 2 ]; then
       do_magento_build_start_mysql
     fi
     do_magento2_build_inner
+    call_magento2_build
+  }
+
+  call_magento2_build() {
     if [ "$IMAGE_VERSION" -ge 3 ]; then
       do_magento2_build
     else
-      PRODUCTION_ENVIRONMENT="$BUILD_PRODUCTION_ENVIRONMENT" MAGENTO_MODE="$BUILD_MAGENTO_MODE" MAGE_MODE="$BUILD_MAGENTO_MODE" DEVELOPMENT_MODE="$BUILD_DEVELOPMENT_MODE" do_magento2_build
+      PRODUCTION_ENVIRONMENT="$BUILD_PRODUCTION_ENVIRONMENT" \
+      MAGENTO_MODE="$BUILD_MAGENTO_MODE" \
+      MAGE_MODE="$BUILD_MAGENTO_MODE" \
+      DEVELOPMENT_MODE="$BUILD_DEVELOPMENT_MODE" \
+      do_magento2_build
     fi
   }
 
