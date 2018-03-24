@@ -1,6 +1,21 @@
 # Varnish
 
-In a docker-compose.yml:
+In a docker-compose.yml for Varnish 5.x:
+```yml
+version: '3'
+services:
+  varnish:
+    image: quay.io/continuouspipe/varnish5:stable
+    environment:
+      VARNISH_SECRET: "A secret that should remain secret!"
+```
+
+In a Dockerfile for Varnish 5.x:
+```Dockerfile
+FROM quay.io/continuouspipe/varnish5:stable
+```
+
+In a docker-compose.yml for Varnish 4.x:
 ```yml
 version: '3'
 services:
@@ -10,7 +25,7 @@ services:
       VARNISH_SECRET: "A secret that should remain secret!"
 ```
 
-In a Dockerfile:
+In a Dockerfile for Varnish 4.x:
 ```Dockerfile
 FROM quay.io/continuouspipe/varnish4:stable
 ```
@@ -18,8 +33,8 @@ FROM quay.io/continuouspipe/varnish4:stable
 
 ## How to build
 ```bash
-docker build varnish
-docker push varnish
+docker build varnish4 varnish5
+docker push varnish4 varnish5
 ```
 
 ## About

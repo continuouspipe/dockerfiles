@@ -60,12 +60,12 @@ services:
     depends_on:
       - solr_6_2
 
-  drupal8_varnish:
+  drupal8_varnish4:
     build:
       context: ./drupal8-varnish/4.0/
     image: quay.io/continuouspipe/drupal8-varnish4:latest
     depends_on:
-      - varnish
+      - varnish4
 
   elasticsearch17:
     build:
@@ -167,12 +167,19 @@ services:
     depends_on:
       - php71_nginx
 
-  magento2_varnish:
+  magento2_varnish4:
     build:
       context: ./magento2-varnish/4.0/
     image: quay.io/continuouspipe/magento2-varnish4:latest
     depends_on:
-      - varnish
+      - varnish4
+
+  magento2_varnish5:
+    build:
+      context: ./magento2-varnish/5/
+    image: quay.io/continuouspipe/magento2-varnish5:latest
+    depends_on:
+      - varnish5
 
   mailcatcher:
     build:
@@ -613,10 +620,21 @@ services:
     depends_on:
       - external_ubuntu
 
-  varnish:
+  varnish4:
     build:
-      context: ./varnish/4.0/
+      context: ./varnish/
+      args:
+        VARNISH_VERSION: '41'
     image: quay.io/continuouspipe/varnish4:latest
+    depends_on:
+      - ubuntu
+
+  varnish5:
+    build:
+      context: ./varnish/
+      args:
+        VARNISH_VERSION: '52'
+    image: quay.io/continuouspipe/varnish5:latest
     depends_on:
       - ubuntu
 
@@ -661,7 +679,7 @@ services:
 
   external_elasticsearch55:
     image: elasticsearch:5.5
-    
+
   external_postgres94:
     image: postgres:9.4
 

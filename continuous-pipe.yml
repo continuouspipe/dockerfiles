@@ -128,10 +128,18 @@ tasks:
           image: quay.io/continuouspipe/solr6
           tag: ${FROM_TAG}
           reuse: false
-        varnish:
+        varnish5:
+          image: quay.io/continuouspipe/varnish5
+          tag: ${FROM_TAG}
+          reuse: false
+          environment:
+            VARNISH_VERSION: '52'
+        varnish4:
           image: quay.io/continuouspipe/varnish4
           tag: ${FROM_TAG}
           reuse: false
+          environment:
+            VARNISH_VERSION: '41'
 
   ################################
   # Build intermediate images #2 #
@@ -230,7 +238,7 @@ tasks:
           image: quay.io/continuouspipe/drupal8-solr6
           tag: ${FROM_TAG}
           reuse: false
-        drupal8_varnish:
+        drupal8_varnish4:
           image: quay.io/continuouspipe/drupal8-varnish4
           tag: ${FROM_TAG}
           reuse: false
@@ -311,7 +319,11 @@ tasks:
             FROM_IMAGE: php7.1-nginx
             WEB_SERVER: nginx
             FROM_TAG: ${FROM_TAG}
-        magento2_varnish:
+        magento2_varnish5:
+          image: quay.io/continuouspipe/magento2-varnish5
+          tag: ${FROM_TAG}
+          reuse: false
+        magento2_varnish4:
           image: quay.io/continuouspipe/magento2-varnish4
           tag: ${FROM_TAG}
           reuse: false
