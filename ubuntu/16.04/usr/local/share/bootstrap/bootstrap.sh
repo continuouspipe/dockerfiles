@@ -24,3 +24,9 @@ if [ -e "$WORK_DIRECTORY/plan.override.sh" ]; then
   # shellcheck source=/dev/null
   source "$WORK_DIRECTORY/plan.override.sh"
 fi
+
+FUNCTIONS="$(compgen -A function)"
+for func in $FUNCTIONS; do
+  # shellcheck disable=SC2163
+  export -f "$func"
+done
