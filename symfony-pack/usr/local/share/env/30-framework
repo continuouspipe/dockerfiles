@@ -1,0 +1,17 @@
+#!/bin/bash
+
+# By default, we allow HTTP
+export WEB_HTTP=${WEB_HTTP:-true}
+
+# Provide a BC-layer for Symfony 3.x
+export SYMFONY_ENV=${SYMFONY_ENV:-$APP_ENV}
+
+# By default, Composer install all the dependencies...
+COMPOSER_FLAGS="--no-interaction --optimize-autoloader"
+
+# ...except for APP_ENV=prod
+if [ "$APP_ENV" = "prod" ]; then
+  COMPOSER_FLAGS="${DEFAULT_COMPOSER_FLAGS} --no-dev"
+fi
+
+export COMPOSER_INSTALL_FLAGS=${COMPOSER_INSTALL_FLAGS:-$COMPOSER_FLAGS}

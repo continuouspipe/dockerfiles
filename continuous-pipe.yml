@@ -513,6 +513,12 @@ tasks:
             PHP_VERSION: '5.6'
             WEB_SERVER: apache
             FROM_TAG: ${FROM_TAG}
+        symfony_pack:
+          image: quay.io/continuouspipe/symfony-pack
+          tag: ${FROM_TAG}
+          reuse: false
+          environment:
+            FROM_TAG: ${FROM_TAG}
         tideways:
           image: quay.io/continuouspipe/tideways
           tag: ${FROM_TAG}

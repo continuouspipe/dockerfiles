@@ -584,6 +584,13 @@ services:
     depends_on:
       - php56_apache
 
+  symfony_pack:
+    build:
+      context: ./symfony-pack/
+    image: quay.io/continuouspipe/symfony-pack:latest
+    depends_on:
+      - symfony_php71_nginx
+
   tests:
     build:
       context: .
