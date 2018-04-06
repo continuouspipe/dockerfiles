@@ -197,6 +197,15 @@ services:
     depends_on:
       - external_mongodb26
 
+  mongodb36:
+    build:
+      context: ./mongodb/
+      args:
+        FROM_TAG: '3.6'
+    image: quay.io/continuouspipe/mongodb3.6:latest
+    depends_on:
+      - external_mongodb36
+
   mongodb34:
     build:
       context: ./mongodb/
@@ -635,6 +644,9 @@ services:
 
   external_mongodb34:
     image: mongo:3.4
+
+  external_mongodb36:
+    image: mongo:3.6
 
   external_mysql80:
     image: mysql:8.0

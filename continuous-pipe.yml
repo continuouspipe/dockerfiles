@@ -335,6 +335,12 @@ tasks:
           reuse: false
           environment:
             FROM_TAG: '3.4'
+        mongodb36:
+          image: quay.io/continuouspipe/mongodb3.6
+          tag: ${FROM_TAG}
+          reuse: false
+          environment:
+            FROM_TAG: '3.6'
         mysql80:
           image: quay.io/continuouspipe/mysql8.0
           tag: ${FROM_TAG}
