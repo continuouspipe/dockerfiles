@@ -3,6 +3,7 @@
 set -e
 
 MONGODB_AUTH_ENABLED=${MONGODB_AUTH_ENABLED:-0}
+MONGODB_BIND_IP=${MONGODB_BIND_IP:-0.0.0.0}
 
 if [ -n "$MONGODB_ADMIN_USER" ] || [ -n "$MONGODB_USERS" ]; then
     mongod --bind_ip 127.0.0.1 &
@@ -25,7 +26,7 @@ if [ -n "$MONGODB_ADMIN_USER" ] || [ -n "$MONGODB_USERS" ]; then
 fi
 
 if [ "$MONGODB_AUTH_ENABLED" -eq 1 ]; then
-    exec mongod --auth
+    exec mongod --auth --bind_ip "$MONGODB_BIND_IP"
 else
-    exec mongod
+    exec mongod --bind_ip "$MONGODB_BIND_IP"
 fi

@@ -117,3 +117,12 @@ The reason for the additional database field is that MongoDB authentication is
 run against the db that the connection authenticates with, which for applications
 needn't be the admin db. A role's db however applies on operations in a db after
 authentication.
+
+### Environment variables
+
+Variable | Description | Expected values | Default
+--- | --- | --- | ----
+MONGODB_ADMIN_USER | The admin user to create. Not created if not specified | string |
+MONGODB_ADMIN_PWD  | The password for the admin user | string |
+MONGODB_BIND_IP | The IP to bind the server to (default all container network adapter IPs) | ip address | 0.0.0.0
+MONGODB_USERS | Users to create/update in MongoDB | a json string
