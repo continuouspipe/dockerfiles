@@ -1,6 +1,10 @@
 require 'shellwords'
 require_relative '../lib/execute.rb'
 
+Given(/^I have pulled external images$/) do
+  execute("docker-compose config --services | grep ^external_ | xargs docker-compose pull")
+end
+
 Given(/^the image ([^\s]+) has dependencies ([^\s]*)\s*$/) do |image_name, image_dependencies|
   @image_name = image_name
   @escaped_image_name = Shellwords.escape(image_name)
@@ -14,7 +18,7 @@ Given(/^I have built the image ([^\s]+)$/) do |image_name|
 end
 
 When(/^I build the image and it's dependencies$/) do
-  @docker_compose_exit_code = execute("docker-compose build #{@escaped_image_dependencies.join(" ")} #{@escaped_image_name}")
+  @docker_compose_exit_code = execute("docker-compose build --force-rm #{@escaped_image_dependencies.join(" ")} #{@escaped_image_name}")
 end
 
 Then(/^the build should complete successfully$/) do

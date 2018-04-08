@@ -19,7 +19,7 @@ if [ "$#" -gt 0 ]; then
 fi
 
 echo "Pulling any external images:"; echo
-(cd "$DIR" && grep 'external_.*:' "$DIR/docker-compose.yml" | cut -d":" -f1 | xargs docker-compose pull)
+(cd "$DIR" && docker-compose config --services | grep ^external_ | xargs docker-compose pull)
 echo "Building all images:"; echo
 (cd "$DIR" && docker-compose build --force-rm)
 

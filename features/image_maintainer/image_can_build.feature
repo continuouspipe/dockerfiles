@@ -5,6 +5,7 @@ Feature: Image can build
 
 Scenario Outline: Image can build
   Given the image <image_name> has dependencies <image_dependencies>
+  And I have pulled external images
   When I build the image and it's dependencies
   Then the build should complete successfully
 
@@ -24,7 +25,6 @@ Scenario Outline: Image can build
     | ezplatform_php70_apache | symfony_php70_apache,php70_apache,ubuntu |
     | ezplatform_php71_apache | symfony_php71_apache,php71_apache,ubuntu |
     | hem | ubuntu |
-    | magento1_php55_nginx | php55_nginx,ubuntu |
     | magento1_php56_apache | php56_apache,ubuntu |
     | magento1_php56_nginx | php56_nginx,ubuntu |
     | magento2_php70_nginx | php70_nginx,ubuntu |
@@ -57,7 +57,6 @@ Scenario Outline: Image can build
     | php72_nginx | ubuntu |
     | php71_nginx | ubuntu |
     | php70_nginx | ubuntu |
-    | php55_nginx | ubuntu |
     | php56_nginx | ubuntu |
     | postgres94 |  |
     | postgres96 |  |
@@ -105,7 +104,6 @@ Scenario Outline: Built container can start
     | ezplatform_php70_apache |
     | ezplatform_php71_apache |
     | hem |
-    | magento1_php55_nginx |
     | magento1_php56_apache |
     | magento1_php56_nginx |
     | magento2_php70_nginx |
@@ -130,7 +128,6 @@ Scenario Outline: Built container can start
     | nodejs8 |
     | nodejs8_small |
     | phantomjs2 |
-    | php55_nginx |
     | php56_apache |
     | php56_nginx |
     | php70_apache |
