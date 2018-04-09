@@ -1,11 +1,36 @@
 #!/bin/bash
 
+function dhparam_generate() (
+    umask 0077
+    # shellcheck disable=SC2046
+    openssl dhparam $([ "${WEB_SSL_DHPARAM_TYPE,,}" != dsa ] || echo '-dsaparam') \
+        -out "${WEB_SSL_DHPARAM_FILE}" "${WEB_SSL_DHPARAM_SIZE}"
+)
+
+function do_dhparam_regenerate() {
+    if is_true "$DEBUG"; then
+       dhparam_generate
+    else 
+       dhparam_generate 2>/dev/null
+    fi
+
+    if is_true "$START_WEB" && [ -e /var/run/supervisor.sock ]; then
+       do_webserver_reload
+    fi
+}
+
 function do_https_certificates() {
     if [ "${WEB_HTTPS}" == "false" ]; then
         return 0
     fi
     if [ "${WEB_HTTPS_OFFLOADED}" == "true" ]; then
         return 0
+    fi
+
+    if is_true "$WEB_SSL_DHPARAM_ENABLE" && [ ! -e "${WEB_SSL_DHPARAM_FILE}" ]; then
+        echo "Generating DH parameters..."
+
+        dhparam_generate
     fi
 
     echo "Loading HTTPS Certificates..."

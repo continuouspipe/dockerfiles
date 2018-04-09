@@ -1,0 +1,4 @@
+{{ if and (eq "true" (getenv "WEB_SSL_DHPARAM_ENABLE")) (ne "false" (getenv "WEB_SSL_DHPARAM_CRON")) }}
+MAILTO=""
+{{ getenv "WEB_SSL_DHPARAM_CRON" }} root supervisorctl --user supervisor --password supervisor start dhparam-regenerate
+{{ end }}

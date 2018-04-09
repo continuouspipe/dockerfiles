@@ -1,0 +1,6 @@
+[template]
+src   = "supervisor/dhparam_regenerate.conf.tmpl"
+dest  = "/etc/supervisor/conf.d/dhparam_regenerate.conf"
+mode  = "0644"
+keys = [
+]

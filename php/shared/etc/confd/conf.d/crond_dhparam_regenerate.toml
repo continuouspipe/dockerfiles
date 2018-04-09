@@ -1,0 +1,6 @@
+[template]
+src   = "crond/dhparam_regenerate.tmpl"
+dest  = "/etc/cron.d/dhparam_regenerate"
+mode  = "0644"
+keys = [
+]
