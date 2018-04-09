@@ -1,21 +1,6 @@
-load('env.js');
 db = db.getSiblingDB('admin');
 
-var users = [];
-
-if (env.hasOwnProperty('MONGODB_USERS')) {
-    users = JSON.parse(env.MONGODB_USERS);
-}
-
-if (env.hasOwnProperty('MONGODB_ADMIN_USER')) {
-    users.unshift(
-        {
-            user: env.MONGODB_ADMIN_USER,
-            pwd: env.MONGODB_ADMIN_PWD,
-            roles: ["userAdminAnyDatabase"]
-        }
-    );
-}
+var users = JSON.parse(cat('/tmp/users.json'));
 
 users.forEach(function (user) {
     var userDb = db;
