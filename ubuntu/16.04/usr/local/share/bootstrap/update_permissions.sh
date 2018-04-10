@@ -37,6 +37,10 @@ function update_permissions() {
             export CODE_GROUP
         fi
         useradd --create-home --system --uid "$owner_id" --gid "$group_id" "$APP_USER" || usermod -u "$owner_id" -g "$APP_GROUP" "$APP_USER"
+
+        # Adjust any templates that are meant to be written out as UID 999 (assumed to be build)
+        # to be written out as the new owner_id instead
+        find /etc/confd/conf.d/ -type f -exec sed -i -E "s/uid\s*=\s*999/uid=$owner_id/g" {} \;
     else
         echo "The user $owner with ID $owner_id already exists in the container. Nothing to do."
     fi
