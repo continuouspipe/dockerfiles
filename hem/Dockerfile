@@ -5,6 +5,7 @@ RUN curl -q https://dx6pc3giz7k1r.cloudfront.net/GPG-KEY-inviqa-tools | apt-key 
  && echo "deb https://dx6pc3giz7k1r.cloudfront.net/repos/debian jessie main" | tee /etc/apt/sources.list.d/inviqa-tools.list \
  && apt-get update -qq \
  && apt-get -qq -y --no-install-recommends install \
+    build-essential \
     hem \
  \
  # Clean the image \
