@@ -18,6 +18,8 @@ if [ "$#" -gt 0 ]; then
   done
 fi
 
+# external_* services are used to fetch only upstream base images.
+# build --pull would otherwise overwrite the newly built dependency of a service with the old repo version
 echo "Pulling any external images:"; echo
 (cd "$DIR" && grep 'external_.*:' "$DIR/docker-compose.yml" | cut -d":" -f1 | xargs docker-compose pull)
 echo "Building all images:"; echo
