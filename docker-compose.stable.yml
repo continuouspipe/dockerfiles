@@ -1,0 +1,147 @@
+---
+version: '2'
+services:
+  couchdb16:
+    image: quay.io/continuouspipe/couchdb1.6:stable
+  drupal_php71_apache:
+    image: quay.io/continuouspipe/drupal-php7.1-apache:stable
+  drupal_php70_apache:
+    image: quay.io/continuouspipe/drupal-php7-apache:stable
+  drupal8_apache_php7:
+    image: quay.io/continuouspipe/drupal8-apache-php7:stable
+  drupal_php56_apache:
+    image: quay.io/continuouspipe/drupal-php5.6-apache:stable
+  drupal8_solr_4_10:
+    image: quay.io/continuouspipe/drupal8-solr4:stable
+  drupal8_solr_6_2:
+    image: quay.io/continuouspipe/drupal8-solr6:stable
+  drupal8_varnish:
+    image: quay.io/continuouspipe/drupal8-varnish4:stable
+  elasticsearch17:
+    image: quay.io/continuouspipe/elasticsearch1.7:stable
+  elasticsearch24:
+    image: quay.io/continuouspipe/elasticsearch2.4:stable
+  elasticsearch55:
+    image: quay.io/continuouspipe/elasticsearch5.5:stable
+  ezplatform_php70_apache:
+    image: quay.io/continuouspipe/ez6-apache-php7:stable
+  ezplatform_php71_apache:
+    image: quay.io/continuouspipe/ez6-php7.1-apache:stable
+  hem:
+    image: quay.io/continuouspipe/hem1:stable
+  magento1_php55_nginx:
+    image: quay.io/continuouspipe/eol-magento1-nginx-php5.5:stable
+  magento1_php56_apache:
+    image: quay.io/continuouspipe/magento1-apache-php5.6:stable
+  magento1_php56_nginx:
+    image: quay.io/continuouspipe/magento1-nginx-php5.6:stable
+  magento2_php70_nginx:
+    image: quay.io/continuouspipe/magento2-nginx-php7:stable
+  magento2_php71_nginx:
+    image: quay.io/continuouspipe/magento2-nginx-php7.1:stable
+  magento2_varnish:
+    image: quay.io/continuouspipe/magento2-varnish4:stable
+  mailcatcher:
+    image: quay.io/continuouspipe/mailcatcher:stable
+  memcached:
+    image: quay.io/continuouspipe/memcached1.4:stable
+  mongodb26:
+    image: quay.io/continuouspipe/mongodb2.6:stable
+  mongodb36:
+    image: quay.io/continuouspipe/mongodb3.6:stable
+  mongodb34:
+    image: quay.io/continuouspipe/mongodb3.4:stable
+  mysql80:
+    image: quay.io/continuouspipe/mysql8.0:stable
+  mysql57:
+    image: quay.io/continuouspipe/mysql5.7:stable
+  mysql56:
+    image: quay.io/continuouspipe/mysql5.6:stable
+  mysql55:
+    image: quay.io/continuouspipe/mysql5.5:stable
+  nginx:
+    image: quay.io/continuouspipe/nginx:stable
+  nginx_ingress_controller:
+    image: quay.io/continuouspipe/nginx-ingress-controller:stable
+  nginx_reverse_proxy:
+    image: quay.io/continuouspipe/nginx-reverse-proxy:stable
+  nodejs6:
+    image: quay.io/continuouspipe/nodejs6:stable
+  nodejs6_small:
+    image: quay.io/continuouspipe/nodejs6-small:stable
+  nodejs7:
+    image: quay.io/continuouspipe/nodejs7:stable
+  nodejs7_small:
+    image: quay.io/continuouspipe/nodejs7-small:stable
+  nodejs8:
+    image: quay.io/continuouspipe/nodejs8:stable
+  nodejs8_small:
+    image: quay.io/continuouspipe/nodejs8-small:stable
+  phantomjs2:
+    image: quay.io/continuouspipe/phantomjs2:stable
+  piwik_php71_apache:
+    image: quay.io/continuouspipe/piwik-php7.1-apache:stable
+  php72_apache:
+    image: quay.io/continuouspipe/php7.2-apache:stable
+  php71_apache:
+    image: quay.io/continuouspipe/php7.1-apache:stable
+  php70_apache:
+    image: quay.io/continuouspipe/php7-apache:stable
+  php56_apache:
+    image: quay.io/continuouspipe/php5.6-apache:stable
+  php72_nginx:
+    image: quay.io/continuouspipe/php7.2-nginx:stable
+  php71_nginx:
+    image: quay.io/continuouspipe/php7.1-nginx:stable
+  php70_nginx:
+    image: quay.io/continuouspipe/php7-nginx:stable
+  php55_nginx:
+    image: quay.io/continuouspipe/eol-php5.5-nginx:stable
+  php56_nginx:
+    image: quay.io/continuouspipe/php5.6-nginx:stable
+  postgres94:
+    image: quay.io/continuouspipe/postgres9.4:stable
+  postgres96:
+    image: quay.io/continuouspipe/postgres9.6:stable
+  scala_sbt:
+    image: quay.io/continuouspipe/scala-base:stable
+  redis:
+    image: quay.io/continuouspipe/redis3:stable
+  redis_highly_available:
+    image: quay.io/continuouspipe/redis3-highly-available:stable
+  solr_4_10:
+    image: quay.io/continuouspipe/solr4:stable
+  solr_6_2:
+    image: quay.io/continuouspipe/solr6:stable
+  ssh_forward:
+    image: quay.io/continuouspipe/ssh-forward:stable
+  spryker_php71_nginx:
+    image: quay.io/continuouspipe/spryker-php7.1-nginx:stable
+  spryker_php71_apache:
+    image: quay.io/continuouspipe/spryker-php7.1-apache:stable
+  symfony_php72_nginx:
+    image: quay.io/continuouspipe/symfony-php7.2-nginx:stable
+  symfony_php71_nginx:
+    image: quay.io/continuouspipe/symfony-php7.1-nginx:stable
+  symfony_php70_nginx:
+    image: quay.io/continuouspipe/symfony-php7-nginx:stable
+  symfony_php56_nginx:
+    image: quay.io/continuouspipe/symfony-php5.6-nginx:stable
+  symfony_php72_apache:
+    image: quay.io/continuouspipe/symfony-php7.2-apache:stable
+  symfony_php71_apache:
+    image: quay.io/continuouspipe/symfony-php7.1-apache:stable
+  symfony_php70_apache:
+    image: quay.io/continuouspipe/symfony-php7-apache:stable
+  symfony_php56_apache:
+    image: quay.io/continuouspipe/symfony-php5.6-apache:stable
+  symfony_pack:
+    image: quay.io/continuouspipe/symfony-pack:stable
+  tideways:
+    image: quay.io/continuouspipe/tideways:stable
+  rabbitmq36_management:
+    image: quay.io/continuouspipe/rabbitmq36-management:stable
+  ubuntu:
+    image: quay.io/continuouspipe/ubuntu16.04:stable
+  varnish:
+    image: quay.io/continuouspipe/varnish4:stable
