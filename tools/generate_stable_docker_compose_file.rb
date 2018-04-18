@@ -17,4 +17,9 @@ config['services'].reject! do |_, service|
   service == {}
 end
 
+new_keys = config['services'].keys.map do |service_name|
+  service_name + '_stable'
+end
+config['services'] = new_keys.zip(config['services'].values).to_h
+
 File.write('docker-compose.stable.yml', YAML.dump(config))
