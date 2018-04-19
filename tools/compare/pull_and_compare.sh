@@ -113,7 +113,7 @@ pull_stable()
 get_image_name()
 {
   local SERVICE="$1"
-  docker_compose_stable config | grep -v " build:" | grep -v " context:" | grep -A1 "${SERVICE}_stable:" | grep image: | cut -d":" -f2 | tr -d ' '
+  docker_compose_stable config | grep -v " build:" | grep -v " context:" | grep -A1 "\s${SERVICE}_stable:" | grep image: | cut -d":" -f2 | tr -d ' '
 }
 
 create_container_latest()
