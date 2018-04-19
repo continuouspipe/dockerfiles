@@ -10,6 +10,7 @@ main() {
 
   for service in $SERVICES; do
     echo "$service:"
+    cleanup "$service"
     prepare "$service"
     compare "$service"
     tag "$service"
@@ -187,14 +188,18 @@ cleanup_latest()
 {
   local SERVICE="$1"
   remove_containers_latest
-  rm "tmp/${SERVICE}_latest.tar"
+  if [ -f "tmp/${SERVICE}_latest.tar" ]; then
+    rm "tmp/${SERVICE}_latest.tar"
+  fi
 }
 
 cleanup_stable()
 {
   local SERVICE="$1"
   remove_containers_stable
-  rm "tmp/${SERVICE}_stable.tar"
+  if [ -f "tmp/${SERVICE}_stable.tar" ]; then
+    rm "tmp/${SERVICE}_stable.tar"
+  fi
 }
 
 main
