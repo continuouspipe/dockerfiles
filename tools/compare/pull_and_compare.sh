@@ -6,10 +6,12 @@ main() {
   SERVICES=""
   SERVICES="$(get_services | sed 's/_stable$//')"
 
-  docker build tools/compare/ -t dockerfilescompare_compare:latest
+  echo "Building comparison tool image..."
+  docker build tools/compare/ -t dockerfilescompare_compare:latest > /dev/null 2>&1
 
   for service in $SERVICES; do
-    echo "$service:"
+    echo
+    echo "__${service}__:"
     cleanup "$service"
     prepare "$service"
     if quick_compare "$service"; then
@@ -97,13 +99,15 @@ get_services()
 pull_latest()
 {
   local SERVICE="$1"
-  docker_compose_latest pull "$SERVICE"
+  echo "Pulling latest $SERVICE image..."
+  docker_compose_latest pull "$SERVICE" > /dev/null 2>&1
 }
 
 pull_stable()
 {
   local SERVICE="$1"
-  docker_compose_stable pull "${SERVICE}_stable"
+  echo "Pulling stable $SERVICE image..."
+  docker_compose_stable pull "${SERVICE}_stable" > /dev/null 2>&1
 }
 
 get_image_name()
@@ -115,24 +119,28 @@ get_image_name()
 create_container_latest()
 {
   local SERVICE="$1"
+  echo "Creating container from latest $SERVICE image..."
   docker_compose_latest run --no-deps "$SERVICE" /bin/true
 }
 
 create_container_stable()
 {
   local SERVICE="$1"
+  echo "Creating container from stable $SERVICE image..."
   docker_compose_stable run --no-deps "${SERVICE}_stable" /bin/true
 }
 
 remove_containers()
 {
-  docker_compose_latest down -v
+  echo "Removing any existing comparison containers"
+  docker_compose_latest down -v > /dev/null 2>&1
 }
 
 export_latest()
 {
   local SERVICE="$1"
   mkdir -p tmp
+  echo "Exporting dockerfilescompare_${SERVICE}_run_1 to tmp/${SERVICE}_latest.tar"
   docker export "dockerfilescompare_${SERVICE}_run_1" -o "tmp/${SERVICE}_latest.tar"
 }
 
@@ -140,12 +148,14 @@ export_stable()
 {
   local SERVICE="$1"
   mkdir -p tmp
+  echo "Exporting dockerfilescompare_${SERVICE}_stable_run_1 to tmp/${SERVICE}_stable.tar"
   docker export "dockerfilescompare_${SERVICE}_stable_run_1" -o "tmp/${SERVICE}_stable.tar"
 }
 
 compare()
 {
   local SERVICE="$1"
+  echo "Comparing tmp/${SERVICE}_stable.tar to tmp/${SERVICE}_latest.tar..."
   docker run --rm -v "$(pwd)/tmp:/tmp/archives" dockerfilescompare_compare bash /app/compare.sh "$SERVICE" | less
 }
 
@@ -180,7 +190,10 @@ do_tag()
   if [ -z "$IMAGE" ]; then
     return 1
   fi
+
+  echo "Tagging current ${IMAGE}:stable as ${IMAGE}:old-stable"
   docker tag "${IMAGE}:stable" "${IMAGE}:old-stable"
+  echo "Tagging ${IMAGE}:latest as ${IMAGE}:stable"
   docker tag "${IMAGE}:latest" "${IMAGE}:stable"
 }
 
@@ -214,8 +227,12 @@ do_push()
     return 1
   fi
   IMAGE="$(get_image_name "$SERVICE")"
-  docker push "${IMAGE}:old-stable"
-  docker push "${IMAGE}:stable"
+
+  echo "Pushing ${IMAGE}:old-stable..."
+  docker push "${IMAGE}:old-stable" > /dev/null 2>&1
+
+  echo "Pushing ${IMAGE}:stable..."
+  docker push "${IMAGE}:stable" > /dev/null 2>&1
 }
 
 cleanup()
