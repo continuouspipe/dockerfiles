@@ -1,0 +1,2 @@
+ARG FROM_TAG
+FROM docker.elastic.co/elasticsearch/elasticsearch:${FROM_TAG}

@@ -70,6 +70,7 @@ services:
   elasticsearch17:
     build:
       context: ./elasticsearch/
+      dockerfile: Dockerfile-dockerhub
       args:
         FROM_TAG: '1.7'
     image: quay.io/continuouspipe/elasticsearch1.7:latest
@@ -79,6 +80,7 @@ services:
   elasticsearch24:
     build:
       context: ./elasticsearch/
+      dockerfile: Dockerfile-dockerhub
       args:
         FROM_TAG: '2.4'
     image: quay.io/continuouspipe/elasticsearch2.4:latest
@@ -88,6 +90,7 @@ services:
   elasticsearch55:
     build:
       context: ./elasticsearch/
+      dockerfile: Dockerfile-dockerhub
       args:
         FROM_TAG: '5.5'
     image: quay.io/continuouspipe/elasticsearch5.5:latest
@@ -97,8 +100,9 @@ services:
   elasticsearch56:
     build:
       context: ./elasticsearch/
+      dockerfile: Dockerfile-elastic
       args:
-        FROM_TAG: '5.6'
+        FROM_TAG: '5.6.9'
     image: quay.io/continuouspipe/elasticsearch5.6:latest
     depends_on:
       - external_elasticsearch56
