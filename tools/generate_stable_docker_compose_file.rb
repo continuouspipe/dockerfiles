@@ -11,6 +11,7 @@ config['services'].each do |_, service|
     key == 'image'
   end
   service['image'].sub!(':latest', ':stable') if service.key? 'image'
+  service['build'] = '/dev/null' if service.key? 'image'
 end
 
 config['services'].reject! do |_, service|

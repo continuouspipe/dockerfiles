@@ -3,145 +3,217 @@ version: '2'
 services:
   couchdb16_stable:
     image: quay.io/continuouspipe/couchdb1.6:stable
+    build: "/dev/null"
   drupal_php71_apache_stable:
     image: quay.io/continuouspipe/drupal-php7.1-apache:stable
+    build: "/dev/null"
   drupal_php70_apache_stable:
     image: quay.io/continuouspipe/drupal-php7-apache:stable
+    build: "/dev/null"
   drupal8_apache_php7_stable:
     image: quay.io/continuouspipe/drupal8-apache-php7:stable
+    build: "/dev/null"
   drupal_php56_apache_stable:
     image: quay.io/continuouspipe/drupal-php5.6-apache:stable
+    build: "/dev/null"
   drupal8_solr_4_10_stable:
     image: quay.io/continuouspipe/drupal8-solr4:stable
+    build: "/dev/null"
   drupal8_solr_6_2_stable:
     image: quay.io/continuouspipe/drupal8-solr6:stable
+    build: "/dev/null"
   drupal8_varnish_stable:
     image: quay.io/continuouspipe/drupal8-varnish4:stable
+    build: "/dev/null"
   elasticsearch17_stable:
     image: quay.io/continuouspipe/elasticsearch1.7:stable
+    build: "/dev/null"
   elasticsearch24_stable:
     image: quay.io/continuouspipe/elasticsearch2.4:stable
+    build: "/dev/null"
   elasticsearch55_stable:
     image: quay.io/continuouspipe/elasticsearch5.5:stable
+    build: "/dev/null"
   ezplatform_php70_apache_stable:
     image: quay.io/continuouspipe/ez6-apache-php7:stable
+    build: "/dev/null"
   ezplatform_php71_apache_stable:
     image: quay.io/continuouspipe/ez6-php7.1-apache:stable
+    build: "/dev/null"
   hem_stable:
     image: quay.io/continuouspipe/hem1:stable
+    build: "/dev/null"
   magento1_php55_nginx_stable:
     image: quay.io/continuouspipe/eol-magento1-nginx-php5.5:stable
+    build: "/dev/null"
   magento1_php56_apache_stable:
     image: quay.io/continuouspipe/magento1-apache-php5.6:stable
+    build: "/dev/null"
   magento1_php56_nginx_stable:
     image: quay.io/continuouspipe/magento1-nginx-php5.6:stable
+    build: "/dev/null"
   magento2_php70_nginx_stable:
     image: quay.io/continuouspipe/magento2-nginx-php7:stable
+    build: "/dev/null"
   magento2_php71_nginx_stable:
     image: quay.io/continuouspipe/magento2-nginx-php7.1:stable
+    build: "/dev/null"
   magento2_varnish_stable:
     image: quay.io/continuouspipe/magento2-varnish4:stable
+    build: "/dev/null"
   mailcatcher_stable:
     image: quay.io/continuouspipe/mailcatcher:stable
+    build: "/dev/null"
   memcached_stable:
     image: quay.io/continuouspipe/memcached1.4:stable
+    build: "/dev/null"
   mongodb26_stable:
     image: quay.io/continuouspipe/mongodb2.6:stable
+    build: "/dev/null"
   mongodb36_stable:
     image: quay.io/continuouspipe/mongodb3.6:stable
+    build: "/dev/null"
   mongodb34_stable:
     image: quay.io/continuouspipe/mongodb3.4:stable
+    build: "/dev/null"
   mysql80_stable:
     image: quay.io/continuouspipe/mysql8.0:stable
+    build: "/dev/null"
   mysql57_stable:
     image: quay.io/continuouspipe/mysql5.7:stable
+    build: "/dev/null"
   mysql56_stable:
     image: quay.io/continuouspipe/mysql5.6:stable
+    build: "/dev/null"
   mysql55_stable:
     image: quay.io/continuouspipe/mysql5.5:stable
+    build: "/dev/null"
   nginx_stable:
     image: quay.io/continuouspipe/nginx:stable
+    build: "/dev/null"
   nginx_ingress_controller_stable:
     image: quay.io/continuouspipe/nginx-ingress-controller:stable
+    build: "/dev/null"
   nginx_reverse_proxy_stable:
     image: quay.io/continuouspipe/nginx-reverse-proxy:stable
+    build: "/dev/null"
   nodejs6_stable:
     image: quay.io/continuouspipe/nodejs6:stable
+    build: "/dev/null"
   nodejs6_small_stable:
     image: quay.io/continuouspipe/nodejs6-small:stable
+    build: "/dev/null"
   nodejs7_stable:
     image: quay.io/continuouspipe/nodejs7:stable
+    build: "/dev/null"
   nodejs7_small_stable:
     image: quay.io/continuouspipe/nodejs7-small:stable
+    build: "/dev/null"
   nodejs8_stable:
     image: quay.io/continuouspipe/nodejs8:stable
+    build: "/dev/null"
   nodejs8_small_stable:
     image: quay.io/continuouspipe/nodejs8-small:stable
+    build: "/dev/null"
   phantomjs2_stable:
     image: quay.io/continuouspipe/phantomjs2:stable
+    build: "/dev/null"
   piwik_php71_apache_stable:
     image: quay.io/continuouspipe/piwik-php7.1-apache:stable
+    build: "/dev/null"
   php72_apache_stable:
     image: quay.io/continuouspipe/php7.2-apache:stable
+    build: "/dev/null"
   php71_apache_stable:
     image: quay.io/continuouspipe/php7.1-apache:stable
+    build: "/dev/null"
   php70_apache_stable:
     image: quay.io/continuouspipe/php7-apache:stable
+    build: "/dev/null"
   php56_apache_stable:
     image: quay.io/continuouspipe/php5.6-apache:stable
+    build: "/dev/null"
   php72_nginx_stable:
     image: quay.io/continuouspipe/php7.2-nginx:stable
+    build: "/dev/null"
   php71_nginx_stable:
     image: quay.io/continuouspipe/php7.1-nginx:stable
+    build: "/dev/null"
   php70_nginx_stable:
     image: quay.io/continuouspipe/php7-nginx:stable
+    build: "/dev/null"
   php55_nginx_stable:
     image: quay.io/continuouspipe/eol-php5.5-nginx:stable
+    build: "/dev/null"
   php56_nginx_stable:
     image: quay.io/continuouspipe/php5.6-nginx:stable
+    build: "/dev/null"
   postgres94_stable:
     image: quay.io/continuouspipe/postgres9.4:stable
+    build: "/dev/null"
   postgres96_stable:
     image: quay.io/continuouspipe/postgres9.6:stable
+    build: "/dev/null"
   scala_sbt_stable:
     image: quay.io/continuouspipe/scala-base:stable
+    build: "/dev/null"
   redis_stable:
     image: quay.io/continuouspipe/redis3:stable
+    build: "/dev/null"
   redis_highly_available_stable:
     image: quay.io/continuouspipe/redis3-highly-available:stable
+    build: "/dev/null"
   solr_4_10_stable:
     image: quay.io/continuouspipe/solr4:stable
+    build: "/dev/null"
   solr_6_2_stable:
     image: quay.io/continuouspipe/solr6:stable
+    build: "/dev/null"
   ssh_forward_stable:
     image: quay.io/continuouspipe/ssh-forward:stable
+    build: "/dev/null"
   spryker_php71_nginx_stable:
     image: quay.io/continuouspipe/spryker-php7.1-nginx:stable
+    build: "/dev/null"
   spryker_php71_apache_stable:
     image: quay.io/continuouspipe/spryker-php7.1-apache:stable
+    build: "/dev/null"
   symfony_php72_nginx_stable:
     image: quay.io/continuouspipe/symfony-php7.2-nginx:stable
+    build: "/dev/null"
   symfony_php71_nginx_stable:
     image: quay.io/continuouspipe/symfony-php7.1-nginx:stable
+    build: "/dev/null"
   symfony_php70_nginx_stable:
     image: quay.io/continuouspipe/symfony-php7-nginx:stable
+    build: "/dev/null"
   symfony_php56_nginx_stable:
     image: quay.io/continuouspipe/symfony-php5.6-nginx:stable
+    build: "/dev/null"
   symfony_php72_apache_stable:
     image: quay.io/continuouspipe/symfony-php7.2-apache:stable
+    build: "/dev/null"
   symfony_php71_apache_stable:
     image: quay.io/continuouspipe/symfony-php7.1-apache:stable
+    build: "/dev/null"
   symfony_php70_apache_stable:
     image: quay.io/continuouspipe/symfony-php7-apache:stable
+    build: "/dev/null"
   symfony_php56_apache_stable:
     image: quay.io/continuouspipe/symfony-php5.6-apache:stable
+    build: "/dev/null"
   symfony_pack_stable:
     image: quay.io/continuouspipe/symfony-pack:stable
+    build: "/dev/null"
   tideways_stable:
     image: quay.io/continuouspipe/tideways:stable
+    build: "/dev/null"
   rabbitmq36_management_stable:
     image: quay.io/continuouspipe/rabbitmq36-management:stable
+    build: "/dev/null"
   ubuntu_stable:
     image: quay.io/continuouspipe/ubuntu16.04:stable
+    build: "/dev/null"
   varnish_stable:
     image: quay.io/continuouspipe/varnish4:stable
+    build: "/dev/null"

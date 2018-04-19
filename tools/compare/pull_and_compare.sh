@@ -1,6 +1,6 @@
 #!/bin/bash
 
-set -ex
+set -e
 
 main() {
   SERVICES=""
@@ -8,7 +8,6 @@ main() {
 
   docker build tools/compare/ -t dockerfilescompare_compare:latest
 
-  #for service in "$(printf "%s" "$SERVICES")"
   for service in $SERVICES; do
     echo "$service:"
     prepare "$service"
@@ -116,6 +115,7 @@ tag()
   local SERVICE="$1"
   if ask_for_tag "$SERVICE"; then
     do_tag "$SERVICE"
+    push "$SERVICE"
   fi
 }
 
@@ -142,6 +142,38 @@ do_tag()
     return 1
   fi
   docker tag "${IMAGE}:latest" "${IMAGE}:stable"
+}
+
+push()
+{
+  local SERVICE="$1"
+  if ask_for_push "$SERVICE"; then
+    do_push "$SERVICE"
+  fi
+}
+
+ask_for_push()
+(
+  set +e
+  local SERVICE="$1"
+  echo "Do you wish to push :stable for $SERVICE now?"
+  select yn in "Yes" "No"; do
+    case $yn in
+      Yes ) return 0; break;;
+      No ) return 1; break;;
+    esac
+  done
+  return 1
+)
+
+do_push()
+{
+  set -x
+  local SERVICE="$1"
+  if [ -z "$SERVICE" ]; then
+    return 1
+  fi
+  docker_compose_stable push "${SERVICE}_stable"
 }
 
 cleanup()
