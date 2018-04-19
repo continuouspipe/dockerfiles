@@ -81,14 +81,9 @@ create_container_stable()
   docker_compose_stable run --no-deps "${SERVICE}_stable" /bin/true
 }
 
-remove_containers_latest()
+remove_containers()
 {
   docker_compose_latest down -v
-}
-
-remove_containers_stable()
-{
-  docker_compose_stable down -v
 }
 
 export_latest()
@@ -187,7 +182,7 @@ cleanup()
 cleanup_latest()
 {
   local SERVICE="$1"
-  remove_containers_latest
+  remove_containers
   if [ -f "tmp/${SERVICE}_latest.tar" ]; then
     rm "tmp/${SERVICE}_latest.tar"
   fi
@@ -196,7 +191,7 @@ cleanup_latest()
 cleanup_stable()
 {
   local SERVICE="$1"
-  remove_containers_stable
+  remove_containers
   if [ -f "tmp/${SERVICE}_stable.tar" ]; then
     rm "tmp/${SERVICE}_stable.tar"
   fi

@@ -32,6 +32,7 @@ main()
   local SERVICE="$1"
   extract_latest "$SERVICE"
   extract_stable "$SERVICE"
+  echo "____Comparing ${SERVICE}____"
   run_diff || true
 }
 
