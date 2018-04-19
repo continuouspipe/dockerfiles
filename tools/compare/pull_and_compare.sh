@@ -133,7 +133,7 @@ do_tag()
 {
   local SERVICE="$1"
   local IMAGE=""
-  IMAGE="$(docker_compose_stable config | grep -A1 "$SERVICE" | grep image: | cut -d":" -f2 | tr -d ' ')"
+  IMAGE="$(docker_compose_stable config | grep -v " build:" | grep -v " context:" | grep -A1 "$SERVICE" | grep image: | cut -d":" -f2 | tr -d ' ')"
   if [ -z "$IMAGE" ]; then
     return 1
   fi
