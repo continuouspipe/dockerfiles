@@ -12,6 +12,11 @@ main() {
     echo "$service:"
     cleanup "$service"
     prepare "$service"
+    if quick_compare "$service"; then
+      echo "$service's stable image is identical to the latest image!"
+      continue
+    fi
+    do_export "$service"
     compare "$service"
     tag "$service"
     cleanup "$service"
@@ -22,24 +27,56 @@ main() {
 prepare()
 {
   local SERVICE="$1"
-  prepare_latest "$service"
-  prepare_stable "$service"
+  prepare_latest "$SERVICE"
+  prepare_stable "$SERVICE"
 }
 
 prepare_latest()
 {
   local SERVICE="$1"
-  pull_latest "$service"
-  create_container_latest "$service"
-  export_latest "$service"
+  pull_latest "$SERVICE"
 }
 
 prepare_stable()
 {
   local SERVICE="$1"
-  pull_stable "$service"
-  create_container_stable "$service"
-  export_stable "$service"
+  pull_stable "$SERVICE"
+}
+
+quick_compare()
+{
+  local SERVICE="$1"
+  local IMAGE=""
+  local LATEST_SHA=""
+  local STABLE_SHA=""
+  IMAGE="$(get_image_name "$SERVICE")"
+  LATEST_SHA="$(docker inspect "${IMAGE}:latest" | grep Id | awk '{ print $2; }' | tr -d ',' | tr -d '"')"
+  STABLE_SHA="$(docker inspect "${IMAGE}:stable" | grep Id | awk '{ print $2; }' | tr -d ',' | tr -d '"')"
+  if [[ "$LATEST_SHA" == "$STABLE_SHA" ]]; then
+    return 0
+  fi
+  return 1
+}
+
+do_export()
+{
+  local SERVICE="$1"
+  do_export_latest "$SERVICE"
+  do_export_stable "$SERVICE"
+}
+
+do_export_latest()
+{
+  local SERVICE="$1"
+  create_container_latest "$SERVICE"
+  export_latest "$SERVICE"
+}
+
+do_export_stable()
+{
+  local SERVICE="$1"
+  create_container_stable "$SERVICE"
+  export_stable "$SERVICE"
 }
 
 docker_compose_latest()
@@ -69,13 +106,7 @@ pull_stable()
   docker_compose_stable pull "${SERVICE}_stable"
 }
 
-get_stable_image_name()
-{
-  local SERVICE="$1"
-  docker_compose_latest config | grep -v " build:" | grep -v " context:" | grep -A1 "$SERVICE" | grep image: | cut -d":" -f2 | tr -d ' '
-}
-
-get_stable_image_name()
+get_image_name()
 {
   local SERVICE="$1"
   docker_compose_stable config | grep -v " build:" | grep -v " context:" | grep -A1 "$SERVICE" | grep image: | cut -d":" -f2 | tr -d ' '
@@ -145,10 +176,11 @@ do_tag()
 {
   local SERVICE="$1"
   local IMAGE
-  IMAGE="$(get_stable_image_name "$SERVICE")"
+  IMAGE="$(get_image_name "$SERVICE")"
   if [ -z "$IMAGE" ]; then
     return 1
   fi
+  docker tag "${IMAGE}:stable" "${IMAGE}:old-stable"
   docker tag "${IMAGE}:latest" "${IMAGE}:stable"
 }
 
@@ -176,12 +208,14 @@ ask_for_push()
 
 do_push()
 {
-  set -x
   local SERVICE="$1"
+  local IMAGE=""
   if [ -z "$SERVICE" ]; then
     return 1
   fi
-  docker_compose_stable push "${SERVICE}_stable"
+  IMAGE="$(get_image_name "$SERVICE")"
+  docker push "${IMAGE}:old-stable"
+  docker push "${IMAGE}:stable"
 }
 
 cleanup()
