@@ -22,7 +22,7 @@ run_diff()
   colordiff --recursive --suppress-common-lines --ignore-all-space --no-dereference \
     /tmp/stable /tmp/latest
   colordiff --recursive --suppress-common-lines --ignore-all-space --no-dereference \
-    /tmp/stable/etc/ /tmp/latest/etc/
+    /tmp/stable/etc/confd/ /tmp/latest/etc/confd/
   colordiff --recursive --suppress-common-lines --ignore-all-space --no-dereference \
     /tmp/stable/usr/local/ /tmp/latest/usr/local/
 )
