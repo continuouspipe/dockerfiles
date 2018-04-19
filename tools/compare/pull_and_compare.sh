@@ -107,7 +107,7 @@ export_stable()
 compare()
 {
   local SERVICE="$1"
-  docker run --rm -v "$(pwd)/tmp:/tmp/archives" dockerfilescompare_compare bash /app/compare.sh "$SERVICE"
+  docker run --rm -v "$(pwd)/tmp:/tmp/archives" dockerfilescompare_compare bash /app/compare.sh "$SERVICE" | less
 }
 
 tag()
