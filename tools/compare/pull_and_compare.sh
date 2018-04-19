@@ -69,6 +69,18 @@ pull_stable()
   docker_compose_stable pull "${SERVICE}_stable"
 }
 
+get_stable_image_name()
+{
+  local SERVICE="$1"
+  docker_compose_latest config | grep -v " build:" | grep -v " context:" | grep -A1 "$SERVICE" | grep image: | cut -d":" -f2 | tr -d ' '
+}
+
+get_stable_image_name()
+{
+  local SERVICE="$1"
+  docker_compose_stable config | grep -v " build:" | grep -v " context:" | grep -A1 "$SERVICE" | grep image: | cut -d":" -f2 | tr -d ' '
+}
+
 create_container_latest()
 {
   local SERVICE="$1"
@@ -132,8 +144,8 @@ ask_for_tag()
 do_tag()
 {
   local SERVICE="$1"
-  local IMAGE=""
-  IMAGE="$(docker_compose_stable config | grep -v " build:" | grep -v " context:" | grep -A1 "$SERVICE" | grep image: | cut -d":" -f2 | tr -d ' ')"
+  local IMAGE
+  IMAGE="$(get_stable_image_name "$SERVICE")"
   if [ -z "$IMAGE" ]; then
     return 1
   fi
