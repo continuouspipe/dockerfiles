@@ -159,11 +159,20 @@ export_stable()
 }
 
 compare()
-{
+(
   local SERVICE="$1"
   echo "Comparing tmp/${SERVICE}_stable.tar to tmp/${SERVICE}_latest.tar..."
-  docker run --rm -v "$(pwd)/tmp:/tmp/archives" dockerfilescompare_compare bash /app/compare.sh "$SERVICE" | less
-}
+  local DIFF
+  set +e
+  DIFF="$(docker run --rm -v "$(pwd)/tmp:/tmp/archives" dockerfilescompare_compare bash /app/compare.sh "$SERVICE")"
+  if [ "$?" -eq 0 ]; then
+    echo "No differences found!"
+    return 0
+  else
+    set -e
+    echo "$DIFF" | less
+  fi
+)
 
 tag()
 {

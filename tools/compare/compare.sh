@@ -19,21 +19,28 @@ extract_stable()
 run_diff()
 (
   set +e
+  local RETURN_VALUE=0
   colordiff --recursive --suppress-common-lines --ignore-all-space --no-dereference \
     /tmp/stable /tmp/latest
+  RETURN_VALUE=$(( RETURN_VALUE + $? ))
   colordiff --recursive --suppress-common-lines --ignore-all-space --no-dereference \
     /tmp/stable/etc/confd/ /tmp/latest/etc/confd/
+  RETURN_VALUE=$(( RETURN_VALUE + $? ))
   colordiff --recursive --suppress-common-lines --ignore-all-space --no-dereference \
     /tmp/stable/usr/local/ /tmp/latest/usr/local/
+  RETURN_VALUE=$(( RETURN_VALUE + $? ))
+  return "$RETURN_VALUE"
 )
 
 main()
-{
+(
   local SERVICE="$1"
   extract_latest "$SERVICE"
   extract_stable "$SERVICE"
   echo "____Comparing ${SERVICE}____"
-  run_diff || true
-}
+  set +e
+  run_diff
+  return "$?"
+)
 
 main "$@"
