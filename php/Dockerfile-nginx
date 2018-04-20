@@ -18,11 +18,11 @@ RUN echo 'deb http://s3-eu-west-1.amazonaws.com/qafoo-profiler/packages debian m
     php-apcu \
     php-imagick \
     php-memcached \
-    php-redis \
     php-xdebug \
     "php$PHP_VERSION-bcmath" \
     "php$PHP_VERSION-bz2" \
     "php$PHP_VERSION-curl" \
+    "php$PHP_VERSION-dev" \
     "php$PHP_VERSION-fpm" \
     "php$PHP_VERSION-gd" \
     "php$PHP_VERSION-intl" \
@@ -38,8 +38,16 @@ RUN echo 'deb http://s3-eu-west-1.amazonaws.com/qafoo-profiler/packages debian m
     "php$PHP_VERSION-sqlite3" \
     postfix \
     tideways-php \
+ # Install pear after PHP so the right CLI gets selected beforehand \
+ && DEBIAN_FRONTEND=noninteractive apt-get -qq -y --no-install-recommends install \
+    php-pear \
+ \
+ # php-redis 4 from php$PHP_VERSION-redis has backwards-incompatibilities so install from pecl repositories \
+ && pecl install redis-3.1.6 \
+ && echo -e '; priority=25\nextension=redis.so' | tee "/etc/php/${PHP_VERSION}/fpm/conf.d/25-redis.ini" > "/etc/php/${PHP_VERSION}/cli/conf.d/25-redis.ini" \
  \
  # Clean the image \
+ && apt-get remove -y "php$PHP_VERSION-dev" \
  && apt-get auto-remove -qq -y \
  && apt-get clean \
  && rm -rf /var/lib/apt/lists/* \
