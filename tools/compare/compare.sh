@@ -23,12 +23,16 @@ run_diff()
   colordiff --recursive --suppress-common-lines --ignore-all-space --no-dereference \
     /tmp/stable /tmp/latest
   RETURN_VALUE=$(( RETURN_VALUE + $? ))
-  colordiff --recursive --suppress-common-lines --ignore-all-space --no-dereference \
-    /tmp/stable/etc/confd/ /tmp/latest/etc/confd/
-  RETURN_VALUE=$(( RETURN_VALUE + $? ))
-  colordiff --recursive --suppress-common-lines --ignore-all-space --no-dereference \
-    /tmp/stable/usr/local/ /tmp/latest/usr/local/
-  RETURN_VALUE=$(( RETURN_VALUE + $? ))
+  if [ -d "/tmp/stable/etc/confd/" ] || [ -d "/tmp/latest/etc/confd/" ]; then
+    colordiff --recursive --suppress-common-lines --ignore-all-space --no-dereference \
+      /tmp/stable/etc/confd/ /tmp/latest/etc/confd/
+    RETURN_VALUE=$(( RETURN_VALUE + $? ))
+  fi
+  if [ -d "/tmp/stable/usr/local/" ] || [ -d "/tmp/latest/usr/local/" ]; then
+    colordiff --recursive --suppress-common-lines --ignore-all-space --no-dereference \
+      /tmp/stable/usr/local/ /tmp/latest/usr/local/
+    RETURN_VALUE=$(( RETURN_VALUE + $? ))
+  fi
   return "$RETURN_VALUE"
 )
 
