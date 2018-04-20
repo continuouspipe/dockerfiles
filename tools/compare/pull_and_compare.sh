@@ -163,8 +163,9 @@ tag()
 {
   local SERVICE="$1"
   if ask_for_tag "$SERVICE"; then
-    do_tag "$SERVICE"
-    push "$SERVICE"
+    TAG_NAME="$(get_old_tag_name)"
+    do_tag "$SERVICE" "$TAG_NAME"
+    push "$SERVICE" "$TAG_NAME"
   fi
 }
 
@@ -182,17 +183,23 @@ ask_for_tag()
   return 1
 )
 
+get_old_tag_name()
+{
+  echo "old-stable-$(date +"%Y%m%d-%H%M")"
+}
+
 do_tag()
 {
   local SERVICE="$1"
+  local OLD_TAG_NAME="$2"
   local IMAGE
   IMAGE="$(get_image_name "$SERVICE")"
   if [ -z "$IMAGE" ]; then
     return 1
   fi
 
-  echo "Tagging current ${IMAGE}:stable as ${IMAGE}:old-stable"
-  docker tag "${IMAGE}:stable" "${IMAGE}:old-stable"
+  echo "Tagging current ${IMAGE}:stable as ${IMAGE}:${OLD_TAG_NAME}"
+  docker tag "${IMAGE}:stable" "${IMAGE}:${OLD_TAG_NAME}"
   echo "Tagging ${IMAGE}:latest as ${IMAGE}:stable"
   docker tag "${IMAGE}:latest" "${IMAGE}:stable"
 }
@@ -200,8 +207,9 @@ do_tag()
 push()
 {
   local SERVICE="$1"
+  local OLD_TAG_NAME="$2"
   if ask_for_push "$SERVICE"; then
-    do_push "$SERVICE"
+    do_push "$SERVICE" "$OLD_TAG_NAME"
   fi
 }
 
@@ -222,14 +230,15 @@ ask_for_push()
 do_push()
 {
   local SERVICE="$1"
+  local OLD_TAG_NAME="$2"
   local IMAGE=""
   if [ -z "$SERVICE" ]; then
     return 1
   fi
   IMAGE="$(get_image_name "$SERVICE")"
 
-  echo "Pushing ${IMAGE}:old-stable..."
-  docker push "${IMAGE}:old-stable" > /dev/null 2>&1
+  echo "Pushing ${IMAGE}:${OLD_TAG_NAME}..."
+  docker push "${IMAGE}:${OLD_TAG_NAME}" > /dev/null 2>&1
 
   echo "Pushing ${IMAGE}:stable..."
   docker push "${IMAGE}:stable" > /dev/null 2>&1
