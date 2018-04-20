@@ -3,7 +3,7 @@ require 'yaml'
 config = YAML.safe_load(File.read('docker-compose.yml'))
 
 config['services'].reject! do |service_name, _service|
-  service_name =~ /^(external_|nginx_ingress_controller)/
+  service_name =~ /^(external_|nginx_ingress_controller|.*php55.*)/
 end
 
 config['services'].each do |_, service|

@@ -165,7 +165,8 @@ compare()
   local DIFF
   set +e
   DIFF="$(docker run --rm -v "$(pwd)/tmp:/tmp/archives" dockerfilescompare_compare bash /app/compare.sh "$SERVICE")"
-  if [ "$?" -eq 0 ]; then
+  local DIFF_EXIT="$?"
+  if [ "$DIFF_EXIT" -eq 0 ]; then
     echo "No differences found!"
     return 0
   else
