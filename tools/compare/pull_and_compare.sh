@@ -191,7 +191,7 @@ ask_for_tag()
 
 get_old_tag_name()
 {
-  echo "old-stable-$(date +"%Y%m%d-%H%M")"
+  echo "old-stable-$(date -u +"%Y%m%d-%H%M")"
 }
 
 do_tag()
