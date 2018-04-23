@@ -252,6 +252,12 @@ tasks:
           reuse: false
           environment:
             FROM_TAG: '5.5'
+        elasticsearch56:
+          image: quay.io/continuouspipe/elasticsearch5.6
+          tag: ${FROM_TAG}
+          reuse: false
+          environment:
+            FROM_TAG: '5.6.9'
         ezplatform_php70_apache:
           image: quay.io/continuouspipe/ez6-apache-php7
           tag: ${FROM_TAG}
