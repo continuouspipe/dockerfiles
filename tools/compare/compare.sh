@@ -6,14 +6,28 @@ extract_latest()
 {
   local SERVICE="$1"
   mkdir -p /tmp/latest
-  tar --directory /tmp/latest --exclude-from=/app/exclusions.txt --anchored --wildcards --extract --file "/tmp/archives/${SERVICE}_latest.tar"
+  for attempt in $(seq 0 2); do
+    echo "Attempt ${attempt} to extract latest archive:"
+    if tar --directory /tmp/latest --exclude-from=/app/exclusions.txt --anchored --wildcards --extract --file "/tmp/archives/${SERVICE}_latest.tar"; then
+      break
+    else
+      continue
+    fi
+  done
 }
 
 extract_stable()
 {
   local SERVICE="$1"
   mkdir -p /tmp/stable
-  tar --directory /tmp/stable --exclude-from=/app/exclusions.txt --anchored --wildcards --extract --file "/tmp/archives/${SERVICE}_stable.tar"
+  for attempt in $(seq 0 2); do
+    echo "Attempt ${attempt} to extract stable archive:"
+    if tar --directory /tmp/stable --exclude-from=/app/exclusions.txt --anchored --wildcards --extract --file "/tmp/archives/${SERVICE}_stable.tar"; then
+      break
+    else
+      continue
+    fi
+  done
 }
 
 run_diff()
