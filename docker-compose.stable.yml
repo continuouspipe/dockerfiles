@@ -34,6 +34,9 @@ services:
   elasticsearch55_stable:
     image: quay.io/continuouspipe/elasticsearch5.5:stable
     build: "/dev/null"
+  elasticsearch56_stable:
+    image: quay.io/continuouspipe/elasticsearch5.6:stable
+    build: "/dev/null"
   ezplatform_php70_apache_stable:
     image: quay.io/continuouspipe/ez6-apache-php7:stable
     build: "/dev/null"
@@ -42,9 +45,6 @@ services:
     build: "/dev/null"
   hem_stable:
     image: quay.io/continuouspipe/hem1:stable
-    build: "/dev/null"
-  magento1_php55_nginx_stable:
-    image: quay.io/continuouspipe/eol-magento1-nginx-php5.5:stable
     build: "/dev/null"
   magento1_php56_apache_stable:
     image: quay.io/continuouspipe/magento1-apache-php5.6:stable
@@ -90,9 +90,6 @@ services:
     build: "/dev/null"
   nginx_stable:
     image: quay.io/continuouspipe/nginx:stable
-    build: "/dev/null"
-  nginx_ingress_controller_stable:
-    image: quay.io/continuouspipe/nginx-ingress-controller:stable
     build: "/dev/null"
   nginx_reverse_proxy_stable:
     image: quay.io/continuouspipe/nginx-reverse-proxy:stable
@@ -141,9 +138,6 @@ services:
     build: "/dev/null"
   php70_nginx_stable:
     image: quay.io/continuouspipe/php7-nginx:stable
-    build: "/dev/null"
-  php55_nginx_stable:
-    image: quay.io/continuouspipe/eol-php5.5-nginx:stable
     build: "/dev/null"
   php56_nginx_stable:
     image: quay.io/continuouspipe/php5.6-nginx:stable

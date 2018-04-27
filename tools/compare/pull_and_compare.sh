@@ -3,8 +3,10 @@
 set -e
 
 main() {
-  SERVICES=""
-  SERVICES="$(get_services | sed 's/_stable$//')"
+  SERVICES="$*"
+  if [ -z "$SERVICES" ]; then
+    SERVICES="$(get_services | sed 's/_stable$//')"
+  fi
 
   echo "Building comparison tool image..."
   docker build tools/compare/ -t dockerfilescompare_compare:latest > /dev/null 2>&1
@@ -285,4 +287,4 @@ cleanup_stable()
   fi
 }
 
-main
+main "$@"
