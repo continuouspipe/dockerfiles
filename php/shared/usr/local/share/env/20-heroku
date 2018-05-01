@@ -8,4 +8,30 @@ if [ "true" = "$IN_HEROKU" ]; then
 
     export IS_CHOWN_FORBIDDEN="true"
     export NON_PRIVILEGED_USER="true"
+
+    uri_parser "$DATABASE_URL" && { 
+        echo "Read database configuration from '\$DATABASE_URL'"
+        export DATABASE_HOST=$host
+        export DATABASE_USER=$user
+        export DATABASE_PASSWORD=$pass
+        export DATABASE_NAME=$path
+        export DATABASE_PORT=$port
+    }
+
+    uri_parser "$REDIS_URL" && {
+        echo "Read Redis configuration from '\$REDIS_URL'"
+        export REDIS_HOST=$host
+        export REDIS_HOST_PORT=$port
+        export REDIS_USER=$user
+        export REDIS_PASSWORD=$pass
+        export REDIS_PROTOCOL=$scheme
+    }
+
+    uri_parser "$BONSAI_URL" && {
+        echo "Read ElasticSearch configuration from '\$BONSAI_URL'"
+        export ELASTICSEARCH_SCHEME=$scheme
+        export ELASTICSEARCH_HOST=$host
+        export ELASTICSEARCH_USER=$user
+        export ELASTICSEARCH_PASSWORD=$pass
+    }
 fi
