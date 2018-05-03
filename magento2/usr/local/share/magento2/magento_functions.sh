@@ -369,6 +369,21 @@ function do_replace_core_config_values() (
   fi
 )
 
+function do_enable_js_minification() (
+  local SQL
+  SQL="DELETE from core_config_data WHERE path='dev/js/minify_files';
+  INSERT INTO core_config_data VALUES (NULL, 'default', '0', 'dev/js/minify_files', '1');"
+
+  echo "Running the following SQL on $DATABASE_HOST.$DATABASE_NAME:"
+  echo "$SQL"
+
+  if [ -n "$DATABASE_PASSWORD" ]; then
+    echo "$SQL" | mysql -h"$DATABASE_HOST" -u"$DATABASE_USER" -p"$DATABASE_PASSWORD" "$DATABASE_NAME"
+  else
+    echo "$SQL" | mysql -h"$DATABASE_HOST" -u"$DATABASE_USER" "$DATABASE_NAME"
+  fi
+)
+
 function do_magento_build_start_mysql() {
   apt-get update -qq -y
   DEBIAN_FRONTEND=noninteractive apt-get -qq -y --no-install-recommends install mysql-server
