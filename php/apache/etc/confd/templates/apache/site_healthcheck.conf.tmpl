@@ -1,0 +1,8 @@
+{{ if getenv "AUTH_HTTP_HEALTHCHECK_USER_AGENT" }}
+RewriteCond %{HTTP_USER_AGENT} {{ getenv "AUTH_HTTP_HEALTHCHECK_USER_AGENT" }}
+RewriteRule ^ - [L,R=200]
+{{ end }}
+
+{{ if getenv "AUTH_HTTP_HEALTHCHECK_LOCATION" }}
+RewriteRule ^{{ getenv "AUTH_HTTP_HEALTHCHECK_LOCATION" }}$ - [L,R=200]
+{{ end }}
