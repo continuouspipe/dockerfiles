@@ -1,0 +1,6 @@
+[template]
+src   = "apache/site_healthcheck.conf.tmpl"
+dest  = "/etc/apache2/sites-available/000-default-05-site_healthcheck.conf"
+mode  = "0644"
+keys = [
+]
