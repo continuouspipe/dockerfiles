@@ -136,19 +136,30 @@ is_hem_project() {
   return "$?"
 }
 
+get_filesystem_for_work_directory() (
+  set +e
+  grep "$WORK_DIRECTORY" /proc/mounts | awk '{ print $3 }'
+)
+
 is_app_mountpoint() {
-  grep -q -E "/app (nfs|vboxsf|fuse\\.osxfs)" /proc/mounts
+  local FILESYSTEM=''
+  FILESYSTEM="$(get_filesystem_for_work_directory)"
+  echo "$FILESYSTEM" | grep -q -E "(nfs|vboxsf|fuse\\.osxfs)"
   return "$?"
 }
 
 is_chown_forbidden() {
   # Determine if the app directory is an NFS mountpoint, which doesn't allow chowning.
-  grep -q -E "/app (nfs|vboxsf)" /proc/mounts
+  local FILESYSTEM=''
+  FILESYSTEM="$(get_filesystem_for_work_directory)"
+  echo "$FILESYSTEM" | grep -q -E "(nfs|vboxsf)"
   return "$?"
 }
 
 is_vboxsf_mountpoint() {
-  grep -q "/app vboxsf" /proc/mounts
+  local FILESYSTEM=''
+  FILESYSTEM="$(get_filesystem_for_work_directory)"
+  echo "$FILESYSTEM" | grep -q "vboxsf"
   return "$?"
 }
 
@@ -253,6 +264,71 @@ function canonical_port() {
   fi
 
   echo "$PORT"
+}
+
+function has_acl() {
+  local FILESYSTEM=''
+  FILESYSTEM="$(get_filesystem_for_work_directory)"
+  case "$FILESYSTEM" in
+  fuse.osx)
+    return 1
+    ;;
+  *)
+    return 0
+    ;;
+  esac
+}
+
+function permission_mode() {
+  if [ "$IS_CHOWN_FORBIDDEN" == "true" ]; then
+    echo "chmod"
+  else
+    echo "stickybit"
+  fi
+}
+
+function set_path_permissions() {
+  local -a READABLE_USERS=()
+  IFS=" " read -r -a READABLE_USERS <<< "$1"
+  local -a WRITEABLE_USERS=()
+  IFS=" " read -r -a WRITEABLE_USERS <<< "$2"
+  local -a PATHS=()
+  IFS=" " read -r -a PATHS <<< "${@:3}"
+
+  case "$PERMISSION_MODE" in
+  facl)
+    PERMISSIONS=()
+    for user in "${WRITEABLE_USERS[@]}"; do
+      PERMISSIONS+=(-m "$(printf -- 'user:%s:rwX' "$user")" -m "$(printf -- 'default:user:%s:rwX' "$user")")
+    done
+    for user in "${READABLE_USERS[@]}"; do
+      PERMISSIONS+=(-m "$(printf -- 'user:%s:rX' "$user")" -m "$(printf -- 'default:user:%s:rX' "$user")")
+    done
+    setfacl -R "${PERMISSIONS[@]}" "${PATHS[@]}"
+    find "${PATHS[@]}" ! -perm /660 -exec chmod ug+rw,o-rwx {} +
+    ;;
+  stickybit)
+    GROUP="$(printf '%s' "${WRITEABLE_USERS[@]}")"
+
+    if ! getent group "$GROUP" >/dev/null; then
+      groupadd "$GROUP"
+    fi
+
+    for USER in "${WRITEABLE_USERS[@]}"; do
+      usermod -a -G "$GROUP" "$USER"
+    done
+
+    find "${PATHS[@]}" ! -group "$GROUP" -exec chgrp "$GROUP" {} +
+    find "${PATHS[@]}" -type d ! -perm -2070 -exec chmod g+ws {} +
+    find "${PATHS[@]}" -type f ! -perm -0060 -exec chmod g+w {} +
+    ;;
+  chmod)
+    find "${PATHS[@]}" ! -perm -0666 -exec chmod a+rw {} +
+    ;;
+  *)
+    echo "unsupported permission mode '$PERMISSION_MODE'" >&2
+    ;;
+  esac
 }
 
 function wait_for_remote_ports() (
