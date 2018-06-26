@@ -4,6 +4,7 @@ xdebug.remote_enable={{ getenv "XDEBUG_REMOTE_ENABLED" }}
 xdebug.remote_host={{ getenv "XDEBUG_REMOTE_HOST" }}
 xdebug.remote_port={{ getenv "XDEBUG_REMOTE_PORT" }}
 xdebug.remote_log=
+xdebug.remote_autostart={{ getenv "XDEBUG_REMOTE_AUTOSTART" }}
 {{ else }}
 ;zend_extension=xdebug.so
 {{ end }}

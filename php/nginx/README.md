@@ -148,7 +148,7 @@ WEB_SSL_PRIVKEY | The location of the SSL private key file | absolute filename |
 WEB_SSL_PROTOCOLS | The SSL/TLS protocols to enable | [SSLv2] [SSLv3] [TLSv1] [TLSv1.1] [TLSv1.2] [TLSv1.3] | TLSv1 TLSv1.1 TLSv1.2
 WEB_SSL_SESSION_CACHE | Sets the types and sizes of caches that store session parameters. See nginx ssl_session_cache documentation for more info | off/none/builtin[:size]/shared:name:size | none
 WEB_SSL_SESSION_TIMEOUT | Specifies a time during which a client may reuse the session parameters. | time | 5m
-WEB_SSL_TRUSTED_CERTIFICATES | The trusted certificates to use for OSCP stapling verification and/or SSL client certificate authentication | absolute filename | 
+WEB_SSL_TRUSTED_CERTIFICATES | The trusted certificates to use for OSCP stapling verification and/or SSL client certificate authentication | absolute filename |
 WEB_INCLUDES | A space separated list of files in /etc/nginx/sites-enabled/ to include. ".conf" will be appended automatically. Globs are accepted. | space separated list of partial file names | default-*
 WEB_DEFAULT_SERVER | True if the virtual host should be used for any unmatched traffic | true/false | true
 APP_ENDPOINT | The uri of the web application php endpoint | domain relative uri | /index.php
@@ -156,7 +156,7 @@ APP_ENDPOINT_REWRITE | Determines whether to rewrite urls that don't match webro
 APP_ENDPOINT_REGEX | A regex used to define allowed application endpoints, see [site_phpfpm.conf.tmpl](https://github.com/continuouspipe/dockerfiles/blob/master/php/nginx/etc/confd/templates/nginx/site_phpfpm.conf.tmpl#L1) | string | auto-detected
 APP_ENDPOINT_STRICT | Restricts allowed application endpoints to only that of the APP_ENDPOINT environment variable | true/false | false
 ASSETS_CLEANUP | Whether to delete the assets in ASSETS_PATH after they have been applied | true/false | true
-ASSETS_ENV | The assets environment assets are downloaded/applied from. If unset no asset actions will happen | a asset environment | 
+ASSETS_ENV | The assets environment assets are downloaded/applied from. If unset no asset actions will happen | a asset environment |
 ASSETS_PATH | The assets filesystem path assets are downloaded to /applied from. If unset and ASSETS_ENV unset no asset actions will happen | a asset filesystem path | tools/assets/${ASSETS_ENV} if ASSETS_ENV set
 ASSETS_S3_BUCKET | The AWS S3 bucket assets are downloaded from. If unset, no assets will be downloaded | a S3 bucket name |
 ASSETS_S3_BUCKET_PATH | The full bucket path to an environment's assets. If unset or ASSETS_S3_BUCKET unset, no assets will be downloaded | a S3 bucket path | s3://${ASSETS_S3_BUCKET}/${ASSETS_ENV}/ if ASSETS_S3_BUCKET and ASSETS_ENV set
@@ -195,8 +195,9 @@ TIDEWAYS_SERVICE | The service that your application provides (optional) | strin
 TIDEWAYS_COLLECT | The collect mode for Tideways (see [the Tideways documentation](https://tideways.io/profiler/article/43-sampling))(optional) | DISABLED/BASIC/TRACING/PROFILING/FULL | TRACING
 TIDEWAYS_SAMPLE_RATE | The sample rate for Tideways (see [the Tideways documentation](https://tideways.io/profiler/article/43-sampling))(optional) | integer | 25
 XDEBUG_REMOTE_ENABLED | If XDebug is enabled for debugging purposes. We recommend disabling Tideways and only using XDebug in development. | true/false | false
-XDEBUG_REMOTE_HOST | The host to connect to. We recommend deploying https://github.com/continuouspipe/dockerfiles/tree/master/ssh-forward to handle this | A domain or IP address | sshforward
+XDEBUG_REMOTE_HOST | The host to connect to. We recommend deploying https://github.com/continuouspipe/dockerfiles/tree/master/ssh-forward to handle this. Alternatively see [Xdebug setup](#Xdebug-setup) | A domain or IP address | sshforward
 XDEBUG_REMOTE_PORT | The port to connect to. | 1-65535 | 9000
+XDEBUG_REMOTE_AUTOSTART | Whether to automatically start an Xdebug session upon every page/CLI request | true/false | false
 
 The project using the image can define these environment variables to control
 what is rendered in the Nginx configuration
@@ -354,3 +355,35 @@ Tar files either raw or compressed by Gzip or Bzip2 are supported, with the foll
 * .tar.bz2
 
 This can be individually disabled using ASSETS_FILES_ENABLED.
+
+
+### Xdebug setup
+
+In local development environments, setting the following variables for this container, along with running the alias
+command below, will let you connect directly to the container's Xdebug connection from your local machine:
+```
+XDEBUG_REMOTE_ENABLED: 'true'
+XDEBUG_REMOTE_HOST: 10.254.254.254
+XDEBUG_REMOTE_PORT: '9000'
+XDEBUG_REMOTE_AUTOSTART: 'true'
+```
+
+Xdebug will attempt to connect to `10.254.254.254` on port `9000`.
+
+To facilitate this you can alias `127.0.0.1` to this address using the below instructions.
+
+##### DockerForMac
+
+```
+sudo ifconfig lo0 alias 10.254.254.254
+```
+
+##### Ubuntu
+
+```
+sudo ifconfig lo:1 10.254.254.254 up
+```
+
+You should now be able to use Xdebug by setting your IDE of choice to listen for connections.
+
+**NOTE:** The path mapping should be `/app/` to your project directory.
