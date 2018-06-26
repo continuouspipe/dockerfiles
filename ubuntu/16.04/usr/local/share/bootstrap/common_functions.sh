@@ -137,7 +137,7 @@ is_hem_project() {
 }
 
 is_app_mountpoint() {
-  grep -q -E "/app (nfs|vboxsf|fuse\\.osxfs)" /proc/mounts
+  findmnt "$WORK_DIRECTORY" > /dev/null
   return "$?"
 }
 
