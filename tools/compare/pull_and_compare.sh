@@ -85,12 +85,12 @@ do_export_stable()
 
 docker_compose_latest()
 {
-  docker-compose -p dockerfiles_compare -f docker-compose.yml "$@"
+  docker-compose -p dockerfilescompare -f docker-compose.yml "$@"
 }
 
 docker_compose_stable()
 {
-  docker-compose -p dockerfiles_compare -f docker-compose.stable.yml "$@"
+  docker-compose -p dockerfilescompare -f docker-compose.stable.yml "$@"
 }
 
 get_services()
