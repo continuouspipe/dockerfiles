@@ -356,33 +356,29 @@ Tar files either raw or compressed by Gzip or Bzip2 are supported, with the foll
 
 This can be individually disabled using ASSETS_FILES_ENABLED.
 
-
 ### Xdebug setup
 
 In local development environments, setting the following variables for this container, along with running the alias
 command below, will let you connect directly to the container's Xdebug connection from your local machine:
 ```
 XDEBUG_REMOTE_ENABLED: 'true'
-XDEBUG_REMOTE_HOST: 10.254.254.254
+XDEBUG_REMOTE_HOST: host.docker.internal # for docker-for-windows and docker-for-mac
+XDEBUG_REMOTE_HOST: 10.254.254.254 # for Ubuntu
 XDEBUG_REMOTE_PORT: '9000'
 XDEBUG_REMOTE_AUTOSTART: 'true'
 ```
 
-Xdebug will attempt to connect to `10.254.254.254` on port `9000`.
+Xdebug will attempt to connect to `host.docker.internal` or `10.254.254.254` on port `9000`.
 
-To facilitate this you can alias `127.0.0.1` to this address using the below instructions.
+#### Ubuntu
 
-##### DockerForMac
-
-```
-sudo ifconfig lo0 alias 10.254.254.254
-```
-
-##### Ubuntu
+To facilitate this you can alias `127.0.0.1` to the `10.254.254.254` address like so:
 
 ```
 sudo ifconfig lo:1 10.254.254.254 up
 ```
+
+#### IDE
 
 You should now be able to use Xdebug by setting your IDE of choice to listen for connections.
 
