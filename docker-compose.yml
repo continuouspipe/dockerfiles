@@ -201,15 +201,6 @@ services:
     depends_on:
       - ubuntu
 
-  mongodb26:
-    build:
-      context: ./mongodb/
-      args:
-        FROM_TAG: '2'
-    image: quay.io/continuouspipe/mongodb2.6:latest
-    depends_on:
-      - external_mongodb26
-
   mongodb36:
     build:
       context: ./mongodb/
@@ -651,9 +642,6 @@ services:
 
   external_couchdb16:
     image: couchdb:1.6
-
-  external_mongodb26:
-    image: mongo:2
 
   external_mongodb34:
     image: mongo:3.4

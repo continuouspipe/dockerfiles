@@ -11,6 +11,8 @@ RUN apt-get update -qq \
  && apt-get clean \
  && rm -rf /var/lib/apt/lists/*
 
-COPY ./usr/ /usr
+COPY ./docker-entrypoint-initdb.d /docker-entrypoint-initdb.d
 
-CMD ["/usr/local/bin/mongo-init.sh"]
+COPY docker-entrypoint-override.sh /usr/local/bin/
+ENTRYPOINT ["docker-entrypoint-override.sh"]
+CMD ["mongod"]
