@@ -6,7 +6,7 @@ inet_protocols = ipv4
 mydestination = {{ getenv "WEB_HOST" }}, localhost.localdomain, localhost
 mydomain = {{ getenv "WEB_HOST" }}
 myhostname = {{ getenv "WEB_HOST" }}
-myorgin = $myhostname
+myorigin = $myhostname
 {{ if getenv "SENDMAIL_RELAY_HOST" }}
 relayhost = [{{ getenv "SENDMAIL_RELAY_HOST" }}]:{{ getenv "SENDMAIL_RELAY_PORT" }}
 {{ end }}
