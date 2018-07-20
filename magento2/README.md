@@ -114,6 +114,12 @@ FRONTEND_COMPILE_LANGUAGES | Used during static content deployment. It can be mu
 MAGENTO_DEPENDENCY_INJECTION_COMPILE_COMMAND | Magento DI compile command | - | bin/magento setup:di:compile 
 MAGENTO_CRYPT_KEY | Magneto crypt key | - | -
 COMPOSER_CUSTOM_CONFIG_COMMAND | Used to set any custom composer configuration, will be executed before composer install | composer config .. | -
+AMQP_HOST | The hostname where RabbitMQ is installed. | string |
+AMQP_PORT | The port to use to connect to RabbitMQ. | port number | 5672
+AMQP_USER | The username for connecting to RabbitMQ. | string |
+AMQP_PASSWORD | The password for connecting to RabbitMQ. | string |
+AMQP_VIRTUALHOST | The virtual host for connecting to RabbitMQ. | string | "/"
+MAGENTO_ENABLE_QUEUE | Should AMQP be used for queuing? | true/false | false
 REDIS_HOST | Redis host name (to store cache and sessions) | - | redis 
 REDIS_PORT | Redis port | port number | 6379
 MAGENTO_ENABLE_CACHE | Should redis be used for cache? | true/false | true
