@@ -23,5 +23,5 @@ php_value[date.timezone] = {{ getenv "PHP_TIMEZONE" }}
 php_value[memory_limit] = {{ getenv "PHP_MEMORY_LIMIT" }}
 
 php_admin_value[display_errors] = Off
-php_admin_value[error_log] = /dev/stderr
+php_admin_value[error_log] = /var/log/php-fpm/stdout
 php_admin_flag[log_errors] = on
