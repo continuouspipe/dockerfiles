@@ -214,9 +214,10 @@ mysql_has_table()
 {
   set +x
   local TABLE_NAME="$1"
+  local LIST_DATABASE_NAME="${2:-$DATABASE_NAME}"
 
   local DATABASE_TABLES
-  DATABASE_TABLES="$(mysql_list_tables "${DATABASE_NAME}")"
+  DATABASE_TABLES="$(mysql_list_tables "${LIST_DATABASE_NAME}")"
   if [ "$?" -ne 0 ]; then
     exit 1
   fi
@@ -232,9 +233,10 @@ postgres_has_table()
 {
   set +x
   local TABLE_NAME="$1"
+  local LIST_DATABASE_NAME="${2:-$DATABASE_NAME}"
 
   local DATABASE_TABLES
-  DATABASE_TABLES="$(postgres_list_tables "${DATABASE_NAME}")"
+  DATABASE_TABLES="$(postgres_list_tables "${LIST_DATABASE_NAME}")"
   # shellcheck disable=SC2181
   if [ "$?" -ne 0 ]; then
     exit 1
