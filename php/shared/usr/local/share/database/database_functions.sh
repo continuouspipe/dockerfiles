@@ -70,6 +70,19 @@ create_postgres_database()
   PGPASSWORD="${PGPASSWORD}" createdb "${DATABASE_ARGS[@]}" "${CREATE_DATABASE_NAME}"
 )
 
+drop_postgres_database()
+(
+  set +x
+  local DROP_DATABASE_NAME="$1"
+
+  local DATABASE_ARGS
+  DATABASE_ARGS="$(postgres_database_admin_args "${CREATE_DATABASE_NAME}")"
+  local PGPASSWORD
+  PGPASSWORD="$(postgres_database_admin_password)"
+
+  PGPASSWORD="$PGPASSWORD" psql ${DATABASE_ARGS[*]} --command='DROP SCHEMA public CASCADE;' "${DROP_DATABASE_NAME}"
+)
+
 postgres_list_tables()
 {
   set +x

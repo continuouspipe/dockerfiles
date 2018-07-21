@@ -117,7 +117,7 @@ function assets_apply_database_mysql()
   if [ "${DATABASE_EXISTS}" -ne 0 ]; then
     DATABASE_TABLE_COUNT="$(set -o pipefail && mysql "${DATABASE_ARGS[@]}" "${APPLY_DATABASE_NAME}" -e "SHOW TABLES" | tail --lines=+2 | wc -l)"
   fi
-  
+
 
   if [ "${DATABASE_EXISTS}" -ne 0 ] && [ "${APPLY_FORCE_DATABASE_DROP}" == 'true' ]; then
     echo "Dropping the ${APPLY_DATABASE_NAME} MySql database"
@@ -143,56 +143,40 @@ function assets_apply_database_postgres()
   local -r ASSET_FILE="$1"
   local -r APPLY_DATABASE_NAME="$2"
   local -r APPLY_FORCE_DATABASE_DROP="$(convert_to_boolean_string "${3:-0}")"
-  local DATABASE_ARGS=("--host=${DATABASE_HOST}" "--port=${DATABASE_PORT}")
 
   assets_decompress_validate "${ASSET_FILE}"
 
-  if [ -n "${DATABASE_ADMIN_USER}" ]; then
-    PGPASSWORD="$DATABASE_ADMIN_PASSWORD"
-    DATABASE_ARGS+=("--username=${DATABASE_ADMIN_USER}")
-  else
-    PGPASSWORD="$DATABASE_PASSWORD"
-    DATABASE_ARGS+=("--username=${DATABASE_USER}")
-  fi
-
-  if [ -n "${DATABASE_NAME}" ]; then
-    DATABASE_ARGS+=("${DATABASE_NAME}")
-  fi
-
   wait_for_remote_ports "${ASSETS_DATABASE_WAIT_TIMEOUT}" "${DATABASE_HOST}:${DATABASE_PORT}"
 
-  local DATABASES
-  DATABASES="$(set -o pipefail && PGPASSWORD="$PGPASSWORD" psql "${DATABASE_ARGS[@]}" -lqt | cut -d \| -f 1 | sed "s/ //g")"
-
   set +e
-  ! echo "${DATABASES}" | grep --quiet --fixed-strings --line-regexp "${APPLY_DATABASE_NAME}"
-  local DATABASE_EXISTS=$?
+  postgres_database_exists "${APPLY_DATABASE_NAME}"
+  local DATABASE_EXISTS="$?"
   set -e
 
   local DATABASE_TABLE_COUNT=0
   local DATABASE_TABLES
-  if [ "${DATABASE_EXISTS}" -ne 0 ]; then
-    DATABASE_TABLES="$(set -o pipefail && PGPASSWORD="$PGPASSWORD" psql "${DATABASE_ARGS[@]}" -c '\dt' -qt "${APPLY_DATABASE_NAME}" | cut -d \| -f 1 | sed "s/ //g")"
+  if [ "${DATABASE_EXISTS}" -eq 0 ]; then
+    DATABASE_TABLES="$(postgres_list_tables "${APPLY_DATABASE_NAME}")"
     DATABASE_TABLE_COUNT="$(echo "${DATABASE_TABLES}" | wc -l)"
   fi
-  # an empty database contains a empty line, so treat that as empty
-  if [ "${DATABASE_TABLE_COUNT}" -eq 1 ] && [ "${DATABASE_TABLES}" == "\n" ]; then
-    DATABASE_TABLE_COUNT=0
-  fi
 
-  if [ "${DATABASE_EXISTS}" -ne 0 ] && [ "${APPLY_FORCE_DATABASE_DROP}" == 'true' ]; then
+  if [ "${DATABASE_EXISTS}" -eq 0 ] && [ "${APPLY_FORCE_DATABASE_DROP}" == 'true' ]; then
     echo "Dropping and recreating the public ${APPLY_DATABASE_NAME} Postgress schema"
-    PGPASSWORD="$PGPASSWORD" psql "${DATABASE_ARGS[@]}" "--command=DROP SCHEMA public CASCADE;CREATE SCHEMA public;" "${APPLY_DATABASE_NAME}"
+    drop_postgres_database "${APPLY_DATABASE_NAME}"
+    create_postgres_database "${APPLY_DATABASE_NAME}"
     DATABASE_TABLE_COUNT=0
   fi
 
   if [ "${DATABASE_EXISTS}" -eq 0 ]; then
-    echo "Creating ${APPLY_DATABASE_NAME} MySql database"
-    PGPASSWORD="$PGPASSWORD" createdb "${DATABASE_ARGS[@]}" "${APPLY_DATABASE_NAME}"
+    echo "Creating ${APPLY_DATABASE_NAME} Postgres database"
+    create_postgres_database "${APPLY_DATABASE_NAME}"
   fi
 
   if [ "${DATABASE_TABLE_COUNT}" -eq 0 ]; then
-    echo "Importing ${ASSET_FILE} into ${APPLY_DATABASE_NAME} MySql database"
+    local DATABASE_ARGS
+    DATABASE_ARGS="$(postgres_database_admin_args "${APPLY_DATABASE_NAME}")"
+
+    echo "Importing ${ASSET_FILE} into ${APPLY_DATABASE_NAME} Postgres database"
     assets_decompress_stream "${ASSET_FILE}" | PGPASSWORD="$PGPASSWORD" psql "${DATABASE_ARGS[@]}" "${APPLY_DATABASE_NAME}"
   fi
 )
