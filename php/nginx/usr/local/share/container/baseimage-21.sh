@@ -24,8 +24,11 @@ do_start() {
 
 do_phpfpm_named_pipe() {
   if [ ! -p /var/log/php-fpm/stdout ]; then
-    mkdir /var/log/php-fpm/
-    mkfifo /var/log/php-fpm/stdout
+    if [ -e /var/log/php-fpm/stdout ]; then
+      rm -f /var/log/php-fpm/stdout
+    fi
+    mkdir -p /var/log/php-fpm/
+    mkfifo -m 0660 /var/log/php-fpm/stdout
   fi
   chown -R "$APP_USER:$APP_GROUP" /var/log/php-fpm/
 }
