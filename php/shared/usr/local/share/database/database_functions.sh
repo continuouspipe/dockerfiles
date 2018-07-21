@@ -1,5 +1,24 @@
 #!/bin/bash
 
+mysql_database_admin_args()
+(
+  set +x
+  local PASSED_DATABASE_NAME="${1:-$DATABASE_NAME}"
+  local DATABASE_ARGS=("--host=${DATABASE_HOST}" "--port=${DATABASE_PORT}")
+
+  if [ -n "${DATABASE_ADMIN_USER}" ]; then
+    DATABASE_ARGS+=("--user=${DATABASE_ADMIN_USER}" "--password=${DATABASE_ADMIN_PASSWORD}")
+  else
+    DATABASE_ARGS+=("--user=${DATABASE_USER}" "--password=${DATABASE_PASSWORD}")
+  fi
+
+  if [ -n "${PASSED_DATABASE_NAME}" ]; then
+    DATABASE_ARGS+=("${PASSED_DATABASE_NAME}")
+  fi
+
+  echo "${DATABASE_ARGS[@]}"
+)
+
 postgres_database_admin_args()
 (
   set +x
@@ -29,6 +48,30 @@ postgres_database_admin_password()
   fi
 )
 
+mysql_database_exists()
+{
+  set +x
+  local CHECK_DATABASE_NAME="$1"
+  local DATABASE_ARGS
+  DATABASE_ARGS="$(mysql_database_admin_args)"
+
+  wait_for_remote_ports "${ASSETS_DATABASE_WAIT_TIMEOUT}" "${DATABASE_HOST}:${DATABASE_PORT}"
+
+  local DATABASES
+  DATABASES="$(set -o pipefail && mysql ${DATABASE_ARGS[*]} --execute="SHOW DATABASES" | tail --lines=+2)"
+  if [ "$?" -ne 0 ]; then
+    echo "Failed to check if the database '${CHECK_DATABASE_NAME}' exists, exiting."
+    exit 1
+  fi
+
+  set +e
+  echo "${DATABASES}" | grep --quiet --fixed-strings --line-regexp "${CHECK_DATABASE_NAME}"
+  local DATABASE_EXISTS="$?"
+
+  set -ex
+  return "$DATABASE_EXISTS"
+}
+
 postgres_database_exists()
 {
   set +x
@@ -56,6 +99,18 @@ postgres_database_exists()
   return "$DATABASE_EXISTS"
 }
 
+create_mysql_database()
+(
+  set +x
+  local CREATE_DATABASE_NAME="$1"
+
+  local DATABASE_ARGS
+  DATABASE_ARGS="$(mysql_database_admin_args)"
+
+  echo "Creating ${CREATE_DATABASE_NAME} MySQL database"
+  echo "CREATE DATABASE \`${CREATE_DATABASE_NAME}\`" | mysql ${DATABASE_ARGS[*]}
+)
+
 create_postgres_database()
 (
   set +x
@@ -66,8 +121,20 @@ create_postgres_database()
   local PGPASSWORD
   PGPASSWORD="$(postgres_database_admin_password)"
 
-  echo "Creating ${DATABASE_NAME} Postgres database"
+  echo "Creating ${CREATE_DATABASE_NAME} Postgres database"
   PGPASSWORD="${PGPASSWORD}" createdb "${DATABASE_ARGS[@]}" "${CREATE_DATABASE_NAME}"
+)
+
+drop_mysql_database()
+(
+  set +x
+  local DROP_DATABASE_NAME="$1"
+
+  local DATABASE_ARGS
+  DATABASE_ARGS="$(mysql_database_admin_args)"
+
+  echo "Dropping the ${DROP_DATABASE_NAME} MySQL database"
+  mysql ${DATABASE_ARGS[*]} --execute="DROP DATABASE \`${DROP_DATABASE_NAME}\`"
 )
 
 drop_postgres_database()
@@ -80,8 +147,33 @@ drop_postgres_database()
   local PGPASSWORD
   PGPASSWORD="$(postgres_database_admin_password)"
 
+  echo "Dropping the ${DROP_DATABASE_NAME} Postgres database"
   PGPASSWORD="$PGPASSWORD" psql ${DATABASE_ARGS[*]} --command='DROP SCHEMA public CASCADE;' "${DROP_DATABASE_NAME}"
 )
+
+mysql_list_tables()
+{
+  set +x
+  local LIST_DATABASE_NAME="${1:-$DATABASE_NAME}"
+
+  local DATABASE_ARGS
+  DATABASE_ARGS="$(mysql_database_admin_args "${LIST_DATABASE_NAME}")"
+
+  wait_for_remote_ports "${ASSETS_DATABASE_WAIT_TIMEOUT}" "${DATABASE_HOST}:${DATABASE_PORT}"
+
+  mysql_database_exists "${LIST_DATABASE_NAME}"
+  set +x
+
+  local DATABASE_TABLES=""
+  DATABASE_TABLES="$(set -o pipefail && mysql ${DATABASE_ARGS[*]} "${LIST_DATABASE_NAME}" -e "SHOW TABLES" | tail --lines=+2)"
+  if [ "$?" -ne 0 ]; then
+    echo "Failed to get a list of tables from '${LIST_DATABASE_NAME}', exiting."
+    exit 1
+  fi
+
+  echo "$DATABASE_TABLES"
+  set -x
+}
 
 postgres_list_tables()
 {
@@ -95,7 +187,7 @@ postgres_list_tables()
 
   wait_for_remote_ports "${ASSETS_DATABASE_WAIT_TIMEOUT}" "${DATABASE_HOST}:${DATABASE_PORT}"
 
-  postgres_database_exists "${DATABASE_NAME}"
+  postgres_database_exists "${LIST_DATABASE_NAME}"
   set +x
 
   local DATABASE_TABLES=""
@@ -116,6 +208,24 @@ postgres_list_tables()
   fi
   echo "$DATABASE_TABLES"
   set -x
+}
+
+mysql_has_table()
+{
+  set +x
+  local TABLE_NAME="$1"
+
+  local DATABASE_TABLES
+  DATABASE_TABLES="$(mysql_list_tables "${DATABASE_NAME}")"
+  if [ "$?" -ne 0 ]; then
+    exit 1
+  fi
+
+  set +ex
+  echo "${DATABASE_TABLES}" | grep --quiet --fixed-strings --line-regexp "${TABLE_NAME}"
+  local TABLE_EXISTS="$?"
+  set -ex
+  return "$TABLE_EXISTS"
 }
 
 postgres_has_table()

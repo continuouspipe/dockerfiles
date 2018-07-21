@@ -93,47 +93,40 @@ function assets_apply_database_mysql()
   local -r ASSET_FILE="$1"
   local -r APPLY_DATABASE_NAME="$2"
   local -r APPLY_FORCE_DATABASE_DROP="$(convert_to_boolean_string "${3:-0}")"
-  local DATABASE_ARGS=("--host=${DATABASE_HOST}" "--port=${DATABASE_PORT}")
 
   assets_decompress_validate "${ASSET_FILE}"
 
-  if [ -n "${DATABASE_ADMIN_USER}" ]; then
-    DATABASE_ARGS+=("--user=${DATABASE_ADMIN_USER}" "--password=${DATABASE_ADMIN_PASSWORD}")
-  else
-    DATABASE_ARGS+=("--user=${DATABASE_USER}" "--password=${DATABASE_PASSWORD}")
-  fi
-
   wait_for_remote_ports "${ASSETS_DATABASE_WAIT_TIMEOUT}" "${DATABASE_HOST}:${DATABASE_PORT}"
 
-  local DATABASES
-  DATABASES="$(set -o pipefail && mysql "${DATABASE_ARGS[@]}" --execute="SHOW DATABASES" | tail --lines=+2)"
-
   set +e
-  ! echo "${DATABASES}" | grep --quiet --fixed-strings --line-regexp "${APPLY_DATABASE_NAME}"
-  local DATABASE_EXISTS=$?
+  mysql_database_exists "${APPLY_DATABASE_NAME}"
+  local DATABASE_EXISTS="$?"
   set -e
 
+  local DATABASE_TABLES=""
   local DATABASE_TABLE_COUNT=0
-  if [ "${DATABASE_EXISTS}" -ne 0 ]; then
-    DATABASE_TABLE_COUNT="$(set -o pipefail && mysql "${DATABASE_ARGS[@]}" "${APPLY_DATABASE_NAME}" -e "SHOW TABLES" | tail --lines=+2 | wc -l)"
+  if [ "${DATABASE_EXISTS}" -eq 0 ]; then
+    DATABASE_TABLES="$(mysql_list_tables "${APPLY_DATABASE_NAME}")"
+    DATABASE_TABLE_COUNT="$(echo "${DATABASE_TABLES}" | wc -l)"
   fi
 
-
-  if [ "${DATABASE_EXISTS}" -ne 0 ] && [ "${APPLY_FORCE_DATABASE_DROP}" == 'true' ]; then
-    echo "Dropping the ${APPLY_DATABASE_NAME} MySql database"
-    mysql "${DATABASE_ARGS[@]}" --execute="DROP DATABASE \`${APPLY_DATABASE_NAME}\`"
-    DATABASE_EXISTS=0
+  if [ "${DATABASE_EXISTS}" -eq 0 ] && [ "${APPLY_FORCE_DATABASE_DROP}" == 'true' ]; then
+    drop_mysql_database "${APPLY_DATABASE_NAME}"
+    DATABASE_EXISTS=1
     DATABASE_TABLE_COUNT=0
   fi
 
-  if [ "${DATABASE_EXISTS}" -eq 0 ]; then
-    echo "Creating ${APPLY_DATABASE_NAME} MySql database"
-    echo "CREATE DATABASE \`${APPLY_DATABASE_NAME}\`" | mysql "${DATABASE_ARGS[@]}"
+  if [ "${DATABASE_EXISTS}" -ne 0 ]; then
+    echo "Creating ${APPLY_DATABASE_NAME} MySQL database"
+    create_mysql_database "${APPLY_DATABASE_NAME}"
   fi
 
   if [ "${DATABASE_TABLE_COUNT}" -eq 0 ]; then
-    echo "Importing ${ASSET_FILE} into ${APPLY_DATABASE_NAME} MySql database"
-    assets_decompress_stream "${ASSET_FILE}" | mysql "${DATABASE_ARGS[@]}" "${APPLY_DATABASE_NAME}"
+    local DATABASE_ARGS
+    DATABASE_ARGS="$(mysql_database_admin_args "${APPLY_DATABASE_NAME}")"
+
+    echo "Importing ${ASSET_FILE} into ${APPLY_DATABASE_NAME} MySQL database"
+    assets_decompress_stream "${ASSET_FILE}" | mysql ${DATABASE_ARGS[*]}
   fi
 )
 
@@ -161,9 +154,8 @@ function assets_apply_database_postgres()
   fi
 
   if [ "${DATABASE_EXISTS}" -eq 0 ] && [ "${APPLY_FORCE_DATABASE_DROP}" == 'true' ]; then
-    echo "Dropping and recreating the public ${APPLY_DATABASE_NAME} Postgress schema"
+    echo "Dropping the public ${APPLY_DATABASE_NAME} Postgres schema"
     drop_postgres_database "${APPLY_DATABASE_NAME}"
-    create_postgres_database "${APPLY_DATABASE_NAME}"
     DATABASE_TABLE_COUNT=0
   fi
 
@@ -177,7 +169,7 @@ function assets_apply_database_postgres()
     DATABASE_ARGS="$(postgres_database_admin_args "${APPLY_DATABASE_NAME}")"
 
     echo "Importing ${ASSET_FILE} into ${APPLY_DATABASE_NAME} Postgres database"
-    assets_decompress_stream "${ASSET_FILE}" | PGPASSWORD="$PGPASSWORD" psql "${DATABASE_ARGS[@]}" "${APPLY_DATABASE_NAME}"
+    assets_decompress_stream "${ASSET_FILE}" | PGPASSWORD="$PGPASSWORD" psql ${DATABASE_ARGS[*]}
   fi
 )
 
