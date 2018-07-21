@@ -25,4 +25,12 @@ find "$DIR" -type f -name "Dockerfile*" ! -name "*.tmpl" | while read -r dockerf
   echo
 done
 
+# Run unit tests
 docker-compose -f docker-compose.yml -f docker-compose.test.yml run --rm tests
+
+# Run integration tests
+find "$DIR" -type f -path "*/tests/integration/docker-compose.yml" | while read -r integration_docker_compose; do
+  echo "Running integration tests for '$integration_docker_compose':"
+  docker-compose -f "$DIR/docker-compose.yml" -f "$integration_docker_compose" up  --exit-code-from integration_tests integration_tests;
+  docker-compose -f "$DIR/docker-compose.yml" -f "$integration_docker_compose" down -v --rmi local
+done
