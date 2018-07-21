@@ -1,5 +1,6 @@
 #!/bin/bash
 
+source /usr/local/share/database/database_functions.sh
 source /usr/local/share/assets/assets_functions.sh
 source /usr/local/share/php/common_functions.sh
 source /usr/local/share/php/webserver_functions.sh

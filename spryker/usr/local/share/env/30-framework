@@ -1,5 +1,7 @@
 #!/bin/bash
 
+export IMAGE_VERSION=${IMAGE_VERSION:-1}
+
 export APPLICATION_ENV=${APPLICATION_ENV:-production}
 export SPRYKER_CRON_COMMANDS=${SPRYKER_CRON_COMMANDS:-mailqueue:registration:send,oms:check-condition,oms:check-timeout,oms:clear-locks}
 
