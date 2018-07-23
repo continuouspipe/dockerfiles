@@ -34,14 +34,15 @@ postgres_database_exists()
   set +x
   local CHECK_DATABASE_NAME="$1"
   local DATABASE_ARGS
-  DATABASE_ARGS="$(postgres_database_admin_args "${CHECK_DATABASE_NAME}")"
+  DATABASE_ARGS=("$(postgres_database_admin_args "${CHECK_DATABASE_NAME}")")
   local PGPASSWORD
   PGPASSWORD="$(postgres_database_admin_password)"
 
   wait_for_remote_ports "${ASSETS_DATABASE_WAIT_TIMEOUT}" "${DATABASE_HOST}:${DATABASE_PORT}"
 
   local DATABASES
-  DATABASES="$(set -o pipefail && PGPASSWORD="${PGPASSWORD}" psql ${DATABASE_ARGS[*]} -lqt | cut -d \| -f 1 | sed "s/ //g")"
+  DATABASES="$(set -o pipefail && PGPASSWORD="${PGPASSWORD}" psql "${DATABASE_ARGS[@]}" -lqt | cut -d \| -f 1 | sed "s/ //g")"
+  # shellcheck disable=SC2181
   if [ "$?" -ne 0 ]; then
     echo "Failed to check if the database '${CHECK_DATABASE_NAME}' exists, exiting."
     exit 1
@@ -61,12 +62,12 @@ create_postgres_database()
   local CREATE_DATABASE_NAME="$1"
 
   local DATABASE_ARGS
-  DATABASE_ARGS="$(postgres_database_admin_args "${CREATE_DATABASE_NAME}")"
+  DATABASE_ARGS=("$(postgres_database_admin_args "${CREATE_DATABASE_NAME}")")
   local PGPASSWORD
   PGPASSWORD="$(postgres_database_admin_password)"
 
   echo "Creating ${DATABASE_NAME} Postgres database"
-  PGPASSWORD="${PGPASSWORD}" createdb ${DATABASE_ARGS[*]} "${CREATE_DATABASE_NAME}"
+  PGPASSWORD="${PGPASSWORD}" createdb "${DATABASE_ARGS[@]}" "${CREATE_DATABASE_NAME}"
 )
 
 postgres_list_tables()
@@ -75,7 +76,7 @@ postgres_list_tables()
   local LIST_DATABASE_NAME="${1:-$DATABASE_NAME}"
 
   local DATABASE_ARGS
-  DATABASE_ARGS="$(postgres_database_admin_args "${LIST_DATABASE_NAME}")"
+  DATABASE_ARGS=("$(postgres_database_admin_args "${LIST_DATABASE_NAME}")")
   local PGPASSWORD
   PGPASSWORD="$(postgres_database_admin_password)"
 
@@ -87,7 +88,8 @@ postgres_list_tables()
   local DATABASE_TABLES=""
   local DATABASE_TABLE_COUNT=0
 
-  DATABASE_TABLES="$(set -o pipefail && PGPASSWORD="${PGPASSWORD}" psql ${DATABASE_ARGS[*]} -c '\dt' -qt "${LIST_DATABASE_NAME}" | cut -d \| -f 2 | sed "s/ //g")"
+  DATABASE_TABLES="$(set -o pipefail && PGPASSWORD="${PGPASSWORD}" psql "${DATABASE_ARGS[@]}" -c '\dt' -qt "${LIST_DATABASE_NAME}" | cut -d \| -f 2 | sed "s/ //g")"
+  # shellcheck disable=SC2181
   if [ "$?" -ne 0 ]; then
     echo "Failed to get a list of tables from '${LIST_DATABASE_NAME}', exiting."
     exit 1
@@ -95,7 +97,7 @@ postgres_list_tables()
   DATABASE_TABLE_COUNT="$(echo "${DATABASE_TABLES}" | wc -l)"
 
   # an empty database contains a empty line, so treat that as empty
-  if [ "${DATABASE_TABLE_COUNT}" -eq 1 ] && [ "${DATABASE_TABLES}" == "\n" ]; then
+  if [ "${DATABASE_TABLE_COUNT}" -eq 1 ] && [ "${DATABASE_TABLES}" == "\\n" ]; then
     DATABASE_TABLES=""
     DATABASE_TABLE_COUNT=0
   fi
@@ -110,6 +112,7 @@ postgres_has_table()
 
   local DATABASE_TABLES
   DATABASE_TABLES="$(postgres_list_tables "${DATABASE_NAME}")"
+  # shellcheck disable=SC2181
   if [ "$?" -ne 0 ]; then
     exit 1
   fi
