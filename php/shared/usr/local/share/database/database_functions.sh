@@ -52,8 +52,7 @@ mysql_database_exists()
 {
   set +x
   local CHECK_DATABASE_NAME="$1"
-  local DATABASE_ARGS
-  DATABASE_ARGS=("$(mysql_database_admin_args)")
+  mapfile -t DATABASE_ARGS < <(mysql_database_admin_args)
 
   wait_for_remote_ports "${ASSETS_DATABASE_WAIT_TIMEOUT}" "${DATABASE_HOST}:${DATABASE_PORT}"
 
@@ -105,8 +104,7 @@ create_mysql_database()
   set +x
   local CREATE_DATABASE_NAME="$1"
 
-  local DATABASE_ARGS
-  DATABASE_ARGS=("$(mysql_database_admin_args)")
+  mapfile -t DATABASE_ARGS < <(mysql_database_admin_args)
 
   echo "Creating ${CREATE_DATABASE_NAME} MySQL database"
   echo "CREATE DATABASE \`${CREATE_DATABASE_NAME}\`" | mysql "${DATABASE_ARGS[@]}"
@@ -131,8 +129,7 @@ drop_mysql_database()
   set +x
   local DROP_DATABASE_NAME="$1"
 
-  local DATABASE_ARGS
-  DATABASE_ARGS=("$(mysql_database_admin_args)")
+  mapfile -t DATABASE_ARGS < <(mysql_database_admin_args)
 
   echo "Dropping the ${DROP_DATABASE_NAME} MySQL database"
   mysql "${DATABASE_ARGS[@]}" --execute="DROP DATABASE \`${DROP_DATABASE_NAME}\`"
@@ -143,8 +140,7 @@ drop_postgres_database()
   set +x
   local DROP_DATABASE_NAME="$1"
 
-  local DATABASE_ARGS
-  DATABASE_ARGS=("$(postgres_database_admin_args)")
+  mapfile -t DATABASE_ARGS < <(postgres_database_admin_args)
   local PGPASSWORD
   PGPASSWORD="$(postgres_database_admin_password)"
 
@@ -157,8 +153,7 @@ mysql_list_tables()
   set +x
   local LIST_DATABASE_NAME="${1:-$DATABASE_NAME}"
 
-  local DATABASE_ARGS
-  DATABASE_ARGS=("$(mysql_database_admin_args "${LIST_DATABASE_NAME}")")
+  mapfile -t DATABASE_ARGS < <(mysql_database_admin_args "${LIST_DATABASE_NAME}")
 
   wait_for_remote_ports "${ASSETS_DATABASE_WAIT_TIMEOUT}" "${DATABASE_HOST}:${DATABASE_PORT}"
 
