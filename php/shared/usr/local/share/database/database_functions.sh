@@ -33,7 +33,8 @@ postgres_database_exists()
 {
   set +x
   local CHECK_DATABASE_NAME="$1"
-  mapfile -t DATABASE_ARGS < <(postgres_database_admin_args "${CHECK_DATABASE_NAME}")
+  local DATABASE_ARGS
+  IFS=" " read -r -a DATABASE_ARGS <<< "$(postgres_database_admin_args "${CHECK_DATABASE_NAME}")"
   local PGPASSWORD
   PGPASSWORD="$(postgres_database_admin_password)"
 
@@ -60,7 +61,8 @@ create_postgres_database()
   set +x
   local CREATE_DATABASE_NAME="$1"
 
-  mapfile -t DATABASE_ARGS < <(postgres_database_admin_args "${CREATE_DATABASE_NAME}")
+  local DATABASE_ARGS
+  IFS=" " read -r -a DATABASE_ARGS <<< "$(postgres_database_admin_args)"
   local PGPASSWORD
   PGPASSWORD="$(postgres_database_admin_password)"
 
@@ -73,7 +75,8 @@ postgres_list_tables()
   set +x
   local LIST_DATABASE_NAME="${1:-$DATABASE_NAME}"
 
-  mapfile -t DATABASE_ARGS < <(postgres_database_admin_args "${LIST_DATABASE_NAME}")
+  local DATABASE_ARGS
+  IFS=" " read -r -a DATABASE_ARGS <<< "$(postgres_database_admin_args "${LIST_DATABASE_NAME}")"
   local PGPASSWORD
   PGPASSWORD="$(postgres_database_admin_password)"
 
