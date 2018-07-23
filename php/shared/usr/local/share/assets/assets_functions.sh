@@ -123,10 +123,10 @@ function assets_apply_database_mysql()
 
   if [ "${DATABASE_TABLE_COUNT}" -eq 0 ]; then
     local DATABASE_ARGS
-    DATABASE_ARGS="$(mysql_database_admin_args "${APPLY_DATABASE_NAME}")"
+    IFS=" " read -r -a DATABASE_ARGS <<< "$(mysql_database_admin_args "${APPLY_DATABASE_NAME}")"
 
     echo "Importing ${ASSET_FILE} into ${APPLY_DATABASE_NAME} MySQL database"
-    assets_decompress_stream "${ASSET_FILE}" | mysql ${DATABASE_ARGS[*]}
+    assets_decompress_stream "${ASSET_FILE}" | mysql "${DATABASE_ARGS[@]}"
   fi
 )
 
@@ -166,10 +166,10 @@ function assets_apply_database_postgres()
 
   if [ "${DATABASE_TABLE_COUNT}" -eq 0 ]; then
     local DATABASE_ARGS
-    DATABASE_ARGS="$(postgres_database_admin_args "${APPLY_DATABASE_NAME}")"
+    IFS=" " read -r -a DATABASE_ARGS <<< "$(postgres_database_admin_args "${APPLY_DATABASE_NAME}")"
 
     echo "Importing ${ASSET_FILE} into ${APPLY_DATABASE_NAME} Postgres database"
-    assets_decompress_stream "${ASSET_FILE}" | PGPASSWORD="$PGPASSWORD" psql ${DATABASE_ARGS[*]}
+    assets_decompress_stream "${ASSET_FILE}" | PGPASSWORD="$PGPASSWORD" psql "${DATABASE_ARGS[@]}"
   fi
 )
 
