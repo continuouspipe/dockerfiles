@@ -32,8 +32,8 @@ docker-compose push ubuntu
 
 ## About
 
-This is a Docker image that tracks the upstream library ubuntu image releases It also installs
-common tooling for usage of the ContinuousPipe development environment tool, "cp-remote", as well
+This is a Docker image that tracks the upstream library ubuntu image releases. It installs
+common tooling that is useful everywhere, as well
 as providing a solid foundation for the rest of the base images in this repository.
 
 ## How to use
@@ -51,13 +51,16 @@ Upon starting a container made from this image, `/bin/bash /usr/local/bin/contai
 
 ### Technical details of how supervisord gets started
 
-1. Read in function definitions from:
- 1.1. /usr/local/share/bootstrap/setup.sh
- 1.2. /usr/local/share/bootstrap/common_functions.sh
-2. Read in function definitions from /usr/local/share/container/baseimage-*.sh, in alphanumerical order.
-3. Run "load_env()", which will include environment variable definitions from /usr/local/share/env/*, in alphanumerical order.
-4. Read in function definitions from /usr/local/share/container/plan.sh
-5. Execute the function "do_start_supervisord()", which will run "do_start()" and "do_supervisord()"
+1. Load up /usr/local/share/bootstrap/bootstrap.sh
+2. Read in function definitions from:
+ 1. /usr/local/share/bootstrap/setup.sh
+ 2. /usr/local/share/bootstrap/common_functions.sh
+3. Read in function definitions from /usr/local/share/container/baseimage-*.sh, in alphanumerical order.
+4. Run "load_env()", which will include environment variable definitions from /usr/local/share/env/*, in alphanumerical order.
+5. Read in function definitions from /usr/local/share/container/plan.sh
+6. Read in function definitions from /app/plan.sh, if present
+7. Read in function definitions from /app/plan.override.sh, if present
+8. Execute the function "do_start_supervisord()", which will run "do_start()" and "do_supervisord()"
 
 ### SupervisorD
 
@@ -216,6 +219,22 @@ please add `/app/plan.sh` for a project, or
 
 This allows you to define and override bash functions that the base images add.
 
+For example, to add a custom behaviour to the do_build function that runs during a docker image build:
+```bash
+# Alias the old function to a new name, so you can override the old function without losing it's functionality
+alias_function do_build do_custom_build_inner
+do_build() {
+  # Call the original function
+  do_custom_build_inner
+  # Do extra things
+  touch /app/example.txt
+}
+```
+
+If you have a need for local machine overrides that don't get committed to the repository, add `/plan.override.sh`
+to your version controls' ignore file and define your overrides in there. This file will get picked up last in the load
+order.
+
 This base image adds the following bash functions:
 
 function | description | executed on
@@ -232,6 +251,7 @@ do_templating | Runs [confd](#ConfD) | do_start
 do_development_start | By default does nothing in this image, but is intended to repeat certain actions like "do_build()" if a mountpoint has overwritten what the image build did. | check_development_start
 
 These functions can be triggered via the /usr/local/bin/container command, dropping off the "do_" part. e.g:
-
+```bash
 /usr/local/bin/container build # runs do_build
 /usr/local/bin/container start_supervisord # runs do_start_supervisord
+```
