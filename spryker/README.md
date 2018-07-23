@@ -4,7 +4,9 @@ In a Dockerfile for PHP 7.1 and NGINX:
 ```Dockerfile
 FROM quay.io/continuouspipe/spryker-php7.1-nginx:stable
 
+ARG IMAGE_VERSION=2
 ARG GITHUB_TOKEN=
+ENV IMAGE_VERSION="$IMAGE_VERSION"
 
 COPY . /app
 RUN container build
@@ -14,7 +16,9 @@ In a Dockerfile for PHP 7.1 and Apache:
 ```Dockerfile
 FROM quay.io/continuouspipe/spryker-php7.1-apache:stable
 
+ARG IMAGE_VERSION=2
 ARG GITHUB_TOKEN=
+ENV IMAGE_VERSION="$IMAGE_VERSION"
 
 COPY . /app
 RUN container build
@@ -188,6 +192,25 @@ use Spryker\Shared\Mail\MailConstants;
 // ---------- Email
 $config[MailConstants::MAILCATCHER_GUI] = sprintf('http://%s:%s', getenv('MAILCATCHER_HOST'), getenv('MAILCATCHER_HOST_PORT'));
 ```
+
+#### Install Profiles
+
+Spryker's demoshop ships with [install profiles](https://github.com/spryker/demoshop/tree/8335b1a/config/install)
+which are a set of commands that run in sequence when `vendor/bin/install` is called.
+
+Using these install profiles is a lot easier to customise than having to override individual `vendor/bin/console`
+commands in these docker images. You can opt into using the install profiles by setting `ARG IMAGE_VERSION=2` and
+`ENV IMAGE_VERSION=2` in your Dockerfile, then performing a split of the
+[development install profile](https://github.com/spryker/demoshop/blob/8335b1acc930c4c39f592537c9d80727bec65a57/config/install/development.yml)
+into multiple files.
+
+The multiple files are:
+1. `config/install/docker-build.yml` - used during `do_spryker_build` which happens during the docker image build. No
+external services like elasticsearch, rabbitmq or redis are available. Any file modifications need to happen here.
+2. `config/install/docker-install.yml` - used during `do_spryker_install` to set up external services like databases
+and elasticsearch for the first time.
+* `config/install/docker-migrate.yml` - used during `do_spryker_migrate` to update external services like databases
+with updates to schema or data
 
 ### Environment variables
 
