@@ -20,3 +20,7 @@ if [ -e "$WORK_DIRECTORY/plan.sh" ]; then
   # shellcheck source=/dev/null
   source "$WORK_DIRECTORY/plan.sh"
 fi
+if [ -e "$WORK_DIRECTORY/plan.override.sh" ]; then
+  # shellcheck source=/dev/null
+  source "$WORK_DIRECTORY/plan.override.sh"
+fi
