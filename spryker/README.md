@@ -34,9 +34,160 @@ This is a Docker image that can install and serve a Spryker installation.
 
 ### Application Environment
 
+Spryker supports multiple environments for configuration purposes. You can set `APPLICATION_ENV` to the name of the
+environment that you wish to activate in the docker container.
+
 #### Config
 
+The default `development` environment shipped with the Spryker demoshop has hardcoded values that are useful for the
+Spryker Virtual Machine. If you don't need to keep compatibility with the VM, you can update the values to be
+`getenv('ENVIRONMENT_VARIABLE')` versions instead of hardcoded values.
 
+If you still need to keep compatibility, you can create a set of files like so:
+
+`config/Shared/config_development-docker.php`:
+```php
+<?php
+/**
+ * This is the global runtime configuration for Yves and Generated_Yves_Zed in a development environment,
+ * with overrides for environment variable driven configuration.
+ */
+include_once 'config_default-development.php';
+include_once 'environment_variables.php';
+```
+
+`config/Shared/config_default-development-docker_DE.php`:
+```php
+<?php
+include_once 'config_default-development_DE.php';
+include_once 'environment_variables_DE.php';
+include_once 'environment_variables-development_DE.php';
+```
+
+`config/Shared/environment_variables.php`:
+```php
+<?php
+
+use Spryker\Shared\Application\ApplicationConstants;
+use Spryker\Shared\Log\LogConstants;
+use Spryker\Shared\Propel\PropelConstants;
+use Spryker\Shared\Search\SearchConstants;
+use Spryker\Shared\Session\SessionConstants;
+use Spryker\Shared\Storage\StorageConstants;
+
+// ---------- Propel
+$config[PropelConstants::USE_SUDO_TO_MANAGE_DATABASE] = false;
+$config[PropelConstants::ZED_DB_USERNAME] = getenv('DATABASE_USER');
+$config[PropelConstants::ZED_DB_PASSWORD] = getenv('DATABASE_PASSWORD');
+$config[PropelConstants::ZED_DB_HOST] = getenv('DATABASE_HOST');
+$config[PropelConstants::ZED_DB_PORT] = getenv('DATABASE_PORT') ?: 5432;
+
+// ---------- Redis
+$config[StorageConstants::STORAGE_REDIS_HOST] = getenv('REDIS_HOST');
+$config[StorageConstants::STORAGE_REDIS_PORT] = getenv('REDIS_HOST_PORT') ?: 6379;
+
+// ---------- Session
+$config[SessionConstants::YVES_SESSION_COOKIE_SECURE] = getenv('YVES_SESSION_COOKIE_SECURE');
+$config[SessionConstants::ZED_SESSION_COOKIE_SECURE] = getenv('ZED_SESSION_COOKIE_SECURE');
+$config[SessionConstants::YVES_SESSION_REDIS_HOST] = $config[StorageConstants::STORAGE_REDIS_HOST];
+$config[SessionConstants::YVES_SESSION_REDIS_PORT] = $config[StorageConstants::STORAGE_REDIS_PORT];
+$config[SessionConstants::ZED_SESSION_REDIS_HOST] = $config[SessionConstants::YVES_SESSION_REDIS_HOST];
+$config[SessionConstants::ZED_SESSION_REDIS_PORT] = $config[SessionConstants::YVES_SESSION_REDIS_PORT];
+
+// ---------- Logging
+$config[LogConstants::LOG_FILE_PATH] = 'php://stderr';
+
+// ---------- Elasticsearch
+$config[ApplicationConstants::ELASTICA_PARAMETER__HOST]
+    = $config[SearchConstants::ELASTICA_PARAMETER__HOST]
+    = getenv('ELASTICSEARCH_HOST');
+$config[ApplicationConstants::ELASTICA_PARAMETER__TRANSPORT]
+    = $config[SearchConstants::ELASTICA_PARAMETER__TRANSPORT]
+    = "http";
+$config[ApplicationConstants::ELASTICA_PARAMETER__PORT]
+    = $config[SearchConstants::ELASTICA_PARAMETER__PORT]
+    = getenv('ELASTICSEARCH_HOST_PORT') ?: 9200;
+```
+
+`config/Shared/environment_variables_DE.php`:
+```php
+<?php
+
+use Pyz\Shared\Newsletter\NewsletterConstants;
+use Spryker\Shared\Application\ApplicationConstants;
+use Spryker\Shared\Customer\CustomerConstants;
+use Spryker\Shared\Payone\PayoneConstants;
+use Spryker\Shared\Payolution\PayolutionConstants;
+use Spryker\Shared\ProductManagement\ProductManagementConstants;
+use Spryker\Shared\Propel\PropelConstants;
+use Spryker\Shared\Session\SessionConstants;
+use Spryker\Shared\ZedRequest\ZedRequestConstants;
+
+// ---------- Yves host
+$ENV_PROTOCOL_YVES = getenv('YVES_HOST_PROTOCOL'); //'http://'
+$ENV_HOST_YVES = getenv('YVES_HOST');
+$config[ApplicationConstants::HOST_YVES] = $ENV_HOST_YVES;
+$config[ApplicationConstants::PORT_YVES] = '';
+$config[ApplicationConstants::PORT_SSL_YVES] = '';
+$config[ApplicationConstants::BASE_URL_YVES] = sprintf(
+    '%s%s%s',
+    $ENV_PROTOCOL_YVES,
+    $config[ApplicationConstants::HOST_YVES],
+    $config[ApplicationConstants::PORT_YVES]
+);
+$config[ApplicationConstants::BASE_URL_SSL_YVES] = sprintf(
+    'https://%s%s',
+    $config[ApplicationConstants::HOST_YVES],
+    $config[ApplicationConstants::PORT_SSL_YVES]
+);
+$config[ProductManagementConstants::BASE_URL_YVES] = $config[ApplicationConstants::BASE_URL_YVES];
+$config[PayolutionConstants::BASE_URL_YVES] = $config[ApplicationConstants::BASE_URL_YVES];
+$config[NewsletterConstants::BASE_URL_YVES] = $config[ApplicationConstants::BASE_URL_YVES];
+$config[CustomerConstants::BASE_URL_YVES] = $config[ApplicationConstants::BASE_URL_YVES];
+
+// ---------- Zed host
+$ENV_PROTOCOL_ZED = getenv('ZED_HOST_PROTOCOL'); //'http://'
+$ENV_HOST_ZED = getenv('ZED_HOST');
+$config[ApplicationConstants::HOST_ZED] = $ENV_HOST_ZED;
+$config[ApplicationConstants::PORT_ZED] = '';
+$config[ApplicationConstants::PORT_SSL_ZED] = '';
+$config[ZedRequestConstants::HOST_ZED_API] = $ENV_HOST_ZED;
+$config[ApplicationConstants::BASE_URL_ZED] = sprintf(
+    '%s%s%s',
+    $ENV_PROTOCOL_ZED,
+    $config[ApplicationConstants::HOST_ZED],
+    $config[ApplicationConstants::PORT_ZED]
+);
+$config[ApplicationConstants::BASE_URL_SSL_ZED] = sprintf(
+    'https://%s%s',
+    $config[ApplicationConstants::HOST_ZED],
+    $config[ApplicationConstants::PORT_SSL_ZED]
+);
+
+$config[ZedRequestConstants::BASE_URL_ZED_API] = getenv('BASE_URL_ZED_API');
+$config[ZedRequestConstants::BASE_URL_SSL_ZED_API] = getenv('BASE_URL_SSL_ZED_API');
+
+// ---------- SSL
+$config[ApplicationConstants::YVES_SSL_ENABLED] = true;
+$config[SessionConstants::YVES_SSL_ENABLED] = true;
+$config[ApplicationConstants::YVES_COMPLETE_SSL_ENABLED] = true;
+$config[ApplicationConstants::ZED_SSL_ENABLED] = true;
+$config[ZedRequestConstants::ZED_API_SSL_ENABLED] = false;
+
+// ---------- Session
+$config[SessionConstants::YVES_SESSION_COOKIE_DOMAIN] = $config[ApplicationConstants::HOST_YVES];
+
+// ---------- Propel
+$config[PropelConstants::ZED_DB_DATABASE] = getenv('DATABASE_NAME');
+```
+
+`config/Shared/environment_variables-development_DE.php`:
+```php
+<?php
+use Spryker\Shared\Mail\MailConstants;
+// ---------- Email
+$config[MailConstants::MAILCATCHER_GUI] = sprintf('http://%s:%s', getenv('MAILCATCHER_HOST'), getenv('MAILCATCHER_HOST_PORT'));
+```
 
 ### Environment variables
 
@@ -62,6 +213,8 @@ ZED_SESSION_COOKIE_SECURE | Should the cookie that Zed sets only be accessible o
 APP_SERVICES | What services does this container provide? Yves on it's own, Zed on it's own or both Yves and Zed? | "yves" or "zed" or "yves zed" | yves zed
 ZED_WEB_DEFAULT_SERVER | For the Zed NGINX virtual host, should Zed be set as the "default" virtual host? | true/false | false
 ZED_WEB_SERVER_NAME | Set a custom hostname to listen to for Zed in the virtual host | hostname | zed
+YVES_WEB_INCLUDES | Glob of files to include in the Yves virtual host. | Space separated glob of files. | Apache: 000-default-* 001-yves-*, NGINX: default-* yves-*
+ZED_WEB_INCLUDES | Glob of files to include in the Zed virtual host. | Space separated glob of files. | Apache: 000-default-* 002-zed-*, NGINX: default-* zed-*
 
 ### Custom build and startup scripts
 
