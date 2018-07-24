@@ -1,4 +1,4 @@
-{{ if ge 2 (getenv "IMAGE_VERSION") }}
+{{ if ne "1" (getenv "IMAGE_VERSION") }}
 [program:spryker_queue_worker]
 command = /app/vendor/bin/console queue:worker:start
 stdout_logfile=/dev/stdout
