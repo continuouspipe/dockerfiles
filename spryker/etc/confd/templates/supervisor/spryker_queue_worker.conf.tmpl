@@ -1,0 +1,12 @@
+{{ if ge 2 (getenv "IMAGE_VERSION") }}
+[program:spryker_queue_worker]
+command = /app/vendor/bin/console queue:worker:start
+stdout_logfile=/dev/stdout
+stdout_logfile_maxbytes=0
+stderr_logfile=/dev/stderr
+stderr_logfile_maxbytes=0
+user = {{ getenv "APP_USER" }}
+autostart = {{ getenv "SPRYKER_START_QUEUE_WORKER" }}
+autorestart = true
+priority = 5
+{{ end }}

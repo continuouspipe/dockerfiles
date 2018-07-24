@@ -1,0 +1,6 @@
+[template]
+src   = "supervisor/spryker_queue_worker.conf.tmpl"
+dest  = "/etc/supervisor/conf.d/spryker_queue_worker.conf"
+mode  = "0644"
+keys = [
+]

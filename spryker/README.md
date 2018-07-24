@@ -238,6 +238,7 @@ ZED_WEB_DEFAULT_SERVER | For the Zed NGINX virtual host, should Zed be set as th
 ZED_WEB_SERVER_NAME | Set a custom hostname to listen to for Zed in the virtual host | hostname | zed
 YVES_WEB_INCLUDES | Glob of files to include in the Yves virtual host. | Space separated glob of files. | Apache: 000-default-* 001-yves-*, NGINX: default-* yves-*
 ZED_WEB_INCLUDES | Glob of files to include in the Zed virtual host. | Space separated glob of files. | Apache: 000-default-* 002-zed-*, NGINX: default-* zed-*
+SPRYKER_START_QUEUE_WORKER | Should the container run `vendor/bin/console queue:worker:start` to process the RabbitMQ queues? | true/false | false
 
 ### Custom build and startup scripts
 
