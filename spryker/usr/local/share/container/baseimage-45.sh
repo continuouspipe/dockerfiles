@@ -22,17 +22,14 @@ do_start() {
 
 alias_function do_development_start do_spryker_development_start_inner
 do_development_start() {
-  local OLD_XDEBUG_REMOTE_ENABLED="$XDEBUG_REMOTE_ENABLED"
-  if is_true "$OLD_XDEBUG_REMOTE_ENABLED"; then
+  if is_true "$XDEBUG_REMOTE_ENABLED"; then
     XDEBUG_REMOTE_ENABLED=false do_templating
   fi
   do_spryker_development_start_inner
   do_spryker_build
   do_spryker_install
   do_spryker_app_permissions
-  if is_true "$OLD_XDEBUG_REMOTE_ENABLED"; then
-    do_templating
-  fi
+  do_templating
 }
 
 alias_function do_setup do_spryker_setup_inner
