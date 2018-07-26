@@ -62,12 +62,20 @@ do_spryker_build() {
   do_spryker_config_create
 
   if [ "$IS_APP_MOUNTPOINT" == 'true' ] || [ "${TASK}" == "build" ]; then
+    run_spryker_build
+  fi
+}
+
+run_spryker_build() {
+  if [ "$IMAGE_VERSION" -ge 2 ]; then
+    as_code_owner "vendor/bin/install -r docker-build"
+  else
     if spryker_service_zed; then
       do_spryker_generate_files
     fi
     do_spryker_build_assets
-    do_spryker_app_permissions
   fi
+  do_spryker_app_permissions
 }
 
 spryker_build_assets() {
@@ -95,37 +103,49 @@ do_spryker_generate_files() {
   as_code_owner "vendor/bin/console application:build-navigation-cache"
 }
 
-do_spryker_install() {
-  # check if database exists (it is supposed to be created by postgres container)
-  set +e
-    psql -U "$DATABASE_USER" -h "$DATABASE_HOST" -lqt "$DATABASE_NAME" | cut -d \| -f 1 | grep -q "$DATABASE_NAME"
-    DATABASE_EXISTS=$?
-  set -e
-
-  if [ "$DATABASE_EXISTS" -ne 0 ]; then
-    echo "Database does not exist"
-    exit 1
+create_spryker_database()
+(
+  if ! postgres_database_exists "${DATABASE_NAME}"; then
+    create_postgres_database "${DATABASE_NAME}"
+  else
+    echo "'${DATABASE_NAME}' Postgres database already exists, not creating"
   fi
+)
 
-  # database exists
-  # check if spryker is installed
-  set +e
-    psql -U "$DATABASE_USER" -h "$DATABASE_HOST" -c "SELECT EXISTS (SELECT * FROM information_schema.tables WHERE table_catalog = '$DATABASE_NAME' AND table_name = 'spy_locale');" "$DATABASE_NAME" | grep -q f
-    SPRYKER_INSTALLED=$?
-  set -e
+is_spryker_installed()
+{
+  postgres_has_table 'spy_locale'
+}
 
-  if [ "$SPRYKER_INSTALLED" -ne 1 ]; then
+do_spryker_install() {
+  create_spryker_database
+  if ! is_spryker_installed; then
+    run_spryker_installer
+  fi
+}
+
+run_spryker_installer()
+{
+  if [ "$IMAGE_VERSION" -ge 2 ]; then
+    as_code_owner "vendor/bin/install -r docker-install"
+  else
     as_code_owner "vendor/bin/console setup:install"
     do_spryker_import_demodata
     do_spryker_product_label_relations_update
     do_spryker_setup_search
+    do_spryker_directory_create
     do_spryker_app_permissions
     do_spryker_run_collectors
   fi
 }
 
-do_spryker_migrate() {
-  do_spryker_propel_install
+do_spryker_migrate()
+{
+  if [ "$IMAGE_VERSION" -ge 2 ]; then
+    as_code_owner "vendor/bin/install -r docker-migrate"
+  else
+    do_spryker_propel_install
+  fi
 }
 
 do_spryker_run_collectors() {
