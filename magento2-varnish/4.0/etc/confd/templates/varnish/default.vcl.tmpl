@@ -5,12 +5,14 @@ import std;
 backend default {
     .host = "{{ getenv "VARNISH_BACKEND_HOST" }}";
     .port = "{{ getenv "VARNISH_BACKEND_PORT" }}";
+    .first_byte_timeout = {{ getenv "MAGENTO_MAX_EXECUTION_TIME" }}s;
 }
 
 {{ if eq "true" (getenv "MAGENTO_USE_SEPARATE_ADMIN_CONTAINER") }}
 backend admin {
     .host = "{{ getenv "MAGENTO_ADMIN_BACKEND_HOST" }}";
     .port = "{{ getenv "MAGENTO_ADMIN_BACKEND_PORT" }}";
+    .first_byte_timeout = {{ getenv "MAGENTO_ADMIN_MAX_EXECUTION_TIME" }}s;
 }
 {{ end }}
 
