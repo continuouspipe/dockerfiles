@@ -65,11 +65,10 @@ mysql_database_exists()
     exit 1
   fi
 
-  set +e
-  echo "${DATABASES}" | grep --quiet --fixed-strings --line-regexp "${CHECK_DATABASE_NAME}"
+  (set +e && echo "${DATABASES}" | grep --quiet --fixed-strings --line-regexp "${CHECK_DATABASE_NAME}")
   local DATABASE_EXISTS="$?"
 
-  set -ex
+  set -x
   return "$DATABASE_EXISTS"
 }
 
@@ -92,11 +91,10 @@ postgres_database_exists()
     exit 1
   fi
 
-  set +e
-  echo "${DATABASES}" | grep --quiet --fixed-strings --line-regexp "${CHECK_DATABASE_NAME}"
+  (set +e && echo "${DATABASES}" | grep --quiet --fixed-strings --line-regexp "${CHECK_DATABASE_NAME}")
   local DATABASE_EXISTS="$?"
 
-  set -ex
+  set -x
   return "$DATABASE_EXISTS"
 }
 
@@ -162,7 +160,7 @@ mysql_list_tables()
   set +x
 
   local DATABASE_TABLES=""
-  DATABASE_TABLES="$(set -o pipefail && mysql "${DATABASE_ARGS[@]}" "${LIST_DATABASE_NAME}" -e "SHOW TABLES" | tail --lines=+2)"
+  DATABASE_TABLES="$(set -o pipefail && mysql "${DATABASE_ARGS[@]}" -e "SHOW TABLES" | tail --lines=+2)"
   # shellcheck disable=SC2181
   if [ "$?" -ne 0 ]; then
     echo "Failed to get a list of tables from '${LIST_DATABASE_NAME}', exiting."
@@ -221,10 +219,9 @@ mysql_has_table()
     exit 1
   fi
 
-  set +ex
-  echo "${DATABASE_TABLES}" | grep --quiet --fixed-strings --line-regexp "${TABLE_NAME}"
+  (set +ex && echo "${DATABASE_TABLES}" | grep --quiet --fixed-strings --line-regexp "${TABLE_NAME}")
   local TABLE_EXISTS="$?"
-  set -ex
+  set -x
   return "$TABLE_EXISTS"
 }
 
@@ -241,9 +238,8 @@ postgres_has_table()
     exit 1
   fi
 
-  set +ex
-  echo "${DATABASE_TABLES}" | grep --quiet --fixed-strings --line-regexp "${TABLE_NAME}"
+  (set +ex && echo "${DATABASE_TABLES}" | grep --quiet --fixed-strings --line-regexp "${TABLE_NAME}")
   local TABLE_EXISTS="$?"
-  set -ex
+  set -x
   return "$TABLE_EXISTS"
 }

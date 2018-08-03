@@ -107,6 +107,8 @@ function assets_apply_database_mysql()
   local DATABASE_TABLE_COUNT=0
   if [ "${DATABASE_EXISTS}" -eq 0 ]; then
     DATABASE_TABLES="$(mysql_list_tables "${APPLY_DATABASE_NAME}")"
+  fi
+  if [ -n "${DATABASE_TABLES}" ]; then
     DATABASE_TABLE_COUNT="$(echo "${DATABASE_TABLES}" | wc -l)"
   fi
 
@@ -150,6 +152,8 @@ function assets_apply_database_postgres()
   local DATABASE_TABLES
   if [ "${DATABASE_EXISTS}" -eq 0 ]; then
     DATABASE_TABLES="$(postgres_list_tables "${APPLY_DATABASE_NAME}")"
+  fi
+  if [ -n "${DATABASE_TABLES}" ]; then
     DATABASE_TABLE_COUNT="$(echo "${DATABASE_TABLES}" | wc -l)"
   fi
 
