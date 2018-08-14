@@ -3,7 +3,7 @@
 mysql_database_admin_args()
 (
   set +x
-  local PASSED_DATABASE_NAME="${1:-$DATABASE_NAME}"
+  local PASSED_DATABASE_NAME="${1:-}"
   local DATABASE_ARGS=("--host=${DATABASE_HOST}" "--port=${DATABASE_PORT}")
 
   if [ -n "${DATABASE_ADMIN_USER}" ]; then
@@ -53,7 +53,7 @@ mysql_database_exists()
   set +x
   local CHECK_DATABASE_NAME="$1"
   local DATABASE_ARGS
-  IFS=" " read -r -a DATABASE_ARGS <<< "$(mysql_database_admin_args "")"
+  IFS=" " read -r -a DATABASE_ARGS <<< "$(mysql_database_admin_args)"
 
   wait_for_remote_ports "${ASSETS_DATABASE_WAIT_TIMEOUT}" "${DATABASE_HOST}:${DATABASE_PORT}"
 
@@ -103,7 +103,7 @@ create_mysql_database()
   set +x
   local CREATE_DATABASE_NAME="$1"
   local DATABASE_ARGS
-  IFS=" " read -r -a DATABASE_ARGS <<< "$(mysql_database_admin_args "")"
+  IFS=" " read -r -a DATABASE_ARGS <<< "$(mysql_database_admin_args)"
 
   echo "Creating ${CREATE_DATABASE_NAME} MySQL database"
   echo "CREATE DATABASE \`${CREATE_DATABASE_NAME}\`" | mysql "${DATABASE_ARGS[@]}"
