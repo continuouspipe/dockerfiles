@@ -168,7 +168,6 @@ mysql_list_tables()
   fi
 
   echo "$DATABASE_TABLES"
-  set -x
 }
 
 postgres_list_tables()
@@ -203,7 +202,6 @@ postgres_list_tables()
     DATABASE_TABLE_COUNT=0
   fi
   echo "$DATABASE_TABLES"
-  set -x
 }
 
 mysql_has_table()
@@ -213,7 +211,7 @@ mysql_has_table()
   local LIST_DATABASE_NAME="${2:-$DATABASE_NAME}"
 
   local DATABASE_TABLES
-  DATABASE_TABLES="$(mysql_list_tables "${LIST_DATABASE_NAME}" && set +x)"
+  DATABASE_TABLES="$(mysql_list_tables "${LIST_DATABASE_NAME}")"
   # shellcheck disable=SC2181
   if [ "$?" -ne 0 ]; then
     exit 1
@@ -232,7 +230,7 @@ postgres_has_table()
   local LIST_DATABASE_NAME="${2:-$DATABASE_NAME}"
 
   local DATABASE_TABLES
-  DATABASE_TABLES="$(postgres_list_tables "${LIST_DATABASE_NAME}" && set +x)"
+  DATABASE_TABLES="$(postgres_list_tables "${LIST_DATABASE_NAME}")"
   # shellcheck disable=SC2181
   if [ "$?" -ne 0 ]; then
     exit 1
