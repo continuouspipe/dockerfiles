@@ -14,7 +14,7 @@ function do_magento_composer_config() (
   set +x
 
   if [ -n "$MAGENTO_USERNAME" ] && [ -n "$MAGENTO_PASSWORD" ]; then
-    as_code_owner "composer global config http-basic.repo.magento.com '$MAGENTO_USERNAME' '$MAGENTO_PASSWORD'"
+    SENSITIVE="true" as_code_owner "composer global config http-basic.repo.magento.com '$MAGENTO_USERNAME' '$MAGENTO_PASSWORD'"
   fi
   if [ -n "$COMPOSER_CUSTOM_CONFIG_COMMAND" ]; then
     as_code_owner "$COMPOSER_CUSTOM_CONFIG_COMMAND"
@@ -297,7 +297,7 @@ function magento_installer_install() {
   if [ -n "$DATABASE_PASSWORD" ]; then
     INSTALL_COMMAND="${INSTALL_COMMAND} --db-password='${DATABASE_PASSWORD}'"
   fi
-  as_code_owner "$INSTALL_COMMAND"
+  SENSITIVE="true" as_code_owner "$INSTALL_COMMAND"
 }
 
 function do_magento_wait_for_database() {
@@ -349,6 +349,8 @@ function do_magento_install_development_custom() {
 }
 
 function do_replace_core_config_values() (
+  set +x
+
   local SQL
   SQL="DELETE from core_config_data WHERE path LIKE 'web/%base_url';
   DELETE from core_config_data WHERE path LIKE 'system/full_page_cache/varnish%';
@@ -479,7 +481,7 @@ function do_magento_create_admin_user() (
   set -e
 
   if [ "$HAS_ADMIN_USER" != 0 ]; then
-    as_code_owner "bin/magento admin:user:create \
+    SENSITIVE="true" as_code_owner "bin/magento admin:user:create \
       --admin-user='${MAGENTO_ADMIN_USERNAME}' \
       --admin-password='${MAGENTO_ADMIN_PASSWORD}' \
       --admin-email='${MAGENTO_ADMIN_EMAIL}' \

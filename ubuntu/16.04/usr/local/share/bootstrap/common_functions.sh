@@ -44,7 +44,9 @@ as_user() (
   local WORKING_DIR="$2"
 
   if [ "true" = "$NON_PRIVILEGED_USER" ]; then
-    set -x
+    if [ -z "$SENSITIVE" ] || [ "$SENSITIVE" = "false" ]; then
+      set -x
+    fi
     /bin/bash -c "cd '$WORKING_DIR'; $COMMAND"
     return "$?"
   fi
@@ -60,7 +62,9 @@ as_user() (
     USER='build';
   fi
   USER_HOME="$(get_user_home_directory "$USER")"
-  set -x
+  if [ -z "$SENSITIVE" ] || [ "$SENSITIVE" = "false" ]; then
+    set -x
+  fi
   sudo -u "$USER" -E HOME="$USER_HOME" /bin/bash -c "cd '$WORKING_DIR'; $COMMAND"
 )
 

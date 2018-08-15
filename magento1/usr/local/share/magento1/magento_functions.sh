@@ -57,10 +57,10 @@ function do_replace_core_config_values() (
   INSERT INTO core_config_data VALUES (NULL, 'default', '0', 'system/full_page_cache/varnish/backend_host', 'varnish');
   INSERT INTO core_config_data VALUES (NULL, 'default', '0', 'system/full_page_cache/varnish/backend_port', '80');
   $ADDITIONAL_SETUP_SQL"
-  
+
   echo "Running the following SQL on $DATABASE_HOST.$DATABASE_NAME:"
   echo "$SQL"
-  
+
   echo "$SQL" | mysql -h"$DATABASE_HOST" -u"$DATABASE_USER" -p"$DATABASE_PASSWORD" "$DATABASE_NAME"
 )
 
@@ -98,7 +98,7 @@ function do_magento_create_admin_user() (
   if [ "$HAS_ADMIN_USER" != 0 ]; then
     set +x
     echo "Creating admin user '$MAGENTO_ADMIN_USERNAME'"
-    as_app_user "php /app/bin/n98-magerun.phar admin:user:create '$MAGENTO_ADMIN_USERNAME' '$MAGENTO_ADMIN_EMAIL' '$MAGENTO_ADMIN_PASSWORD' '$MAGENTO_ADMIN_FORENAME' '$MAGENTO_ADMIN_SURNAME' Administrators" "${MAGE_ROOT}"
+    SENSITIVE="true" as_app_user "php /app/bin/n98-magerun.phar admin:user:create '$MAGENTO_ADMIN_USERNAME' '$MAGENTO_ADMIN_EMAIL' '$MAGENTO_ADMIN_PASSWORD' '$MAGENTO_ADMIN_FORENAME' '$MAGENTO_ADMIN_SURNAME' Administrators" "${MAGE_ROOT}"
   fi
 )
 

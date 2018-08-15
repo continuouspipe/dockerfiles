@@ -11,7 +11,7 @@ do_build_permissions() {
 do_composer_config() (
   set +x
   if [ -n "$GITHUB_TOKEN" ]; then
-    as_code_owner "composer global config github-oauth.github.com '$GITHUB_TOKEN'"
+    SENSITIVE="true" as_code_owner "composer global config github-oauth.github.com '$GITHUB_TOKEN'"
   fi
 )
 

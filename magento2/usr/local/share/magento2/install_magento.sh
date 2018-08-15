@@ -22,10 +22,10 @@ if [ ! -d "vendor" ] || [ ! -f "vendor/autoload.php" ]; then
   as_code_owner "composer config repositories.magento composer https://repo.magento.com/"
 
   if [ -n "$MAGENTO_USERNAME" ] && [ -n "$MAGENTO_PASSWORD" ]; then
-    as_code_owner "composer global config http-basic.repo.magento.com '$MAGENTO_USERNAME' '$MAGENTO_PASSWORD'"
+    SENSITIVE="true" as_code_owner "composer global config http-basic.repo.magento.com '$MAGENTO_USERNAME' '$MAGENTO_PASSWORD'"
   fi
   if [ -n "$GITHUB_TOKEN" ]; then
-    as_code_owner "composer global config github-oauth.github.com '$GITHUB_TOKEN'"
+    SENSITIVE="true" as_code_owner "composer global config github-oauth.github.com '$GITHUB_TOKEN'"
   fi
   if [ -n "$COMPOSER_CUSTOM_CONFIG_COMMAND" ]; then
     as_code_owner "$COMPOSER_CUSTOM_CONFIG_COMMAND"
