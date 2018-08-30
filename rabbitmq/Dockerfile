@@ -1,3 +1,4 @@
+ARG FROM_TAG
 FROM rabbitmq:${FROM_TAG}
 
 RUN apt-get update -qq \
