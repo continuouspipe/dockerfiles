@@ -460,6 +460,14 @@ tasks:
           image: quay.io/continuouspipe/rabbitmq36-management
           tag: ${FROM_TAG}
           reuse: false
+          environment:
+            FROM_TAG: '3.6-management'
+        rabbitmq37_management:
+          image: quay.io/continuouspipe/rabbitmq37-management
+          tag: ${FROM_TAG}
+          reuse: false
+          environment:
+            FROM_TAG: '3.7-management'
         redis:
           image: quay.io/continuouspipe/redis3
           tag: ${FROM_TAG}
