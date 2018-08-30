@@ -1,4 +1,4 @@
-FROM rabbitmq:3.6-management
+FROM rabbitmq:${FROM_TAG}
 
 RUN apt-get update -qq \
  && DEBIAN_FRONTEND=noninteractive apt-get -s dist-upgrade | grep "^Inst" | \

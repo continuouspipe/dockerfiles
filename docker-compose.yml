@@ -628,9 +628,20 @@ services:
     depends_on:
       - ubuntu
 
+  rabbitmq37_management:
+    build:
+      context: ./rabbitmq/
+      args:
+        FROM_TAG: '3.7-management'
+    image: quay.io/continuouspipe/rabbitmq37-management:latest
+    depends_on:
+      - external_rabbitmq37_management
+
   rabbitmq36_management:
     build:
       context: ./rabbitmq/
+      args:
+        FROM_TAG: '3.6-management'
     image: quay.io/continuouspipe/rabbitmq36-management:latest
     depends_on:
       - external_rabbitmq36_management
@@ -675,6 +686,9 @@ services:
 
   external_nginx_ingress_controller:
     image: gcr.io/google-containers/nginx-ingress-controller:0.9.0-beta.5
+
+  external_rabbitmq37_management:
+    image: rabbitmq:3.7-management
 
   external_rabbitmq36_management:
     image: rabbitmq:3.6-management
