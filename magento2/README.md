@@ -1,6 +1,6 @@
 # Magento 2 NGINX/PHP-FPM
 
-In a Dockerfile for PHP 7.1:
+In a Dockerfile for PHP 7.1 with Hem:
 ```Dockerfile
 FROM quay.io/continuouspipe/magento2-nginx-php7.1:stable
 
@@ -12,8 +12,20 @@ ARG IMAGE_VERSION=2
 COPY . /app
 RUN container build
 ```
+In a Dockerfile for PHP 7.1 without Hem:
+```Dockerfile
+FROM quay.io/continuouspipe/magento2-nginx-php7.1-ng:stable
 
-In a Dockerfile for PHP 7:
+ARG GITHUB_TOKEN=
+ARG MAGENTO_USERNAME=
+ARG MAGENTO_PASSWORD=
+ARG IMAGE_VERSION=2
+
+COPY . /app
+RUN container build
+```
+
+In a Dockerfile for PHP 7 with Hem:
 ```Dockerfile
 FROM quay.io/continuouspipe/magento2-nginx-php7:stable
 
@@ -26,12 +38,33 @@ COPY . /app
 RUN container build
 ```
 
+In a Dockerfile for PHP 7 without Hem:
+```Dockerfile
+FROM quay.io/continuouspipe/magento2-nginx-php7-ng:stable
+
+ARG GITHUB_TOKEN=
+ARG MAGENTO_USERNAME=
+ARG MAGENTO_PASSWORD=
+ARG IMAGE_VERSION=2
+
+COPY . /app
+RUN container build
+```
+
 ## How to build
 ```bash
-docker-compose build magento2_nginx_php71
-docker-compose push magento2_nginx_php71
-docker-compose build magento2_nginx_php7
-docker-compose push magento2_nginx_php7
+
+docker-compose build magento2_php71_nginx_ng
+docker-compose push magento2_php71_nginx_ng
+
+docker-compose build magento2_php71_nginx
+docker-compose push magento2_php71_nginx
+
+docker-compose build magento2_php70_nginx_ng
+docker-compose push magento2_php70_nginx_ng
+
+docker-compose build magento2_php70_nginx
+docker-compose push magento2_php70_nginx
 ```
 
 ## About
@@ -95,23 +128,23 @@ DATABASE_PASSWORD | Magento database password | - | magento
 DATABASE_ADMIN_USER | Optional MySQL database password to perform DBA operations, DATABASE_USER will be used if not specified | - | -
 DATABASE_ADMIN_PASSWORD | Optional MySQL database password to perform DBA operations, DATABASE_PASSWORD will be used if not specified | - | -
 DATABASE_HOST | Magento database host | - | database
-ADDITIONAL_SETUP_SQL | Any additional SQL query which should be executed after database import (changing base URLs and setting varnish host/port is added by default) | SQL Query | - 
+ADDITIONAL_SETUP_SQL | Any additional SQL query which should be executed after database import (changing base URLs and setting varnish host/port is added by default) | SQL Query | -
 AWS_S3_BUCKET | The S3 bucket to download assets from | string | empty
 AWS_ACCESS_KEY_ID | The S3 access key ID to connect to the S3 bucket as. | string | empty
 AWS_SECRET_ACCESS_KEY | The S3 secret access key to connect to the S3 bucket as. | string | empty
-ASSET_ARCHIVE_PATH | Asset files archive path | relative path | tools/assets/development/media.files.tgz 
+ASSET_ARCHIVE_PATH | Asset files archive path | relative path | tools/assets/development/media.files.tgz
 ASSET_DOWNLOAD_ENVIRONMENTS | Assets will be downloaded for this environment name (i.e. s3://AWS_S3_BUCKET/ASSET_DOWNLOAD_ENVIRONMENT). Can be multiple values separated by whitespace. | - | development
 ASSET_DOWNLOAD_EXCLUDE_PATTERN | An exclude pattern compatible with "aws-cli", in order not to download some files from the bucket. | glob | empty
 FRONTEND_INSTALL_DIRECTORY | NPM modules will be installed within this directory (if it exists) | absolute path (normally we mount the source at /app) | /app/tools/inviqa
 FRONTEND_BUILD_DIRECTORY | Gulp command will be executed within this directory (if it exists) | absolute path (normally we mount the source at /app) | /app/tools/inviqa
 FRONTEND_BUILD_ACTION | Gulp command to run | gulp command name | build
-GULP_BUILD_THEME_NAME | If specified, will be passed to gulp command as "--theme=<theme name>" | - | - 
+GULP_BUILD_THEME_NAME | If specified, will be passed to gulp command as "--theme=<theme name>" | - | -
 MAGENTO_MODE | Used to set Magento mode. If set to "production", static content will be deployed | default/developer/production | production
 BUILD_MAGENTO_MODE | Used to set Magento mode during the build of the docker image. If set to "production", static content will be deployed | default/developer/production | production
-MAGENTO_RUN_CODE_MAPPING | Mapped to http_host and default store name. First part of the value is the host name and second part is magento's store code (separated by space). Don't forget to add ";" at the end. | - | magento_web.docker default; 
+MAGENTO_RUN_CODE_MAPPING | Mapped to http_host and default store name. First part of the value is the host name and second part is magento's store code (separated by space). Don't forget to add ";" at the end. | - | magento_web.docker default;
 MAGENTO_RUN_TYPE | Used to set Magento store type. | store/website | store
 FRONTEND_COMPILE_LANGUAGES | Used during static content deployment. It can be multiple language codes. | language code(s) separated by space | en_GB
-MAGENTO_DEPENDENCY_INJECTION_COMPILE_COMMAND | Magento DI compile command | - | bin/magento setup:di:compile 
+MAGENTO_DEPENDENCY_INJECTION_COMPILE_COMMAND | Magento DI compile command | - | bin/magento setup:di:compile
 MAGENTO_CRYPT_KEY | Magneto crypt key | - | -
 COMPOSER_CUSTOM_CONFIG_COMMAND | Used to set any custom composer configuration, will be executed before composer install | composer config .. | -
 AMQP_HOST | The hostname where RabbitMQ is installed. | string |
@@ -120,7 +153,7 @@ AMQP_USER | The username for connecting to RabbitMQ. | string |
 AMQP_PASSWORD | The password for connecting to RabbitMQ. | string |
 AMQP_VIRTUALHOST | The virtual host for connecting to RabbitMQ. | string | "/"
 MAGENTO_ENABLE_QUEUE | Should AMQP be used for queuing? | true/false | false
-REDIS_HOST | Redis host name (to store cache and sessions) | - | redis 
+REDIS_HOST | Redis host name (to store cache and sessions) | - | redis
 REDIS_PORT | Redis port | port number | 6379
 MAGENTO_ENABLE_CACHE | Should redis be used for cache? | true/false | true
 MAGENTO_USE_REDIS | Should redis be used for sessions? | true/false | true

@@ -167,7 +167,17 @@ services:
       context: ./magento2/
       args:
         FROM_IMAGE: 'php7-nginx'
+        REQUIRE_HEM: 'true'
     image: quay.io/continuouspipe/magento2-nginx-php7:latest
+    depends_on:
+      - php70_nginx
+
+  magento2_php70_nginx_ng:
+    build:
+      context: ./magento2/
+      args:
+        FROM_IMAGE: 'php7-nginx'
+    image: quay.io/continuouspipe/magento2-nginx-php7-ng:latest
     depends_on:
       - php70_nginx
 
@@ -176,7 +186,17 @@ services:
       context: ./magento2/
       args:
         FROM_IMAGE: 'php7.1-nginx'
+        REQUIRE_HEM: 'true'
     image: quay.io/continuouspipe/magento2-nginx-php7.1:latest
+    depends_on:
+      - php71_nginx
+
+  magento2_php71_nginx_ng:
+    build:
+      context: ./magento2/
+      args:
+        FROM_IMAGE: 'php7.1-nginx'
+    image: quay.io/continuouspipe/magento2-nginx-php7.1-ng:latest
     depends_on:
       - php71_nginx
 
