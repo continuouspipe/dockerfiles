@@ -1,16 +1,21 @@
 ARG FROM_IMAGE
 ARG FROM_TAG=latest
 FROM quay.io/continuouspipe/${FROM_IMAGE}:${FROM_TAG}
-
+ARG REQUIRE_HEM=${REQUIRE_HEM:-false}
+ARG HEM_PACKAGE=""
 # Install hem and npm
-RUN curl -q https://dx6pc3giz7k1r.cloudfront.net/GPG-KEY-inviqa-tools | apt-key add - \
- && echo "deb https://dx6pc3giz7k1r.cloudfront.net/repos/debian jessie main" | tee /etc/apt/sources.list.d/inviqa-tools.list \
+RUN if [ "$REQUIRE_HEM" = "true" ]; \
+    then \
+         curl -q https://dx6pc3giz7k1r.cloudfront.net/GPG-KEY-inviqa-tools | apt-key add - \
+      && echo "deb https://dx6pc3giz7k1r.cloudfront.net/repos/debian jessie main" | tee /etc/apt/sources.list.d/inviqa-tools.list \
+      && HEM_PACKAGE=hem;\
+    fi \
  && curl -sL https://deb.nodesource.com/setup_6.x > /tmp/install-node.sh \
  && bash /tmp/install-node.sh \
  && apt-get update -qq -y \
  && DEBIAN_FRONTEND=noninteractive apt-get -qq -y --no-install-recommends install \
     awscli \
-    hem \
+    $HEM_PACKAGE \
     nodejs \
     php-imagick \
     redis-tools \
@@ -36,8 +41,11 @@ RUN curl -q https://dx6pc3giz7k1r.cloudfront.net/GPG-KEY-inviqa-tools | apt-key 
  && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* \
  \
  # Set up hem directories \
- && mkdir -p /home/build/.hem/gems/ \
- && chown -R build:build /home/build/.hem/
+ && if [ "$REQUIRE_HEM" = "true" ]; \
+     then \
+      mkdir -p /home/build/.hem/gems/ \
+   && chown -R build:build /home/build/.hem/ ;\
+    fi
 
 WORKDIR /app
 

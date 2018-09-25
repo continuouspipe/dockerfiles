@@ -309,8 +309,26 @@ tasks:
             FROM_IMAGE: php7-nginx
             WEB_SERVER: nginx
             FROM_TAG: ${FROM_TAG}
+            REQUIRE_HEM: 'true'
+        magento2_php70_nginx_ng:
+          image: quay.io/continuouspipe/magento2-nginx-php7-ng
+          tag: ${FROM_TAG}
+          reuse: false
+          environment:
+            FROM_IMAGE: php7-nginx
+            WEB_SERVER: nginx
+            FROM_TAG: ${FROM_TAG}
         magento2_php71_nginx:
           image: quay.io/continuouspipe/magento2-nginx-php7.1
+          tag: ${FROM_TAG}
+          reuse: false
+          environment:
+            FROM_IMAGE: php7.1-nginx
+            WEB_SERVER: nginx
+            FROM_TAG: ${FROM_TAG}
+            REQUIRE_HEM: 'true'
+        magento2_php71_nginx_ng:
+          image: quay.io/continuouspipe/magento2-nginx-php7.1-ng
           tag: ${FROM_TAG}
           reuse: false
           environment:
