@@ -15,7 +15,7 @@ RUN if [ "$REQUIRE_HEM" = "true" ]; \
  && apt-get update -qq -y \
  && DEBIAN_FRONTEND=noninteractive apt-get -qq -y --no-install-recommends install \
     awscli \
-    $HEM_PACKAGE \
+    "$HEM_PACKAGE" \
     nodejs \
     php-imagick \
     redis-tools \
