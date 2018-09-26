@@ -51,3 +51,8 @@ WORKDIR /app
 
 COPY ./etc/ /etc/
 COPY ./usr/ /usr/
+RUN if [ "$REQUIRE_HEM" != "true" ]; \
+    then \
+        rm -f /etc/confd/conf.d/hem* \
+     && rm -rf /etc/confd/templates/hem ;\
+    fi
