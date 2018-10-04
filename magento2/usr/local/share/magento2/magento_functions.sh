@@ -159,7 +159,8 @@ function do_magento_assets_download() {
   fi
 }
 
-function do_magento_clear_redis_cache() {
+function do_magento_clear_redis_cache() (
+  set -o pipefail
   if [ "$MAGENTO_USE_REDIS" != "true" ]; then
     return
   fi
@@ -176,17 +177,19 @@ function do_magento_clear_redis_cache() {
     REDIS_PORT="${REDIS_PORT//\"}"
   fi
 
-  #redis-cli -h "$REDIS_HOST" -p "$REDIS_PORT" -n "$MAGENTO_REDIS_CACHE_DATABASE" "FLUSHDB"
-  #redis-cli -h "$REDIS_HOST" -p "$REDIS_PORT" -n "$MAGENTO_REDIS_FULL_PAGE_CACHE_DATABASE" "FLUSHDB"
+  local REDIS_CONNECTION_ARGS=(-h "$REDIS_HOST" -p "$REDIS_PORT")
+  set +x
+  local REDIS_PASSWORD="${REDIS_PASSWORD:-}"
+  if [ -n "$REDIS_PASSWORD" ]; then
+    REDIS_CONNECTION_ARGS+=(-a "$REDIS_PASSWORD")
+  else
+    set -x
+  fi
 
-  # This is just a test to see the output of --scan
-  # to be deleted after making the tests
-  redis-cli -h "$REDIS_HOST" -p "$REDIS_PORT"   --scan | xargs
-
-  #this command should delete the cache without blocking the database
-  redis-cli -h "$REDIS_HOST" -p "$REDIS_PORT" -n "$MAGENTO_REDIS_CACHE_DATABASE" --scan | xargs redis-cli -h "$REDIS_HOST" -p "$REDIS_PORT" -n "$MAGENTO_REDIS_CACHE_DATABASE" del
-  redis-cli -h "$REDIS_HOST" -p "$REDIS_PORT" -n "$MAGENTO_REDIS_FULL_PAGE_CACHE_DATABASE" --scan | xargs redis-cli -h "$REDIS_HOST" -p "$REDIS_PORT" -n "$MAGENTO_REDIS_CACHE_DATABASE" del
-}
+  # This command should delete the cache without blocking the database
+  redis-cli "${REDIS_CONNECTION_ARGS[@]}" -n "$MAGENTO_REDIS_CACHE_DATABASE" --scan | xargs --max-args=100 --no-run-if-empty redis-cli "${REDIS_CONNECTION_ARGS[@]}" -n "$MAGENTO_REDIS_CACHE_DATABASE" del > /dev/null
+  redis-cli "${REDIS_CONNECTION_ARGS[@]}" -n "$MAGENTO_REDIS_FULL_PAGE_CACHE_DATABASE" --scan | xargs --max-args=100 --no-run-if-empty redis-cli "${REDIS_CONNECTION_ARGS[@]}" -n "$MAGENTO_REDIS_FULL_PAGE_CACHE_DATABASE" del > /dev/null
+)
 
 function do_magento_cache_flush() {
   do_magento_clear_redis_cache
