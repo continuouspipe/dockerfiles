@@ -176,8 +176,16 @@ function do_magento_clear_redis_cache() {
     REDIS_PORT="${REDIS_PORT//\"}"
   fi
 
-  redis-cli -h "$REDIS_HOST" -p "$REDIS_PORT" -n "$MAGENTO_REDIS_CACHE_DATABASE" "FLUSHDB"
-  redis-cli -h "$REDIS_HOST" -p "$REDIS_PORT" -n "$MAGENTO_REDIS_FULL_PAGE_CACHE_DATABASE" "FLUSHDB"
+  #redis-cli -h "$REDIS_HOST" -p "$REDIS_PORT" -n "$MAGENTO_REDIS_CACHE_DATABASE" "FLUSHDB"
+  #redis-cli -h "$REDIS_HOST" -p "$REDIS_PORT" -n "$MAGENTO_REDIS_FULL_PAGE_CACHE_DATABASE" "FLUSHDB"
+
+  # This is just a test to see the output of --scan
+  # to be deleted after making the tests
+  redis-cli -h "$REDIS_HOST" -p "$REDIS_PORT"   --scan | xargs
+
+  #this command should delete the cache without blocking the database
+  redis-cli -h "$REDIS_HOST" -p "$REDIS_PORT" -n "$MAGENTO_REDIS_CACHE_DATABASE" --scan | xargs redis-cli -h "$REDIS_HOST" -p "$REDIS_PORT" -n "$MAGENTO_REDIS_CACHE_DATABASE" del
+  redis-cli -h "$REDIS_HOST" -p "$REDIS_PORT" -n "$MAGENTO_REDIS_FULL_PAGE_CACHE_DATABASE" --scan | xargs redis-cli -h "$REDIS_HOST" -p "$REDIS_PORT" -n "$MAGENTO_REDIS_CACHE_DATABASE" del
 }
 
 function do_magento_cache_flush() {
