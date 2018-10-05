@@ -187,9 +187,9 @@ function redis_connection_args()
 
 function do_redis_cli()
 {
-  local REDIS_ARGS
-  IFS=" " read -r -a REDIS_ARGS <<< "$(redis_connection_args)"
-  redis-cli "${REDIS_ARGS[@]}" "$@"
+  local REDIS_CONNECTION_ARGS
+  IFS=" " read -r -a REDIS_CONNECTION_ARGS <<< "$(redis_connection_args)"
+  redis-cli "${REDIS_CONNECTION_ARGS[@]}" "$@"
 }
 
 function do_magento_clear_redis_cache() (
