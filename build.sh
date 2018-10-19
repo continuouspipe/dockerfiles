@@ -17,18 +17,18 @@ if [ "$#" -gt 0 ]; then
   done
 fi
 
-DOCKER_COMPOSE_FILES=("-f docker-compose.yml")
+DOCKER_COMPOSE_FILES=(-f docker-compose.yml)
 DOCKER_IMAGES=()
 EOL_BUILD="${EOL_BUILD:-false}"
 if [ "${EOL_BUILD}" == "true" ]; then
-  DOCKER_COMPOSE_FILES+=("-f docker-compose.eol.yml")
+  DOCKER_COMPOSE_FILES+=(-f docker-compose.eol.yml)
   DOCKER_IMAGES+=("php55_nginx" "magento1_php55_nginx")
 fi
 
 # external_* services are used to fetch only upstream base images.
 # build --pull would otherwise overwrite the newly built dependency of a service with the old repo version
 echo "Pulling any external images:"; echo
-(cd "$DIR" && grep 'external_.*:' "$DIR/docker-compose.yml" | cut -d":" -f1 | xargs docker-compose pull)
+(cd "$DIR" && grep 'external_.*:' "$DIR/docker-compose.yml" | cut -d":" -f1 | xargs docker-compose "${DOCKER_COMPOSE_FILES[@]}" pull)
 echo "Building all images:"; echo
 (cd "$DIR" && docker-compose "${DOCKER_COMPOSE_FILES[@]}" build --force-rm "${DOCKER_IMAGES[@]}")
 
