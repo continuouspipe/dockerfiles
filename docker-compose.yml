@@ -633,14 +633,6 @@ services:
     depends_on:
       - symfony_php71_nginx
 
-  tests:
-    build:
-      context: .
-    volumes:
-      - .:/app
-    depends_on:
-      - ubuntu
-
   tideways:
     build:
       context: ./tideways/
