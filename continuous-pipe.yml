@@ -5,7 +5,7 @@ variables:
 
 pipelines:
   - name: Production
-    condition: 'code_reference.branch in ["master"]'
+    condition: 'code_reference.branch in ["cp-master"]'
     tasks: &ALL_IMAGES
       - third_level_dependency_images
       - second_level_dependency_images

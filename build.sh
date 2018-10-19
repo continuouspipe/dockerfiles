@@ -25,13 +25,15 @@ echo "Pulling any external images:"; echo
 echo "Building all images:"; echo
 (cd "$DIR" && docker-compose build --force-rm)
 
-read -r -p "Would you like to publish the images? [Y/n] " DO_PUBLISH
+if [ -z "$DO_PUBLISH" ]; then
+  read -r -p "Would you like to publish the images? [Y/n] " DO_PUBLISH
+fi
 
 if [ -z "$DO_PUBLISH" ]; then
   DO_PUBLISH='y'
 fi
 
-DO_PUBLISH="$(echo $DO_PUBLISH | tr '[:upper:]' '[:lower:]')"
+DO_PUBLISH="$(echo "$DO_PUBLISH" | tr '[:upper:]' '[:lower:]')"
 if [ "$DO_PUBLISH" = 'y' ]; then
   echo "Pushing our images:"; echo
   (cd "$DIR" && docker-compose push)
