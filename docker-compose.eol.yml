@@ -1,0 +1,21 @@
+version: '2'
+services:
+  magento1_php55_nginx:
+    build:
+      context: ./magento1/
+      args:
+        FROM_IMAGE: eol-php5.5-nginx
+        WEB_SERVER: nginx
+    image: quay.io/continuouspipe/eol-magento1-nginx-php5.5:latest
+    depends_on:
+      - php55_nginx
+
+  php55_nginx:
+    build:
+      context: ./php/
+      dockerfile: Dockerfile-nginx-phpsource
+      args:
+        PHP_FULL_VERSION: '5.5.38'
+    image: quay.io/continuouspipe/eol-php5.5-nginx:latest
+    depends_on:
+      - ubuntu

@@ -16,5 +16,9 @@ script:
 after_success:
   - |
     if [ "$TRAVIS_BRANCH" == "master" ] && [ "$TRAVIS_PULL_REQUEST" == "false" ] ; then
-      docker login -u "$DOCKER_USERNAME" -p "$DOCKER_PASSWORD" quay.io && bash ./build.sh
+      docker login -u "$DOCKER_USERNAME" -p "$DOCKER_PASSWORD" quay.io && bash ./build.sh && EOL_BUILD=true ./build.sh
+    fi
+  - |
+    if [ "$TRAVIS_BRANCH" == "force-eol" ] && [ "$TRAVIS_PULL_REQUEST" == "false" ] ; then
+      docker login -u "$DOCKER_USERNAME" -p "$DOCKER_PASSWORD" quay.io && EOL_BUILD=true ./build.sh
     fi

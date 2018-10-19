@@ -20,7 +20,7 @@ pipelines:
       - name: FROM_TAG
         expression: '"latest"'
   - name: Production EOL
-    condition: 'code_reference.branch in ["force-eol"]'
+    condition: 'code_reference.branch in ["cp-force-eol"]'
     tasks:
       - first_level_dependency_eol_images
       - no_dependency_eol_images
