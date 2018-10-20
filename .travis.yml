@@ -5,6 +5,11 @@ sudo: required
 services:
   - docker
 
+addons:
+  apt:
+    packages:
+      - parallel
+
 env:
   DOCKER_COMPOSE_VERSION: 1.23.0-rc3
 
