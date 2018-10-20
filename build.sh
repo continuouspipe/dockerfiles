@@ -1,6 +1,6 @@
 #!/bin/bash
 
-set -xe
+set -e
 
 if [ -L "$0" ] ; then
     DIR="$(dirname "$(readlink -f "$0")")"
