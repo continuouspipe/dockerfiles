@@ -67,6 +67,7 @@ eol_variables()
   )
   export DOCKER_COMPOSE_FILES
   export DOCKER_IMAGES
+  export PARALLEL="false"
 }
 
 variables()
