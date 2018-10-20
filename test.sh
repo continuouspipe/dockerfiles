@@ -32,6 +32,7 @@ export -f run_hadolint
 find "$DIR" -type f -name "Dockerfile*" ! -name "*.tmpl" | parallel --no-notice --line-buffer --tag --tagstring "Linting {}:" run_hadolint
 
 # Run unit tests
+docker-compose -f docker-compose.yml -f docker-compose.test.yml build ubuntu
 docker-compose -f docker-compose.yml -f docker-compose.test.yml run --rm tests
 
 run_integration_tests()
