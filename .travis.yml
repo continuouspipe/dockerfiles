@@ -16,6 +16,7 @@ before_install:
   - curl -L https://github.com/docker/compose/releases/download/1.23.0-rc3/docker-compose-`uname -s`-`uname -m` -o docker-compose
   - chmod +x docker-compose
   - sudo mv docker-compose /usr/local/bin/
+  - docker-compose --version
 
 script:
   - bash ./test.sh

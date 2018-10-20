@@ -72,6 +72,7 @@ eol_variables()
 
 variables()
 {
+  local LEVEL="$1"
   DOCKER_COMPOSE_FILES=(-f docker-compose.yml)
   DOCKER_IMAGES=()
   if [ "${LEVEL}" -eq 3 ]; then
@@ -180,8 +181,8 @@ main()
   else
     for level in 3 2 1 0; do
       time {
-        LEVEL="$level" variables
-        LEVEL="$level" build_images
+        variables "$level"
+        build_images
       }
     done
   fi
