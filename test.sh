@@ -20,7 +20,7 @@ export -f run_shellcheck
 
 find "$DIR" -type f ! -path "*.git/*" ! -name "*.py" \( \
   -perm +111 -or -name "*.sh" -or -wholename "*usr/local/share/env/*" -or -wholename "*usr/local/share/container/*" \
-\) | parallel --no-notice --tag --tagstring "Linting {}:" run_shellcheck
+\) | parallel --no-notice --line-buffer --tag --tagstring "Linting {}:" run_shellcheck
 
 run_hadolint()
 {
@@ -29,7 +29,7 @@ run_hadolint()
 }
 export -f run_hadolint
 
-find "$DIR" -type f -name "Dockerfile*" ! -name "*.tmpl" | parallel --no-notice --tag --tagstring "Linting {}:" run_hadolint
+find "$DIR" -type f -name "Dockerfile*" ! -name "*.tmpl" | parallel --no-notice --line-buffer --tag --tagstring "Linting {}:" run_hadolint
 
 # Run unit tests
 docker-compose -f docker-compose.yml -f docker-compose.test.yml run --rm tests
@@ -45,4 +45,4 @@ run_integration_tests()
 export -f run_integration_tests
 
 # Run integration tests
-find "$DIR" -type f -path "*/tests/integration/docker-compose.yml" | parallel --no-notice --tag --tagstring "Integration {}:" run_integration_tests
+find "$DIR" -type f -path "*/tests/integration/docker-compose.yml" | parallel --no-notice --line-buffer --tag --tagstring "Integration {}:" run_integration_tests
