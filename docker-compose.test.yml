@@ -1,0 +1,9 @@
+version: '2'
+services:
+  tests:
+    build:
+      context: .
+    volumes:
+      - .:/app
+    depends_on:
+      - ubuntu

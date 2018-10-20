@@ -25,4 +25,4 @@ find "$DIR" -type f -name "Dockerfile*" ! -name "*.tmpl" | while read -r dockerf
   echo
 done
 
-docker-compose run --rm tests
+docker-compose -f docker-compose.yml -f docker-compose.test.yml run --rm tests
