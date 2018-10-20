@@ -1,0 +1,73 @@
+version: '3'
+services:
+  web_7_2_nginx:
+    build:
+      context: ./php/tests/integration/
+      args:
+        IMAGE_NAME: 'php7.2-nginx'
+    depends_on:
+      - php72_nginx
+  web_7_2_apache:
+    build:
+      context: ./php/tests/integration/
+      args:
+        IMAGE_NAME: 'php7.2-apache'
+    depends_on:
+      - php72_apache
+  web_7_1_nginx:
+    build:
+      context: ./php/tests/integration/
+      args:
+        IMAGE_NAME: 'php7.1-nginx'
+    depends_on:
+      - php71_nginx
+  web_7_1_apache:
+    build:
+      context: ./php/tests/integration/
+      args:
+        IMAGE_NAME: 'php7.1-apache'
+    depends_on:
+      - php71_apache
+  web_7_0_nginx:
+    build:
+      context: ./php/tests/integration/
+      args:
+        IMAGE_NAME: 'php7-nginx'
+    depends_on:
+      - php70_nginx
+  web_7_0_apache:
+    build:
+      context: ./php/tests/integration/
+      args:
+        IMAGE_NAME: 'php7-apache'
+    depends_on:
+      - php70_apache
+  web_5_6_nginx:
+    build:
+      context: ./php/tests/integration/
+      args:
+        IMAGE_NAME: 'php5.6-nginx'
+    depends_on:
+      - php56_nginx
+  web_5_6_apache:
+    build:
+      context: ./php/tests/integration/
+      args:
+        IMAGE_NAME: 'php5.6-apache'
+    depends_on:
+      - php56_apache
+
+  integration_tests:
+    image: quay.io/continuouspipe/php7.2-nginx:latest
+    depends_on:
+      - web_7_2_nginx
+      - web_7_2_apache
+      - web_7_1_nginx
+      - web_7_1_apache
+      - web_7_0_nginx
+      - web_7_0_apache
+      - web_5_6_nginx
+      - web_5_6_apache
+    command: "container run_tests"
+    volumes:
+      - ./php/tests/integration/tests/:/app/

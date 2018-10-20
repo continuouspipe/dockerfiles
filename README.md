@@ -65,11 +65,13 @@ Other:
 
 We try to follow best practises when creating shell scripts and Dockerfiles.
 
-To run the best practise checkers, install [shellcheck](https://github.com/koalaman/shellcheck) and
-[hadolint](https://github.com/lukasmartinelli/hadolint) then run:
+To help aim for this, we use the following tools:
+* [shellcheck](https://github.com/koalaman/shellcheck) - checks syntax and best practises for shell scripts
+* [hadolint](https://github.com/lukasmartinelli/hadolint) - checks syntax and best practises for Dockerfiles
+* [BATS](https://github.com/sstephenson/bats) - unit tests for bash scripts
+* Integration tests using docker-compose and shell scripts
 
+To run all of these tools, you can use the helper script in the project root:
 ```bash
 bash test.sh
 ```
-
-This run shellcheck for every script found and hadolint for every Dockerfile.

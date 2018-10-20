@@ -1,5 +1,5 @@
 ---
-version: '2'
+version: '3'
 services:
   couchdb16_stable:
     image: quay.io/continuouspipe/couchdb1.6:stable
