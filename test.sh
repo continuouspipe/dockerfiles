@@ -18,9 +18,11 @@ run_shellcheck()
 }
 export -f run_shellcheck
 
+echo "travis_fold:start:lint_scripts"
 find "$DIR" -type f ! -path "*.git/*" ! -name "*.py" \( \
   -perm +111 -or -name "*.sh" -or -wholename "*usr/local/share/env/*" -or -wholename "*usr/local/share/container/*" \
 \) | parallel --no-notice --line-buffer --tag --tagstring "Linting {}:" run_shellcheck
+echo "travis_fold:end:lint_scripts"
 
 run_hadolint()
 {
@@ -29,11 +31,17 @@ run_hadolint()
 }
 export -f run_hadolint
 
+echo "travis_fold:start:lint_dockerfiles"
 find "$DIR" -type f -name "Dockerfile*" ! -name "*.tmpl" | parallel --no-notice --line-buffer --tag --tagstring "Linting {}:" run_hadolint
+echo "travis_fold:end:lint_dockerfiles"
 
 # Run unit tests
+echo "travis_fold:start:build_ubuntu_image"
 docker-compose -f docker-compose.yml -f docker-compose.test.yml build ubuntu
+echo "travis_fold:end:build_ubuntu_image"
+echo "travis_fold:start:unit_tests"
 docker-compose -f docker-compose.yml -f docker-compose.test.yml run --rm tests
+echo "travis_fold:end:unit_tests"
 
 run_integration_tests()
 {
@@ -45,5 +53,7 @@ run_integration_tests()
 }
 export -f run_integration_tests
 
+echo "travis_fold:start:integration_tests"
 # Run integration tests
 find "$DIR" -type f -path "*/tests/integration/docker-compose.yml" | parallel --no-notice --line-buffer --tag --tagstring "Integration {}:" run_integration_tests
+echo "travis_fold:end:integration_tests"

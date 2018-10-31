@@ -209,9 +209,14 @@ main()
     }
   else
     for level in 3 2 1 0; do
+      echo "travis_fold:start:build_level_$level"
       parallel --no-notice --line-buffer --tag --link ::: run_build run_publish ::: "$level" "$((level + 1))"
+      echo "travis_fold:end:build_level_$level"
     done
+
+    echo "travis_fold:start:push_level_0"
     run_publish 0
+    echo "travis_fold:end:push_level_0"
   fi
   echo "Done!"
 }
