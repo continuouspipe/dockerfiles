@@ -5,11 +5,6 @@ sudo: required
 services:
   - docker
 
-addons:
-  apt:
-    packages:
-      - parallel
-
 env:
   DOCKER_COMPOSE_VERSION: 1.23.0-rc3
 
@@ -22,6 +17,10 @@ before_install:
   - chmod +x docker-compose
   - sudo mv docker-compose /usr/local/bin/
   - docker-compose --version
+  - wget https://ftpmirror.gnu.org/parallel/parallel-20181022.tar.bz2
+  - bzip2 -dc parallel-20181022.tar.bz2 | tar xvf -
+  - cd parallel-20181022
+  - ./configure && make && sudo make install
 
 script:
   - bash ./test.sh
