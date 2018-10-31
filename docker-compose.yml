@@ -364,6 +364,46 @@ services:
     depends_on:
       - php71_apache
 
+  php72:
+    build:
+      context: ./php/
+      dockerfile: Dockerfile-php
+      args:
+        PHP_VERSION: '7.2'
+    image: quay.io/continuouspipe/php7.2:latest
+    depends_on:
+      - ubuntu
+
+  php71:
+    build:
+      context: ./php/
+      dockerfile: Dockerfile-php
+      args:
+        PHP_VERSION: '7.1'
+    image: quay.io/continuouspipe/php7.1:latest
+    depends_on:
+      - ubuntu
+
+  php70:
+    build:
+      context: ./php/
+      dockerfile: Dockerfile-php
+      args:
+        PHP_VERSION: '7.0'
+    image: quay.io/continuouspipe/php7:latest
+    depends_on:
+      - ubuntu
+
+  php56:
+    build:
+      context: ./php/
+      dockerfile: Dockerfile-php
+      args:
+        PHP_VERSION: '5.6'
+    image: quay.io/continuouspipe/php5.6:latest
+    depends_on:
+      - ubuntu
+
   php72_apache:
     build:
       context: ./php/
@@ -372,7 +412,7 @@ services:
         PHP_VERSION: '7.2'
     image: quay.io/continuouspipe/php7.2-apache:latest
     depends_on:
-      - ubuntu
+      - php72
 
   php71_apache:
     build:
@@ -382,7 +422,7 @@ services:
         PHP_VERSION: '7.1'
     image: quay.io/continuouspipe/php7.1-apache:latest
     depends_on:
-      - ubuntu
+      - php71
 
   php70_apache:
     build:
@@ -392,7 +432,7 @@ services:
         PHP_VERSION: '7.0'
     image: quay.io/continuouspipe/php7-apache:latest
     depends_on:
-      - ubuntu
+      - php70
 
   php56_apache:
     build:
@@ -402,7 +442,7 @@ services:
         PHP_VERSION: '5.6'
     image: quay.io/continuouspipe/php5.6-apache:latest
     depends_on:
-      - ubuntu
+      - php56
 
   php72_nginx:
     build:
@@ -412,7 +452,7 @@ services:
         PHP_VERSION: '7.2'
     image: quay.io/continuouspipe/php7.2-nginx:latest
     depends_on:
-      - ubuntu
+      - php72
 
   php71_nginx:
     build:
@@ -422,7 +462,7 @@ services:
         PHP_VERSION: '7.1'
     image: quay.io/continuouspipe/php7.1-nginx:latest
     depends_on:
-      - ubuntu
+      - php71
 
   php70_nginx:
     build:
@@ -432,7 +472,7 @@ services:
         PHP_VERSION: '7.0'
     image: quay.io/continuouspipe/php7-nginx:latest
     depends_on:
-      - ubuntu
+      - php70
 
   php56_nginx:
     build:
@@ -442,7 +482,7 @@ services:
         PHP_VERSION: '5.6'
     image: quay.io/continuouspipe/php5.6-nginx:latest
     depends_on:
-      - ubuntu
+      - php56
 
   postgres94:
     build:
