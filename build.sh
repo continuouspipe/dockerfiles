@@ -171,6 +171,7 @@ export -f variables
 
 run_build()
 (
+  set -e
   local level="$1"
   time {
     variables "$level"
@@ -181,6 +182,7 @@ export -f run_build
 
 run_publish()
 (
+  set -e
   local level="$1"
   if [ "$level" -gt 3 ]; then
     return 0;
