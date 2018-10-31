@@ -25,7 +25,7 @@ pull_images()
   # external_* services are used to fetch only upstream base images.
   # build --pull would otherwise overwrite the newly built dependency of a service with the old repo version
   echo "Pulling any external images:"; echo
-  (cd "$DIR" && grep 'external_.*:' "$DIR/docker-compose.yml" | cut -d":" -f1 | xargs docker-compose "${DOCKER_COMPOSE_FILES[@]}" pull)
+  (cd "$DIR" && docker-compose config --services | grep external | xargs docker-compose "${DOCKER_COMPOSE_FILES[@]}" pull --quiet)
 }
 
 build_images()
@@ -37,6 +37,7 @@ build_images()
   echo "Building images:"; echo
   (cd "$DIR" && docker-compose "${DOCKER_COMPOSE_FILES[@]}" build "${DOCKER_BUILD_FLAGS[@]}" "${DOCKER_IMAGES[@]}")
 }
+export -f build_images
 
 publish_images()
 {
@@ -45,7 +46,7 @@ publish_images()
   fi
 
   if [ -z "$DO_PUBLISH" ]; then
-    DO_PUBLISH='y'
+    DO_PUBLISH='n'
   fi
 
   DO_PUBLISH="$(echo "$DO_PUBLISH" | tr '[:upper:]' '[:lower:]')"
@@ -56,6 +57,7 @@ publish_images()
     echo "Not Pushing our images."; echo
   fi
 }
+export -f publish_images
 
 eol_variables()
 {
@@ -165,6 +167,30 @@ variables()
   export DOCKER_COMPOSE_FILES
   export DOCKER_IMAGES
 }
+export -f variables
+
+run_build()
+(
+  local level="$1"
+  time {
+    variables "$level"
+    build_images
+  }
+)
+export -f run_build
+
+run_publish()
+(
+  local level="$1"
+  if [ "$level" -gt 3 ]; then
+    return 0;
+  fi
+  time {
+    variables "$level"
+    publish_images
+  }
+)
+export -f run_publish
 
 main()
 {
@@ -178,17 +204,15 @@ main()
     time {
       build_images
     }
+    time {
+      publish_images
+    }
   else
     for level in 3 2 1 0; do
-      time {
-        variables "$level"
-        build_images
-      }
+      parallel --no-notice --line-buffer --tag --link ::: run_build run_publish ::: "$level" "$((level + 1))"
     done
+    run_publish 0
   fi
-  time {
-    publish_images
-  }
   echo "Done!"
 }
 
