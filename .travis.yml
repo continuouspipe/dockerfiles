@@ -19,7 +19,7 @@ before_install:
   - docker-compose --version
   - wget https://ftpmirror.gnu.org/parallel/parallel-20181022.tar.bz2
   - bzip2 -dc parallel-20181022.tar.bz2 | tar xvf -
-  - (cd parallel-20181022 && ./configure && make && sudo make install)
+  - (cd parallel-20181022 && ./configure && make && sudo make install && rm -rf parallel-20181022*)
 
 script:
   - bash ./test.sh
