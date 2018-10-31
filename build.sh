@@ -52,7 +52,7 @@ publish_images()
   DO_PUBLISH="$(echo "$DO_PUBLISH" | tr '[:upper:]' '[:lower:]')"
   if [ "$DO_PUBLISH" = 'y' ]; then
     echo "Pushing our images:"; echo
-    (cd "$DIR" && docker-compose "${DOCKER_COMPOSE_FILES[@]}" push "${DOCKER_IMAGES[@]}")
+    parallel --no-notice --line-buffer --tag --tagstring "Pushing {}:" docker-compose "${DOCKER_COMPOSE_FILES[@]}" push ::: "${DOCKER_IMAGES[@]}"
   else
     echo "Not Pushing our images."; echo
   fi
