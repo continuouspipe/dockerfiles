@@ -409,7 +409,7 @@ services:
       context: ./php/
       dockerfile: Dockerfile-apache
       args:
-        PHP_VERSION: '7.2'
+        PHP_IMAGE_VERSION: '7.2'
     image: quay.io/continuouspipe/php7.2-apache:latest
     depends_on:
       - php72
@@ -419,7 +419,7 @@ services:
       context: ./php/
       dockerfile: Dockerfile-apache
       args:
-        PHP_VERSION: '7.1'
+        PHP_IMAGE_VERSION: '7.1'
     image: quay.io/continuouspipe/php7.1-apache:latest
     depends_on:
       - php71
@@ -429,7 +429,7 @@ services:
       context: ./php/
       dockerfile: Dockerfile-apache
       args:
-        PHP_VERSION: '7.0'
+        PHP_IMAGE_VERSION: '7'
     image: quay.io/continuouspipe/php7-apache:latest
     depends_on:
       - php70
@@ -439,7 +439,7 @@ services:
       context: ./php/
       dockerfile: Dockerfile-apache
       args:
-        PHP_VERSION: '5.6'
+        PHP_IMAGE_VERSION: '5.6'
     image: quay.io/continuouspipe/php5.6-apache:latest
     depends_on:
       - php56
@@ -449,7 +449,7 @@ services:
       context: ./php/
       dockerfile: Dockerfile-nginx
       args:
-        PHP_VERSION: '7.2'
+        PHP_IMAGE_VERSION: '7.2'
     image: quay.io/continuouspipe/php7.2-nginx:latest
     depends_on:
       - php72
@@ -459,7 +459,7 @@ services:
       context: ./php/
       dockerfile: Dockerfile-nginx
       args:
-        PHP_VERSION: '7.1'
+        PHP_IMAGE_VERSION: '7.1'
     image: quay.io/continuouspipe/php7.1-nginx:latest
     depends_on:
       - php71
@@ -469,7 +469,7 @@ services:
       context: ./php/
       dockerfile: Dockerfile-nginx
       args:
-        PHP_VERSION: '7.0'
+        PHP_IMAGE_VERSION: '7'
     image: quay.io/continuouspipe/php7-nginx:latest
     depends_on:
       - php70
@@ -479,7 +479,7 @@ services:
       context: ./php/
       dockerfile: Dockerfile-nginx
       args:
-        PHP_VERSION: '5.6'
+        PHP_IMAGE_VERSION: '5.6'
     image: quay.io/continuouspipe/php5.6-nginx:latest
     depends_on:
       - php56
