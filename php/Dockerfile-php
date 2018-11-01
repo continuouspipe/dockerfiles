@@ -14,10 +14,6 @@ RUN echo 'deb http://s3-eu-west-1.amazonaws.com/qafoo-profiler/packages debian m
  && DEBIAN_FRONTEND=noninteractive apt-get -qq -y --no-install-recommends install \
     awscli \
     jq \
-    php-apcu \
-    php-imagick \
-    php-memcached \
-    php-xdebug \
     "php$PHP_VERSION-bcmath" \
     "php$PHP_VERSION-bz2" \
     "php$PHP_VERSION-curl" \
@@ -35,9 +31,13 @@ RUN echo 'deb http://s3-eu-west-1.amazonaws.com/qafoo-profiler/packages debian m
     "php$PHP_VERSION-sqlite3" \
     postfix \
     tideways-php \
- # Install pear after PHP so the right CLI gets selected beforehand \
+ # Install pear + pecl extensions after PHP so the right CLI gets selected beforehand \
  && DEBIAN_FRONTEND=noninteractive apt-get -qq -y --no-install-recommends install \
+    php-apcu \
+    php-imagick \
+    php-memcached \
     php-pear \
+    php-xdebug \
  \
  # php-redis 4 from php$PHP_VERSION-redis has backwards-incompatibilities so install from pecl repositories \
  && pecl install redis-3.1.6 \
