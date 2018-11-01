@@ -124,6 +124,18 @@ services:
   piwik_php71_apache_stable:
     image: quay.io/continuouspipe/piwik-php7.1-apache:stable
     build: "/dev/null"
+  php72:
+    image: quay.io/continuouspipe/php7.2:stable
+    build: "/dev/null"
+  php71:
+    image: quay.io/continuouspipe/php7.1:stable
+    build: "/dev/null"
+  php70:
+    image: quay.io/continuouspipe/php7:stable
+    build: "/dev/null"
+  php56:
+    image: quay.io/continuouspipe/php5.6:stable
+    build: "/dev/null"
   php72_apache_stable:
     image: quay.io/continuouspipe/php7.2-apache:stable
     build: "/dev/null"
