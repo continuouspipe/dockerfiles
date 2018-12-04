@@ -178,6 +178,12 @@ services:
   spryker_php71_apache_stable:
     image: quay.io/continuouspipe/spryker-php7.1-apache:stable
     build: "/dev/null"
+  spryker_php72_nginx_stable:
+    image: quay.io/continuouspipe/spryker-php7.2-nginx:stable
+    build: "/dev/null"
+  spryker_php72_apache_stable:
+    image: quay.io/continuouspipe/spryker-php7.2-apache:stable
+    build: "/dev/null"
   symfony_php72_nginx_stable:
     image: quay.io/continuouspipe/symfony-php7.2-nginx:stable
     build: "/dev/null"

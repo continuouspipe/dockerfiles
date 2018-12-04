@@ -526,6 +526,26 @@ services:
     depends_on:
       - php71_apache
 
+  spryker_php72_nginx:
+    build:
+      context: ./spryker/
+      args:
+        PHP_VERSION: '7.2'
+        WEB_SERVER: nginx
+    image: quay.io/continuouspipe/spryker-php7.2-nginx:latest
+    depends_on:
+      - php72_nginx
+
+  spryker_php72_apache:
+    build:
+      context: ./spryker/
+      args:
+        PHP_VERSION: '7.2'
+        WEB_SERVER: apache
+    image: quay.io/continuouspipe/spryker-php7.2-apache:latest
+    depends_on:
+      - php72_apache
+
   symfony_php72_nginx:
     build:
       context: ./symfony/
