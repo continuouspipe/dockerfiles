@@ -157,6 +157,8 @@ variables()
       'ssh_forward'
       'spryker_php71_nginx'
       'spryker_php71_apache'
+      'spryker_php72_nginx'
+      'spryker_php72_apache'
       'symfony_php70_nginx'
       'symfony_php56_nginx'
       'symfony_php56_apache'

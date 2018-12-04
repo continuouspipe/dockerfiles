@@ -527,6 +527,22 @@ tasks:
             PHP_VERSION: '7.1'
             WEB_SERVER: apache
             FROM_TAG: ${FROM_TAG}
+        spryker_php72_nginx:
+          image: quay.io/continuouspipe/spryker-php7.2-nginx
+          tag: ${FROM_TAG}
+          reuse: false
+          environment:
+            PHP_VERSION: '7.2'
+            WEB_SERVER: nginx
+            FROM_TAG: ${FROM_TAG}
+        spryker_php72_apache:
+          image: quay.io/continuouspipe/spryker-php7.2-apache
+          tag: ${FROM_TAG}
+          reuse: false
+          environment:
+            PHP_VERSION: '7.2'
+            WEB_SERVER: apache
+            FROM_TAG: ${FROM_TAG}
         symfony_php70_nginx:
           image: quay.io/continuouspipe/symfony-php7-nginx
           tag: ${FROM_TAG}

@@ -24,6 +24,30 @@ COPY . /app
 RUN container build
 ```
 
+In a Dockerfile for PHP 7.2 and NGINX:
+```Dockerfile
+FROM quay.io/continuouspipe/spryker-php7.2-nginx:stable
+
+ARG IMAGE_VERSION=2
+ARG GITHUB_TOKEN=
+ENV IMAGE_VERSION="$IMAGE_VERSION"
+
+COPY . /app
+RUN container build
+```
+
+In a Dockerfile for PHP 7.2 and Apache:
+```Dockerfile
+FROM quay.io/continuouspipe/spryker-php7.2-apache:stable
+
+ARG IMAGE_VERSION=2
+ARG GITHUB_TOKEN=
+ENV IMAGE_VERSION="$IMAGE_VERSION"
+
+COPY . /app
+RUN container build
+```
+
 ## How to build
 ```bash
 docker-compose build spryker_php71_nginx
