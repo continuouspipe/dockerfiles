@@ -5,16 +5,16 @@ location /static/ {
 
     # Remove signature of the static files that is used to overcome the browser cache
     location ~ ^/static/version {
-        rewrite ^/static/(version\d*/)?(.*)$ /static/$2 last;
+        rewrite ^/static/(version[^/]+/)?(.*)$ /static/$2 last;
     }
 
-    location ~* \.(ico|jpg|jpeg|png|gif|svg|js|css|swf|eot|ttf|otf|woff|woff2)$ {
+    location ~* \.(ico|jpg|jpeg|png|gif|svg|js|css|swf|eot|ttf|otf|woff|woff2|json)$ {
         add_header Cache-Control "public";
         add_header X-Frame-Options "SAMEORIGIN";
         expires +1y;
 
         if (!-f $request_filename) {
-            rewrite ^/static/(version\d*/)?(.*)$ /static.php?resource=$2 last;
+            rewrite ^/static/?(.*)$ /static.php?resource=$1 last;
         }
     }
     location ~* \.(zip|gz|gzip|bz2|csv|xml)$ {
@@ -23,11 +23,11 @@ location /static/ {
         expires    off;
 
         if (!-f $request_filename) {
-           rewrite ^/static/(version\d*/)?(.*)$ /static.php?resource=$2 last;
+            rewrite ^/static/?(.*)$ /static.php?resource=$1 last;
         }
     }
     if (!-f $request_filename) {
-        rewrite ^/static/(version\d*/)?(.*)$ /static.php?resource=$2 last;
+        rewrite ^/static/?(.*)$ /static.php?resource=$1 last;
     }
     add_header X-Frame-Options "SAMEORIGIN";
 }
