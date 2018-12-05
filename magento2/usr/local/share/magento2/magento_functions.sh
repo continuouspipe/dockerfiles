@@ -159,12 +159,8 @@ function do_magento_assets_download() {
   fi
 }
 
-function do_magento_clear_redis_cache() (
-  set -o pipefail
-  if [ "$MAGENTO_USE_REDIS" != "true" ]; then
-    return
-  fi
-
+function redis_connection_args()
+{
   local REDIS_HOST="$REDIS_HOST"
   local REDIS_PORT="$REDIS_PORT"
 
@@ -185,6 +181,25 @@ function do_magento_clear_redis_cache() (
   else
     set -x
   fi
+
+  echo "${REDIS_CONNECTION_ARGS[@]}"
+}
+
+function do_redis_cli()
+{
+  local REDIS_CONNECTION_ARGS
+  IFS=" " read -r -a REDIS_CONNECTION_ARGS <<< "$(redis_connection_args)"
+  redis-cli "${REDIS_CONNECTION_ARGS[@]}" "$@"
+}
+
+function do_magento_clear_redis_cache() (
+  set -o pipefail
+  if [ "$MAGENTO_USE_REDIS" != "true" ]; then
+    return
+  fi
+
+  local REDIS_CONNECTION_ARGS
+  IFS=" " read -r -a REDIS_CONNECTION_ARGS <<< "$(redis_connection_args)"
 
   # This command should delete the cache without blocking the database
   redis-cli "${REDIS_CONNECTION_ARGS[@]}" -n "$MAGENTO_REDIS_CACHE_DATABASE" --scan | xargs --max-args=100 --no-run-if-empty redis-cli "${REDIS_CONNECTION_ARGS[@]}" -n "$MAGENTO_REDIS_CACHE_DATABASE" del > /dev/null
