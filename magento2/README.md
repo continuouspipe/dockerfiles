@@ -209,5 +209,6 @@ PHP_MAX_EXECUTION_TIME | How long in seconds can a PHP script run for? | integer
 PHP_OPCACHE_MAX_ACCELERATED_FILES | How many files PHP can cache into Opcache | integer | 130987
 PHP_REALPATH_CACHE_SIZE | How many resolved file locations PHP can cache into the realpath cache. | string | 4096K
 PHP_REALPATH_CACHE_TTL | How many seconds can PHP cache the resolved file locations in it's realpath cache | integer | 600
+PHP_OPCACHE_INTERNED_STRINGS_BUFFER | The amount of megabytes of strings to store a cache of. | integer (megabytes) | 64
 PHP_OPCACHE_MEMORY_CONSUMPTION | How much memory in megabytes can opcache use? | integer | 512
 PHP_OPCACHE_ENABLE_CLI | Should opcache be enabled on the PHP CLI? | 0/1 | 1

@@ -148,7 +148,7 @@ WEB_SSL_PRIVKEY | The location of the SSL private key file | absolute filename |
 WEB_SSL_PROTOCOLS | The SSL/TLS protocols to enable | [SSLv2] [SSLv3] [TLSv1] [TLSv1.1] [TLSv1.2] [TLSv1.3] | TLSv1 TLSv1.1 TLSv1.2
 WEB_SSL_SESSION_CACHE | Sets the types and sizes of caches that store session parameters. See nginx ssl_session_cache documentation for more info | off/none/builtin[:size]/shared:name:size | none
 WEB_SSL_SESSION_TIMEOUT | Specifies a time during which a client may reuse the session parameters. | time | 5m
-WEB_SSL_TRUSTED_CERTIFICATES | The trusted certificates to use for OSCP stapling verification and/or SSL client certificate authentication | absolute filename | 
+WEB_SSL_TRUSTED_CERTIFICATES | The trusted certificates to use for OSCP stapling verification and/or SSL client certificate authentication | absolute filename |
 WEB_INCLUDES | A space separated list of files in /etc/nginx/sites-enabled/ to include. ".conf" will be appended automatically. Globs are accepted. | space separated list of partial file names | default-*
 WEB_DEFAULT_SERVER | True if the virtual host should be used for any unmatched traffic | true/false | true
 APP_ENDPOINT | The uri of the web application php endpoint | domain relative uri | /index.php
@@ -156,7 +156,7 @@ APP_ENDPOINT_REWRITE | Determines whether to rewrite urls that don't match webro
 APP_ENDPOINT_REGEX | A regex used to define allowed application endpoints, see [site_phpfpm.conf.tmpl](https://github.com/continuouspipe/dockerfiles/blob/master/php/nginx/etc/confd/templates/nginx/site_phpfpm.conf.tmpl#L1) | string | auto-detected
 APP_ENDPOINT_STRICT | Restricts allowed application endpoints to only that of the APP_ENDPOINT environment variable | true/false | false
 ASSETS_CLEANUP | Whether to delete the assets in ASSETS_PATH after they have been applied | true/false | true
-ASSETS_ENV | The assets environment assets are downloaded/applied from. If unset no asset actions will happen | a asset environment | 
+ASSETS_ENV | The assets environment assets are downloaded/applied from. If unset no asset actions will happen | a asset environment |
 ASSETS_PATH | The assets filesystem path assets are downloaded to /applied from. If unset and ASSETS_ENV unset no asset actions will happen | a asset filesystem path | tools/assets/${ASSETS_ENV} if ASSETS_ENV set
 ASSETS_S3_BUCKET | The AWS S3 bucket assets are downloaded from. If unset, no assets will be downloaded | a S3 bucket name |
 ASSETS_S3_BUCKET_PATH | The full bucket path to an environment's assets. If unset or ASSETS_S3_BUCKET unset, no assets will be downloaded | a S3 bucket path | s3://${ASSETS_S3_BUCKET}/${ASSETS_ENV}/ if ASSETS_S3_BUCKET and ASSETS_ENV set
@@ -175,6 +175,7 @@ SENDMAIL_RELAY_TLS_SECURITY_LEVEL | Controls whether to use TLS, and what authen
 NGINX_LOG_FORMAT_NAME | Which log format to use for the access log. Two are currently available: combined (provided by NGINX) or combined_with_x_forwarded_for which logs the whole X-Forwarded-For header. | string | combined
 PHP_MEMORY_LIMIT | The PHP Memory Limit, with unit suffix | Integer and a unit (K for Kilobytes/M for Megabytes/G for Gigabytes) | 256M
 PHP_MEMORY_LIMIT_CLI | The PHP Memoery Limit on the Command Line | Integers and a unit (K for Kilobytes/M for Megabytes/G for Gigabytes) | value of PHP_MEMORY_LIMIT
+PHP_OPCACHE_INTERNED_STRINGS_BUFFER | The amount of megabytes of strings to store a cache of. | integer (megabytes) | 8
 PHP_OPCACHE_MAX_ACCELERATED_FILES | The amount of files to cache the opcodes for. | integer | 2000
 PHP_OPCACHE_MEMORY_CONSUMPTION | The amount of megabytes that the opcode cache is allowed to use | integer | 64
 PHP_OPCACHE_VALIDATE_TIMESTAMPS | If PHP should use the cache directly or first check if the file has been modified, where 0 means don't check files. This will automatically be set to 0 if DEVELOPMENT_MODE is "false" | 0/1 | 0 if DEVELOPMENT_MODE is false, 1 otherwise
