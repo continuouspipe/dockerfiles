@@ -196,8 +196,9 @@ TIDEWAYS_SERVICE | The service that your application provides (optional) | strin
 TIDEWAYS_COLLECT | The collect mode for Tideways (see [the Tideways documentation](https://tideways.io/profiler/article/43-sampling))(optional) | DISABLED/BASIC/TRACING/PROFILING/FULL | TRACING
 TIDEWAYS_SAMPLE_RATE | The sample rate for Tideways (see [the Tideways documentation](https://tideways.io/profiler/article/43-sampling))(optional) | integer | 25
 XDEBUG_REMOTE_ENABLED | If XDebug is enabled for debugging purposes. We recommend disabling Tideways and only using XDebug in development. | true/false | false
-XDEBUG_REMOTE_HOST | The host to connect to. We recommend deploying https://github.com/continuouspipe/dockerfiles/tree/master/ssh-forward to handle this | A domain or IP address | sshforward
+XDEBUG_REMOTE_HOST | The host to connect to. We recommend deploying https://github.com/continuouspipe/dockerfiles/tree/master/ssh-forward to handle this. Alternatively see [Xdebug setup](#Xdebug-setup) | A domain or IP address | sshforward
 XDEBUG_REMOTE_PORT | The port to connect to. | 1-65535 | 9000
+XDEBUG_REMOTE_AUTOSTART | Whether to automatically start an Xdebug session upon every page/CLI request | true/false | false
 
 The project using the image can define these environment variables to control
 what is rendered in the Nginx configuration
@@ -355,3 +356,31 @@ Tar files either raw or compressed by Gzip or Bzip2 are supported, with the foll
 * .tar.bz2
 
 This can be individually disabled using ASSETS_FILES_ENABLED.
+
+### Xdebug setup
+
+In local development environments, setting the following variables for this container, along with running the alias
+command below, will let you connect directly to the container's Xdebug connection from your local machine:
+```
+XDEBUG_REMOTE_ENABLED: 'true'
+XDEBUG_REMOTE_HOST: host.docker.internal # for docker-for-windows and docker-for-mac
+XDEBUG_REMOTE_HOST: 10.254.254.254 # for Ubuntu
+XDEBUG_REMOTE_PORT: '9000'
+XDEBUG_REMOTE_AUTOSTART: 'true'
+```
+
+Xdebug will attempt to connect to `host.docker.internal` or `10.254.254.254` on port `9000`.
+
+#### Ubuntu
+
+To facilitate this you can alias `127.0.0.1` to the `10.254.254.254` address like so:
+
+```
+sudo ifconfig lo:1 10.254.254.254 up
+```
+
+#### IDE
+
+You should now be able to use Xdebug by setting your IDE of choice to listen for connections.
+
+**NOTE:** The path mapping should be `/app/` to your project directory.
