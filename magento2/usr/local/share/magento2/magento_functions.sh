@@ -136,7 +136,7 @@ function do_magento_deploy_static_content() {
   # Compile static content if it's a production container.
   if [ "$MAGENTO_MODE" = "production" ]; then
     set +e
-    parallel run_magento_deploy_static_content :::: "" "--no-javascript $FRONTEND_COMPILE_LANGUAGES" :::: "on" "--no-css --no-less --no-images --no-fonts --no-html --no-misc --no-html-minify $FRONTEND_COMPILE_LANGUAGES"
+    parallel --no-notice --line-buffer --tag run_magento_deploy_static_content "{1}" "{2}" ::: "" "--no-javascript $FRONTEND_COMPILE_LANGUAGES" ::: "on" "--no-css --no-less --no-images --no-fonts --no-html --no-misc --no-html-minify $FRONTEND_COMPILE_LANGUAGES"
     set -e
   fi
 }
@@ -501,13 +501,13 @@ function legacy_asset_functions()
 
 function do_magento2_build() {
   do_magento_create_web_writable_directories
-  parallel ::: do_magento_frontend_build legacy_asset_functions
+  parallel --no-notice --line-buffer --tag ::: do_magento_frontend_build legacy_asset_functions
   do_magento_frontend_cache_clean
   do_magento_install_custom
 
   setup_build_database
 
-  parallel ::: do_magento_dependency_injection_compilation do_magento_deploy_static_content
+  parallel --no-notice --line-buffer --tag ::: do_magento_dependency_injection_compilation do_magento_deploy_static_content
   do_magento_install_finalise_custom
 
   if ! has_deploy_pipeline; then
