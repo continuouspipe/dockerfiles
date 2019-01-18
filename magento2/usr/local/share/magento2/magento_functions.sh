@@ -1,5 +1,9 @@
 #!/bin/bash
 
+if [ "$IMAGE_VERSION" -lt 3 ]; then
+  source /usr/local/share/magento2/magento_legacy_asset_functions.sh
+fi
+
 function detect_magento_version() {
   if has_composer_package magento/product-community-edition; then
     composer_package_version magento/product-community-edition | cut -d. -f1,2
@@ -147,18 +151,6 @@ function do_magento_reindex() {
   (as_code_owner "bin/magento indexer:reindex" || echo "Failing indexing to the end, ignoring.") && echo "Indexing successful"
 }
 
-function do_magento_assets_download() {
-  if [ -n "$AWS_S3_BUCKET" ]; then
-    for asset_env in $ASSET_DOWNLOAD_ENVIRONMENTS; do
-      if [ -n "$ASSET_DOWNLOAD_EXCLUDE_PATTERN" ]; then
-        as_build "aws s3 sync 's3://${AWS_S3_BUCKET}/${asset_env}' 'tools/assets/${asset_env}' --exclude='${ASSET_DOWNLOAD_EXCLUDE_PATTERN}'"
-      else
-        as_build "aws s3 sync 's3://${AWS_S3_BUCKET}/${asset_env}' 'tools/assets/${asset_env}'"
-      fi
-    done
-  fi
-}
-
 function redis_connection_args()
 {
   local REDIS_HOST="$REDIS_HOST"
@@ -260,31 +252,6 @@ function do_magento_database_create() {
   fi
 }
 
-function do_magento_database_install() (
-  set +x
-  if [ "${DATABASE_HOST}" != "localhost" ]; then
-    wait_for_remote_ports "30" "${DATABASE_HOST}:${DATABASE_PORT}"
-  fi
-  if [ -f "$DATABASE_ARCHIVE_PATH" ]; then
-    do_magento_drop_database
-
-    local DATABASE_EXISTS
-    DATABASE_EXISTS="$(check_magento_database_exists)"
-
-    if [ "$DATABASE_EXISTS" != "true" ]; then
-      do_magento_database_create
-
-      echo 'zcating the magento database dump into the database'
-      if [ -n "$DATABASE_ROOT_PASSWORD" ]; then
-        zcat "$DATABASE_ARCHIVE_PATH" | mysql -h"$DATABASE_HOST" -uroot -p"$DATABASE_ROOT_PASSWORD" "$DATABASE_NAME" || exit 1
-      else
-        zcat "$DATABASE_ARCHIVE_PATH" | mysql -h"$DATABASE_HOST" -uroot "$DATABASE_NAME" || exit 1
-      fi
-    fi
-  fi
-  set -x
-)
-
 function do_magento_installer_install() (
   set +x
   if [ "${DATABASE_HOST}" != "localhost" ]; then
@@ -335,36 +302,6 @@ function do_magento_wait_for_database() {
     echo "Waiting for a mysql server"
     sleep 5
   done
-}
-
-function do_magento_assets_install() {
-  if [ -f "$ASSET_ARCHIVE_PATH" ]; then
-    if [ "$IS_CHOWN_FORBIDDEN" != 'true' ]; then
-      chown -R "${CODE_OWNER}:${CODE_GROUP}" pub/media
-    else
-      chmod -R a+rw pub/media
-    fi
-
-    echo 'extracting media files'
-    as_code_owner "tar --no-same-owner --extract --strip-components=2 --touch --overwrite --gzip --file=$ASSET_ARCHIVE_PATH || exit 1" pub/media
-
-    if [ "$IS_CHOWN_FORBIDDEN" != 'true' ]; then
-      chown -R "${APP_USER}:${CODE_GROUP}" pub/media
-      chmod -R ug+rw,o-rw pub/media
-    else
-      chmod -R a+rw pub/media
-    fi
-  fi
-}
-
-function do_magento_assets_cleanup() {
-  if [ -z "$DATABASE_ARCHIVE_PATH" ] && [ -z "$ASSET_ARCHIVE_PATH" ]; then
-    return
-  fi
-
-  if [ -d /app/tools/assets/ ]; then
-    find /app/tools/assets/ -type f ! -path "*${DATABASE_ARCHIVE_PATH}" -delete
-  fi
 }
 
 function do_magento_install_development_custom() {
@@ -521,15 +458,21 @@ function do_magento2_build() {
   do_magento_create_web_writable_directories
   do_magento_frontend_build
   do_magento_frontend_cache_clean
-  do_magento_assets_download
-  do_magento_assets_install
+  if [ "$IMAGE_VERSION" -le 3 ]; then
+    do_magento_assets_download
+    do_magento_assets_install
+  fi
   do_magento_install_custom
 
   DATABASE_HOST="localhost" DATABASE_USER="root" DATABASE_PASSWORD="" DATABASE_ROOT_PASSWORD="" MAGENTO_ENABLE_CACHE="false" MAGENTO_USE_REDIS="false" MAGENTO_HTTP_CACHE_HOSTS="" do_templating
-  DATABASE_HOST="localhost" DATABASE_USER="root" DATABASE_PASSWORD="" DATABASE_ROOT_PASSWORD="" DATABASE_USER_HOST="localhost" MAGENTO_ENABLE_CACHE="false" MAGENTO_USE_REDIS="false" MAGENTO_HTTP_CACHE_HOSTS="" do_magento_database_install
+  if [ "$IMAGE_VERSION" -le 3 ]; then
+    DATABASE_HOST="localhost" DATABASE_USER="root" DATABASE_PASSWORD="" DATABASE_ROOT_PASSWORD="" DATABASE_USER_HOST="localhost" MAGENTO_ENABLE_CACHE="false" MAGENTO_USE_REDIS="false" MAGENTO_HTTP_CACHE_HOSTS="" do_magento_database_install
+  fi
   DATABASE_HOST="localhost" DATABASE_USER="root" DATABASE_PASSWORD="" DATABASE_ROOT_PASSWORD="" DATABASE_USER_HOST="localhost" MAGENTO_ENABLE_CACHE="false" MAGENTO_USE_REDIS="false" MAGENTO_HTTP_CACHE_HOSTS="" do_magento_installer_install
   DATABASE_HOST="localhost" DATABASE_USER="root" DATABASE_PASSWORD="" DATABASE_ROOT_PASSWORD="" DATABASE_USER_HOST="localhost" MAGENTO_ENABLE_CACHE="false" MAGENTO_USE_REDIS="false" MAGENTO_HTTP_CACHE_HOSTS="" do_replace_core_config_values
-  do_magento_assets_cleanup
+  if [ "$IMAGE_VERSION" -le 3 ]; then
+    do_magento_assets_cleanup
+  fi
 
   do_magento_move_compiled_assets_away_from_codebase
   MAGENTO_ENABLE_CACHE="false" MAGENTO_USE_REDIS="false" MAGENTO_HTTP_CACHE_HOSTS="" do_magento_setup_upgrade
@@ -554,8 +497,10 @@ function do_magento2_development_build() {
     do_magento_remove_config_template
   fi
   if [[ "${MAGENTO_RUN_BUILD}" == "true" ]]; then
-    do_magento_assets_download
-    do_magento_assets_install
+    if [ "$IMAGE_VERSION" -le 3 ]; then
+      do_magento_assets_download
+      do_magento_assets_install
+    fi
     do_templating
     do_magento2_setup
     do_magento_frontend_build
@@ -576,7 +521,9 @@ function do_magento2_development_build() {
 }
 
 function do_magento2_setup() {
-  do_magento_database_install
+  if [ "$IMAGE_VERSION" -le 3 ]; then
+    do_magento_database_install
+  fi
   do_magento_installer_install
   do_replace_core_config_values
   do_magento_cache_flush

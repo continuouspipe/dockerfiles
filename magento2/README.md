@@ -7,7 +7,7 @@ FROM quay.io/continuouspipe/magento2-nginx-php7.1:stable
 ARG GITHUB_TOKEN=
 ARG MAGENTO_USERNAME=
 ARG MAGENTO_PASSWORD=
-ARG IMAGE_VERSION=2
+ARG IMAGE_VERSION=3
 
 COPY . /app
 RUN container build
@@ -32,7 +32,7 @@ FROM quay.io/continuouspipe/magento2-nginx-php7:stable
 ARG GITHUB_TOKEN=
 ARG MAGENTO_USERNAME=
 ARG MAGENTO_PASSWORD=
-ARG IMAGE_VERSION=2
+ARG IMAGE_VERSION=3
 
 COPY . /app
 RUN container build
@@ -112,7 +112,7 @@ The following variables are supported
 
 Variable | Description | Expected values | Default
 --- | --- | --- | ----
-IMAGE_VERSION | The docker image version to use. Version 1 uses the install_magento*.sh scripts which can be hard to customise. Version 2 uses magento_functions.sh and does a temporary database installation during the "build" phase. | 1/2 | 1
+IMAGE_VERSION | The docker image version to use. Version 1 uses the install_magento*.sh scripts which can be hard to customise. Version 2 uses magento_functions.sh and does a temporary database installation during the "build" phase. Version 3 removes the legacy assets installation. | 1/2/3 | 3
 PHP_MEMORY_LIMIT | PHP memory limit | - | 768M
 PHP_MAX_EXECUTION_TIME | Amount of time in seconds that PHP is allowed to execute for | integer | 600
 PRODUCTION_ENVIRONMENT | If true, magento DI will be compiled | true/false | false
@@ -120,7 +120,6 @@ BUILD_PRODUCTION_ENVIRONMENT | If true, magento DI will be compiled during the b
 APP_HOSTNAME | Web server's host name | \<projectname\>.docker | magento.docker
 PUBLIC_ADDRESS | Magento base URL. Note that an underscore should not be used due to magento admin login using PHP's filter_var to check for domain validity. "_" is not a valid character in a domain name. |  https://\<projectname\>.docker/ | https://magento.docker/
 FORCE_DATABASE_DROP | Drops the existing database before importing from assets | true/false | false
-DATABASE_ARCHIVE_PATH | Database dump's archive path | relative path | tools/assets/development/magentodb.sql.gz
 DATABASE_NAME | Magento database name | - | magentodb
 DATABASE_USER | Magento database user | - | magento
 DATABASE_USER_HOST | Host for the DATABASE_USER to be granted access from | hostname/ip/wildcard | %
@@ -129,12 +128,6 @@ DATABASE_ADMIN_USER | Optional MySQL database password to perform DBA operations
 DATABASE_ADMIN_PASSWORD | Optional MySQL database password to perform DBA operations, DATABASE_PASSWORD will be used if not specified | - | -
 DATABASE_HOST | Magento database host | - | database
 ADDITIONAL_SETUP_SQL | Any additional SQL query which should be executed after database import (changing base URLs and setting varnish host/port is added by default) | SQL Query | -
-AWS_S3_BUCKET | The S3 bucket to download assets from | string | empty
-AWS_ACCESS_KEY_ID | The S3 access key ID to connect to the S3 bucket as. | string | empty
-AWS_SECRET_ACCESS_KEY | The S3 secret access key to connect to the S3 bucket as. | string | empty
-ASSET_ARCHIVE_PATH | Asset files archive path | relative path | tools/assets/development/media.files.tgz
-ASSET_DOWNLOAD_ENVIRONMENTS | Assets will be downloaded for this environment name (i.e. s3://AWS_S3_BUCKET/ASSET_DOWNLOAD_ENVIRONMENT). Can be multiple values separated by whitespace. | - | development
-ASSET_DOWNLOAD_EXCLUDE_PATTERN | An exclude pattern compatible with "aws-cli", in order not to download some files from the bucket. | glob | empty
 FRONTEND_INSTALL_DIRECTORY | NPM modules will be installed within this directory (if it exists) | absolute path (normally we mount the source at /app) | /app/tools/inviqa
 FRONTEND_BUILD_DIRECTORY | Gulp command will be executed within this directory (if it exists) | absolute path (normally we mount the source at /app) | /app/tools/inviqa
 FRONTEND_BUILD_ACTION | Gulp command to run | gulp command name | build
