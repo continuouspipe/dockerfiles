@@ -202,3 +202,18 @@ PHP_REALPATH_CACHE_TTL | How many seconds can PHP cache the resolved file locati
 PHP_OPCACHE_INTERNED_STRINGS_BUFFER | The amount of megabytes of strings to store a cache of. | integer (megabytes) | 64
 PHP_OPCACHE_MEMORY_CONSUMPTION | How much memory in megabytes can opcache use? | integer | 512
 PHP_OPCACHE_ENABLE_CLI | Should opcache be enabled on the PHP CLI? | 0/1 | 1
+
+## Pipeline Deployment Mode
+
+If `IMAGE_VERSION` is set to `3` and you are using Magento 2.2 or above, you can use u the Magento 2.2+
+[deployment pipeline](https://devdocs.magento.com/guides/v2.2/config-guide/deployment/pipeline/) for building the
+docker image and upgrading sites during do_setup().
+
+To use the pipeline feature, run `bin/magento app:config:dump` on an existing installation and commit the resulting
+`app/etc/config.php`.
+
+The minimum configuration in `app/etc/config.php` that you appear to need for setup:static-content:deploy to work is:
+1. `modules`
+2. `scopes`
+3. `themes`
+4. the `system -> default -> general -> locale -> code`
