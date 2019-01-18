@@ -19,7 +19,7 @@ FROM quay.io/continuouspipe/magento2-nginx-php7.1-ng:stable
 ARG GITHUB_TOKEN=
 ARG MAGENTO_USERNAME=
 ARG MAGENTO_PASSWORD=
-ARG IMAGE_VERSION=2
+ARG IMAGE_VERSION=3
 
 COPY . /app
 RUN container build
@@ -45,7 +45,7 @@ FROM quay.io/continuouspipe/magento2-nginx-php7-ng:stable
 ARG GITHUB_TOKEN=
 ARG MAGENTO_USERNAME=
 ARG MAGENTO_PASSWORD=
-ARG IMAGE_VERSION=2
+ARG IMAGE_VERSION=3
 
 COPY . /app
 RUN container build
@@ -112,7 +112,7 @@ The following variables are supported
 
 Variable | Description | Expected values | Default
 --- | --- | --- | ----
-IMAGE_VERSION | The docker image version to use. Version 1 uses the install_magento*.sh scripts which can be hard to customise. Version 2 uses magento_functions.sh and does a temporary database installation during the "build" phase. Version 3 removes the legacy assets installation. | 1/2/3 | 3
+IMAGE_VERSION | The docker image version to use. Version 1 uses the install_magento*.sh scripts which can be hard to customise. Version 2 uses magento_functions.sh and does a temporary database installation during the "build" phase. Version 3 removes the legacy assets installation and supports Magento's pipeline deployment in Magento 2.2+. | 1/2/3 | 3
 PHP_MEMORY_LIMIT | PHP memory limit | - | 768M
 PHP_MAX_EXECUTION_TIME | Amount of time in seconds that PHP is allowed to execute for | integer | 600
 PRODUCTION_ENVIRONMENT | If true, magento DI will be compiled | true/false | false
