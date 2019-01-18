@@ -135,9 +135,8 @@ function do_magento_dependency_injection_compilation() {
 function do_magento_deploy_static_content() {
   # Compile static content if it's a production container.
   if [ "$MAGENTO_MODE" = "production" ]; then
-    set +e
-    parallel --no-notice --line-buffer --tag run_magento_deploy_static_content "{1}" "{2}" ::: "" "--no-javascript $FRONTEND_COMPILE_LANGUAGES" ::: "on" "--no-css --no-less --no-images --no-fonts --no-html --no-misc --no-html-minify $FRONTEND_COMPILE_LANGUAGES"
-    set -e
+    run_magento_deploy_static_content "" "--no-javascript $FRONTEND_COMPILE_LANGUAGES"
+    run_magento_deploy_static_content "on" "--no-css --no-less --no-images --no-fonts --no-html --no-misc --no-html-minify $FRONTEND_COMPILE_LANGUAGES"
   fi
 }
 
