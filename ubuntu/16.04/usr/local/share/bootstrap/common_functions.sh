@@ -319,3 +319,16 @@ function do_list_functions() {
 function do_shell() {
   bash "$@"
 }
+
+function is_function() {
+  if [ "$(type -t "$1")" == "function" ]; then
+    return 0
+  fi
+  return 1
+}
+
+function call_if_available() {
+  if is_function "$1"; then
+    eval "$@"
+  fi
+}

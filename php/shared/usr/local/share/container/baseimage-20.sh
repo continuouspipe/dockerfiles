@@ -25,7 +25,7 @@ alias_function do_development_start do_php_development_start_inner
 do_development_start() {
   do_php_development_start_inner
   do_build_permissions
-  parallel ::: do_assets_all do_composer
+  parallel --no-notice --line-buffer --tag ::: do_assets_all do_composer
 }
 
 alias_function do_setup do_php_setup_inner

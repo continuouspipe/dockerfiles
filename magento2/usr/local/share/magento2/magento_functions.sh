@@ -560,16 +560,3 @@ function do_magento2_setup() {
     do_magento_reindex
   fi
 }
-
-function is_function() {
-  if [ "$(type -t "$1")" == "function" ]; then
-    return 0
-  fi
-  return 1
-}
-
-function call_if_available() {
-  if is_function "$1"; then
-    eval "$1"
-  fi
-}
