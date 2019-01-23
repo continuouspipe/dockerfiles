@@ -19,7 +19,7 @@ FROM quay.io/continuouspipe/magento2-nginx-php7.1-ng:stable
 ARG GITHUB_TOKEN=
 ARG MAGENTO_USERNAME=
 ARG MAGENTO_PASSWORD=
-ARG IMAGE_VERSION=2
+ARG IMAGE_VERSION=3
 
 COPY . /app
 RUN container build
@@ -45,7 +45,7 @@ FROM quay.io/continuouspipe/magento2-nginx-php7-ng:stable
 ARG GITHUB_TOKEN=
 ARG MAGENTO_USERNAME=
 ARG MAGENTO_PASSWORD=
-ARG IMAGE_VERSION=2
+ARG IMAGE_VERSION=3
 
 COPY . /app
 RUN container build
@@ -112,11 +112,10 @@ The following variables are supported
 
 Variable | Description | Expected values | Default
 --- | --- | --- | ----
-IMAGE_VERSION | The docker image version to use. Version 1 uses the install_magento*.sh scripts which can be hard to customise. Version 2 uses magento_functions.sh and does a temporary database installation during the "build" phase. Version 3 removes the legacy assets installation. | 1/2/3 | 3
+IMAGE_VERSION | The docker image version to use. Version 1 uses the install_magento*.sh scripts which can be hard to customise. Version 2 uses magento_functions.sh and does a temporary database installation during the "build" phase. Version 3 removes the legacy assets installation and supports Magento's [pipeline deployment](https://devdocs.magento.com/guides/v2.2/config-guide/deployment/pipeline/) in Magento 2.2+. | 1/2/3 | 3
 PHP_MEMORY_LIMIT | PHP memory limit | - | 768M
 PHP_MAX_EXECUTION_TIME | Amount of time in seconds that PHP is allowed to execute for | integer | 600
 PRODUCTION_ENVIRONMENT | If true, magento DI will be compiled | true/false | false
-BUILD_PRODUCTION_ENVIRONMENT | If true, magento DI will be compiled during the build of the docker image | true/false | true
 APP_HOSTNAME | Web server's host name | \<projectname\>.docker | magento.docker
 PUBLIC_ADDRESS | Magento base URL. Note that an underscore should not be used due to magento admin login using PHP's filter_var to check for domain validity. "_" is not a valid character in a domain name. |  https://\<projectname\>.docker/ | https://magento.docker/
 FORCE_DATABASE_DROP | Drops the existing database before importing from assets | true/false | false
@@ -133,7 +132,6 @@ FRONTEND_BUILD_DIRECTORY | Gulp command will be executed within this directory (
 FRONTEND_BUILD_ACTION | Gulp command to run | gulp command name | build
 GULP_BUILD_THEME_NAME | If specified, will be passed to gulp command as "--theme=<theme name>" | - | -
 MAGENTO_MODE | Used to set Magento mode. If set to "production", static content will be deployed | default/developer/production | production
-BUILD_MAGENTO_MODE | Used to set Magento mode during the build of the docker image. If set to "production", static content will be deployed | default/developer/production | production
 MAGENTO_RUN_CODE_MAPPING | Mapped to http_host and default store name. First part of the value is the host name and second part is magento's store code (separated by space). Don't forget to add ";" at the end. | - | magento_web.docker default;
 MAGENTO_RUN_TYPE | Used to set Magento store type. | store/website | store
 FRONTEND_COMPILE_LANGUAGES | Used during static content deployment. It can be multiple language codes. | language code(s) separated by space | en_GB
@@ -174,8 +172,6 @@ MAGENTO_HTTP_CACHE_HOSTS | Comma separated list of upstream HTTP cache hosts (fo
 MAGENTO_HTTP_CACHE_PORT | Port to talk to on the upstream HTTP cache hosts | 1-65535 | 80
 MAGENTO_ALLOW_ACCESS_TO_SETUP | Whether to allow access to the /setup URL or not | true/false | true
 MAGENTO_ALLOW_ACCESS_TO_UPDATE | Whether to allow access to the /update URL or not | true/false | true
-MAGENTO_RUN_BUILD | Whether to run the installer each time the container is started in development mode. Run once with true and then further builds can be stopped by setting to false. | true/false | true
-BUILD_DEVELOPMENT_MODE | If true, development dependencies will be installed during the build of the docker image. | true/false | false
 MAGENTO_CACHE_STATIC_ASSETS | If true, static assets under /static will be cached in varnish and potentially browsers for a very long time. We have made this an opt-in feature as you should ensure that the config value `dev/static/sign` is set to `1`, or you will find the next deployment doesn't update the assets for visitors who have visited your site before. | true/false | false
 MAGENTO_ENABLE_CONFIG_CACHE | If true, enable this cache type in /app/app/etc/env.php | true/false | true
 MAGENTO_ENABLE_LAYOUT_CACHE | If true, enable this cache type in /app/app/etc/env.php | true/false | true
@@ -191,6 +187,7 @@ MAGENTO_ENABLE_CONFIG_INTEGRATION_API_CACHE | If true, enable this cache type in
 MAGENTO_ENABLE_TRANSLATE_CACHE | If true, enable this cache type in /app/app/etc/env.php | true/false | true
 MAGENTO_ENABLE_CONFIG_WEBSERVICE_CACHE | If true, enable this cache type in /app/app/etc/env.php | true/false | true
 MAGENTO_ENABLE_TARGET_RULE_CACHE | If true, enable the target rule cache type in /app/app/etc/env.php. Enterprise edition only. | true/false | true
+MAGENTO_ENABLE_COMPILED_CONFIG_CACHE | If true, enable the compiled_config cache type in /app/app/etc/env.php. Magento 2.2 onwards | true/false | true
 MAGENTO_ENTERPRISE_EDITION | If true, this installation of magento is the enterprise edition which allows you to use the target rule cache. | true/false | false
 
 The following variables have had their defaults changed from the php-nginx image so that Magento 2 runs better:
@@ -205,3 +202,18 @@ PHP_REALPATH_CACHE_TTL | How many seconds can PHP cache the resolved file locati
 PHP_OPCACHE_INTERNED_STRINGS_BUFFER | The amount of megabytes of strings to store a cache of. | integer (megabytes) | 64
 PHP_OPCACHE_MEMORY_CONSUMPTION | How much memory in megabytes can opcache use? | integer | 512
 PHP_OPCACHE_ENABLE_CLI | Should opcache be enabled on the PHP CLI? | 0/1 | 1
+
+## Pipeline Deployment Mode
+
+If `IMAGE_VERSION` is set to `3` and you are using Magento 2.2 or above, you can use u the Magento 2.2+
+[deployment pipeline](https://devdocs.magento.com/guides/v2.2/config-guide/deployment/pipeline/) for building the
+docker image and upgrading sites during do_setup().
+
+To use the pipeline feature, run `bin/magento app:config:dump` on an existing installation and commit the resulting
+`app/etc/config.php`.
+
+The minimum configuration in `app/etc/config.php` that you appear to need for setup:static-content:deploy to work is:
+1. `modules`
+2. `scopes`
+3. `themes`
+4. the `system -> default -> general -> locale -> code`
