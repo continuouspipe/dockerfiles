@@ -30,14 +30,14 @@ RUN echo 'deb http://s3-eu-west-1.amazonaws.com/qafoo-profiler/packages debian m
     "php$PHP_VERSION-pgsql" postgresql-client \
     "php$PHP_VERSION-sqlite3" \
     postfix \
-    tideways-php \
- # Install pear + pecl extensions after PHP so the right CLI gets selected beforehand \
+ # Install pear + pecl extensions + tideways after PHP so the right CLI gets selected beforehand \
  && DEBIAN_FRONTEND=noninteractive apt-get -qq -y --no-install-recommends install \
     php-apcu \
     php-imagick \
     php-memcached \
     php-pear \
     php-xdebug \
+    tideways-php \
  \
  # php-redis 4 from php$PHP_VERSION-redis has backwards-incompatibilities so install from pecl repositories \
  && pecl install redis-3.1.6 \
