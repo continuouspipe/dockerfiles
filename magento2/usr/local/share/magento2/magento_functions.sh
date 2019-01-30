@@ -416,7 +416,7 @@ function do_magento2_templating() {
 }
 
 function do_magento2_post_templating() {
-  if has_deploy_pipeline; then
+  if has_deploy_pipeline && [ -d /app/vendor/ ]; then
     php /usr/local/share/magento2/format_env.php
   fi
 }
