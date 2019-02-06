@@ -8,6 +8,7 @@ RUN apt-get update -qq \
     apache2-utils \
     "libapache2-mod-php$PHP_VERSION" \
  && echo -e '; priority=25\nextension=redis.so' > "/etc/php/${PHP_VERSION}/apache2/conf.d/25-redis.ini" \
+ && ln -s /etc/php/${PHP_VERSION}/mods-available/tideways.ini "/etc/php/${PHP_VERSION}/apache2/conf.d/20-tideways.ini" \
  \
  # Clean the image \
  && apt-get auto-remove -qq -y \
