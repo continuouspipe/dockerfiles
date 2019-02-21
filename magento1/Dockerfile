@@ -2,6 +2,8 @@ ARG FROM_IMAGE
 ARG FROM_TAG=latest
 FROM quay.io/continuouspipe/${FROM_IMAGE}:${FROM_TAG}
 
+ARG WEB_SERVER
+
 # Install npm
 RUN curl -sL https://deb.nodesource.com/setup_6.x > /tmp/install-node.sh \
  && bash /tmp/install-node.sh \
