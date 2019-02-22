@@ -33,6 +33,9 @@
                     <initStatements><![CDATA[SET NAMES utf8]]></initStatements>
                     <type><![CDATA[pdo_mysql]]></type>
                     <password><![CDATA[{{ getenv "DATABASE_PASSWORD" }}]]></password>
+                    {{ if eq "developer" (getenv "MAGENTO_MODE") }}
+                    <profiler><![CDATA[1]]></profiler>
+                    {{ end }}
                 </connection>
             </default_setup>
         </resources>
