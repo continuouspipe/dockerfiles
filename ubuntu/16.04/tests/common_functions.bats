@@ -88,7 +88,7 @@ function setup() {
 }
 
 @test "as_user runs a command via sudo" {
-  stub sudo "-u build -E HOME=/home/build /bin/bash -c cd '/app'; test : true"
+  stub sudo "-u build -E HOME=/home/build /bin/bash -ec cd '/app'; test : true"
   unset get_user_home_directory
   stub get_user_home_directory "build : echo /home/build"
 
@@ -100,7 +100,7 @@ function setup() {
 }
 
 @test "as_user runs a command via sudo from a certain directory" {
-  stub sudo "-u build -E HOME=/home/build /bin/bash -c cd '/tmp'; test : true"
+  stub sudo "-u build -E HOME=/home/build /bin/bash -ec cd '/tmp'; test : true"
   unset get_user_home_directory
   stub get_user_home_directory "build : echo /home/build"
 
@@ -112,7 +112,7 @@ function setup() {
 }
 
 @test "as_user runs a command via sudo as a certain user" {
-  stub sudo "-u www-data -E HOME=/var/www /bin/bash -c cd '/app'; test : true"
+  stub sudo "-u www-data -E HOME=/var/www /bin/bash -ec cd '/app'; test : true"
   unset get_user_home_directory
   stub get_user_home_directory "www-data : echo /var/www"
 
