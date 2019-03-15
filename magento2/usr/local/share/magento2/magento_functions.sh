@@ -500,13 +500,13 @@ function legacy_asset_functions()
 
 function do_magento2_build() {
   do_magento_create_web_writable_directories
-  parallel --no-notice --line-buffer --tag ::: do_magento_frontend_build legacy_asset_functions
+  parallel --no-notice --line-buffer --tag --halt-on-error now,fail=1 ::: do_magento_frontend_build legacy_asset_functions
   do_magento_frontend_cache_clean
   do_magento_install_custom
 
   setup_build_database
 
-  parallel --no-notice --line-buffer --tag ::: do_magento_dependency_injection_compilation do_magento_deploy_static_content
+  parallel --no-notice --line-buffer --tag --halt-on-error now,fail=1 ::: do_magento_dependency_injection_compilation do_magento_deploy_static_content
   do_magento_install_finalise_custom
 
   if ! has_deploy_pipeline; then

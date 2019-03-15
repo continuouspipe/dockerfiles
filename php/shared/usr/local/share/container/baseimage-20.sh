@@ -9,7 +9,7 @@ alias_function do_build do_php_build_inner
 do_build() {
   do_php_build_inner
   do_build_permissions
-  parallel --no-notice --line-buffer --tag ::: do_assets_all do_composer
+  parallel --no-notice --line-buffer --tag --halt-on-error now,fail=1 ::: do_assets_all do_composer
 }
 
 alias_function do_start do_php_web_start_inner
@@ -25,7 +25,7 @@ alias_function do_development_start do_php_development_start_inner
 do_development_start() {
   do_php_development_start_inner
   do_build_permissions
-  parallel --no-notice --line-buffer --tag ::: do_assets_all do_composer
+  parallel --no-notice --line-buffer --tag --halt-on-error now,fail=1 ::: do_assets_all do_composer
 }
 
 alias_function do_setup do_php_setup_inner
