@@ -8,6 +8,8 @@ else
     DIR="$(dirname "$0")"
 fi
 
+export PARALLEL_SHELL="./ubuntu/16.04/usr/local/share/bootstrap/parallel_shell_wrapper.sh"
+
 echo "travis_fold:start:pull_test_images"
 time docker pull koalaman/shellcheck:v0.4.6
 time docker pull lukasmartinelli/hadolint:latest
@@ -25,7 +27,7 @@ echo "travis_fold:start:lint_scripts"
 time {
   find "$DIR" -type f ! -path "*.git/*" ! -name "*.py" \( \
     -perm +111 -or -name "*.sh" -or -wholename "*usr/local/share/env/*" -or -wholename "*usr/local/share/container/*" \
-  \) | parallel --no-notice --line-buffer --tag --tagstring "Linting {}:" run_shellcheck
+  \) | parallel --halt-on-error now,fail=1 --no-notice --line-buffer --tag --tagstring "Linting {}:" run_shellcheck
 }
 echo "travis_fold:end:lint_scripts"
 
@@ -39,7 +41,7 @@ export -f run_hadolint
 
 echo "travis_fold:start:lint_dockerfiles"
 time {
-  find "$DIR" -type f -name "Dockerfile*" ! -name "*.tmpl" | parallel --no-notice --line-buffer --tag --tagstring "Linting {}:" run_hadolint
+  find "$DIR" -type f -name "Dockerfile*" ! -name "*.tmpl" | parallel --halt-on-error now,fail=1 --no-notice --line-buffer --tag --tagstring "Linting {}:" run_hadolint
 }
 echo "travis_fold:end:lint_dockerfiles"
 
@@ -65,6 +67,6 @@ export -f run_integration_tests
 echo "travis_fold:start:integration_tests"
 # Run integration tests
 time {
-  find "$DIR" -type f -path "*/tests/integration/docker-compose.yml" | parallel --no-notice --line-buffer --tag --tagstring "Integration {}:" run_integration_tests
+  find "$DIR" -type f -path "*/tests/integration/docker-compose.yml" | parallel --halt-on-error now,fail=1 --no-notice --line-buffer --tag --tagstring "Integration {}:" run_integration_tests
 }
 echo "travis_fold:end:integration_tests"

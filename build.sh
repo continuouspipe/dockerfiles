@@ -8,6 +8,8 @@ else
     DIR="$(dirname "$0")"
 fi
 
+export PARALLEL_SHELL="./ubuntu/16.04/usr/local/share/bootstrap/parallel_shell_wrapper.sh"
+
 templated_files()
 {
   shopt -s nullglob
@@ -52,7 +54,7 @@ publish_images()
   DO_PUBLISH="$(echo "$DO_PUBLISH" | tr '[:upper:]' '[:lower:]')"
   if [ "$DO_PUBLISH" = 'y' ]; then
     echo "Pushing our images:"; echo
-    parallel --no-notice --line-buffer --tag --tagstring "Pushing {}:" docker-compose "${DOCKER_COMPOSE_FILES[@]}" push ::: "${DOCKER_IMAGES[@]}"
+    parallel --halt-on-error now,fail=1 --no-notice --line-buffer --tag --tagstring "Pushing {}:" docker-compose "${DOCKER_COMPOSE_FILES[@]}" push ::: "${DOCKER_IMAGES[@]}"
   else
     echo "Not Pushing our images."; echo
   fi
@@ -214,7 +216,7 @@ main()
   else
     for level in 3 2 1 0; do
       echo "travis_fold:start:build_level_$level"
-      parallel --no-notice --line-buffer --tag --link ::: run_build run_publish ::: "$level" "$((level + 1))"
+      parallel --halt-on-error now,fail=1 --no-notice --line-buffer --tag --link ::: run_build run_publish ::: "$level" "$((level + 1))"
       echo "travis_fold:end:build_level_$level"
     done
 
