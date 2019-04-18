@@ -153,7 +153,6 @@ variables()
       'rabbitmq36_management'
       'rabbitmq37_management'
       'redis'
-      'redis_highly_available'
       'scala_sbt'
       'ssh_forward'
       'spryker_php71_nginx'

@@ -507,13 +507,6 @@ services:
     depends_on:
       - external_redis
 
-  redis_highly_available:
-    build:
-      context: ./redis/3-highly-available/
-    image: quay.io/continuouspipe/redis3-highly-available:latest
-    depends_on:
-      - external_redis_highly_available
-
   solr_4_10:
     build:
       context: ./solr/4.10/
@@ -735,9 +728,6 @@ services:
 
   external_redis:
     image: redis:3.2
-
-  external_redis_highly_available:
-    image: gcr.io/google_containers/redis:v1
 
   external_elasticsearch17:
     image: elasticsearch:1.7

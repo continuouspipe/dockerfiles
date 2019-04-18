@@ -169,9 +169,6 @@ services:
   redis_stable:
     image: quay.io/continuouspipe/redis3:stable
     build: "/dev/null"
-  redis_highly_available_stable:
-    image: quay.io/continuouspipe/redis3-highly-available:stable
-    build: "/dev/null"
   solr_4_10_stable:
     image: quay.io/continuouspipe/solr4:stable
     build: "/dev/null"
