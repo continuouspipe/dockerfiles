@@ -73,9 +73,6 @@ services:
   memcached_stable:
     image: quay.io/continuouspipe/memcached1.4:stable
     build: "/dev/null"
-  mongodb26_stable:
-    image: quay.io/continuouspipe/mongodb2.6:stable
-    build: "/dev/null"
   mongodb36_stable:
     image: quay.io/continuouspipe/mongodb3.6:stable
     build: "/dev/null"

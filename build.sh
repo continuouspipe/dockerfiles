@@ -132,7 +132,6 @@ variables()
       'magento2_varnish'
       'mailcatcher'
       'memcached'
-      'mongodb26'
       'mongodb34'
       'mongodb36'
       'mysql80'
