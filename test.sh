@@ -35,7 +35,7 @@ run_hadolint()
 {
   set -e
   local dockerfile="$1"
-  docker run --rm -i lukasmartinelli/hadolint:latest hadolint --ignore DL3008 --ignore DL3002 --ignore DL3003 --ignore DL4001 --ignore DL3007 --ignore SC2016 - < "$dockerfile" && echo "OK"
+  docker run --rm -i lukasmartinelli/hadolint:latest hadolint --ignore DL3008 --ignore DL3002 --ignore DL3003 --ignore DL4001 --ignore DL3007 --ignore SC2016 --ignore SC2028 - < "$dockerfile" && echo "OK"
 }
 export -f run_hadolint
 
