@@ -73,9 +73,6 @@ services:
   memcached_stable:
     image: quay.io/continuouspipe/memcached1.4:stable
     build: "/dev/null"
-  mongodb26_stable:
-    image: quay.io/continuouspipe/mongodb2.6:stable
-    build: "/dev/null"
   mongodb36_stable:
     image: quay.io/continuouspipe/mongodb3.6:stable
     build: "/dev/null"
@@ -171,9 +168,6 @@ services:
     build: "/dev/null"
   redis_stable:
     image: quay.io/continuouspipe/redis3:stable
-    build: "/dev/null"
-  redis_highly_available_stable:
-    image: quay.io/continuouspipe/redis3-highly-available:stable
     build: "/dev/null"
   solr_4_10_stable:
     image: quay.io/continuouspipe/solr4:stable

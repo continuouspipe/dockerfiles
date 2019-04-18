@@ -347,12 +347,6 @@ tasks:
           image: quay.io/continuouspipe/memcached1.4
           tag: ${FROM_TAG}
           reuse: false
-        mongodb26:
-          image: quay.io/continuouspipe/mongodb2.6
-          tag: ${FROM_TAG}
-          reuse: false
-          environment:
-            FROM_TAG: '2.6'
         mongodb34:
           image: quay.io/continuouspipe/mongodb3.4
           tag: ${FROM_TAG}
@@ -488,10 +482,6 @@ tasks:
             FROM_TAG: '3.7-management'
         redis:
           image: quay.io/continuouspipe/redis3
-          tag: ${FROM_TAG}
-          reuse: false
-        redis_highly_available:
-          image: quay.io/continuouspipe/redis3-highly-available
           tag: ${FROM_TAG}
           reuse: false
 
