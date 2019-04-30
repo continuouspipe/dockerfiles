@@ -47,7 +47,7 @@ as_user() (
     if [ -z "$SENSITIVE" ] || [ "$SENSITIVE" = "false" ]; then
       set -x
     fi
-    /bin/bash -c "cd '$WORKING_DIR'; $COMMAND"
+    /bin/bash -ec "cd '$WORKING_DIR'; $COMMAND"
     return "$?"
   fi
 
@@ -65,7 +65,7 @@ as_user() (
   if [ -z "$SENSITIVE" ] || [ "$SENSITIVE" = "false" ]; then
     set -x
   fi
-  sudo -u "$USER" -E HOME="$USER_HOME" /bin/bash -c "cd '$WORKING_DIR'; $COMMAND"
+  sudo -u "$USER" -E HOME="$USER_HOME" /bin/bash -ec "cd '$WORKING_DIR'; $COMMAND"
 )
 
 as_build() (
@@ -318,4 +318,17 @@ function do_list_functions() {
 
 function do_shell() {
   bash "$@"
+}
+
+function is_function() {
+  if [ "$(type -t "$1")" == "function" ]; then
+    return 0
+  fi
+  return 1
+}
+
+function call_if_available() {
+  if is_function "$1"; then
+    eval "$@"
+  fi
 }

@@ -1,5 +1,9 @@
 #!/bin/bash
 
+if [ "$IMAGE_VERSION" -lt 3 ]; then
+  source /usr/local/share/magento2/magento_legacy_asset_functions.sh
+fi
+
 function detect_magento_version() {
   if has_composer_package magento/product-community-edition; then
     composer_package_version magento/product-community-edition | cut -d. -f1,2
@@ -58,7 +62,7 @@ function do_magento_frontend_build_install() {
     chown -R "${CODE_OWNER}:${CODE_GROUP}" pub/static/frontend/
   fi
 
-  as_code_owner "npm install" "$FRONTEND_INSTALL_DIRECTORY"
+  as_code_owner "npm install --no-save" "$FRONTEND_INSTALL_DIRECTORY"
 }
 
 function do_magento_frontend_build_run() {
@@ -123,7 +127,7 @@ function do_magento_move_compiled_assets_back_to_codebase() {
 
 function do_magento_dependency_injection_compilation() {
   # Compile the DIC if to be productionized
-  if [ "$PRODUCTION_ENVIRONMENT" = "true" ]; then
+  if [[ "$IMAGE_VERSION" -le 2 && "$PRODUCTION_ENVIRONMENT" = "true" ]] || [[ "$MAGENTO_MODE" == "production" ]]; then
     as_code_owner "$MAGENTO_DEPENDENCY_INJECTION_COMPILE_COMMAND"
   fi
 }
@@ -131,10 +135,8 @@ function do_magento_dependency_injection_compilation() {
 function do_magento_deploy_static_content() {
   # Compile static content if it's a production container.
   if [ "$MAGENTO_MODE" = "production" ]; then
-    set +e
     run_magento_deploy_static_content "" "--no-javascript $FRONTEND_COMPILE_LANGUAGES"
     run_magento_deploy_static_content "on" "--no-css --no-less --no-images --no-fonts --no-html --no-misc --no-html-minify $FRONTEND_COMPILE_LANGUAGES"
-    set -e
   fi
 }
 
@@ -145,18 +147,6 @@ function run_magento_deploy_static_content() {
 
 function do_magento_reindex() {
   (as_code_owner "bin/magento indexer:reindex" || echo "Failing indexing to the end, ignoring.") && echo "Indexing successful"
-}
-
-function do_magento_assets_download() {
-  if [ -n "$AWS_S3_BUCKET" ]; then
-    for asset_env in $ASSET_DOWNLOAD_ENVIRONMENTS; do
-      if [ -n "$ASSET_DOWNLOAD_EXCLUDE_PATTERN" ]; then
-        as_build "aws s3 sync 's3://${AWS_S3_BUCKET}/${asset_env}' 'tools/assets/${asset_env}' --exclude='${ASSET_DOWNLOAD_EXCLUDE_PATTERN}'"
-      else
-        as_build "aws s3 sync 's3://${AWS_S3_BUCKET}/${asset_env}' 'tools/assets/${asset_env}'"
-      fi
-    done
-  fi
 }
 
 function redis_connection_args()
@@ -260,31 +250,6 @@ function do_magento_database_create() {
   fi
 }
 
-function do_magento_database_install() (
-  set +x
-  if [ "${DATABASE_HOST}" != "localhost" ]; then
-    wait_for_remote_ports "30" "${DATABASE_HOST}:${DATABASE_PORT}"
-  fi
-  if [ -f "$DATABASE_ARCHIVE_PATH" ]; then
-    do_magento_drop_database
-
-    local DATABASE_EXISTS
-    DATABASE_EXISTS="$(check_magento_database_exists)"
-
-    if [ "$DATABASE_EXISTS" != "true" ]; then
-      do_magento_database_create
-
-      echo 'zcating the magento database dump into the database'
-      if [ -n "$DATABASE_ROOT_PASSWORD" ]; then
-        zcat "$DATABASE_ARCHIVE_PATH" | mysql -h"$DATABASE_HOST" -uroot -p"$DATABASE_ROOT_PASSWORD" "$DATABASE_NAME" || exit 1
-      else
-        zcat "$DATABASE_ARCHIVE_PATH" | mysql -h"$DATABASE_HOST" -uroot "$DATABASE_NAME" || exit 1
-      fi
-    fi
-  fi
-  set -x
-)
-
 function do_magento_installer_install() (
   set +x
   if [ "${DATABASE_HOST}" != "localhost" ]; then
@@ -335,36 +300,6 @@ function do_magento_wait_for_database() {
     echo "Waiting for a mysql server"
     sleep 5
   done
-}
-
-function do_magento_assets_install() {
-  if [ -f "$ASSET_ARCHIVE_PATH" ]; then
-    if [ "$IS_CHOWN_FORBIDDEN" != 'true' ]; then
-      chown -R "${CODE_OWNER}:${CODE_GROUP}" pub/media
-    else
-      chmod -R a+rw pub/media
-    fi
-
-    echo 'extracting media files'
-    as_code_owner "tar --no-same-owner --extract --strip-components=2 --touch --overwrite --gzip --file=$ASSET_ARCHIVE_PATH || exit 1" pub/media
-
-    if [ "$IS_CHOWN_FORBIDDEN" != 'true' ]; then
-      chown -R "${APP_USER}:${CODE_GROUP}" pub/media
-      chmod -R ug+rw,o-rw pub/media
-    else
-      chmod -R a+rw pub/media
-    fi
-  fi
-}
-
-function do_magento_assets_cleanup() {
-  if [ -z "$DATABASE_ARCHIVE_PATH" ] && [ -z "$ASSET_ARCHIVE_PATH" ]; then
-    return
-  fi
-
-  if [ -d /app/tools/assets/ ]; then
-    find /app/tools/assets/ -type f ! -path "*${DATABASE_ARCHIVE_PATH}" -delete
-  fi
 }
 
 function do_magento_install_development_custom() {
@@ -461,8 +396,14 @@ function do_magento_download_magerun2() {
   chmod +x /app/bin/n98-magerun2.phar
 }
 
+function has_deploy_pipeline() (
+  set +ex
+  dpkg --compare-versions "$MAGENTO_VERSION" ge 2.2 && [ -f "${WORK_DIRECTORY}/app/etc/config.php" ] && grep -q 'websites' "${WORK_DIRECTORY}/app/etc/config.php"
+  return $?
+)
+
 function remove_config_template() {
-  if dpkg --compare-versions "$MAGENTO_VERSION" ge 2.2; then
+  if has_deploy_pipeline; then
     rm -f /etc/confd/conf.d/magento_config.php.toml /etc/confd/templates/magento/config.php.tmpl
   fi
 }
@@ -472,6 +413,12 @@ function do_magento2_templating() {
 
   mkdir -p /app/app/etc/
   chown -R "${CODE_OWNER}:${CODE_GROUP}" /app/app/
+}
+
+function do_magento2_post_templating() {
+  if has_deploy_pipeline && [ -d /app/vendor/ ]; then
+    php /usr/local/share/magento2/format_env.php
+  fi
 }
 
 function do_magento_catalog_image_resize() {
@@ -517,29 +464,54 @@ function do_magento_create_admin_user() (
   fi
 )
 
-function do_magento2_build() {
-  do_magento_create_web_writable_directories
-  do_magento_frontend_build
-  do_magento_frontend_cache_clean
-  do_magento_assets_download
-  do_magento_assets_install
-  do_magento_install_custom
+function do_magento_app_config_dump() {
+  do_magento "app:config:dump"
+}
+
+function do_magento_app_config_import() {
+  do_magento "app:config:import"
+}
+
+function setup_build_database() {
+  if has_deploy_pipeline; then
+    return
+  fi
 
   DATABASE_HOST="localhost" DATABASE_USER="root" DATABASE_PASSWORD="" DATABASE_ROOT_PASSWORD="" MAGENTO_ENABLE_CACHE="false" MAGENTO_USE_REDIS="false" MAGENTO_HTTP_CACHE_HOSTS="" do_templating
-  DATABASE_HOST="localhost" DATABASE_USER="root" DATABASE_PASSWORD="" DATABASE_ROOT_PASSWORD="" DATABASE_USER_HOST="localhost" MAGENTO_ENABLE_CACHE="false" MAGENTO_USE_REDIS="false" MAGENTO_HTTP_CACHE_HOSTS="" do_magento_database_install
+
+  if is_function do_magento_database_install; then
+    DATABASE_HOST="localhost" DATABASE_USER="root" DATABASE_PASSWORD="" DATABASE_ROOT_PASSWORD="" DATABASE_USER_HOST="localhost" MAGENTO_ENABLE_CACHE="false" MAGENTO_USE_REDIS="false" MAGENTO_HTTP_CACHE_HOSTS="" do_magento_database_install
+  fi
   DATABASE_HOST="localhost" DATABASE_USER="root" DATABASE_PASSWORD="" DATABASE_ROOT_PASSWORD="" DATABASE_USER_HOST="localhost" MAGENTO_ENABLE_CACHE="false" MAGENTO_USE_REDIS="false" MAGENTO_HTTP_CACHE_HOSTS="" do_magento_installer_install
   DATABASE_HOST="localhost" DATABASE_USER="root" DATABASE_PASSWORD="" DATABASE_ROOT_PASSWORD="" DATABASE_USER_HOST="localhost" MAGENTO_ENABLE_CACHE="false" MAGENTO_USE_REDIS="false" MAGENTO_HTTP_CACHE_HOSTS="" do_replace_core_config_values
-  do_magento_assets_cleanup
+  call_if_available do_magento_assets_cleanup
 
   do_magento_move_compiled_assets_away_from_codebase
   MAGENTO_ENABLE_CACHE="false" MAGENTO_USE_REDIS="false" MAGENTO_HTTP_CACHE_HOSTS="" do_magento_setup_upgrade
   do_magento_remove_config_template
   do_magento_move_compiled_assets_back_to_codebase
+}
 
-  do_magento_dependency_injection_compilation
-  do_magento_deploy_static_content
+function legacy_asset_functions()
+{
+  call_if_available do_magento_assets_download
+  call_if_available do_magento_assets_install
+}
+
+function do_magento2_build() {
+  do_magento_create_web_writable_directories
+  parallel --no-notice --line-buffer --tag --halt-on-error now,fail=1 ::: do_magento_frontend_build legacy_asset_functions
+  do_magento_frontend_cache_clean
+  do_magento_install_custom
+
+  setup_build_database
+
+  parallel --no-notice --line-buffer --tag --halt-on-error now,fail=1 ::: do_magento_dependency_injection_compilation do_magento_deploy_static_content
   do_magento_install_finalise_custom
-  do_magento_build_stop_mysql
+
+  if ! has_deploy_pipeline; then
+    do_magento_build_stop_mysql
+  fi
 
   # Reset permissions to www-data:build for the var/log folder, which is owned by build:build after running bin/magento tasks as the build user!
   do_magento_create_web_writable_directories
@@ -549,13 +521,12 @@ function do_magento2_development_build() {
   if [[ "${IS_APP_MOUNTPOINT}" == "true" ]]; then
     do_magento_create_web_writable_directories
   fi
-  if [[ "${MAGENTO_RUN_BUILD}" != "true" ]]; then
+  if [[ "${RUN_BUILD}" != "true" ]]; then
     # Ensure existing /app/app/etc/config.php isn't overwritten
     do_magento_remove_config_template
   fi
-  if [[ "${MAGENTO_RUN_BUILD}" == "true" ]]; then
-    do_magento_assets_download
-    do_magento_assets_install
+  if [[ "${RUN_BUILD}" == "true" ]]; then
+    legacy_asset_functions
     do_templating
     do_magento2_setup
     do_magento_frontend_build
@@ -576,11 +547,16 @@ function do_magento2_development_build() {
 }
 
 function do_magento2_setup() {
-  do_magento_database_install
+  call_if_available do_magento_database_install
   do_magento_installer_install
   do_replace_core_config_values
+  if has_deploy_pipeline; then
+    do_magento_app_config_import
+  fi
   do_magento_cache_flush
   do_magento_setup_upgrade
   do_magento_cache_flush
-  do_magento_reindex
+  if is_true "$REINDEX_DURING_SETUP"; then
+    do_magento_reindex
+  fi
 }

@@ -5,9 +5,23 @@ if [ "$IMAGE_VERSION" -ge 2 ]; then
 
   alias_function do_build do_magento2_build_inner
   do_build() {
-    do_magento_build_start_mysql
+    if ! has_deploy_pipeline; then
+      do_magento_build_start_mysql
+    fi
     do_magento2_build_inner
-    PRODUCTION_ENVIRONMENT="$BUILD_PRODUCTION_ENVIRONMENT" MAGENTO_MODE="$BUILD_MAGENTO_MODE" MAGE_MODE="$BUILD_MAGENTO_MODE" DEVELOPMENT_MODE="$BUILD_DEVELOPMENT_MODE" do_magento2_build
+    call_magento2_build
+  }
+
+  call_magento2_build() {
+    if [ "$IMAGE_VERSION" -ge 3 ]; then
+      do_magento2_build
+    else
+      PRODUCTION_ENVIRONMENT="$BUILD_PRODUCTION_ENVIRONMENT" \
+      MAGENTO_MODE="$BUILD_MAGENTO_MODE" \
+      MAGE_MODE="$BUILD_MAGENTO_MODE" \
+      DEVELOPMENT_MODE="$BUILD_DEVELOPMENT_MODE" \
+      do_magento2_build
+    fi
   }
 
   alias_function do_start do_magento2_start_inner
@@ -26,6 +40,7 @@ if [ "$IMAGE_VERSION" -ge 2 ]; then
   do_templating() {
     do_magento2_templating
     do_magento2_templating_inner
+    do_magento2_post_templating
   }
 
   alias_function do_composer_config do_magento_composer_config_inner
@@ -88,7 +103,6 @@ else
     do_magento2_setup
   }
 fi
-
 
 do_magento() (
   set +x

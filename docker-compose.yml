@@ -211,15 +211,6 @@ services:
     depends_on:
       - ubuntu
 
-  mongodb26:
-    build:
-      context: ./mongodb/
-      args:
-        FROM_TAG: '2'
-    image: quay.io/continuouspipe/mongodb2.6:latest
-    depends_on:
-      - external_mongodb26
-
   mongodb36:
     build:
       context: ./mongodb/
@@ -364,85 +355,125 @@ services:
     depends_on:
       - php71_apache
 
+  php72:
+    build:
+      context: ./php/
+      dockerfile: Dockerfile-php
+      args:
+        PHP_VERSION: '7.2'
+    image: quay.io/continuouspipe/php7.2:latest
+    depends_on:
+      - ubuntu
+
+  php71:
+    build:
+      context: ./php/
+      dockerfile: Dockerfile-php
+      args:
+        PHP_VERSION: '7.1'
+    image: quay.io/continuouspipe/php7.1:latest
+    depends_on:
+      - ubuntu
+
+  php70:
+    build:
+      context: ./php/
+      dockerfile: Dockerfile-php
+      args:
+        PHP_VERSION: '7.0'
+    image: quay.io/continuouspipe/php7:latest
+    depends_on:
+      - ubuntu
+
+  php56:
+    build:
+      context: ./php/
+      dockerfile: Dockerfile-php
+      args:
+        PHP_VERSION: '5.6'
+    image: quay.io/continuouspipe/php5.6:latest
+    depends_on:
+      - ubuntu
+
   php72_apache:
     build:
       context: ./php/
       dockerfile: Dockerfile-apache
       args:
-        PHP_VERSION: '7.2'
+        PHP_IMAGE_VERSION: '7.2'
     image: quay.io/continuouspipe/php7.2-apache:latest
     depends_on:
-      - ubuntu
+      - php72
 
   php71_apache:
     build:
       context: ./php/
       dockerfile: Dockerfile-apache
       args:
-        PHP_VERSION: '7.1'
+        PHP_IMAGE_VERSION: '7.1'
     image: quay.io/continuouspipe/php7.1-apache:latest
     depends_on:
-      - ubuntu
+      - php71
 
   php70_apache:
     build:
       context: ./php/
       dockerfile: Dockerfile-apache
       args:
-        PHP_VERSION: '7.0'
+        PHP_IMAGE_VERSION: '7'
     image: quay.io/continuouspipe/php7-apache:latest
     depends_on:
-      - ubuntu
+      - php70
 
   php56_apache:
     build:
       context: ./php/
       dockerfile: Dockerfile-apache
       args:
-        PHP_VERSION: '5.6'
+        PHP_IMAGE_VERSION: '5.6'
     image: quay.io/continuouspipe/php5.6-apache:latest
     depends_on:
-      - ubuntu
+      - php56
 
   php72_nginx:
     build:
       context: ./php/
       dockerfile: Dockerfile-nginx
       args:
-        PHP_VERSION: '7.2'
+        PHP_IMAGE_VERSION: '7.2'
     image: quay.io/continuouspipe/php7.2-nginx:latest
     depends_on:
-      - ubuntu
+      - php72
 
   php71_nginx:
     build:
       context: ./php/
       dockerfile: Dockerfile-nginx
       args:
-        PHP_VERSION: '7.1'
+        PHP_IMAGE_VERSION: '7.1'
     image: quay.io/continuouspipe/php7.1-nginx:latest
     depends_on:
-      - ubuntu
+      - php71
 
   php70_nginx:
     build:
       context: ./php/
       dockerfile: Dockerfile-nginx
       args:
-        PHP_VERSION: '7.0'
+        PHP_IMAGE_VERSION: '7'
     image: quay.io/continuouspipe/php7-nginx:latest
     depends_on:
-      - ubuntu
+      - php70
 
   php56_nginx:
     build:
       context: ./php/
       dockerfile: Dockerfile-nginx
       args:
-        PHP_VERSION: '5.6'
+        PHP_IMAGE_VERSION: '5.6'
     image: quay.io/continuouspipe/php5.6-nginx:latest
     depends_on:
-      - ubuntu
+      - php56
 
   postgres94:
     build:
@@ -475,13 +506,6 @@ services:
     image: quay.io/continuouspipe/redis3:latest
     depends_on:
       - external_redis
-
-  redis_highly_available:
-    build:
-      context: ./redis/3-highly-available/
-    image: quay.io/continuouspipe/redis3-highly-available:latest
-    depends_on:
-      - external_redis_highly_available
 
   solr_4_10:
     build:
@@ -675,9 +699,6 @@ services:
   external_couchdb16:
     image: couchdb:1.6
 
-  external_mongodb26:
-    image: mongo:2
-
   external_mongodb34:
     image: mongo:3.4
 
@@ -707,9 +728,6 @@ services:
 
   external_redis:
     image: redis:3.2
-
-  external_redis_highly_available:
-    image: gcr.io/google_containers/redis:v1
 
   external_elasticsearch17:
     image: elasticsearch:1.7
