@@ -1,5 +1,18 @@
 # Magento 2 NGINX/PHP-FPM
 
+In a Dockerfile for PHP 7.2 without Hem:
+```Dockerfile
+FROM quay.io/continuouspipe/magento2-nginx-php7.2-ng:stable
+
+ARG GITHUB_TOKEN=
+ARG MAGENTO_USERNAME=
+ARG MAGENTO_PASSWORD=
+ARG IMAGE_VERSION=3
+
+COPY . /app
+RUN container build
+```
+
 In a Dockerfile for PHP 7.1 with Hem:
 ```Dockerfile
 FROM quay.io/continuouspipe/magento2-nginx-php7.1:stable
@@ -12,6 +25,7 @@ ARG IMAGE_VERSION=3
 COPY . /app
 RUN container build
 ```
+
 In a Dockerfile for PHP 7.1 without Hem:
 ```Dockerfile
 FROM quay.io/continuouspipe/magento2-nginx-php7.1-ng:stable
@@ -53,6 +67,9 @@ RUN container build
 
 ## How to build
 ```bash
+
+docker-compose build magento2_php72_nginx_ng
+docker-compose push magento2_php72_nginx_ng
 
 docker-compose build magento2_php71_nginx_ng
 docker-compose push magento2_php71_nginx_ng

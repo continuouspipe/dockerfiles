@@ -335,6 +335,14 @@ tasks:
             FROM_IMAGE: php7.1-nginx
             WEB_SERVER: nginx
             FROM_TAG: ${FROM_TAG}
+        magento2_php72_nginx_ng:
+          image: quay.io/continuouspipe/magento2-nginx-php7.2-ng
+          tag: ${FROM_TAG}
+          reuse: false
+          environment:
+            FROM_IMAGE: php7.2-nginx
+            WEB_SERVER: nginx
+            FROM_TAG: ${FROM_TAG}
         magento2_varnish:
           image: quay.io/continuouspipe/magento2-varnish4
           tag: ${FROM_TAG}
