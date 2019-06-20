@@ -5,12 +5,11 @@ ARG REQUIRE_HEM=${REQUIRE_HEM:-false}
 ARG HEM_PACKAGE=""
 ARG NODE_LTS_VERSION="6.x"
 # Install hem and npm
-RUN if [ "$REQUIRE_HEM" = "true" ]; \
-    then \
-         curl -q https://dx6pc3giz7k1r.cloudfront.net/GPG-KEY-inviqa-tools | apt-key add - \
-      && echo "deb https://dx6pc3giz7k1r.cloudfront.net/repos/debian jessie main" | tee /etc/apt/sources.list.d/inviqa-tools.list \
-      && HEM_PACKAGE=hem;\
-    fi \
+RUN if [ "$REQUIRE_HEM" = "true" ]; then \
+   curl -q https://dx6pc3giz7k1r.cloudfront.net/GPG-KEY-inviqa-tools | apt-key add -; \
+   echo "deb https://dx6pc3giz7k1r.cloudfront.net/repos/debian jessie main" | tee /etc/apt/sources.list.d/inviqa-tools.list; \
+   export HEM_PACKAGE=hem; \
+ fi \
  && curl -sL "https://deb.nodesource.com/setup_${NODE_LTS_VERSION}" > /tmp/install-node.sh \
  && bash /tmp/install-node.sh \
  && apt-get update -qq -y \
