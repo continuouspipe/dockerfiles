@@ -1,8 +1,8 @@
 # Magento 2 NGINX/PHP-FPM
 
-In a Dockerfile for PHP 7.2 without Hem:
+In a Dockerfile for PHP 7.2, with 10.x LTS version of NodeJS:
 ```Dockerfile
-FROM quay.io/continuouspipe/magento2-nginx-php7.2-ng:stable
+FROM quay.io/continuouspipe/magento2-nginx-php7.2-ng:latest
 
 ARG GITHUB_TOKEN=
 ARG MAGENTO_USERNAME=
@@ -13,9 +13,9 @@ COPY . /app
 RUN container build
 ```
 
-In a Dockerfile for PHP 7.1 with Hem:
+In a Dockerfile for PHP 7.1 without Hem and 6.x version of NodeJS:
 ```Dockerfile
-FROM quay.io/continuouspipe/magento2-nginx-php7.1:stable
+FROM quay.io/continuouspipe/magento2-nginx-php7.1-ng:latest
 
 ARG GITHUB_TOKEN=
 ARG MAGENTO_USERNAME=
@@ -26,9 +26,9 @@ COPY . /app
 RUN container build
 ```
 
-In a Dockerfile for PHP 7.1 without Hem:
+In a Dockerfile for PHP 7.1 with Hem and 6.x version of NodeJS:
 ```Dockerfile
-FROM quay.io/continuouspipe/magento2-nginx-php7.1-ng:stable
+FROM quay.io/continuouspipe/magento2-nginx-php7.1:latest
 
 ARG GITHUB_TOKEN=
 ARG MAGENTO_USERNAME=
@@ -39,9 +39,9 @@ COPY . /app
 RUN container build
 ```
 
-In a Dockerfile for PHP 7 with Hem:
+In a Dockerfile for PHP 7 without Hem and 6.x version of NodeJS:
 ```Dockerfile
-FROM quay.io/continuouspipe/magento2-nginx-php7:stable
+FROM quay.io/continuouspipe/magento2-nginx-php7-ng:latest
 
 ARG GITHUB_TOKEN=
 ARG MAGENTO_USERNAME=
@@ -52,9 +52,9 @@ COPY . /app
 RUN container build
 ```
 
-In a Dockerfile for PHP 7 without Hem:
+In a Dockerfile for PHP 7 with Hem and 6.x version of NodeJS:
 ```Dockerfile
-FROM quay.io/continuouspipe/magento2-nginx-php7-ng:stable
+FROM quay.io/continuouspipe/magento2-nginx-php7:latest
 
 ARG GITHUB_TOKEN=
 ARG MAGENTO_USERNAME=

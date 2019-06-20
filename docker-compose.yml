@@ -195,6 +195,7 @@ services:
       context: ./magento2/
       args:
         FROM_IMAGE: 'php7.2-nginx'
+        NODE_LTS_VERSION: '10.x'
     image: quay.io/continuouspipe/magento2-nginx-php7.2-ng:latest
     depends_on:
       - php72_nginx

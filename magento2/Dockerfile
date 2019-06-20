@@ -3,6 +3,7 @@ ARG FROM_TAG=latest
 FROM quay.io/continuouspipe/${FROM_IMAGE}:${FROM_TAG}
 ARG REQUIRE_HEM=${REQUIRE_HEM:-false}
 ARG HEM_PACKAGE=""
+ARG NODE_LTS_VERSION="6.x"
 # Install hem and npm
 RUN if [ "$REQUIRE_HEM" = "true" ]; \
     then \
@@ -10,7 +11,7 @@ RUN if [ "$REQUIRE_HEM" = "true" ]; \
       && echo "deb https://dx6pc3giz7k1r.cloudfront.net/repos/debian jessie main" | tee /etc/apt/sources.list.d/inviqa-tools.list \
       && HEM_PACKAGE=hem;\
     fi \
- && curl -sL https://deb.nodesource.com/setup_6.x > /tmp/install-node.sh \
+ && curl -sL "https://deb.nodesource.com/setup_${NODE_LTS_VERSION}" > /tmp/install-node.sh \
  && bash /tmp/install-node.sh \
  && apt-get update -qq -y \
  && DEBIAN_FRONTEND=noninteractive apt-get -qq -y --no-install-recommends install \
@@ -22,17 +23,19 @@ RUN if [ "$REQUIRE_HEM" = "true" ]; \
     rsyslog \
     sudo \
  \
- # Configure Node dependencies \
- && npm config set --global loglevel warn \
- && npm install --global \
-    gulp \
-    marked \
-    node-gyp \
-    node-sass \
- \
- # Install node-sass's linux bindings \
- && npm rebuild node-sass \
- && npm cache clean \
+ && if [ "$NODE_LTS_VERSION" = "6.x" ]; then \
+   # Configure Node dependencies \
+   npm config set --global loglevel warn; \
+   npm install --global \
+      gulp \
+      marked \
+      node-gyp \
+      node-sass; \
+   \
+   # Install node-sass's linux bindings \
+   npm rebuild node-sass; \
+   npm cache clean; \
+ fi \
  \
  # Clean the image \
  && apt-get remove -qq -y php7.0-dev pkg-config libmagickwand-dev build-essential \
