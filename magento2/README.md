@@ -1,20 +1,8 @@
 # Magento 2 NGINX/PHP-FPM
 
-In a Dockerfile for PHP 7.1 with Hem:
+In a Dockerfile for PHP 7.2, with 10.x LTS version of NodeJS:
 ```Dockerfile
-FROM quay.io/continuouspipe/magento2-nginx-php7.1:stable
-
-ARG GITHUB_TOKEN=
-ARG MAGENTO_USERNAME=
-ARG MAGENTO_PASSWORD=
-ARG IMAGE_VERSION=3
-
-COPY . /app
-RUN container build
-```
-In a Dockerfile for PHP 7.1 without Hem:
-```Dockerfile
-FROM quay.io/continuouspipe/magento2-nginx-php7.1-ng:stable
+FROM quay.io/continuouspipe/magento2-nginx-php7.2-ng:latest
 
 ARG GITHUB_TOKEN=
 ARG MAGENTO_USERNAME=
@@ -25,9 +13,9 @@ COPY . /app
 RUN container build
 ```
 
-In a Dockerfile for PHP 7 with Hem:
+In a Dockerfile for PHP 7.1 without Hem and 6.x version of NodeJS:
 ```Dockerfile
-FROM quay.io/continuouspipe/magento2-nginx-php7:stable
+FROM quay.io/continuouspipe/magento2-nginx-php7.1-ng:latest
 
 ARG GITHUB_TOKEN=
 ARG MAGENTO_USERNAME=
@@ -38,9 +26,35 @@ COPY . /app
 RUN container build
 ```
 
-In a Dockerfile for PHP 7 without Hem:
+In a Dockerfile for PHP 7.1 with Hem and 6.x version of NodeJS:
 ```Dockerfile
-FROM quay.io/continuouspipe/magento2-nginx-php7-ng:stable
+FROM quay.io/continuouspipe/magento2-nginx-php7.1:latest
+
+ARG GITHUB_TOKEN=
+ARG MAGENTO_USERNAME=
+ARG MAGENTO_PASSWORD=
+ARG IMAGE_VERSION=3
+
+COPY . /app
+RUN container build
+```
+
+In a Dockerfile for PHP 7 without Hem and 6.x version of NodeJS:
+```Dockerfile
+FROM quay.io/continuouspipe/magento2-nginx-php7-ng:latest
+
+ARG GITHUB_TOKEN=
+ARG MAGENTO_USERNAME=
+ARG MAGENTO_PASSWORD=
+ARG IMAGE_VERSION=3
+
+COPY . /app
+RUN container build
+```
+
+In a Dockerfile for PHP 7 with Hem and 6.x version of NodeJS:
+```Dockerfile
+FROM quay.io/continuouspipe/magento2-nginx-php7:latest
 
 ARG GITHUB_TOKEN=
 ARG MAGENTO_USERNAME=
@@ -53,6 +67,9 @@ RUN container build
 
 ## How to build
 ```bash
+
+docker-compose build magento2_php72_nginx_ng
+docker-compose push magento2_php72_nginx_ng
 
 docker-compose build magento2_php71_nginx_ng
 docker-compose push magento2_php71_nginx_ng
