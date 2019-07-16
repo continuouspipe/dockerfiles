@@ -1,8 +1,9 @@
 # Spryker
 
-In a Dockerfile for PHP 7.1 and NGINX:
+In a Dockerfile for PHP and NGINX:
 ```Dockerfile
-FROM quay.io/continuouspipe/spryker-php7.1-nginx:stable
+ARG PHP_VERSION=7.3 # 7.1 and 7.2 are also available.
+FROM quay.io/continuouspipe/spryker-php${PHP_VERSION}-nginx:stable
 
 ARG IMAGE_VERSION=2
 ARG GITHUB_TOKEN=
@@ -12,33 +13,10 @@ COPY . /app
 RUN container build
 ```
 
-In a Dockerfile for PHP 7.1 and Apache:
+In a Dockerfile for PHP and Apache:
 ```Dockerfile
-FROM quay.io/continuouspipe/spryker-php7.1-apache:stable
-
-ARG IMAGE_VERSION=2
-ARG GITHUB_TOKEN=
-ENV IMAGE_VERSION="$IMAGE_VERSION"
-
-COPY . /app
-RUN container build
-```
-
-In a Dockerfile for PHP 7.2 and NGINX:
-```Dockerfile
-FROM quay.io/continuouspipe/spryker-php7.2-nginx:stable
-
-ARG IMAGE_VERSION=2
-ARG GITHUB_TOKEN=
-ENV IMAGE_VERSION="$IMAGE_VERSION"
-
-COPY . /app
-RUN container build
-```
-
-In a Dockerfile for PHP 7.2 and Apache:
-```Dockerfile
-FROM quay.io/continuouspipe/spryker-php7.2-apache:stable
+ARG PHP_VERSION=7.3 # 7.1 and 7.2 are also available.
+FROM quay.io/continuouspipe/spryker-php${PHP_VERSION}-apache:stable
 
 ARG IMAGE_VERSION=2
 ARG GITHUB_TOKEN=
