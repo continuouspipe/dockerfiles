@@ -160,6 +160,8 @@ variables()
       'spryker_php71_apache'
       'spryker_php72_nginx'
       'spryker_php72_apache'
+      'spryker_php73_nginx'
+      'spryker_php73_apache'
       'symfony_php70_nginx'
       'symfony_php56_nginx'
       'symfony_php56_apache'
