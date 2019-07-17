@@ -86,10 +86,12 @@ variables()
   elif [ "${LEVEL}" -eq 2 ]; then
     DOCKER_IMAGES+=(
       'nginx'
+      'php73_apache'
       'php72_apache'
       'php71_apache'
       'php70_apache'
       'php56_apache'
+      'php73_nginx'
       'php72_nginx'
       'php71_nginx'
       'php70_nginx'
