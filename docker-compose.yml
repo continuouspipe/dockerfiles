@@ -365,6 +365,16 @@ services:
     depends_on:
       - php71_apache
 
+  php73:
+    build:
+      context: ./php/
+      dockerfile: Dockerfile-php
+      args:
+        PHP_VERSION: '7.3'
+    image: quay.io/continuouspipe/php7.3:latest
+    depends_on:
+      - ubuntu
+
   php72:
     build:
       context: ./php/
@@ -405,6 +415,16 @@ services:
     depends_on:
       - ubuntu
 
+  php73_apache:
+    build:
+      context: ./php/
+      dockerfile: Dockerfile-apache
+      args:
+        PHP_IMAGE_VERSION: '7.3'
+    image: quay.io/continuouspipe/php7.3-apache:latest
+    depends_on:
+      - php73
+
   php72_apache:
     build:
       context: ./php/
@@ -444,6 +464,16 @@ services:
     image: quay.io/continuouspipe/php5.6-apache:latest
     depends_on:
       - php56
+
+  php73_nginx:
+    build:
+      context: ./php/
+      dockerfile: Dockerfile-nginx
+      args:
+        PHP_IMAGE_VERSION: '7.3'
+    image: quay.io/continuouspipe/php7.3-nginx:latest
+    depends_on:
+      - php73
 
   php72_nginx:
     build:
@@ -579,6 +609,26 @@ services:
     image: quay.io/continuouspipe/spryker-php7.2-apache:latest
     depends_on:
       - php72_apache
+
+  spryker_php73_nginx:
+    build:
+      context: ./spryker/
+      args:
+        PHP_VERSION: '7.3'
+        WEB_SERVER: nginx
+    image: quay.io/continuouspipe/spryker-php7.3-nginx:latest
+    depends_on:
+      - php73_nginx
+
+  spryker_php73_apache:
+    build:
+      context: ./spryker/
+      args:
+        PHP_VERSION: '7.3'
+        WEB_SERVER: apache
+    image: quay.io/continuouspipe/spryker-php7.3-apache:latest
+    depends_on:
+      - php73_apache
 
   symfony_php72_nginx:
     build:
