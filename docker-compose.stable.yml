@@ -124,6 +124,9 @@ services:
   piwik_php71_apache_stable:
     image: quay.io/continuouspipe/piwik-php7.1-apache:stable
     build: "/dev/null"
+  php73:
+    image: quay.io/continuouspipe/php7.3:stable
+    build: "/dev/null"
   php72:
     image: quay.io/continuouspipe/php7.2:stable
     build: "/dev/null"
@@ -136,6 +139,9 @@ services:
   php56:
     image: quay.io/continuouspipe/php5.6:stable
     build: "/dev/null"
+  php73_apache_stable:
+    image: quay.io/continuouspipe/php7.3-apache:stable
+    build: "/dev/null"
   php72_apache_stable:
     image: quay.io/continuouspipe/php7.2-apache:stable
     build: "/dev/null"
@@ -147,6 +153,9 @@ services:
     build: "/dev/null"
   php56_apache_stable:
     image: quay.io/continuouspipe/php5.6-apache:stable
+    build: "/dev/null"
+  php73_nginx_stable:
+    image: quay.io/continuouspipe/php7.3-nginx:stable
     build: "/dev/null"
   php72_nginx_stable:
     image: quay.io/continuouspipe/php7.2-nginx:stable
