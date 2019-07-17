@@ -1,5 +1,19 @@
 version: '3'
 services:
+  web_7_3_nginx:
+    build:
+      context: ./php/tests/integration/
+      args:
+        IMAGE_NAME: 'php7.3-nginx'
+    depends_on:
+      - php73_nginx
+  web_7_3_apache:
+    build:
+      context: ./php/tests/integration/
+      args:
+        IMAGE_NAME: 'php7.3-apache'
+    depends_on:
+      - php73_apache
   web_7_2_nginx:
     build:
       context: ./php/tests/integration/
@@ -60,6 +74,8 @@ services:
   integration_tests:
     image: quay.io/continuouspipe/php7.2-nginx:latest
     depends_on:
+      - web_7_3_nginx
+      - web_7_3_apache
       - web_7_2_nginx
       - web_7_2_apache
       - web_7_1_nginx
