@@ -315,11 +315,11 @@ function do_replace_core_config_values() (
   local SQL
   SQL="DELETE from core_config_data WHERE path LIKE 'web/%base_url';
   DELETE from core_config_data WHERE path LIKE 'system/full_page_cache/varnish%';
-  INSERT INTO core_config_data VALUES (NULL, 'default', '0', 'web/unsecure/base_url', '$PUBLIC_ADDRESS');
-  INSERT INTO core_config_data VALUES (NULL, 'default', '0', 'web/secure/base_url', '$PUBLIC_ADDRESS');
-  INSERT INTO core_config_data VALUES (NULL, 'default', '0', 'system/full_page_cache/varnish/access_list', 'varnish');
-  INSERT INTO core_config_data VALUES (NULL, 'default', '0', 'system/full_page_cache/varnish/backend_host', 'web');
-  INSERT INTO core_config_data VALUES (NULL, 'default', '0', 'system/full_page_cache/varnish/backend_port', '80');
+  INSERT INTO core_config_data (\`scope\`, \`scope_id\`, \`path\`, \`value\`) VALUES ('default', '0', 'web/unsecure/base_url', '$PUBLIC_ADDRESS');
+  INSERT INTO core_config_data (\`scope\`, \`scope_id\`, \`path\`, \`value\`) VALUES ('default', '0', 'web/secure/base_url', '$PUBLIC_ADDRESS');
+  INSERT INTO core_config_data (\`scope\`, \`scope_id\`, \`path\`, \`value\`) VALUES ('default', '0', 'system/full_page_cache/varnish/access_list', 'varnish');
+  INSERT INTO core_config_data (\`scope\`, \`scope_id\`, \`path\`, \`value\`) VALUES ('default', '0', 'system/full_page_cache/varnish/backend_host', 'web');
+  INSERT INTO core_config_data (\`scope\`, \`scope_id\`, \`path\`, \`value\`) VALUES ('default', '0', 'system/full_page_cache/varnish/backend_port', '80');
   $ADDITIONAL_SETUP_SQL"
 
   echo "Running the following SQL on $DATABASE_HOST.$DATABASE_NAME:"
@@ -335,7 +335,7 @@ function do_replace_core_config_values() (
 function do_enable_js_minification() (
   local SQL
   SQL="DELETE from core_config_data WHERE path='dev/js/minify_files';
-  INSERT INTO core_config_data VALUES (NULL, 'default', '0', 'dev/js/minify_files', '1');"
+  INSERT INTO core_config_data (\`scope\`, \`scope_id\`, \`path\`, \`value\`) VALUES ('default', '0', 'dev/js/minify_files', '1');"
 
   echo "Running the following SQL on $DATABASE_HOST.$DATABASE_NAME:"
   echo "$SQL"
