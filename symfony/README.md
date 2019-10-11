@@ -67,7 +67,7 @@ var/cache/**
 
 In a Dockerfile:
 ```Dockerfile
-FROM quay.io/continuouspipe/symfony-php7.2-nginx:stable
+FROM quay.io/continuouspipe/symfony-php7.2-nginx:latest
 ARG GITHUB_TOKEN=
 ARG SYMFONY_ENV=prod
 
@@ -76,7 +76,7 @@ RUN container build
 ```
 
 ```Dockerfile
-FROM quay.io/continuouspipe/symfony-php7.1-nginx:stable
+FROM quay.io/continuouspipe/symfony-php7.1-nginx:latest
 ARG GITHUB_TOKEN=
 ARG SYMFONY_ENV=prod
 
@@ -85,7 +85,7 @@ RUN container build
 ```
 
 ```Dockerfile
-FROM quay.io/continuouspipe/symfony-php7-nginx:stable
+FROM quay.io/continuouspipe/symfony-php7-nginx:latest
 ARG GITHUB_TOKEN=
 ARG SYMFONY_ENV=prod
 
@@ -94,7 +94,7 @@ RUN container build
 ```
 
 ```Dockerfile
-FROM quay.io/continuouspipe/symfony-php5.6-nginx:stable
+FROM quay.io/continuouspipe/symfony-php5.6-nginx:latest
 ARG GITHUB_TOKEN=
 ARG SYMFONY_ENV=prod
 
@@ -106,7 +106,7 @@ RUN container build
 
 In a Dockerfile:
 ```Dockerfile
-FROM quay.io/continuouspipe/symfony-php7.2-apache:stable
+FROM quay.io/continuouspipe/symfony-php7.2-apache:latest
 ARG GITHUB_TOKEN=
 ARG SYMFONY_ENV=prod
 
@@ -115,7 +115,7 @@ RUN container build
 ```
 
 ```Dockerfile
-FROM quay.io/continuouspipe/symfony-php7.1-apache:stable
+FROM quay.io/continuouspipe/symfony-php7.1-apache:latest
 ARG GITHUB_TOKEN=
 ARG SYMFONY_ENV=prod
 
@@ -124,7 +124,7 @@ RUN container build
 ```
 
 ```Dockerfile
-FROM quay.io/continuouspipe/symfony-php7-apache:stable
+FROM quay.io/continuouspipe/symfony-php7-apache:latest
 ARG GITHUB_TOKEN=
 ARG SYMFONY_ENV=prod
 
@@ -133,7 +133,7 @@ RUN container build
 ```
 
 ```Dockerfile
-FROM quay.io/continuouspipe/symfony-php5.6-apache:stable
+FROM quay.io/continuouspipe/symfony-php5.6-apache:latest
 ARG GITHUB_TOKEN=
 ARG SYMFONY_ENV=prod
 

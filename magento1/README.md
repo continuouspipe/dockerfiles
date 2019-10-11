@@ -2,7 +2,7 @@
 
 In a Dockerfile:
 ```Dockerfile
-FROM quay.io/continuouspipe/magento1-nginx-php5.6:stable
+FROM quay.io/continuouspipe/magento1-nginx-php5.6:latest
 
 ARG GITHUB_TOKEN=
 
@@ -13,7 +13,7 @@ RUN container build
 
 In a Dockerfile:
 ```Dockerfile
-FROM quay.io/continuouspipe/magento1-apache-php5.6:stable
+FROM quay.io/continuouspipe/magento1-apache-php5.6:latest
 
 ARG GITHUB_TOKEN=
 

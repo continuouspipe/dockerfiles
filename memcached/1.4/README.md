@@ -5,12 +5,12 @@ In a docker-compose.yml:
 version: '3'
 services:
   memcached:
-    image: quay.io/continuouspipe/memcached1.4:stable
+    image: quay.io/continuouspipe/memcached1.4:latest
 ```
 
 In a Dockerfile
 ```Dockerfile
-FROM quay.io/continuouspipe/memcached1.4:stable
+FROM quay.io/continuouspipe/memcached1.4:latest
 ```
 
 ## How to build

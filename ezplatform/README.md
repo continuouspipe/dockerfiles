@@ -2,7 +2,7 @@
 
 In a Dockerfile:
 ```Dockerfile
-FROM quay.io/continuouspipe/ez6-apache-php7:stable
+FROM quay.io/continuouspipe/ez6-apache-php7:latest
 
 COPY . /app
 

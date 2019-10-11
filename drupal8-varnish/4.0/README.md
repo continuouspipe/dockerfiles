@@ -5,14 +5,14 @@ In a docker-compose.yml:
 version: '3'
 services:
   varnish:
-    image: quay.io/continuouspipe/drupal8-varnish4:stable
+    image: quay.io/continuouspipe/drupal8-varnish4:latest
     environment:
       VARNISH_SECRET: "A secret that should remain secret!"
 ```
 
 In a Dockerfile:
 ```Dockerfile
-FROM quay.io/continuouspipe/drupal8-varnish4:stable
+FROM quay.io/continuouspipe/drupal8-varnish4:latest
 ```
 
 ## How to build

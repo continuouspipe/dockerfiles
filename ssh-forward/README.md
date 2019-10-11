@@ -5,7 +5,7 @@ In a docker-compose.yml:
 version: '3'
 services:
   sshforward:
-    image: quay.io/continuouspipe/ssh-forward:stable
+    image: quay.io/continuouspipe/ssh-forward:latest
     environment:
       SSH_FORWARD_PASSWORD: forward
       SSH_AUTHORIZED_KEYS: "ssh-rsa AAA..."
@@ -13,7 +13,7 @@ services:
 
 In a Dockerfile:
 ```Dockerfile
-FROM quay.io/continuouspipe/ssh-forward:stable
+FROM quay.io/continuouspipe/ssh-forward:latest
 ```
 
 ## How to build

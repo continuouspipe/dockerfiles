@@ -2,7 +2,7 @@
 
 For Node 7.0 in a Dockerfile:
 ```Dockerfile
-FROM quay.io/continuouspipe/nodejs7:stable
+FROM quay.io/continuouspipe/nodejs7:latest
 
 COPY . /app
 RUN container build
@@ -12,12 +12,12 @@ or in a docker-compose.yml:
 version: '3'
 services:
   node:
-    image: quay.io/continuouspipe/nodejs7:stable
+    image: quay.io/continuouspipe/nodejs7:latest
 ```
 
 For Node 7.0 without extra packages, in a Dockerfile:
 ```Dockerfile
-FROM quay.io/continuouspipe/nodejs7-small:stable
+FROM quay.io/continuouspipe/nodejs7-small:latest
 
 COPY . /app
 RUN container build
@@ -27,12 +27,12 @@ or in a docker-compose.yml:
 version: '3'
 services:
   node:
-    image: quay.io/continuouspipe/nodejs7-small:stable
+    image: quay.io/continuouspipe/nodejs7-small:latest
 ```
 
 For Node 6.0 in a Dockerfile:
 ```Dockerfile
-FROM quay.io/continuouspipe/nodejs6:stable
+FROM quay.io/continuouspipe/nodejs6:latest
 
 COPY . /app
 RUN container build
@@ -42,12 +42,12 @@ or in a docker-compose.yml:
 version: '3'
 services:
   node:
-    image: quay.io/continuouspipe/nodejs6:stable
+    image: quay.io/continuouspipe/nodejs6:latest
 ```
 
 For Node 6.0 without extra packages, in a Dockerfile:
 ```Dockerfile
-FROM quay.io/continuouspipe/nodejs6-small:stable
+FROM quay.io/continuouspipe/nodejs6-small:latest
 
 COPY . /app
 RUN container build
@@ -57,7 +57,7 @@ or in a docker-compose.yml:
 version: '3'
 services:
   node:
-    image: quay.io/continuouspipe/nodejs6-small:stable
+    image: quay.io/continuouspipe/nodejs6-small:latest
 ```
 
 ## How to build

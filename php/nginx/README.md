@@ -2,7 +2,7 @@
 
 For PHP 7.2 in a Dockerfile:
 ```Dockerfile
-FROM quay.io/continuouspipe/php7.2-nginx:stable
+FROM quay.io/continuouspipe/php7.2-nginx:latest
 ARG GITHUB_TOKEN=
 
 COPY . /app
@@ -13,12 +13,12 @@ or in a docker-compose.yml:
 version: '3'
 services:
   web:
-    image: quay.io/continuouspipe/php7.2-nginx:stable
+    image: quay.io/continuouspipe/php7.2-nginx:latest
 ```
 
 For PHP 7.1 in a Dockerfile:
 ```Dockerfile
-FROM quay.io/continuouspipe/php7.1-nginx:stable
+FROM quay.io/continuouspipe/php7.1-nginx:latest
 ARG GITHUB_TOKEN=
 
 COPY . /app
@@ -29,12 +29,12 @@ or in a docker-compose.yml:
 version: '3'
 services:
   web:
-    image: quay.io/continuouspipe/php7.1-nginx:stable
+    image: quay.io/continuouspipe/php7.1-nginx:latest
 ```
 
 For PHP 7.0 in a Dockerfile:
 ```Dockerfile
-FROM quay.io/continuouspipe/php7-nginx:stable
+FROM quay.io/continuouspipe/php7-nginx:latest
 ARG GITHUB_TOKEN=
 
 COPY . /app
@@ -45,12 +45,12 @@ or in a docker-compose.yml:
 version: '3'
 services:
   web:
-    image: quay.io/continuouspipe/php7-nginx:stable
+    image: quay.io/continuouspipe/php7-nginx:latest
 ```
 
 For PHP 5.6 in a Dockerfile:
 ```Dockerfile
-FROM quay.io/continuouspipe/php5.6-nginx:stable
+FROM quay.io/continuouspipe/php5.6-nginx:latest
 ARG GITHUB_TOKEN=
 
 COPY . /app
@@ -61,7 +61,7 @@ or in a docker-compose.yml:
 version: '3'
 services:
   web:
-    image: quay.io/continuouspipe/php5.6-nginx:stable
+    image: quay.io/continuouspipe/php5.6-nginx:latest
 ```
 
 ## How to build

@@ -3,7 +3,7 @@
 In a Dockerfile for PHP and NGINX:
 ```Dockerfile
 ARG PHP_IMAGE_VERSION=7.3 # 7.1 and 7.2 are also available.
-FROM quay.io/continuouspipe/spryker-php${PHP_IMAGE_VERSION}-nginx:stable
+FROM quay.io/continuouspipe/spryker-php${PHP_IMAGE_VERSION}-nginx:latest
 
 ARG IMAGE_VERSION=2
 ARG GITHUB_TOKEN=
@@ -16,7 +16,7 @@ RUN container build
 In a Dockerfile for PHP and Apache:
 ```Dockerfile
 ARG PHP_VERSION=7.3 # 7.1 and 7.2 are also available.
-FROM quay.io/continuouspipe/spryker-php${PHP_VERSION}-apache:stable
+FROM quay.io/continuouspipe/spryker-php${PHP_VERSION}-apache:latest
 
 ARG IMAGE_VERSION=2
 ARG GITHUB_TOKEN=

@@ -5,12 +5,12 @@ In a docker-compose.yml:
 version: '3'
 services:
   scala:
-    image: quay.io/continuouspipe/scala-base:stable
+    image: quay.io/continuouspipe/scala-base:latest
 ```
 
 In a Dockerfile:
 ```Dockerfile
-FROM quay.io/continuouspipe/scala-base:stable
+FROM quay.io/continuouspipe/scala-base:latest
 ```
 
 ## How to build

@@ -2,7 +2,7 @@
 
 In a Dockerfile:
 ```Dockerfile
-FROM quay.io/continuouspipe/nginx:stable
+FROM quay.io/continuouspipe/nginx:latest
 
 COPY . /app
 RUN container build
@@ -13,7 +13,7 @@ In a docker-compose.yml:
 version: '3'
 services:
   web:
-    image: quay.io/continuouspipe/nginx:stable
+    image: quay.io/continuouspipe/nginx:latest
 ```
 
 ## How to build

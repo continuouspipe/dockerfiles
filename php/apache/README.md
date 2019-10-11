@@ -1,7 +1,7 @@
 # PHP Apache
 For PHP 7.2 in a Dockerfile:
 ```Dockerfile
-FROM quay.io/continuouspipe/php7.2-apache:stable
+FROM quay.io/continuouspipe/php7.2-apache:latest
 ARG GITHUB_TOKEN=
 
 COPY . /app
@@ -12,12 +12,12 @@ or in a docker-compose.yml:
 version: '3'
 services:
   web:
-    image: quay.io/continuouspipe/php7.2-apache:stable
+    image: quay.io/continuouspipe/php7.2-apache:latest
 ```
 
 For PHP 7.1 in a Dockerfile:
 ```Dockerfile
-FROM quay.io/continuouspipe/php7.1-apache:stable
+FROM quay.io/continuouspipe/php7.1-apache:latest
 ARG GITHUB_TOKEN=
 
 COPY . /app
@@ -28,12 +28,12 @@ or in a docker-compose.yml:
 version: '3'
 services:
   web:
-    image: quay.io/continuouspipe/php7.1-apache:stable
+    image: quay.io/continuouspipe/php7.1-apache:latest
 ```
 
 For PHP 7.0 in a Dockerfile:
 ```Dockerfile
-FROM quay.io/continuouspipe/php7-apache:stable
+FROM quay.io/continuouspipe/php7-apache:latest
 ARG GITHUB_TOKEN=
 
 COPY . /app
@@ -44,12 +44,12 @@ or in a docker-compose.yml:
 version: '3'
 services:
   web:
-    image: quay.io/continuouspipe/php7-apache:stable
+    image: quay.io/continuouspipe/php7-apache:latest
 ```
 
 For PHP 5.6 in a Dockerfile:
 ```Dockerfile
-FROM quay.io/continuouspipe/php5.6-apache:stable
+FROM quay.io/continuouspipe/php5.6-apache:latest
 ARG GITHUB_TOKEN=
 
 COPY . /app
@@ -60,7 +60,7 @@ or in a docker-compose.yml:
 version: '3'
 services:
   web:
-    image: quay.io/continuouspipe/php5.6-apache:stable
+    image: quay.io/continuouspipe/php5.6-apache:latest
 ```
 
 ## How to build

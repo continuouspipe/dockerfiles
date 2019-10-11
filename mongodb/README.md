@@ -5,7 +5,7 @@ In a docker-compose.yml for mongodb3.6:
 version: '3'
 services:
   database:
-    image: quay.io/continuouspipe/mongodb3.6:stable
+    image: quay.io/continuouspipe/mongodb3.6:latest
     environment:
       MONGODB_AUTH_ENABLED: 1
       MONGODB_ADMIN_USER: "myAdminUser"
@@ -17,7 +17,7 @@ In a docker-compose.yml for mongodb3.4:
 version: '3'
 services:
   database:
-    image: quay.io/continuouspipe/mongodb3.4:stable
+    image: quay.io/continuouspipe/mongodb3.4:latest
     environment:
       MONGODB_AUTH_ENABLED: 1
       MONGODB_ADMIN_USER: "myAdminUser"
@@ -26,11 +26,11 @@ services:
 
 In a Dockerfile for 3.6:
 ```Dockerfile
-FROM quay.io/continuouspipe/mongodb3.6:stable
+FROM quay.io/continuouspipe/mongodb3.6:latest
 ```
 or for 3.4:
 ```Dockerfile
-FROM quay.io/continuouspipe/mongodb3.4:stable
+FROM quay.io/continuouspipe/mongodb3.4:latest
 ```
 
 ## How to build

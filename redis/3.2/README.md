@@ -5,12 +5,12 @@ In a docker-compose.yml:
 version: '3'
 services:
   redis:
-    image: quay.io/continuouspipe/redis3:stable
+    image: quay.io/continuouspipe/redis3:latest
 ```
 
 In a Dockerfile:
 ```Dockerfile
-FROM quay.io/continuouspipe/redis3:stable
+FROM quay.io/continuouspipe/redis3:latest
 ```
 
 ## How to build

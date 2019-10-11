@@ -5,7 +5,7 @@ In a docker-compose.yml:
 version: '3'
 services:
   proxy:
-    image: quay.io/continuouspipe/nginx-reverse-proxy:stable
+    image: quay.io/continuouspipe/nginx-reverse-proxy:latest
     depends_on:
      - web
     environment:
@@ -15,7 +15,7 @@ services:
 ```
 
 ```Dockerfile
-FROM quay.io/continuouspipe/nginx-reverse-proxy:stable
+FROM quay.io/continuouspipe/nginx-reverse-proxy:latest
 ```
 
 ## How to build
