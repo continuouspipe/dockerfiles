@@ -67,6 +67,9 @@ services:
   magento2_php72_nginx_ng_stable:
     image: quay.io/continuouspipe/magento2-nginx-php7.2-ng:stable
     build: "/dev/null"
+  magento2_php73_nginx_ng_stable:
+    image: quay.io/continuouspipe/magento2-nginx-php7.3-ng:stable
+    build: "/dev/null"
   magento2_varnish_stable:
     image: quay.io/continuouspipe/magento2-varnish4:stable
     build: "/dev/null"

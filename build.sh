@@ -132,6 +132,7 @@ variables()
       'magento2_php71_nginx'
       'magento2_php71_nginx_ng'
       'magento2_php72_nginx_ng'
+      'magento2_php73_nginx_ng'
       'magento2_varnish'
       'mailcatcher'
       'memcached'
