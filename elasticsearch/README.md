@@ -5,7 +5,7 @@ In a docker-compose.yml for 5.6:
 version: '3'
 services:
   elasticsearch:
-    image: quay.io/continuouspipe/elasticsearch5.6:stable
+    image: quay.io/continuouspipe/elasticsearch5.6:latest
 ```
 
 In a docker-compose.yml for 5.5:
@@ -13,38 +13,38 @@ In a docker-compose.yml for 5.5:
 version: '3'
 services:
   elasticsearch:
-    image: quay.io/continuouspipe/elasticsearch5.5:stable
+    image: quay.io/continuouspipe/elasticsearch5.5:latest
 ```
 or 2.4:
 ```yml
 version: '3'
 services:
   elasticsearch:
-    image: quay.io/continuouspipe/elasticsearch2.4:stable
+    image: quay.io/continuouspipe/elasticsearch2.4:latest
 ```
 or 1.7:
 ```yml
 version: '3'
 services:
   elasticsearch:
-    image: quay.io/continuouspipe/elasticsearch1.7:stable
+    image: quay.io/continuouspipe/elasticsearch1.7:latest
 ```
 
 In a Dockerfile for 5.6:
 ```Dockerfile
-FROM quay.io/continuouspipe/elasticsearch5.6:stable
+FROM quay.io/continuouspipe/elasticsearch5.6:latest
 ```
 or 5.5:
 ```Dockerfile
-FROM quay.io/continuouspipe/elasticsearch5.5:stable
+FROM quay.io/continuouspipe/elasticsearch5.5:latest
 ```
 or 2.4:
 ```Dockerfile
-FROM quay.io/continuouspipe/elasticsearch2.4:stable
+FROM quay.io/continuouspipe/elasticsearch2.4:latest
 ```
 or 1.7:
 ```Dockerfile
-FROM quay.io/continuouspipe/elasticsearch1.7:stable
+FROM quay.io/continuouspipe/elasticsearch1.7:latest
 ```
 
 ## How to build

@@ -5,12 +5,12 @@ In a docker-compose.yml:
 version: '3'
 services:
   phantomjs:
-    image: quay.io/continuouspipe/phantomjs2:stable
+    image: quay.io/continuouspipe/phantomjs2:latest
 ```
 
 In a Dockerfile:
 ```Dockerfile
-FROM quay.io/continuouspipe/phantomjs2:stable
+FROM quay.io/continuouspipe/phantomjs2:latest
 ```
 
 ## How to build

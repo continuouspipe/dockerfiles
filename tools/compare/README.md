@@ -1,7 +1,7 @@
 # Comparison Tool
 
-A tool to compare the :latest and :stable tags of each of the docker images, and tag
-the :latest image as :stable if the diff is agreeable.
+A tool to compare the :latest and :latest tags of each of the docker images, and tag
+the :latest image as :latest if the diff is agreeable.
 
 ## Usage
 

@@ -5,7 +5,7 @@ In a docker-compose.yml:
 version: '3'
 services:
   mailcatcher:
-    image: quay.io/continuouspipe/mailcatcher:stable
+    image: quay.io/continuouspipe/mailcatcher:latest
     extra_hosts:
       - "mailcatcher:127.0.0.1"
     expose:
@@ -16,7 +16,7 @@ services:
 
 In a Dockerfile:
 ```Dockerfile
-FROM quay.io/continuouspipe/mailcatcher:stable
+FROM quay.io/continuouspipe/mailcatcher:latest
 ```
 
 ## How to build:

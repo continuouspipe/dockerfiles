@@ -5,12 +5,12 @@ In a docker-compose.yml:
 version: '3'
 services:
   piwik:
-    image: quay.io/continuouspipe/piwik-php7.1-apache:stable
+    image: quay.io/continuouspipe/piwik-php7.1-apache:latest
 ```
 
 In a Dockerfile:
 ```Dockerfile
-FROM quay.io/continuouspipe/piwik-php7.1-apache:stable
+FROM quay.io/continuouspipe/piwik-php7.1-apache:latest
 ```
 
 ## How to build

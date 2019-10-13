@@ -5,7 +5,7 @@ In a docker-compose.yml:
 version: '3'
 services:
   database:
-    image: quay.io/continuouspipe/couchdb1.6:stable
+    image: quay.io/continuouspipe/couchdb1.6:latest
     environment:
       COUCHDB_USER: "myAdminUser"
       COUCHDB_PASSWORD: "A secret password for myAdminUser"
@@ -13,7 +13,7 @@ services:
 
 In a Dockerfile:
 ```Dockerfile
-FROM quay.io/continuouspipe/couchdb1.6:stable
+FROM quay.io/continuouspipe/couchdb1.6:latest
 ```
 
 ## How to build

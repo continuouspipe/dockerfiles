@@ -2,7 +2,7 @@
 
 In a Dockerfile:
 ```Dockerfile
-FROM quay.io/continuouspipe/ubuntu16.04:stable
+FROM quay.io/continuouspipe/ubuntu16.04:latest
 
 COPY ./somedir /somedir
 
@@ -14,12 +14,12 @@ In a docker-compose.yml:
 version: '3'
 services:
   ubuntu:
-    image: quay.io/continuouspipe/ubuntu16.04:stable
+    image: quay.io/continuouspipe/ubuntu16.04:latest
 ```
 
 ## How to build
 ```bash
-docker build --pull --tag quay.io/continuouspipe/ubuntu16.04:stable --rm .
+docker build --pull --tag quay.io/continuouspipe/ubuntu16.04:latest --rm .
 docker push
 ```
 

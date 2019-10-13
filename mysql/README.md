@@ -5,7 +5,7 @@ In a docker-compose.yml:
 version: '3'
 services:
   database:
-    image: quay.io/continuouspipe/mysql8.0:stable
+    image: quay.io/continuouspipe/mysql8.0:latest
     environment:
       MYSQL_ROOT_PASSWORD: "a secret mysql root password"
       MYSQL_DATABASE: my_database
@@ -15,21 +15,21 @@ services:
 
 In a Dockerfile:
 ```Dockerfile
-FROM quay.io/continuouspipe/mysql8.0:stable
+FROM quay.io/continuouspipe/mysql8.0:latest
 ```
 
 # MySQL 5.7
 
 In a Dockerfile:
 ```Dockerfile
-FROM quay.io/continuouspipe/mysql5.7:stable
+FROM quay.io/continuouspipe/mysql5.7:latest
 ```
 In docker-compose.yml:
 ```yml
 version: '3'
 services:
   database:
-    image: quay.io/continuouspipe/mysql5.7:stable
+    image: quay.io/continuouspipe/mysql5.7:latest
     environment:
       MYSQL_ROOT_PASSWORD: "a secret mysql root password"
       MYSQL_DATABASE: my_database
@@ -41,14 +41,14 @@ services:
 
 In a Dockerfile:
 ```Dockerfile
-FROM quay.io/continuouspipe/mysql5.6:stable
+FROM quay.io/continuouspipe/mysql5.6:latest
 ```
 In docker-compose.yml:
 ```yml
 version: '3'
 services:
   database:
-    image: quay.io/continuouspipe/mysql5.6:stable
+    image: quay.io/continuouspipe/mysql5.6:latest
     environment:
       MYSQL_ROOT_PASSWORD: "a secret mysql root password"
       MYSQL_DATABASE: my_database

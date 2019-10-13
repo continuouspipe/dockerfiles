@@ -5,7 +5,7 @@ In a docker-compose.yml:
 version: '3'
 services:
   solr:
-    image: quay.io/continuouspipe/solr4:stable
+    image: quay.io/continuouspipe/solr4:latest
     environment:
       SOLR_CORE_NAME: example_core
     volumes:
@@ -22,7 +22,7 @@ volumes:
 
 In a Dockerfile:
 ```Dockerfile
-FROM quay.io/continuouspipe/solr4:stable
+FROM quay.io/continuouspipe/solr4:latest
 ```
 
 ## How to build

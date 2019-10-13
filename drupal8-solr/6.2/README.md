@@ -5,7 +5,7 @@ In a docker-compose.yml:
 version: '3'
 services:
   solr:
-    image: quay.io/continuouspipe/drupal8-solr6:stable
+    image: quay.io/continuouspipe/drupal8-solr6:latest
     volumes:
       - solr_data:/usr/local/share/solr/d8/data/
 
@@ -19,7 +19,7 @@ volumes:
 ```
 
 ```Dockerfile
-FROM quay.io/continuouspipe/drupal8-solr6:stable
+FROM quay.io/continuouspipe/drupal8-solr6:latest
 ```
 
 ## How to build

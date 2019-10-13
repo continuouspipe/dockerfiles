@@ -2,19 +2,19 @@
 
 In a Dockerfile:
 ```Dockerfile
-FROM quay.io/continuouspipe/tideways:stable
+FROM quay.io/continuouspipe/tideways:latest
 ```
 or in a docker-compose.yml:
 ```yml
 version: '3'
 services:
   web:
-    image: quay.io/continuouspipe/php7.1-nginx:stable
+    image: quay.io/continuouspipe/php7.1-nginx:latest
     links:
       - tideways
 
   tideways:
-    image: quay.io/continuouspipe/tideways:stable
+    image: quay.io/continuouspipe/tideways:latest
 ```
 
 ## How to build

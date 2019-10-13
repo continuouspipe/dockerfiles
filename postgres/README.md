@@ -5,7 +5,7 @@ For Postgres 9.6 in a docker-compose.yml:
 version: '3'
 services:
   database:
-    image: quay.io/continuouspipe/postgres9.6:stable
+    image: quay.io/continuouspipe/postgres9.6:latest
     expose:
       - 5432
     environment:
@@ -18,7 +18,7 @@ services:
 
 or in a Dockerfile:
 ```Dockerfile
-FROM quay.io/continuouspipe/postgres9.6:stable
+FROM quay.io/continuouspipe/postgres9.6:latest
 ```
 
 For Postgres 9.4 in a docker-compose.yml:
@@ -26,7 +26,7 @@ For Postgres 9.4 in a docker-compose.yml:
 version: '3'
 services:
   database:
-    image: quay.io/continuouspipe/postgres9.4:stable
+    image: quay.io/continuouspipe/postgres9.4:latest
     expose:
       - 5432
     environment:
@@ -39,7 +39,7 @@ services:
 
 or in a Dockerfile:
 ```Dockerfile
-FROM quay.io/continuouspipe/postgres9.4:stable
+FROM quay.io/continuouspipe/postgres9.4:latest
 ```
 
 ## How to build

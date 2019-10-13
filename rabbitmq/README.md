@@ -6,8 +6,8 @@ Includes the management plugin which is available on the port `15672`
 version: '3'
 services:
   rabbitmq:
-    image: "quay.io/continuouspipe/rabbitmq37-management:stable"
-    # image: "quay.io/continuouspipe/rabbitmq36-management:stable"
+    image: "quay.io/continuouspipe/rabbitmq37-management:latest"
+    # image: "quay.io/continuouspipe/rabbitmq36-management:latest"
     hostname: "rabbitmq"
     environment:
       RABBITMQ_ERLANG_COOKIE: "SAMPLE"
@@ -22,9 +22,9 @@ services:
 ```
 ### Dockerfile
 ```
-FROM quay.io/continuouspipe/rabbitmq37-management:stable
+FROM quay.io/continuouspipe/rabbitmq37-management:latest
 ```
 or
 ```
-FROM quay.io/continuouspipe/rabbitmq36-management:stable
+FROM quay.io/continuouspipe/rabbitmq36-management:latest
 ```

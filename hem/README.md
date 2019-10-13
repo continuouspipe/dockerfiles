@@ -5,7 +5,7 @@ In a docker-compose.yml:
 version: '3'
 services:
   hem:
-    image: quay.io/continuouspipe/hem1:stable
+    image: quay.io/continuouspipe/hem1:latest
     environment:
       AWS_ACCESS_KEY_ID: "An AWS User ID that should remain secret!"
       AWS_SECRET_ACCESS_KEY: "An AWS Secret Key that should remain secret!"
@@ -13,7 +13,7 @@ services:
 
 In a Dockerfile:
 ```Dockerfile
-FROM quay.io/continuouspipe/hem:stable
+FROM quay.io/continuouspipe/hem:latest
 
 ARG AWS_ACCESS_KEY_ID=
 ARG AWS_SECRET_ACCESS_KEY=

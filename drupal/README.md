@@ -2,7 +2,7 @@
 
 In a Dockerfile:
 ```Dockerfile
-FROM quay.io/continuouspipe/drupal-php7.1-apache:stable
+FROM quay.io/continuouspipe/drupal-php7.1-apache:latest
 ARG GITHUB_TOKEN=
 
 COPY . /app
@@ -10,7 +10,7 @@ RUN container build
 ```
 
 ```Dockerfile
-FROM quay.io/continuouspipe/drupal-php7-apache:stable
+FROM quay.io/continuouspipe/drupal-php7-apache:latest
 ARG GITHUB_TOKEN=
 
 COPY . /app
@@ -18,7 +18,7 @@ RUN container build
 ```
 
 ```Dockerfile
-FROM quay.io/continuouspipe/drupal-php5.6-apache:stable
+FROM quay.io/continuouspipe/drupal-php5.6-apache:latest
 ARG GITHUB_TOKEN=
 
 COPY . /app
