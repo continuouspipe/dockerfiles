@@ -1,5 +1,18 @@
 # Magento 2 NGINX/PHP-FPM
 
+In a Dockerfile for PHP 7.3, with 10.x LTS version of NodeJS:
+```Dockerfile
+FROM quay.io/continuouspipe/magento2-nginx-php7.3-ng:latest
+
+ARG GITHUB_TOKEN=
+ARG MAGENTO_USERNAME=
+ARG MAGENTO_PASSWORD=
+ARG IMAGE_VERSION=3
+
+COPY . /app
+RUN container build
+```
+
 In a Dockerfile for PHP 7.2, with 10.x LTS version of NodeJS:
 ```Dockerfile
 FROM quay.io/continuouspipe/magento2-nginx-php7.2-ng:latest

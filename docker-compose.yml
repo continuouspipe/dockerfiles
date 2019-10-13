@@ -200,6 +200,16 @@ services:
     depends_on:
       - php72_nginx
 
+  magento2_php73_nginx_ng:
+    build:
+      context: ./magento2/
+      args:
+        FROM_IMAGE: 'php7.3-nginx'
+        NODE_LTS_VERSION: '10.x'
+    image: quay.io/continuouspipe/magento2-nginx-php7.3-ng:latest
+    depends_on:
+      - php73_nginx
+
   magento2_varnish:
     build:
       context: ./magento2-varnish/4.0/
