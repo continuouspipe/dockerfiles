@@ -4,8 +4,8 @@ FROM quay.io/continuouspipe/ubuntu16.04:${FROM_TAG}
 # Install PHP packages, including the Tideways extension
 ARG PHP_VERSION
 ENV PHP_VERSION=${PHP_VERSION:-7.0}
-RUN echo 'deb http://s3-eu-west-1.amazonaws.com/qafoo-profiler/packages debian main' > /etc/apt/sources.list.d/tideways.list \
- && curl -sS https://s3-eu-west-1.amazonaws.com/qafoo-profiler/packages/EEB5E8F4.gpg | apt-key add - \
+RUN echo 'deb https://packages.tideways.com/apt-packages debian main' > /etc/apt/sources.list.d/tideways.list \
+ && curl -L -sS https://packages.tideways.com/key.gpg | apt-key add - \
  && if [ "$PHP_VERSION" != "7.0" ]; then \
    echo 'deb http://ppa.launchpad.net/ondrej/php/ubuntu xenial main' > /etc/apt/sources.list.d/php-ppa.list; \
    apt-key adv --keyserver keyserver.ubuntu.com --recv-keys E5267A6C; \
@@ -52,7 +52,7 @@ RUN echo 'deb http://s3-eu-west-1.amazonaws.com/qafoo-profiler/packages debian m
  # Install composer for PHP dependencies \
  && wget https://getcomposer.org/installer -O /tmp/composer-setup.php -q \
  && [ "$(wget https://composer.github.io/installer.sig -O - -q)" = "$(sha384sum /tmp/composer-setup.php | awk '{ print $1 }')" ] \
- && php /tmp/composer-setup.php --install-dir='/usr/local/bin/' --filename='composer' --quiet \
+ && php /tmp/composer-setup.php --install-dir='/usr/local/bin/' --filename='composer' --version='1.10.17' --quiet \
  && rm /tmp/composer-setup.php
 
 USER build
