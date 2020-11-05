@@ -29,7 +29,7 @@ RUN if [ "$REQUIRE_HEM" = "true" ]; then \
       gulp \
       marked \
       node-gyp \
-      node-sass \
+      node-sass@4.14.1 \
    \
    && npm rebuild node-sass \
    && npm cache clean; \
