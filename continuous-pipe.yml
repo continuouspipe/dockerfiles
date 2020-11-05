@@ -5,7 +5,7 @@ variables:
 
 pipelines:
   - name: Production
-    condition: 'code_reference.branch in ["cp-master"]'
+    condition: 'code_reference.branch in ["cp-main"]'
     tasks: &ALL_IMAGES
       - third_level_dependency_images
       - second_level_dependency_images
@@ -28,7 +28,7 @@ pipelines:
       - name: FROM_TAG
         expression: '"latest"'
   - name: Feature Branches
-    condition: '"Ready for Review" in pull_request.labels and not(code_reference.branch in ["master"])'
+    condition: '"Ready for Review" in pull_request.labels and not(code_reference.branch in ["main"])'
     tasks:
       - third_level_dependency_images
       - second_level_dependency_images
