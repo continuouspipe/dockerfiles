@@ -1,10 +1,10 @@
 # Quick start
 
-The following files can be used to set up a local docker environment suitable for Symfony with a database container. 
-The only changes that need to be applied would be to remove `ARG DEVELOPMENT_MODE=true` from the Dockerfile and set 
-appropriate production environment variables. 
+The following files can be used to set up a local docker environment suitable for Symfony with a database container.
+The only changes that need to be applied would be to remove `ARG DEVELOPMENT_MODE=true` from the Dockerfile and set
+appropriate production environment variables.
 
-Place all files in the root directory. Then run `docker-compose up -d` and visit [http://localhost:81](http://localhost:81) 
+Place all files in the root directory. Then run `docker-compose up -d` and visit [http://localhost:81](http://localhost:81)
 
 ```
 # Dockerfile
@@ -162,7 +162,7 @@ SYMFONY_CONSOLE | The location of the Symfony console script | file path | auto-
 SYMFONY_WEB_APP_ENV_REWRITE | Whether to use web/app_*.php when SYMFONY_ENV != prod | true, false | false
 APP_ENDPOINT | The uri of the web application php endpoint | domain relative uri | auto-detected based on SYMFONY_ENV and SYMFONY_WEB_APP_ENV_REWRITE
 APP_ENDPOINT_REWRITE | Determines whether to redirect urls that don't match webroot files to the APP_ENDPOINT | true/false | true
-APP_ENDPOINT_REGEX | A regex used to define allowed application endpoints, see [site_phpfpm.conf.tmpl](https://github.com/continuouspipe/dockerfiles/blob/master/php/nginx/etc/confd/templates/nginx/site_phpfpm.conf.tmpl#L1) | string | auto-detected
+APP_ENDPOINT_REGEX | A regex used to define allowed application endpoints, see [site_phpfpm.conf.tmpl](https://github.com/continuouspipe/dockerfiles/blob/main/php/nginx/etc/confd/templates/nginx/site_phpfpm.conf.tmpl#L1) | string | auto-detected
 APP_ENDPOINT_STRICT | Restricts allowed application endpoints to only that of the APP_ENDPOINT environment variable | true/false | true
 
 The following variables have had their defaults changed from the php-nginx image so that Symfony runs better:

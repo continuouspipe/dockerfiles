@@ -178,12 +178,12 @@ COMPOSER_INSTALL_FLAGS | Additional flags to pass to "composer install", such as
 TIDEWAYS_ENABLED | Should Tideways be enabled? | true/false | false
 TIDEWAYS_FRAMEWORK | What framework (if any) is being used in the image? | string (one of https://tideways.io/profiler/docs/setup/installation#framework-configuration ) | empty
 TIDEWAYS_API_KEY | Your Tideways API key | string | empty
-TIDEWAYS_CONNECTION | The location of a Tideways daemon to send logs/instrumentation to. We recommend deploying https://github.com/continuouspipe/dockerfiles/tree/master/tideways to handle this | protocol://domain_or_ip:port | tcp://tideways:9135
+TIDEWAYS_CONNECTION | The location of a Tideways daemon to send logs/instrumentation to. We recommend deploying https://github.com/continuouspipe/dockerfiles/tree/main/tideways to handle this | protocol://domain_or_ip:port | tcp://tideways:9135
 TIDEWAYS_SERVICE | The service that your application provides (optional) | string | empty
 TIDEWAYS_COLLECT | The collect mode for Tideways (see [the Tideways documentation](https://tideways.io/profiler/article/43-sampling))(optional) | DISABLED/BASIC/TRACING/PROFILING/FULL | TRACING
 TIDEWAYS_SAMPLE_RATE | The sample rate for Tideways (see [the Tideways documentation](https://tideways.io/profiler/article/43-sampling))(optional) | integer | 25
 XDEBUG_REMOTE_ENABLED | If XDebug is enabled for debugging purposes. We recommend disabling Tideways and only using XDebug in development. | true/false | false
-XDEBUG_REMOTE_HOST | The host to connect to. We recommend deploying https://github.com/continuouspipe/dockerfiles/tree/master/ssh-forward to handle this. Alternatively see [Xdebug setup](#Xdebug-setup) | A domain or IP address | sshforward
+XDEBUG_REMOTE_HOST | The host to connect to. We recommend deploying https://github.com/continuouspipe/dockerfiles/tree/main/ssh-forward to handle this. Alternatively see [Xdebug setup](#Xdebug-setup) | A domain or IP address | sshforward
 XDEBUG_REMOTE_PORT | The port to connect to. | 1-65535 | 9000
 XDEBUG_REMOTE_AUTOSTART | Whether to automatically start an Xdebug session upon every page/CLI request | true/false | false
 
