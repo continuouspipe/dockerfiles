@@ -2,7 +2,7 @@ ARG FROM_TAG=latest
 ARG PHP_VERSION=7.1
 FROM quay.io/continuouspipe/symfony-php${PHP_VERSION}-nginx:${FROM_TAG}
 
-ARG NODE_VERSION=7.x
+ARG NODE_VERSION=10.x
 ARG INSTALL_COMMON_PACKAGES=true
 
 # Install Node.js
