@@ -45,4 +45,8 @@ RUN echo 'APT::Install-Recommends 0;' >> /etc/apt/apt.conf.d/01norecommends \
 COPY ./etc/ /etc/
 COPY ./usr/ /usr/
 
-CMD ["/usr/local/bin/container", "start_supervisord"]
+RUN chown -R root:root /etc/sudoers.d/
+
+USER build
+
+CMD ["/usr/bin/sudo", "/usr/local/bin/container", "start_supervisord"]
