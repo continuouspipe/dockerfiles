@@ -27,8 +27,30 @@ function do_ez_web_server_web_directory_non_writable() {
   fi
 }
 
+function check_ez_database_exists() (
+   set +e
+   local DATABASE_EXISTS
+   if [ -n "$DATABASE_PASSWORD" ]; then
+     mysql -h"$DATABASE_HOST" -u"$DATABASE_USER" -p"$DATABASE_PASSWORD" "$DATABASE_NAME" -e "SHOW TABLES; SELECT FOUND_ROWS() > 0;" | grep -q 1
+     DATABASE_EXISTS=$?
+   else
+     mysql -h"$DATABASE_HOST" -u"$DATABASE_USER" "$DATABASE_NAME" -e "SHOW TABLES; SELECT FOUND_ROWS() > 0;" | grep -q 1
+     DATABASE_EXISTS=$?
+   fi
+   if [ "$DATABASE_EXISTS" -eq 0 ]; then
+     echo "true";
+   else
+     echo "false";
+   fi
+)
+
 function do_ez_install() {
-  do_symfony_console ezplatform:install "${EZPLATFORM_INSTALL_PROFILE}"
+  local DATABASE_EXISTS
+  DATABASE_EXISTS="$(check_ez_database_exists)"
+
+  if [ "$DATABASE_EXISTS" != "true" ]; then
+    do_symfony_console ezplatform:install "${EZPLATFORM_INSTALL_PROFILE}"
+  fi
 }
 
 function do_ez_migrate() {
